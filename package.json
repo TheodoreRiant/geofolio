@@ -1,0 +1,22 @@
+{
+  "name": "geofolio",
+  "private": true,
+  "description": "Development tooling for the Geofolio WordPress plugin (the plugin itself needs no build to run).",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "test": "node --test tests/js/*.test.js",
+    "lint:js": "eslint assets/js tests/js",
+    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint": "npm run lint:js && npm run lint:css"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-recommended": "^14.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

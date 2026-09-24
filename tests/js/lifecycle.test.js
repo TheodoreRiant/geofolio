@@ -16,7 +16,7 @@ const SOURCE = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 
 function methodBody(name) {
     const start = SOURCE.indexOf('        ' + name + '(');
     assert.ok(start !== -1, name + '() introuvable');
-    const next = SOURCE.slice(start + 1).search(/\n        (?:\/\*\*|[a-zA-Z_]+\([^)]*\) \{)/);
+    const next = SOURCE.slice(start + 1).search(/\n {8}(?:\/\*\*|[a-zA-Z_]+\([^)]*\) \{)/);
     return SOURCE.slice(start, next === -1 ? undefined : start + 1 + next);
 }
 
