@@ -226,11 +226,11 @@ msgid "Basemap applied to the site"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:431
-msgid "— Let each page decide (Elementor / shortcode setting) —"
+msgid "— Let each map decide (block, Elementor or shortcode setting) —"
 msgstr ""
 
 #: src/Admin/SettingsPage.php:440
-msgid "Each Elementor page stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page."
+msgid "Each map (block, Elementor widget or shortcode) stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page."
 msgstr ""
 
 #: src/Admin/SettingsPage.php:447
