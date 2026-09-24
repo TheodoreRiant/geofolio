@@ -48,3 +48,6 @@ composer lint                    # PHPCS, WordPress standard (warnings only in C
 1. Version in `geofolio.php` (header and `GEOFOLIO_VERSION`) and `Stable tag` in `readme.txt`.
 2. `CHANGELOG.md` and the `== Changelog ==` section of `readme.txt`.
 3. Annotated tag `vX.Y.Z`, push, then a GitHub release with `git archive --prefix=geofolio/ -o geofolio.zip vX.Y.Z` (`.gitattributes` excludes development files).
+4. Pushing the tag also builds the Docker image and, once the plugin is in the WordPress.org directory, deploys it there (`.github/workflows/wporg-deploy.yml`). Readme and directory assets (`.wordpress-org/`: icon, banner, screenshots, Playground blueprint) are synced from `main` without a release (`wporg-assets.yml`).
+
+Both WordPress.org workflows stay inactive until the repository variable `WPORG_DEPLOY` is `true` and the secrets `SVN_USERNAME` and `SVN_PASSWORD` are set.

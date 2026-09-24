@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,6 +122,14 @@ Yes. The source strings are in English with a French translation included; other
 
 == Changelog ==
 
+= 1.3.0 =
+* New: Geofolio Map block for the block editor, with the real map as preview and all display settings.
+* New: the place edit screen is a form (location, description, contact, people, photos) instead of the article editor.
+* New: several people per place, each with a role and a name.
+* Fix: the location map in the admin could draw only a corner of its tiles.
+* Fix: search suggestions no longer split the highlighted word.
+* Plugin directory page: readme, icon, banner, screenshots and Live Preview.
+
 = 1.2.1 =
 * Fix: every single post or page crashed (fatal error) on sites without Elementor.
 * Faster filtering: map markers are built once and reused.
@@ -142,6 +150,9 @@ Yes. The source strings are in English with a French translation included; other
 * First public release, derived from a map plugin built for a single client: generic post type and taxonomies, English source strings with a French translation, data-driven type icons, generic CSV import, extension filters, PSR-4 code base.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Adds the Geofolio Map block (WordPress 6.6+) and a simpler place edit form with people and roles. Existing managers are kept.
 
 = 1.2.1 =
 Critical fix for sites without Elementor: single posts and pages no longer crash. Update now.
