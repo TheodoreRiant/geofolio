@@ -1480,3 +1480,65 @@ msgstr "Valeurs par défaut des nouvelles cartes"
 #: src/Admin/SettingsPage.php
 msgid "Used by maps that do not set their own value (block, shortcode or Elementor widget)."
 msgstr "Utilisées par les cartes qui ne fixent pas leur propre valeur (bloc, shortcode ou widget Elementor)."
+
+#. translators: 1: old post type, 2: Geofolio post type
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Posts of type %1$s become %2$s, with their meta, terms and photos."
+msgstr "Les contenus de type %1$s deviennent des %2$s, avec leurs métadonnées, leurs termes et leurs photos."
+
+#. translators: 1: old taxonomy, 2: Geofolio taxonomy
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Taxonomy %1$s becomes %2$s."
+msgstr "La taxonomie %1$s devient %2$s."
+
+#. translators: %d: number of type names in the icon catalogue
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Types without an icon get one from a catalogue of %d names; unmatched types are listed in the report."
+msgstr "Les types sans icône en reçoivent une d’après un catalogue de %d noms ; les types sans correspondance sont listés dans le rapport."
+
+#. translators: %s: old Elementor widget names
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Elementor widgets %s are renamed on every page, revisions included."
+msgstr "Les widgets Elementor %s sont renommés sur toutes les pages, révisions comprises."
+
+#. translators: %s: old shortcode names
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Shortcodes %s are replaced by [geofolio]."
+msgstr "Les shortcodes %s sont remplacés par [geofolio]."
+
+#. translators: %s: URL slug
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Place URLs keep the slug %s."
+msgstr "Les URL des lieux gardent le slug %s."
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Names, colours and font are set only where you have not set them yet."
+msgstr "Les noms, les couleurs et la police ne sont réglés que là où vous ne l’avez pas encore fait."
+
+#. translators: %s: plugin file
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "The old plugin %s is deactivated at the end."
+msgstr "L’ancienne extension %s est désactivée à la fin."
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Geofolio: import the data of your previous map plugin"
+msgstr "Geofolio : importer les données de votre ancienne extension de carte"
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "A snapshot of the data is taken first. The import will:"
+msgstr "Un instantané des données est pris d’abord. L’import va :"
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Role given to the people of the former manager field:"
+msgstr "Rôle donné aux personnes de l’ancien champ « responsable » :"
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Run the import"
+msgstr "Lancer l’import"
