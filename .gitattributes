@@ -8,6 +8,7 @@
 
 # Excluded from the plugin ZIP (`git archive`): development files.
 /.github            export-ignore
+/.wordpress-org     export-ignore
 /docs               export-ignore
 /tests              export-ignore
 /.gitattributes     export-ignore

@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "geofolio/map",
+	"version": "1.0.0",
+	"title": "Geofolio Map",
+	"category": "widgets",
+	"icon": "location-alt",
+	"description": "Interactive map of your places, with search, type filter and entity pills.",
+	"keywords": [ "map", "places", "locations", "leaflet" ],
+	"textdomain": "geofolio",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"height": { "type": "string" },
+		"center_lat": { "type": "number" },
+		"center_lng": { "type": "number" },
+		"zoom": { "type": "number" },
+		"fit_bounds": { "type": "boolean", "default": true },
+		"tile_style": { "type": "string", "default": "" },
+		"show_search": { "type": "boolean", "default": true },
+		"show_filter": { "type": "boolean", "default": true },
+		"show_list": { "type": "boolean", "default": true },
+		"show_fullscreen": { "type": "boolean", "default": false },
+		"sidebar_position": { "type": "string", "enum": [ "left", "right" ], "default": "left" },
+		"sidebar_title": { "type": "string" },
+		"sidebar_subtitle": { "type": "string" }
+	},
+	"example": {},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
