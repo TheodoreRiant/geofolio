@@ -85,6 +85,10 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 
 `height` (a CSS length such as `600px` or `80vh`, or `container` to let your stylesheet size the map), `center_lat`, `center_lng`, `zoom`, `fit_bounds` (`false` keeps the centre and zoom instead of zooming to the places), `show_search`, `show_filter`, `show_list`, `show_fullscreen`, `sidebar_position` (`left` or `right`), `sidebar_title`, `sidebar_subtitle`, `tile_style`.
 
+= Can I use my own colours, font and names? =
+
+Yes, without code: **Places → Map settings → Appearance** sets the main and accent colours, the font (the bundled Poppins or your theme's font) and the corner radius for every map; **Labels and defaults** renames places and entities in the admin, changes the URL slug of places and sets the default title, centre and zoom of new maps. Developers can do the same with filters.
+
 = Do I need Elementor? =
 
 No. The block and the shortcode work on any theme. The Elementor widget is added only when Elementor is active.

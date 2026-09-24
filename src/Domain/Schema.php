@@ -6,6 +6,8 @@
 
 namespace Geofolio\Domain;
 
+use Geofolio\Admin\LabelsSettings;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -50,7 +52,9 @@ final class Schema {
      * @return string
      */
     public static function place_slug() {
-        $slug = apply_filters('geofolio_place_slug', self::PLACE_SLUG);
+        // Priorité : filtre > réglage « Libellés et défauts » > code.
+        $setting = LabelsSettings::place_slug();
+        $slug    = apply_filters('geofolio_place_slug', $setting !== '' ? $setting : self::PLACE_SLUG);
         return is_string($slug) && $slug !== '' ? sanitize_title($slug) : self::PLACE_SLUG;
     }
 

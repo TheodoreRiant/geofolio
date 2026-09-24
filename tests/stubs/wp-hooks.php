@@ -122,5 +122,7 @@ function wp_script_is($handle, $status = 'enqueued') {
 }
 
 function sanitize_title($title) {
-    return trim(preg_replace('/[^a-z0-9_-]+/', '-', strtolower((string) $title)), '-');
+    // Comme WordPress (remove_accents puis sanitize_title_with_dashes).
+    $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', (string) $title);
+    return trim(preg_replace('/[^a-z0-9_-]+/', '-', strtolower($ascii === false ? (string) $title : $ascii)), '-');
 }

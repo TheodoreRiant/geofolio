@@ -110,6 +110,8 @@ final class ResponseCacheTest extends TestCase {
             'added_post_meta', 'updated_post_meta', 'deleted_post_meta',
             'created_term', 'edited_term', 'delete_term', 'updated_term_meta',
             'update_option_geofolio_settings',
+            'update_option_geofolio_appearance', 'add_option_geofolio_appearance',
+            'update_option_geofolio_labels', 'add_option_geofolio_labels',
         ) as $hook) {
             $this->assertTrue(has_filter($hook), $hook);
         }

@@ -1335,3 +1335,91 @@ msgstr ""
 msgctxt "block keyword"
 msgid "leaflet"
 msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Map"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Appearance"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Labels and defaults"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Applies to every map of the site. Leave a field empty to keep the plugin default. A map built with the Elementor widget can still override these values in its own style settings."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Main colour"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Titles, buttons, clusters, and markers of places without an entity colour."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Links, phone numbers and highlights."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Font"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Poppins, served by the plugin"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "The font of your theme"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Corner radius"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Rounding of cards, fields, popups and pills. 0 gives square corners."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Names"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "How places and entities are called in the admin menus. Leave empty to keep the default names."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Place, singular"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Place, plural"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Entity, singular"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Entity, plural"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "URL slug of places"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "The part of the address before the name of each place. Changing it changes the URL of every place page."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Defaults of new maps"
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "Used by maps that do not set their own value (block, shortcode or Elementor widget)."
+msgstr ""

@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="wrap">
     <h1><?php esc_html_e('Map configuration', 'geofolio'); ?></h1>
+    <?php include __DIR__ . '/settings-tabs.php'; ?>
 
     <?php settings_errors($view['option_name']); ?>
 

@@ -5,7 +5,9 @@
 
 namespace Geofolio;
 
+use Geofolio\Admin\AppearanceSettings;
 use Geofolio\Admin\Duplicate;
+use Geofolio\Admin\LabelsSettings;
 use Geofolio\Blocks\MapBlock;
 use Geofolio\Admin\MetaBoxes;
 use Geofolio\Admin\PlaceEditScreen;
@@ -77,6 +79,11 @@ final class Plugin {
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
+        add_action('geofolio_assets_enqueued', array(AppearanceSettings::class, 'add_inline_style'));
+        add_action('update_option_' . LabelsSettings::OPTION_NAME, array(LabelsSettings::class, 'on_update'), 10, 2);
+        add_action('add_option_' . LabelsSettings::OPTION_NAME, static function ($option, $value) {
+            LabelsSettings::on_update(array(), $value);
+        }, 10, 2);
         MapBlock::register();
         Shortcode::get_instance();
         Importer::get_instance();
