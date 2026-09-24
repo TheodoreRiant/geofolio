@@ -1283,3 +1283,15 @@ msgstr "Afficher"
 #: src/Elementor/HeaderStyleControls.php
 msgid "Hide"
 msgstr "Masquer"
+
+#: src/Admin/PlaceEditScreen.php
+msgid "A few lines shown in the popup: mission, audience, what makes this place special."
+msgstr "Quelques lignes affichées dans le popup : mission, public accueilli, ce qui rend ce lieu particulier."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Plain text. Keep it short: it appears in the map popup and in the list."
+msgstr "Texte brut. Restez court : ce texte apparaît dans le popup de la carte et dans la liste."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Description"
+msgstr "Description"

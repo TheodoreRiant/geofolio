@@ -7,6 +7,7 @@ namespace Geofolio;
 
 use Geofolio\Admin\Duplicate;
 use Geofolio\Admin\MetaBoxes;
+use Geofolio\Admin\PlaceEditScreen;
 use Geofolio\Domain\FieldRegistry;
 use Geofolio\Domain\Schema;
 use Geofolio\Admin\SettingsPage;
@@ -72,6 +73,7 @@ final class Plugin {
         PlacePostType::get_instance();
         Taxonomies::get_instance();
         MetaBoxes::get_instance();
+        PlaceEditScreen::get_instance();
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();

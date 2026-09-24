@@ -24,6 +24,9 @@ class MetaBoxes {
      */
     const GALLERY_META_BOX_ID = 'geofolio_gallery_box';
 
+    /** Identifiants des meta boxes de la colonne principale, dans l'ordre. */
+    const BOX_IDS = array('geofolio_localisation', 'geofolio_contact', 'geofolio_direction', self::GALLERY_META_BOX_ID);
+
     /** Identifiant ET nom du champ cache qui porte les IDs de photos. */
     const GALLERY_FIELD_ID = 'geofolio_gallery';
 

@@ -96,7 +96,10 @@ class PlacePostType {
             'hierarchical'       => false,
             'menu_position'      => 20,
             'menu_icon'          => 'dashicons-location',
-            'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
+            // Pas d'éditeur d'article : un lieu se renseigne dans un formulaire
+            // (voir Admin\PlaceEditScreen). Un site qui veut une vraie page
+            // rédigée par lieu peut réactiver « editor » par ce filtre.
+            'supports'           => apply_filters('geofolio_place_supports', array('title', 'thumbnail')),
             'show_in_rest'       => true,
         );
 
