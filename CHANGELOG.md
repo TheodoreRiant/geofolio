@@ -5,6 +5,7 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Changed
+- `MapWidget.php` (1283 lines) is split into section traits: `ContentControls`, `LayoutStyleControls`, `CardStyleControls`, `MapStyleControls` and `HeaderStyleControls`; the widget class keeps its metadata and rendering (220 lines). The control stack seen by Elementor is byte-for-byte identical.
 - Markers are built once per place and shown again when filters change, instead of rebuilding every marker, icon, popup and listener on each filter or keystroke (20 filter changes on the sample dataset: 214 markers rebuilt before, none now). The cache is reset when the place list is reloaded.
 - The place list is inserted in one operation instead of one card at a time.
 - The entity/type colour rule lives in one function (`resolveEntityColor`) instead of four copies.
