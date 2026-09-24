@@ -44,3 +44,10 @@ test('aucun caractère accentué hors commentaires dans geofolio.js', () => {
     const code = SOURCE.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     assert.deepStrictEqual(code.match(/[À-ÿ]/g) || [], []);
 });
+
+test('chaque clé t(\'…\') du JS est déclarée dans geofolioConfig.i18n', () => {
+    const php  = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'Plugin.php'), 'utf8');
+    const used = [...new Set([...SOURCE.matchAll(/\bt\('([A-Za-z]+)'/g)].map((m) => m[1]))];
+    const missing = used.filter((key) => !php.includes("'" + key + "'"));
+    assert.deepStrictEqual(missing, []);
+});

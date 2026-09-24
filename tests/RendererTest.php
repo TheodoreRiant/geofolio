@@ -91,4 +91,9 @@ final class RendererTest extends TestCase {
         $this->assertStringContainsString('Seul titre', $html);
         $this->assertStringContainsString('height: 600px;', $html);
     }
+
+    /** Le nombre de résultats change à chaque filtre : il est annoncé aux lecteurs d'écran. */
+    public function test_le_compteur_de_resultats_est_annonce() {
+        $this->assertMatchesRegularExpression('/<span class="gfo-results-count" aria-live="polite"[^>]*>/', self::render());
+    }
 }
