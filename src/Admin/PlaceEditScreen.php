@@ -66,7 +66,7 @@ class PlaceEditScreen {
             ),
             array(
                 'id'     => 'management',
-                'label'  => __('Management', 'geofolio'),
+                'label'  => __('People', 'geofolio'),
                 'icon'   => 'groups',
                 'render' => array($boxes, 'render_direction_box'),
             ),

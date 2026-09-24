@@ -25,6 +25,7 @@
     function init() {
         runStep('carte de localisation', initAdminMap);
         runStep('champs de localisation', bindEvents);
+        runStep('personnes', initPeople);
     }
 
     /**
@@ -233,6 +234,51 @@
         $status.text(message).removeClass('success error');
         if (type) {
             $status.addClass(type);
+        }
+    }
+
+    /**
+     * Personnes du lieu : lignes rôle + nom, recopiées en JSON dans le champ
+     * caché à chaque modification. Sans script, le champ caché garde la
+     * valeur initiale : rien n'est perdu.
+     */
+    function initPeople() {
+        const $box = $('[data-gfo-people]');
+        if (!$box.length) {
+            return;
+        }
+        const $input = $box.find('#geofolio_people');
+        const $rows = $box.find('#geofolio_people_rows');
+        const template = document.getElementById('geofolio_person_template');
+
+        function sync() {
+            const people = [];
+            $rows.find('.gfo-person-row').each(function () {
+                const role = $(this).find('.gfo-person-role').val().trim();
+                const name = $(this).find('.gfo-person-name').val().trim();
+                if (name) {
+                    people.push({ role: role, name: name });
+                }
+            });
+            $input.val(JSON.stringify(people));
+        }
+
+        $box.on('input change', '.gfo-person-role, .gfo-person-name', sync);
+        $box.on('click', '.gfo-person-remove', function () {
+            $(this).closest('.gfo-person-row').remove();
+            sync();
+        });
+        $box.on('click', '#geofolio_people_add', function () {
+            const row = template && template.content ? template.content.querySelector('.gfo-person-row') : null;
+            if (!row) {
+                return;
+            }
+            const node = row.cloneNode(true);
+            $rows.append(node);
+            $(node).find('.gfo-person-role').trigger('focus');
+        });
+        if ($.fn.sortable) {
+            $rows.sortable({ handle: '.gfo-person-handle', axis: 'y', update: sync });
         }
     }
 

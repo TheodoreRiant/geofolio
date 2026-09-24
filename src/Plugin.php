@@ -337,6 +337,8 @@ final class Plugin {
                 'noResults'         => __('No place found', 'geofolio'),
                 'filterAll'         => __('All types', 'geofolio'),
                 'manager'           => __('Manager: ', 'geofolio'),
+                /* translators: between a person's role and their name in the popup */
+                'roleSeparator'     => _x(': ', 'role separator', 'geofolio'),
                 'managers'          => __('Managers: ', 'geofolio'),
                 'entityHint'        => __('Click an entity to show only that one.', 'geofolio'),
                 'entityReset'       => __('Show all', 'geofolio'),

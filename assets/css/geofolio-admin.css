@@ -260,3 +260,51 @@
 .gfo-place-screen #titlediv #title {
     font-size: 1.6em;
 }
+
+/* Personnes du lieu : lignes rôle + nom */
+.gfo-people-header,
+.gfo-person-row {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.4fr) 32px;
+    gap: 8px;
+    align-items: center;
+}
+
+.gfo-people-header {
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #646970;
+}
+
+.gfo-person-row {
+    margin-bottom: 8px;
+}
+
+.gfo-person-row input {
+    width: 100%;
+}
+
+.gfo-person-handle {
+    color: #a7aaad;
+    cursor: move;
+}
+
+.gfo-person-remove {
+    color: #a7aaad;
+    text-decoration: none;
+}
+
+.gfo-person-remove:hover,
+.gfo-person-remove:focus {
+    color: #d63638;
+}
+
+.gfo-person-row.ui-sortable-helper {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#geofolio_people_add .dashicons {
+    vertical-align: text-bottom;
+}

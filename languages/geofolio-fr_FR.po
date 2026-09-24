@@ -1295,3 +1295,46 @@ msgstr "Texte brut. Restez court : ce texte apparaît dans le popup de la carte 
 #: src/Admin/PlaceEditScreen.php
 msgid "Description"
 msgstr "Description"
+
+msgid "Manager"
+msgstr "Responsable"
+
+msgid "Director"
+msgstr "Directeur/trice"
+
+msgid "Secretary general"
+msgstr "Secrétaire général(e)"
+
+msgid "Head of service"
+msgstr "Chef(fe) de service"
+
+msgid "Contact person"
+msgstr "Personne à contacter"
+
+msgid "People"
+msgstr "Personnes"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Add a person"
+msgstr "Ajouter une personne"
+
+msgid "Role and name, in the order shown on the map. Drag a row to reorder."
+msgstr "Rôle et nom, dans l'ordre affiché sur la carte. Glissez une ligne pour réordonner."
+
+msgid "Drag to reorder"
+msgstr "Glisser pour réordonner"
+
+msgid "First Last"
+msgstr "Prénom Nom"
+
+msgid "Remove this person"
+msgstr "Retirer cette personne"
+
+msgctxt "role separator"
+msgid ": "
+msgstr " : "

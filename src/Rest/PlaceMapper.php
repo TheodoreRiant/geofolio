@@ -7,6 +7,7 @@
 namespace Geofolio\Rest;
 
 use Geofolio\Domain\FieldRegistry;
+use Geofolio\Domain\People;
 use Geofolio\Domain\Schema;
 use Geofolio\Map\Defaults;
 
@@ -188,6 +189,8 @@ final class PlaceMapper {
         foreach (self::TEXT_FIELDS as $field) {
             $fields[$field] = FieldRegistry::get($post_id, $field);
         }
+        // Rôle + nom, dans l'ordre ; `manager` (noms seuls) reste servi.
+        $fields['people'] = People::for_post($post_id, People::default_role());
         return $fields;
     }
 

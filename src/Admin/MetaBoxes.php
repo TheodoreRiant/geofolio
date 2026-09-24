@@ -6,6 +6,7 @@
 namespace Geofolio\Admin;
 
 use Geofolio\Domain\FieldRegistry;
+use Geofolio\Domain\People;
 use Geofolio\Domain\Schema;
 
 if (!defined('ABSPATH')) {
@@ -176,18 +177,64 @@ class MetaBoxes {
      * Afficher la meta box Direction
      */
     public function render_direction_box($post) {
-        $directeur = FieldRegistry::get($post->ID, 'manager');
+        $people = People::for_post($post->ID, People::default_role());
         ?>
-        <div class="gfo-meta-box">
+        <div class="gfo-meta-box gfo-people" data-gfo-people>
+            <input type="hidden"
+                   id="geofolio_people"
+                   name="geofolio_people"
+                   value="<?php echo esc_attr(People::encode($people)); ?>" />
+            <datalist id="geofolio_people_roles">
+                <?php foreach (People::role_suggestions() as $role) : ?>
+                <option value="<?php echo esc_attr($role); ?>"></option>
+                <?php endforeach; ?>
+            </datalist>
+
+            <div class="gfo-people-header" aria-hidden="true">
+                <span></span>
+                <span><?php esc_html_e('Role', 'geofolio'); ?></span>
+                <span><?php esc_html_e('Name', 'geofolio'); ?></span>
+                <span></span>
+            </div>
+            <div class="gfo-people-rows" id="geofolio_people_rows">
+                <?php foreach ($people as $person) : ?>
+                    <?php self::render_person_row($person); ?>
+                <?php endforeach; ?>
+            </div>
+            <template id="geofolio_person_template"><?php self::render_person_row(array('role' => '', 'name' => '')); ?></template>
+
             <p>
-                <label for="geofolio_manager"><strong><?php esc_html_e('Manager(s)', 'geofolio'); ?></strong></label>
-                <input type="text"
-                       id="geofolio_manager"
-                       name="geofolio_manager"
-                       value="<?php echo esc_attr($directeur); ?>"
-                       class="widefat"
-                       placeholder="<?php esc_attr_e('First Last (separate several names with a comma)', 'geofolio'); ?>" />
+                <button type="button" class="button" id="geofolio_people_add">
+                    <span class="dashicons dashicons-plus-alt2" aria-hidden="true"></span>
+                    <?php esc_html_e('Add a person', 'geofolio'); ?>
+                </button>
             </p>
+            <p class="description"><?php esc_html_e('Role and name, in the order shown on the map. Drag a row to reorder.', 'geofolio'); ?></p>
+        </div>
+        <?php
+    }
+
+    /**
+     * Une ligne rôle + nom. Les champs n'ont pas d'attribut name : le script
+     * admin recopie la liste dans le champ caché JSON `geofolio_people`.
+     *
+     * @param array{role: string, name: string} $person
+     */
+    private static function render_person_row(array $person) {
+        ?>
+        <div class="gfo-person-row">
+            <span class="gfo-person-handle dashicons dashicons-menu" title="<?php esc_attr_e('Drag to reorder', 'geofolio'); ?>"></span>
+            <input type="text" class="gfo-person-role" list="geofolio_people_roles"
+                   value="<?php echo esc_attr($person['role']); ?>"
+                   placeholder="<?php esc_attr_e('Role', 'geofolio'); ?>"
+                   aria-label="<?php esc_attr_e('Role', 'geofolio'); ?>" />
+            <input type="text" class="gfo-person-name"
+                   value="<?php echo esc_attr($person['name']); ?>"
+                   placeholder="<?php esc_attr_e('First Last', 'geofolio'); ?>"
+                   aria-label="<?php esc_attr_e('Name', 'geofolio'); ?>" />
+            <button type="button" class="button-link gfo-person-remove" aria-label="<?php esc_attr_e('Remove this person', 'geofolio'); ?>">
+                <span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+            </button>
         </div>
         <?php
     }
@@ -249,6 +296,14 @@ class MetaBoxes {
                 // update_post_meta() retire une couche de barres obliques.
                 update_post_meta($post_id, FieldRegistry::meta_key($field), wp_slash($value));
             }
+        }
+
+        // L'ancien champ « manager » (noms seuls) suit la liste des personnes
+        // pour les consommateurs qui ne connaissent que lui.
+        if (isset($_POST['geofolio_people'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- People::parse() nettoie chaque rôle et chaque nom.
+            $people = People::parse(wp_unslash($_POST['geofolio_people']));
+            update_post_meta($post_id, FieldRegistry::meta_key('manager'), wp_slash(People::names($people)));
         }
     }
 }

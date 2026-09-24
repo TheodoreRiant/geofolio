@@ -27,6 +27,7 @@ final class FieldRegistry {
         'email'         => array('_gfo_email', 'sanitize_email'),
         'website'       => array('_gfo_website', 'esc_url_raw'),
         'manager'       => array('_gfo_manager', 'sanitize_text_field'),
+        'people'        => array('_gfo_people', array(People::class, 'sanitize_json')),
         'opening_hours' => array('_gfo_opening_hours', 'sanitize_textarea_field'),
         'gallery'       => array('_gfo_gallery', array(__CLASS__, 'sanitize_gallery_json')),
     );
