@@ -104,7 +104,9 @@ final class ElementorWidgetTest extends TestCase {
         $html = $widget->test_render();
 
         $this->assertStringContainsString('Nos lieux ] et &quot;plus&quot;', $html);
-        $this->assertStringContainsString('height: 500px;', $html);
+        // La hauteur est écrite par Elementor sur le conteneur, jamais en ligne.
+        $this->assertStringNotContainsString('height: 500px;', $html);
+        $this->assertStringContainsString('gfo-map-container--sized', $html);
         $this->assertStringContainsString('data-zoom="9"', $html);
     }
 
@@ -113,6 +115,51 @@ final class ElementorWidgetTest extends TestCase {
         $html   = $widget->test_render();
 
         $this->assertStringContainsString('data-center-lat="46.6034"', $html);
-        $this->assertStringContainsString('height: 600px;', $html);
+        $this->assertStringContainsString('<div class="gfo-map-wrapper">', $html);
+    }
+
+    public function test_la_hauteur_est_responsive_sur_le_seul_conteneur() {
+        $control = self::controls()['map_height'];
+
+        $this->assertTrue($control['responsive'] ?? false);
+        $this->assertSame(array('{{WRAPPER}} .gfo-map-container'), array_keys($control['selectors']));
+        // Les valeurs par défaut reprennent celles du CSS : 85vh en mobile.
+        $this->assertSame(array('unit' => 'vh', 'size' => 85), $control['mobile_default']);
+        $this->assertSame(array('unit' => 'px', 'size' => 600), $control['tablet_default']);
+    }
+
+    public function test_le_widget_laisse_la_hauteur_au_conteneur() {
+        $this->assertSame('container', MapWidget::settings_to_atts(array('map_height' => array('size' => 100, 'unit' => 'vh')))['height']);
+    }
+
+    public function test_ajuster_la_vue_est_un_reglage_active_par_defaut() {
+        $control = self::controls()['fit_bounds'];
+
+        $this->assertSame('true', $control['default']);
+        $this->assertSame('false', MapWidget::settings_to_atts(array('fit_bounds' => ''))['fit_bounds']);
+        $this->assertSame('true', MapWidget::settings_to_atts(array('fit_bounds' => 'true'))['fit_bounds']);
+    }
+
+    public function test_le_widget_declare_ses_dependances() {
+        $widget = new MapWidget();
+
+        $this->assertSame(\Geofolio\Plugin::MAP_STYLE_HANDLES, $widget->get_style_depends());
+        $this->assertSame(\Geofolio\Plugin::MAP_SCRIPT_HANDLES, $widget->get_script_depends());
+    }
+
+    public function test_titre_sous_titre_et_pastilles_ont_des_controles_de_style() {
+        $classes = self::selector_classes();
+
+        foreach (array('gfo-sidebar-title', 'gfo-sidebar-subtitle', 'gfo-entity-pill', 'gfo-entity-hint') as $class) {
+            $this->assertContains($class, $classes, $class);
+        }
+    }
+
+    public function test_l_arrondi_des_pastilles_passe_par_une_variable() {
+        $control = self::controls()['pill_radius'];
+        $css     = file_get_contents(self::ROOT . '/assets/css/geofolio.css');
+
+        $this->assertStringContainsString('--gfo-pill-radius:', implode('', $control['selectors']));
+        $this->assertStringContainsString('border-radius: var(--gfo-pill-radius', $css);
     }
 }

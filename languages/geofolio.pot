@@ -1228,3 +1228,55 @@ msgstr ""
 #: views/map.php:130
 msgid "Enter full screen"
 msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Sidebar title and subtitle"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Subtitle typography"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Subtitle colour"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Entity pills"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Pill typography"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Pill border radius"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Help sentence"
+msgstr ""
+
+#: src/Elementor/MapWidget.php
+msgid "Fit the view to the places"
+msgstr ""
+
+#: src/Elementor/MapWidget.php
+msgid "Used when \"Fit the view to the places\" is off, or when the map contains no place."
+msgstr ""
+
+#: src/Elementor/MapWidget.php
+msgid "On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above."
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Default"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Show"
+msgstr ""
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Hide"
+msgstr ""

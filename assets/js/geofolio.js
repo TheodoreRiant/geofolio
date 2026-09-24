@@ -444,6 +444,8 @@
                 centerLng:  parseFloat(this.$container.data('center-lng')) || 0,
                 zoom:       parseInt(this.$container.data('zoom'))         || 8,
                 tileStyle:  this.$container.data('tile-style')             || 'positron',
+                // Sans ajustement, centre et zoom du réglage restent en place.
+                fitBounds:  String(this.$container.data('fit-bounds')) !== 'false',
             };
 
             this.init();
@@ -1428,8 +1430,9 @@
 
             this.markers.addLayers(markerList);
 
-            // Fit bounds to show all markers (unless geolocation is active)
-            if (markerList.length > 0 && !this.userLocation) {
+            // Fit bounds to show all markers (unless geolocation is active
+            // or the page keeps its own centre and zoom)
+            if (this.config.fitBounds && markerList.length > 0 && !this.userLocation) {
                 var bounds = this.markers.getBounds();
                 if (bounds.isValid()) {
                     this.map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });

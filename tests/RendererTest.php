@@ -96,4 +96,28 @@ final class RendererTest extends TestCase {
     public function test_le_compteur_de_resultats_est_annonce() {
         $this->assertMatchesRegularExpression('/<span class="gfo-results-count" aria-live="polite"[^>]*>/', self::render());
     }
+
+    public function test_par_defaut_la_hauteur_est_posee_sur_le_wrapper() {
+        $this->assertStringContainsString('class="gfo-map-wrapper" style="height: 600px;"', self::render());
+    }
+
+    /** Hauteur gérée par le conteneur (widget Elementor responsive). */
+    public function test_la_hauteur_container_laisse_le_conteneur_decider() {
+        $html = self::render(array('height' => 'container'));
+
+        $this->assertStringContainsString('<div class="gfo-map-wrapper">', $html);
+        $this->assertMatchesRegularExpression('/class="gfo-map-container[^"]*gfo-map-container--sized/', $html);
+    }
+
+    public function test_une_hauteur_vide_retombe_sur_la_valeur_par_defaut() {
+        $this->assertStringContainsString('style="height: 600px;"', self::render(array('height' => '')));
+    }
+
+    public function test_la_vue_s_ajuste_aux_lieux_par_defaut() {
+        $this->assertStringContainsString('data-fit-bounds="true"', self::render());
+    }
+
+    public function test_sans_ajustement_la_vue_garde_centre_et_zoom() {
+        $this->assertStringContainsString('data-fit-bounds="false"', self::render(array('fit_bounds' => 'false')));
+    }
 }

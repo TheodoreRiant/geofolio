@@ -83,4 +83,9 @@ final class CssTest extends TestCase {
         });
         $this->assertSame(array(), array_values($missing));
     }
+
+    /** Hauteur fixée par le conteneur (widget Elementor) : le wrapper le remplit. */
+    public function test_le_wrapper_remplit_un_conteneur_dimensionne() {
+        $this->assertMatchesRegularExpression('/\.gfo-map-container--sized \.gfo-map-wrapper\s*\{[^}]*height:\s*100%/', self::css());
+    }
 }

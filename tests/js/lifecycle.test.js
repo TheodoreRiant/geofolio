@@ -39,3 +39,10 @@ test('un échec du chargement affiche un message à l\'utilisateur', () => {
 test('le message du toast est échappé', () => {
     assert.match(methodBody('showToast'), /escHtml\(message\)/);
 });
+
+test('l\'ajustement automatique de la vue respecte le réglage fit_bounds', () => {
+    assert.match(SOURCE, /fitBounds:\s*String\(this\.\$container\.data\('fit-bounds'\)\) !== 'false'/);
+    const fit = SOURCE.indexOf('this.map.fitBounds(bounds');
+    const guard = SOURCE.lastIndexOf('this.config.fitBounds', fit);
+    assert.ok(guard !== -1 && fit - guard < 200, 'fitBounds() doit être conditionné par this.config.fitBounds');
+});

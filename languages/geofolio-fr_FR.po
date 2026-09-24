@@ -1231,3 +1231,55 @@ msgstr "Chargement de la carte..."
 #: views/map.php:130
 msgid "Enter full screen"
 msgstr "Activer le plein écran"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Sidebar title and subtitle"
+msgstr "Titre et sous-titre de la sidebar"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Subtitle typography"
+msgstr "Typographie du sous-titre"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Subtitle colour"
+msgstr "Couleur du sous-titre"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Entity pills"
+msgstr "Pastilles d'entités"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Pill typography"
+msgstr "Typographie des pastilles"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Pill border radius"
+msgstr "Arrondi des pastilles"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Help sentence"
+msgstr "Phrase d'aide"
+
+#: src/Elementor/MapWidget.php
+msgid "Fit the view to the places"
+msgstr "Ajuster la vue aux lieux"
+
+#: src/Elementor/MapWidget.php
+msgid "Used when \"Fit the view to the places\" is off, or when the map contains no place."
+msgstr "Utilisé quand « Ajuster la vue aux lieux » est désactivé, ou quand la carte ne contient aucun lieu."
+
+#: src/Elementor/MapWidget.php
+msgid "On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above."
+msgstr "Activé : la carte zoome pour montrer tous les lieux, et de nouveau après chaque filtre. Désactivé : elle garde le centre et le zoom ci-dessus."
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Default"
+msgstr "Par défaut"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Show"
+msgstr "Afficher"
+
+#: src/Elementor/HeaderStyleControls.php
+msgid "Hide"
+msgstr "Masquer"

@@ -75,7 +75,7 @@ if (!defined('ABSPATH')) {
     </div><!-- .gfo-map-sidebar -->
     <?php endif; ?>
 
-    <div class="gfo-map-wrapper" style="height: <?php echo esc_attr($view['height']); ?>;">
+    <div class="gfo-map-wrapper"<?php if ($view['height'] !== '') : ?> style="height: <?php echo esc_attr($view['height']); ?>;"<?php endif; ?>>
 
         <?php if ($view['has_sidebar']) : ?>
         <div class="gfo-mobile-toolbar">

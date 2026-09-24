@@ -18,6 +18,12 @@ if (!defined('ABSPATH')) {
 
 class Renderer {
 
+    /**
+     * Valeur de height qui laisse le conteneur fixer la hauteur : pas de
+     * style en ligne, le wrapper remplit .gfo-map-container.
+     */
+    const HEIGHT_FROM_CONTAINER = 'container';
+
     /** Longueur CSS acceptée pour height : nombre entier ou décimal et unité. */
     const CSS_LENGTH_PATTERN = '/^\d+(?:\.\d+)?(?:px|vh|vw|%|rem|em)\z/';
 
@@ -66,7 +72,7 @@ class Renderer {
             'show_fullscreen'  => self::flag($atts['show_fullscreen']),
             'sidebar_title'    => (string) $atts['sidebar_title'],
             'sidebar_subtitle' => (string) $atts['sidebar_subtitle'],
-            'height'           => self::sanitize_css_length($atts['height'], Defaults::HEIGHT),
+            'height'           => self::wrapper_height($atts['height']),
         );
     }
 
@@ -82,6 +88,9 @@ class Renderer {
         if ($atts['sidebar_position'] === 'right') {
             $classes .= ' gfo-sidebar-right';
         }
+        if (self::is_sized_by_container($atts['height'])) {
+            $classes .= ' gfo-map-container--sized';
+        }
 
         // Valeurs injectées dans des attributs : types imposés.
         return array(
@@ -91,6 +100,7 @@ class Renderer {
             'data-center-lng' => (string) floatval($atts['center_lng']),
             'data-zoom'       => (string) absint($atts['zoom']),
             'data-tile-style' => self::resolve_tile_style((string) $atts['tile_style']),
+            'data-fit-bounds' => self::flag($atts['fit_bounds'] ?? 'true') ? 'true' : 'false',
         );
     }
 
@@ -108,6 +118,27 @@ class Renderer {
         }
         $forced = SettingsPage::get_forced_tile_style();
         return $forced !== '' ? $forced : TileProviders::DEFAULT_ID;
+    }
+
+    /**
+     * La hauteur est-elle fixée par le conteneur (feuille de style du site
+     * ou widget Elementor responsive) plutôt que par l'attribut height ?
+     *
+     * @param mixed $height
+     * @return bool
+     */
+    public static function is_sized_by_container($height) {
+        return trim((string) $height) === self::HEIGHT_FROM_CONTAINER;
+    }
+
+    /**
+     * Hauteur posée en ligne sur le wrapper : '' quand le conteneur décide.
+     *
+     * @param mixed $height
+     * @return string
+     */
+    private static function wrapper_height($height) {
+        return self::is_sized_by_container($height) ? '' : self::sanitize_css_length($height, Defaults::HEIGHT);
     }
 
     /**
