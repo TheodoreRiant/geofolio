@@ -14,10 +14,10 @@ WordPress 6.5+ (block: 6.6+) · PHP 7.4+ · Licence GPLv2 or later · No build n
 - **Type filter** with faceted counts (each type shows how many results it would give).
 - **Search with suggestions**, insensitive to case, accents and apostrophes.
 - Place list synchronised with the map; responsive layout with a mobile drawer; keyboard accessible.
-- **Popup**: photo carousel (featured image, then gallery), manager, audience, address, contact, services, opening hours, accessibility, website.
+- **Popup**: photo carousel (featured image, then gallery), people (role and name), audience, address, contact, services, opening hours, accessibility, website.
 
 **In the admin**
-- *Places* post type: location with geocoding and a draggable marker, contact details, manager, sortable photo gallery.
+- *Places* post type edited in a **form** (no article editor): location with geocoding and a draggable marker, short description, contact details, **people with a role and a name**, sortable photo gallery.
 - **Duplicate a place** (list and edit screen), as a draft.
 - Taxonomies: entity (with a colour), type (with an icon), region, service, accessibility.
 - **Map settings**: API key for tile providers, basemap forced on every map.

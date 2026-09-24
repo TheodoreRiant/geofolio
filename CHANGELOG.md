@@ -5,13 +5,16 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Added
+- **Place edit screen as a form**: the article editor is gone (`supports` reduced to title and image, `geofolio_place_supports` filter to bring it back). Under the title, five sections in the order a place is described: Location (fields next to the map), Description (short plain text saved in `post_content`), Contact, People, Photo gallery. Existing HTML content is shown as plain text.
+- **People**: several people per place, each with a role and a name, reorderable (`Geofolio\Domain\People`, `_gfo_people` meta, `people` in the REST API). The legacy `manager` field is kept in sync (names only) and read as a fallback with the default role. Filters `geofolio_default_person_role` and `geofolio_people_roles`. The popup shows one “Role: Name” line per person.
+- `tests/HooksDocTest.php`: every `geofolio_*` hook in the code must be documented in `docs/hooks.md`, and the documentation must not cite a removed hook.
 - Plugin directory page: readme with the block, "Who is it for", "Accessibility", "Developers" and a ten-question FAQ; icon (SVG and PNG), banner and eight screenshots on the fictional sample dataset (`.wordpress-org/`).
 - **Gutenberg block "Geofolio Map"** (`geofolio/map`): server-side rendered through the same renderer as the shortcode and the Elementor widget, with an inspector for height, basemap, "fit the view to the places" (or centre and zoom), search, type filter, list, fullscreen button, sidebar position, title and subtitle. The editor shows the real map: the map assets are loaded in the editor iframe and the preview is initialised after each server render (`window.Geofolio.init()`). Wide and full alignments. Requires WordPress 6.6 (`react-jsx-runtime`); on 6.5 the block is simply not offered.
 - WordPress Playground blueprint (`.wordpress-org/blueprints/blueprint.json`) for the "Live Preview" button of the plugin directory: installs Geofolio, imports the sample dataset with its photos and opens a page with the block.
 - French translation of the block (block.json strings and editor script, JSON translation file).
 
 ### Fixed
-- The place location map in the admin drew only a corner of its tiles when the meta box panel of the block editor was opened or resized.
+- The place location map in the admin drew only a corner of its tiles when its container was resized after loading (collapsed panel, screen layout change).
 - Search suggestions: the highlight split the matched word ("Libr ary").
 - Settings page: texts mention the block, and the `wp-config.php` example uses an English placeholder.
 

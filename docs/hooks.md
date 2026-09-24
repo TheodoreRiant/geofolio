@@ -28,6 +28,14 @@ Everything specific to a site goes through these filters and actions, usually fr
 | `geofolio_place_slug` | `'places'` | URL slug of places |
 | `geofolio_taxonomy_slugs` | taxonomy => slug | URL slugs of taxonomy archives |
 | `geofolio_place_labels` | post type labels | modified labels (e.g. “Offices”) |
+| `geofolio_place_supports` | `['title', 'thumbnail']` | post type supports; add `'editor'` to bring back the full content editor on the place screen |
+
+## People
+
+| Hook | Receives | Returns |
+|---|---|---|
+| `geofolio_default_person_role` | “Manager” | role given to names stored in the legacy `manager` field (places not yet edited with the People section) |
+| `geofolio_people_roles` | suggested roles (Director, Manager, Secretary general…) | roles proposed in the Role field; any text stays accepted |
 
 ## Import
 
