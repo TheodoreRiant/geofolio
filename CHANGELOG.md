@@ -2,9 +2,10 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.3.0] — 2026-09-24
 
 ### Added
+- WordPress.org deployment workflows (`wporg-deploy.yml` on version tags, `wporg-assets.yml` for the readme and directory assets), inactive until the `WPORG_DEPLOY` repository variable is `true`.
 - **Place edit screen as a form**: the article editor is gone (`supports` reduced to title and image, `geofolio_place_supports` filter to bring it back). Under the title, five sections in the order a place is described: Location (fields next to the map), Description (short plain text saved in `post_content`), Contact, People, Photo gallery. Existing HTML content is shown as plain text.
 - **People**: several people per place, each with a role and a name, reorderable (`Geofolio\Domain\People`, `_gfo_people` meta, `people` in the REST API). The legacy `manager` field is kept in sync (names only) and read as a fallback with the default role. Filters `geofolio_default_person_role` and `geofolio_people_roles`. The popup shows one “Role: Name” line per person.
 - `tests/HooksDocTest.php`: every `geofolio_*` hook in the code must be documented in `docs/hooks.md`, and the documentation must not cite a removed hook.

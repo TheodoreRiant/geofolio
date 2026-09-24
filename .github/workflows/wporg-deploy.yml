@@ -1,0 +1,28 @@
+# Publication sur le répertoire wordpress.org (SVN) à chaque tag de version.
+#
+# Inactif tant que la variable de dépôt WPORG_DEPLOY ne vaut pas « true » :
+# à activer après l'acceptation du plugin, avec les secrets SVN_USERNAME et
+# SVN_PASSWORD (compte wordpress.org qui a soumis le plugin). Le contenu
+# déployé est celui du ZIP : .gitattributes (export-ignore) en fait la liste.
+name: Deploy to WordPress.org
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: ${{ vars.WPORG_DEPLOY == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to the plugin directory (trunk and tags/<version>)
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: geofolio
+          ASSETS_DIR: .wordpress-org
