@@ -70,6 +70,16 @@
             maxZoom: 19,
         }).addTo(map);
 
+        // Les meta boxes de l'éditeur de blocs vivent dans un panneau
+        // repliable : la carte naît dans un conteneur trop petit puis est
+        // agrandie. Leaflet doit alors recalculer sa taille, sinon seul un
+        // coin des tuiles s'affiche.
+        if (typeof ResizeObserver === 'function') {
+            new ResizeObserver(function() {
+                map.invalidateSize();
+            }).observe(document.getElementById('geofolio_admin_map'));
+        }
+
         // Ajouter le marqueur si des coordonnées existent
         if (hasCoords) {
             addMarker(lat, lng);
