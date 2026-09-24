@@ -34,7 +34,7 @@ class Importer {
     const RESULT_TTL = 60;
 
     /** Page d'import, cible des redirections. */
-    const IMPORT_PAGE = 'edit.php?post_type=etablissement&page=geofolio-import';
+    const IMPORT_PAGE = Schema::ADMIN_PARENT . '&page=geofolio-import';
 
     /** Géocodeur par défaut : Base Adresse Nationale (France). */
     const DEFAULT_GEOCODER_URL = 'https://api-adresse.data.gouv.fr/search/';
@@ -80,7 +80,7 @@ class Importer {
      */
     public function add_import_page() {
         add_submenu_page(
-            'edit.php?post_type=etablissement',
+            Schema::ADMIN_PARENT,
             __('Import places', 'geofolio'),
             __('Import CSV', 'geofolio'),
             'manage_options',
