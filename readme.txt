@@ -115,7 +115,7 @@ Yes. The source strings are in English with a French translation included; other
 2. A place popup with its photo carousel, contact details and opening hours.
 3. Search with suggestions, insensitive to accents and case.
 4. On a phone: search and type filter above the map, entity pills below them.
-5. Editing a place: address with geocoding and a draggable marker, contact details, photo gallery.
+5. Editing a place: a form with the location (geocoding and a draggable marker), description, contact details, people and photos.
 6. Map settings: basemap forced for the whole site and provider API key.
 7. The Geofolio Map block in the editor, with its live preview and settings.
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
