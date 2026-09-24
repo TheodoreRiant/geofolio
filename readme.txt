@@ -1,6 +1,6 @@
 === Geofolio ===
 Contributors: theodoreriant
-Tags: map, leaflet, locations, directory, elementor
+Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,21 +8,39 @@ Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Interactive map of places with search, filters, a synchronised list and an Elementor widget.
+Interactive map of your places with search, filters, a synchronised list and photo popups. Block, Elementor widget and shortcode.
 
 == Description ==
 
-Geofolio displays your places (offices, shops, venues, services…) on an interactive map:
+Geofolio turns a list of places into an interactive map your visitors can search and filter, with a list that follows the map and popups showing photos, contact details and opening hours. Add it with the **Geofolio Map block**, the **Elementor widget** or the `[geofolio]` shortcode.
+
+Features:
 
 * marker clusters coloured by entity, and entity pills to filter the map;
 * a type filter with faceted counts;
 * search with suggestions, insensitive to case, accents and apostrophes;
 * a list synchronised with the map, and rich popups with a photo carousel;
-* a responsive layout with a mobile drawer, keyboard accessible.
+* a responsive layout with a mobile toolbar, fullscreen mode, keyboard accessible;
+* a Gutenberg block with a live preview in the editor, an Elementor widget with style controls, and a shortcode;
+* basemaps from OpenFreeMap, OpenStreetMap, IGN, CARTO, Jawg, MapTiler, Stadia and Thunderforest, with a keyless fallback;
+* a CSV import that geocodes addresses, imports photos, entity colours and type icons, plus a sample dataset to try it;
+* a public read-only REST API (`geofolio/v1`).
+
+= Who is it for? =
+
+Networks and organisations with several sites (associations, public services, health or social care providers, franchises), directories and store locators, event venues, tourism offices: anyone who wants a map of their places that stays up to date from WordPress.
 
 Places are a WordPress post type with taxonomies (entity with a colour, type with an icon, region, service, accessibility). Editors get geocoding with a draggable marker, a sortable photo gallery, one-click duplication and a CSV import.
 
-No build step and no external CDN: Leaflet, MarkerCluster and MapLibre are bundled. The interface is in English and French.
+No external CDN: Leaflet, MarkerCluster and MapLibre are bundled. The interface is in English and French.
+
+= Accessibility =
+
+The map can be used with the keyboard: search suggestions with arrow keys and Enter, place cards focusable, Escape to leave fullscreen. Results and toasts are announced to screen readers (`aria-live`), entity pills expose their state (`aria-pressed`), the carousel has labelled controls, and animations follow `prefers-reduced-motion`.
+
+= Developers =
+
+Every site-specific behaviour goes through filters (`geofolio_defaults`, `geofolio_type_catalog`, `geofolio_icons`, `geofolio_import_columns`, `geofolio_geocoder_url`, `geofolio_place_slug`, `geofolio_migration_steps` and more), documented in `docs/hooks.md` on GitHub. The map is restyled by overriding `--gfo-*` CSS custom properties. The REST API is documented in `docs/rest-api.md`.
 
 Site-specific behaviour (default values, icons, CSV columns, URL slugs, labels, data migrations) goes through filters, so a companion plugin can adapt Geofolio without modifying it.
 
@@ -46,7 +64,7 @@ Development happens on GitHub: https://github.com/TheodoreRiant/geofolio (source
 
 1. Upload the plugin and activate it.
 2. Add places in **Places**, or import a CSV file (**Places → Import CSV**), or import the sample dataset.
-3. Add the map to a page with the **Geofolio** Elementor widget or the `[geofolio]` shortcode.
+3. Add the map to a page with the **Geofolio Map** block (WordPress 6.6 or later), the **Geofolio** Elementor widget, or the `[geofolio]` shortcode.
 4. Optional: in **Places → Map settings**, choose the basemap and set the tile provider API key.
 
 == Frequently Asked Questions ==
@@ -65,14 +83,42 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 
 = Which shortcode attributes are available? =
 
-`height`, `center_lat`, `center_lng`, `zoom`, `show_search`, `show_filter`, `show_list`, `show_fullscreen`, `sidebar_position`, `sidebar_title`, `sidebar_subtitle`, `tile_style`.
+`height` (a CSS length such as `600px` or `80vh`, or `container` to let your stylesheet size the map), `center_lat`, `center_lng`, `zoom`, `fit_bounds` (`false` keeps the centre and zoom instead of zooming to the places), `show_search`, `show_filter`, `show_list`, `show_fullscreen`, `sidebar_position` (`left` or `right`), `sidebar_title`, `sidebar_subtitle`, `tile_style`.
+
+= Do I need Elementor? =
+
+No. The block and the shortcode work on any theme. The Elementor widget is added only when Elementor is active.
+
+= Why do CARTO maps show "API key required"? =
+
+Since 2026, CARTO serves its basemaps only with a key. Enter one in **Places → Map settings**, or keep the default Positron basemap served by OpenFreeMap, which looks the same and needs no key.
+
+= How do I try it quickly? =
+
+In **Places → Import CSV**, import the sample dataset: 16 fictional places with photos, types, entities and opening hours. Then add the block to a page.
+
+= How many places can it handle? =
+
+The map loads all published places once and filters them in the browser, which keeps search instant. Markers are clustered and built once per place, and the REST responses are cached and refreshed as soon as a place changes. Several hundred places work comfortably; for many thousands, test on your hosting.
+
+= Is it GDPR friendly? =
+
+Geofolio sets no cookie, has no analytics and sends nothing to its author. The only third party reached by visitors is the tile provider you choose (see External services). Address geocoding happens only in the admin.
+
+= Can I translate it? =
+
+Yes. The source strings are in English with a French translation included; other languages can be added with any .po editor, and through translate.wordpress.org once the plugin is in the directory.
 
 == Screenshots ==
 
-1. The map with its sidebar, entity pills and clusters.
-2. A place popup with its photo carousel.
-3. Editing a place: location, contact and gallery.
-4. The Elementor widget settings.
+1. The map with its sidebar, entity pills, type icons and clusters.
+2. A place popup with its photo carousel, contact details and opening hours.
+3. Search with suggestions, insensitive to accents and case.
+4. On a phone: search and type filter above the map, entity pills below them.
+5. Editing a place: address with geocoding and a draggable marker, contact details, photo gallery.
+6. Map settings: basemap forced for the whole site and provider API key.
+7. The Geofolio Map block in the editor, with its live preview and settings.
+8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
 

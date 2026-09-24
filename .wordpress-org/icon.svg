@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Geofolio">
+  <rect width="256" height="256" rx="48" fill="#1F4E79"/>
+  <!-- Folio : page cornée -->
+  <path d="M72 44h82l38 38v130a8 8 0 0 1-8 8H72a8 8 0 0 1-8-8V52a8 8 0 0 1 8-8z" fill="#FFFFFF"/>
+  <path d="M154 44v30a8 8 0 0 0 8 8h30z" fill="#C9D8E6"/>
+  <!-- Lignes du folio -->
+  <rect x="86" y="178" width="84" height="10" rx="5" fill="#C9D8E6"/>
+  <rect x="86" y="198" width="56" height="10" rx="5" fill="#C9D8E6"/>
+  <!-- Épingle -->
+  <path d="M128 72c-24.3 0-44 19.2-44 42.9C84 146 128 176 128 176s44-30 44-61.1C172 91.2 152.3 72 128 72z" fill="#E07A3F"/>
+  <circle cx="128" cy="114" r="16" fill="#FFFFFF"/>
+</svg>

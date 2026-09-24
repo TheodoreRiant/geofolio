@@ -32,9 +32,9 @@ if (!defined('ABSPATH')) {
                         <option value=""<?php selected($view['settings']['tile_style'], ''); ?>>
                             <?php esc_html_e('— Let each map decide (block, Elementor or shortcode setting) —', 'geofolio'); ?>
                         </option>
-                        <?php foreach ($view['providers'] as $id => $provider) : ?>
-                            <option value="<?php echo esc_attr($id); ?>"<?php selected($view['settings']['tile_style'], $id); ?>>
-                                <?php echo esc_html($provider['label']); ?>
+                        <?php foreach ($view['providers'] as $geofolio_id => $geofolio_provider) : ?>
+                            <option value="<?php echo esc_attr($geofolio_id); ?>"<?php selected($view['settings']['tile_style'], $geofolio_id); ?>>
+                                <?php echo esc_html($geofolio_provider['label']); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
