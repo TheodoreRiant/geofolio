@@ -4,7 +4,7 @@ Tags: map, leaflet, locations, directory, elementor
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,11 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 
 == Changelog ==
 
+= 1.2.1 =
+* Fix: every single post or page crashed (fatal error) on sites without Elementor.
+* Faster filtering: map markers are built once and reused.
+* Internal: stylesheet and map script split into sources, no visible change.
+
 = 1.2.0 =
 * Fix: the settings and CSV import pages were unreachable (403) and missing from the Places menu.
 * Elementor widget: responsive map height (tablet and mobile keep their own heights), "Fit the view to the places" switch, styles for the sidebar title and subtitle and for the entity pills.
@@ -91,6 +96,9 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 * First public release, derived from a map plugin built for a single client: generic post type and taxonomies, English source strings with a French translation, data-driven type icons, generic CSV import, extension filters, PSR-4 code base.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Critical fix for sites without Elementor: single posts and pages no longer crash. Update now.
 
 = 1.2.0 =
 Fixes the unreachable settings and import pages. Elementor widget: tablet and mobile now keep their own map height (600px and 85vh by default) instead of the desktop height; set them in the widget if needed.

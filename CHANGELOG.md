@@ -2,7 +2,10 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.2.1] — 2026-09-24
+
+### Fixed
+- **Fatal error on every single post or page of a site without Elementor** (since 1.0.0): reading the Elementor widget name loaded the widget class, which extends an Elementor class. The name now lives in `Integration::WIDGET_NAME`, which loads without Elementor. A test forbids reading a constant of an Elementor-dependent class outside the widget.
 
 ### Changed
 - `MapWidget.php` (1283 lines) is split into section traits: `ContentControls`, `LayoutStyleControls`, `CardStyleControls`, `MapStyleControls` and `HeaderStyleControls`; the widget class keeps its metadata and rendering (220 lines). The control stack seen by Elementor is byte-for-byte identical.
