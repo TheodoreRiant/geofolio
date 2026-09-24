@@ -14,14 +14,19 @@ if (!defined('ABSPATH')) {
 
 class IconMatcher {
 
+    /** Apostrophes typographiques ramenées à l'apostrophe droite. */
+    const APOSTROPHES = array("\u{2019}", "\u{2018}", "\u{02BC}", '`');
+
     /**
-     * Clé de comparaison : nom en minuscules, accents conservés.
+     * Clé de comparaison : sans accents, en minuscules, apostrophes droites,
+     * espaces réduits (« Centre Éducatif Fermé » = « centre educatif ferme »).
      *
      * @param string $name
      * @return string
      */
     public static function key($name) {
-        return trim(mb_strtolower((string) $name, 'UTF-8'));
+        $key = remove_accents(str_replace(self::APOSTROPHES, "'", (string) $name));
+        return trim(preg_replace('/\s+/u', ' ', mb_strtolower($key, 'UTF-8')));
     }
 
     /**

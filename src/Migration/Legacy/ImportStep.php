@@ -102,6 +102,7 @@ class ImportStep implements Step, ConfirmedStep {
         $report = array('renamed' => $this->rename($config));
         $report['icons']      = $this->assign_icons($config['type_icons']);
         $report['people']     = $this->convert_managers(self::manager_role($config), $legacy_ids);
+        $report['deleted_meta'] = $this->delete_old_meta($config['delete_post_meta'], $legacy_ids);
         delete_option(self::ROLE_OPTION);
         $report['elementor']  = ElementorRewriter::apply($config['elementor_widgets'], Integration::WIDGET_NAME);
         $report['shortcodes'] = ShortcodeRewriter::apply($config['shortcodes'], Shortcode::TAG);
@@ -216,6 +217,28 @@ class ImportStep implements Step, ConfirmedStep {
             }
         }
         return $converted;
+    }
+
+    /**
+     * Supprimer, des seuls lieux importés, les anciennes metas sans
+     * équivalent dans Geofolio (sinon orphelines).
+     *
+     * @param string[] $keys
+     * @param int[]    $ids
+     * @return array<string, int> Nombre de lieux nettoyés par clé.
+     */
+    private function delete_old_meta(array $keys, array $ids) {
+        $report = array();
+        foreach ($keys as $key) {
+            $report[$key] = 0;
+            foreach ($ids as $id) {
+                if (metadata_exists('post', $id, $key)) {
+                    delete_metadata('post', $id, $key);
+                    $report[$key]++;
+                }
+            }
+        }
+        return $report;
     }
 
     /**

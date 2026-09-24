@@ -214,4 +214,30 @@ final class LegacyImportTest extends TestCase {
         $this->assertStringContainsString('venue', $text);
         $this->assertStringContainsString('old-map/old-map.php', $text);
     }
+
+    /** Les noms de types diffèrent souvent par les accents ou les apostrophes. */
+    public function test_la_correspondance_ignore_accents_casse_et_apostrophes() {
+        $catalog = Config::normalize(array('type_icons' => array(
+            'centre educatif ferme' => 'shield',
+            "service d'investigations educatives" => 'search',
+        )))['type_icons'];
+
+        $this->assertSame('shield', IconMatcher::match($catalog, 'Centre Éducatif Fermé'));
+        $this->assertSame('search', IconMatcher::match($catalog, 'Service d’Investigations Éducatives'));
+    }
+
+    public function test_les_anciennes_metas_sans_equivalent_sont_supprimees_des_lieux_importes() {
+        $config = self::CONFIG + array('delete_post_meta' => array('_old_department', 42));
+        add_filter('geofolio_legacy_import', static function () use ($config) { return $config; });
+        $old   = gfo_test_add_post(array('post_type' => 'old_place'), array('_old_department' => '69'));
+        $other = gfo_test_add_post(array('post_type' => 'page'), array('_old_department' => 'garder'));
+        $GLOBALS['wpdb']->col_result = array($old->ID);
+
+        $this->assertSame(array('_old_department'), Config::get()['delete_post_meta']);
+        $report = (new ImportStep())->run();
+
+        $this->assertSame(array('_old_department' => 1), $report['deleted_meta']);
+        $this->assertSame('', (string) get_post_meta($old->ID, '_old_department', true));
+        $this->assertSame('garder', get_post_meta($other->ID, '_old_department', true));
+    }
 }
