@@ -56,6 +56,21 @@ function update_metadata($type, $id, $key, $value) {
     return true;
 }
 
+function delete_metadata($type, $id, $key) {
+    unset($GLOBALS['gfo_test_meta'][(int) $id][$key]);
+    return true;
+}
+
+function metadata_exists($type, $id, $key) {
+    return isset($GLOBALS['gfo_test_meta'][(int) $id][$key]);
+}
+
+/** Comme remove_accents() de WordPress : lettres accentuées ramenées à leur base. */
+function remove_accents($text) {
+    $decomposed = \Normalizer::normalize((string) $text, \Normalizer::FORM_D);
+    return preg_replace('/\p{Mn}+/u', '', $decomposed === false ? (string) $text : $decomposed);
+}
+
 function clean_post_cache($id) {
     return true;
 }

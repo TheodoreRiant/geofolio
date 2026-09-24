@@ -15,6 +15,12 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
   - Priority: filter > setting > plugin default, so `geofolio_defaults`, `geofolio_default_color`, `geofolio_place_labels` and `geofolio_place_slug` keep working.
 - The REST cache is refreshed when these settings change (fallback colour, place URLs).
 
+### Fixed
+- Import from a previous map plugin: type names now match the icon catalogue regardless of accents, case, extra spaces and typographic apostrophes ("Centre Éducatif Fermé" = "centre educatif ferme"); found on real data, where 6 of 27 icons were missed.
+
+### Added
+- Import from a previous map plugin: `delete_post_meta` key, old meta keys with no Geofolio field, deleted from the imported places only and counted in the report (they were left orphaned).
+
 ## [1.3.0] — 2026-09-24
 
 ### Added
