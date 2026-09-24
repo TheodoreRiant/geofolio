@@ -25,6 +25,7 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 - Elementor widget: the map height is a responsive control on the container only. Tablet and mobile default to 600px and 85vh, as in the stylesheet; a desktop value no longer overrides them.
 
 ### Fixed
+- **Settings and CSV import pages unreachable** on a Geofolio-only site: they were attached to the `etablissement` post type of the original plugin, so WordPress answered 403 and neither page appeared in the Places menu. Both now hang under the Places menu (`Schema::ADMIN_PARENT`).
 - The map now tells the visitor when the places cannot be loaded, instead of silently showing an empty list.
 - `destroy()` was defined twice in the map class and the active one left the search autocomplete listeners on `document`; a single method now removes them all (Elementor editor re-renders no longer leak handlers).
 - The results counter is announced to screen readers (`aria-live="polite"`).

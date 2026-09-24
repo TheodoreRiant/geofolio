@@ -15,6 +15,9 @@ final class Schema {
     /** Type de contenu des lieux. */
     const POST_TYPE = 'gfo_place';
 
+    /** Menu d'administration des lieux, parent des pages Réglages et Import. */
+    const ADMIN_PARENT = 'edit.php?post_type=' . self::POST_TYPE;
+
     /** Taxonomies des lieux. */
     const TAX_TYPE          = 'gfo_type';
     const TAX_REGION        = 'gfo_region';

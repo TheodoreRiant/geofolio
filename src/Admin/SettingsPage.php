@@ -14,6 +14,7 @@
 
 namespace Geofolio\Admin;
 
+use Geofolio\Domain\Schema;
 use Geofolio\Map\TileProviders;
 
 if (!defined('ABSPATH')) {
@@ -188,7 +189,7 @@ final class SettingsPage {
      */
     public function register_menu() {
         add_submenu_page(
-            'edit.php?post_type=etablissement',
+            Schema::ADMIN_PARENT,
             __('Map configuration', 'geofolio'),
             __('Map settings', 'geofolio'),
             'manage_options',
@@ -374,7 +375,7 @@ final class SettingsPage {
             '<div class="notice notice-warning is-dismissible"><p><strong>%s</strong> %s <a href="%s">%s</a></p></div>',
             esc_html__('Map:', 'geofolio'),
             esc_html(self::describe_fallback($resolved['fallbackReason'])),
-            esc_url(admin_url('edit.php?post_type=etablissement&page=' . self::PAGE_SLUG)),
+            esc_url(admin_url(Schema::ADMIN_PARENT . '&page=' . self::PAGE_SLUG)),
             esc_html__('Open the map settings', 'geofolio')
         );
     }
