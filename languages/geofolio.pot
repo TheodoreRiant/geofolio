@@ -510,10 +510,12 @@ msgid "Automatic"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:124
+#: blocks/map/build/index.js
 msgid "Map parameters"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:132
+#: blocks/map/build/index.js
 msgid "Map height"
 msgstr ""
 
@@ -542,6 +544,7 @@ msgid "Makes the widget span the full window width, even when the parent section
 msgstr ""
 
 #: src/Elementor/MapWidget.php:168
+#: blocks/map/build/index.js
 msgid "Centre latitude"
 msgstr ""
 
@@ -551,31 +554,38 @@ msgid "Used when the map contains no place."
 msgstr ""
 
 #: src/Elementor/MapWidget.php:179
+#: blocks/map/build/index.js
 msgid "Centre longitude"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:190
+#: blocks/map/build/index.js
 msgid "Initial zoom"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:210
+#: blocks/map/build/index.js
 msgid "Display options"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:218
+#: blocks/map/build/index.js
 msgid "Show the search"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:230
+#: blocks/map/build/index.js
 msgid "Show the type filter"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:242
+#: blocks/map/build/index.js
 msgid "Show the results list"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:254
 #: src/Elementor/MapWidget.php:1107
+#: blocks/map/build/index.js
 msgid "Full screen button"
 msgstr ""
 
@@ -584,26 +594,32 @@ msgid "Sidebar content"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:282
+#: blocks/map/build/index.js
 msgid "Sidebar position"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:285
+#: blocks/map/build/index.js
 msgid "Left"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:286
+#: blocks/map/build/index.js
 msgid "Right"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:295
+#: blocks/map/build/index.js
 msgid "Sidebar title"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:305
+#: blocks/map/build/index.js
 msgid "Sidebar subtitle"
 msgstr ""
 
 #: src/Elementor/MapWidget.php:318
+#: blocks/map/build/index.js
 msgid "Tile style"
 msgstr ""
 
@@ -1258,6 +1274,7 @@ msgid "Help sentence"
 msgstr ""
 
 #: src/Elementor/MapWidget.php
+#: blocks/map/build/index.js
 msgid "Fit the view to the places"
 msgstr ""
 
@@ -1279,4 +1296,42 @@ msgstr ""
 
 #: src/Elementor/HeaderStyleControls.php
 msgid "Hide"
+msgstr ""
+
+#: blocks/map/build/index.js
+msgid "Site setting"
+msgstr ""
+
+#: blocks/map/build/index.js
+msgid "A CSS length: 600px, 80vh, 40rem…"
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block title"
+msgid "Geofolio Map"
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block description"
+msgid "Interactive map of your places, with search, type filter and entity pills."
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "places"
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "locations"
+msgstr ""
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "leaflet"
 msgstr ""

@@ -1442,6 +1442,18 @@
     }
     $container.data("geofolio", new GeofolioMap($container[0]));
   }
+  window.Geofolio = {
+    init: function(container) {
+      var $container = $4(container);
+      var existing = $container.data("geofolio");
+      if (existing && typeof existing.destroy === "function") {
+        existing.destroy();
+      }
+      var instance = new GeofolioMap(container);
+      $container.data("geofolio", instance);
+      return instance;
+    }
+  };
   $4(window).on("elementor/frontend/init", function() {
     if (typeof elementorFrontend === "undefined") return;
     var names = window.geofolioConfig && geofolioConfig.elementorWidgets || [];

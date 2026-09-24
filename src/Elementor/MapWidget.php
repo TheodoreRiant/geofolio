@@ -29,7 +29,7 @@ class MapWidget extends \Elementor\Widget_Base {
     use HeaderStyleControls;
 
     /** Widget identifier. */
-    const NAME = 'geofolio_map';
+    const NAME = Integration::WIDGET_NAME;
 
     /** Settings passed as-is to the renderer. */
     const PLAIN_SETTINGS = [

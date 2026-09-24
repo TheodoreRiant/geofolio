@@ -48,6 +48,22 @@ function onElementorWidgetReady($scope) {
     $container.data('geofolio', new GeofolioMap($container[0]));
 }
 
+// Initialisation d'une carte ajoutée après le chargement (aperçu du bloc
+// dans l'éditeur, contenu injecté par un autre script) : toute instance
+// existante sur ce conteneur est détruite avant.
+window.Geofolio = {
+    init: function(container) {
+        var $container = $(container);
+        var existing = $container.data('geofolio');
+        if (existing && typeof existing.destroy === 'function') {
+            existing.destroy();
+        }
+        var instance = new GeofolioMap(container);
+        $container.data('geofolio', instance);
+        return instance;
+    },
+};
+
 $(window).on('elementor/frontend/init', function() {
     if (typeof elementorFrontend === 'undefined') return;
     var names = (window.geofolioConfig && geofolioConfig.elementorWidgets) || [];

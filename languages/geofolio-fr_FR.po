@@ -513,10 +513,12 @@ msgid "Automatic"
 msgstr "Automatique"
 
 #: src/Elementor/MapWidget.php:124
+#: blocks/map/build/index.js
 msgid "Map parameters"
 msgstr "Paramètres de la carte"
 
 #: src/Elementor/MapWidget.php:132
+#: blocks/map/build/index.js
 msgid "Map height"
 msgstr "Hauteur de la carte"
 
@@ -545,6 +547,7 @@ msgid "Makes the widget span the full window width, even when the parent section
 msgstr "Force le widget à occuper toute la largeur de la fenêtre, même si la section parente est limitée (ex: max-width 1200px)."
 
 #: src/Elementor/MapWidget.php:168
+#: blocks/map/build/index.js
 msgid "Centre latitude"
 msgstr "Latitude du centre"
 
@@ -554,31 +557,38 @@ msgid "Used when the map contains no place."
 msgstr "Utilisée quand la carte ne contient aucun établissement."
 
 #: src/Elementor/MapWidget.php:179
+#: blocks/map/build/index.js
 msgid "Centre longitude"
 msgstr "Longitude du centre"
 
 #: src/Elementor/MapWidget.php:190
+#: blocks/map/build/index.js
 msgid "Initial zoom"
 msgstr "Zoom initial"
 
 #: src/Elementor/MapWidget.php:210
+#: blocks/map/build/index.js
 msgid "Display options"
 msgstr "Options d'affichage"
 
 #: src/Elementor/MapWidget.php:218
+#: blocks/map/build/index.js
 msgid "Show the search"
 msgstr "Afficher la recherche"
 
 #: src/Elementor/MapWidget.php:230
+#: blocks/map/build/index.js
 msgid "Show the type filter"
 msgstr "Afficher le filtre par type"
 
 #: src/Elementor/MapWidget.php:242
+#: blocks/map/build/index.js
 msgid "Show the results list"
 msgstr "Afficher la liste des résultats"
 
 #: src/Elementor/MapWidget.php:254
 #: src/Elementor/MapWidget.php:1107
+#: blocks/map/build/index.js
 msgid "Full screen button"
 msgstr "Bouton plein écran"
 
@@ -587,26 +597,32 @@ msgid "Sidebar content"
 msgstr "Contenu de la sidebar"
 
 #: src/Elementor/MapWidget.php:282
+#: blocks/map/build/index.js
 msgid "Sidebar position"
 msgstr "Position de la sidebar"
 
 #: src/Elementor/MapWidget.php:285
+#: blocks/map/build/index.js
 msgid "Left"
 msgstr "Gauche"
 
 #: src/Elementor/MapWidget.php:286
+#: blocks/map/build/index.js
 msgid "Right"
 msgstr "Droite"
 
 #: src/Elementor/MapWidget.php:295
+#: blocks/map/build/index.js
 msgid "Sidebar title"
 msgstr "Titre de la sidebar"
 
 #: src/Elementor/MapWidget.php:305
+#: blocks/map/build/index.js
 msgid "Sidebar subtitle"
 msgstr "Sous-titre de la sidebar"
 
 #: src/Elementor/MapWidget.php:318
+#: blocks/map/build/index.js
 msgid "Tile style"
 msgstr "Style de tuiles"
 
@@ -1261,6 +1277,7 @@ msgid "Help sentence"
 msgstr "Phrase d'aide"
 
 #: src/Elementor/MapWidget.php
+#: blocks/map/build/index.js
 msgid "Fit the view to the places"
 msgstr "Ajuster la vue aux lieux"
 
@@ -1338,3 +1355,40 @@ msgstr "Retirer cette personne"
 msgctxt "role separator"
 msgid ": "
 msgstr " : "
+#: blocks/map/build/index.js
+msgid "Site setting"
+msgstr "Réglage du site"
+
+#: blocks/map/build/index.js
+msgid "A CSS length: 600px, 80vh, 40rem…"
+msgstr "Une longueur CSS : 600px, 80vh, 40rem…"
+
+#: blocks/map/src/block.json
+msgctxt "block title"
+msgid "Geofolio Map"
+msgstr "Carte Geofolio"
+
+#: blocks/map/src/block.json
+msgctxt "block description"
+msgid "Interactive map of your places, with search, type filter and entity pills."
+msgstr "Carte interactive de vos lieux, avec recherche, filtre par type et pastilles d’entités."
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr "carte"
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "places"
+msgstr "lieux"
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "locations"
+msgstr "adresses"
+
+#: blocks/map/src/block.json
+msgctxt "block keyword"
+msgid "leaflet"
+msgstr "leaflet"

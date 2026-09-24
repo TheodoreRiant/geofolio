@@ -4,6 +4,16 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+### Added
+- **Gutenberg block "Geofolio Map"** (`geofolio/map`): server-side rendered through the same renderer as the shortcode and the Elementor widget, with an inspector for height, basemap, "fit the view to the places" (or centre and zoom), search, type filter, list, fullscreen button, sidebar position, title and subtitle. The editor shows the real map: the map assets are loaded in the editor iframe and the preview is initialised after each server render (`window.Geofolio.init()`). Wide and full alignments. Requires WordPress 6.6 (`react-jsx-runtime`); on 6.5 the block is simply not offered.
+- WordPress Playground blueprint (`.wordpress-org/blueprints/blueprint.json`) for the "Live Preview" button of the plugin directory: installs Geofolio, imports the sample dataset with its photos and opens a page with the block.
+- French translation of the block (block.json strings and editor script, JSON translation file).
+
+## [1.2.1] — 2026-09-24
+
+### Fixed
+- **Fatal error on every single post or page of a site without Elementor** (since 1.0.0): reading the Elementor widget name loaded the widget class, which extends an Elementor class. The name now lives in `Integration::WIDGET_NAME`, which loads without Elementor. A test forbids reading a constant of an Elementor-dependent class outside the widget.
+
 ### Changed
 - `MapWidget.php` (1283 lines) is split into section traits: `ContentControls`, `LayoutStyleControls`, `CardStyleControls`, `MapStyleControls` and `HeaderStyleControls`; the widget class keeps its metadata and rendering (220 lines). The control stack seen by Elementor is byte-for-byte identical.
 - Markers are built once per place and shown again when filters change, instead of rebuilding every marker, icon, popup and listener on each filter or keystroke (20 filter changes on the sample dataset: 214 markers rebuilt before, none now). The cache is reset when the place list is reloaded.

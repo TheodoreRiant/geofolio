@@ -6,6 +6,7 @@
 namespace Geofolio;
 
 use Geofolio\Admin\Duplicate;
+use Geofolio\Blocks\MapBlock;
 use Geofolio\Admin\MetaBoxes;
 use Geofolio\Admin\PlaceEditScreen;
 use Geofolio\Domain\FieldRegistry;
@@ -14,7 +15,6 @@ use Geofolio\Admin\SettingsPage;
 use Geofolio\Domain\PlacePostType;
 use Geofolio\Domain\Taxonomies;
 use Geofolio\Elementor\Integration;
-use Geofolio\Elementor\MapWidget;
 use Geofolio\Import\Importer;
 use Geofolio\Map\Defaults;
 use Geofolio\Map\Shortcode;
@@ -77,6 +77,7 @@ final class Plugin {
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
+        MapBlock::register();
         Shortcode::get_instance();
         Importer::get_instance();
         Runner::get_instance();
@@ -211,7 +212,7 @@ final class Plugin {
      * @return string[]
      */
     public static function elementor_widget_names() {
-        return array_values(array_filter((array) apply_filters('geofolio_elementor_widget_names', array(MapWidget::NAME)), 'is_string'));
+        return array_values(array_filter((array) apply_filters('geofolio_elementor_widget_names', array(Integration::WIDGET_NAME)), 'is_string'));
     }
 
     /**
@@ -236,6 +237,24 @@ final class Plugin {
      * pages qui affichent une carte les chargent (voir enqueue_map_assets).
      */
     public function enqueue_frontend_assets() {
+        self::register_map_assets();
+
+        // Filet : le shortcode charge ses assets au rendu, mais un cache ou
+        // une mise en page qui rend le contenu après wp_head les ferait
+        // arriver trop tard pour les feuilles de style.
+        if (self::current_page_needs_map()) {
+            self::enqueue_map_assets();
+        }
+    }
+
+    /**
+     * Enregistrer les bibliothèques, la feuille et le script de la carte
+     * (sans les charger). Aussi appelé pour l'aperçu du bloc dans l'éditeur.
+     */
+    public static function register_map_assets() {
+        if (wp_script_is('geofolio', 'registered')) {
+            return;
+        }
         self::register_vendor_assets(self::VENDOR_STYLES, 'wp_register_style');
         self::register_vendor_assets(self::VENDOR_SCRIPTS, 'wp_register_script', array(true));
 
@@ -253,13 +272,6 @@ final class Plugin {
             GEOFOLIO_VERSION,
             true
         );
-
-        // Filet : le shortcode charge ses assets au rendu, mais un cache ou
-        // une mise en page qui rend le contenu après wp_head les ferait
-        // arriver trop tard pour les feuilles de style.
-        if (self::current_page_needs_map()) {
-            self::enqueue_map_assets();
-        }
     }
 
     /**
@@ -283,6 +295,9 @@ final class Plugin {
             if (has_shortcode($post->post_content, $tag)) {
                 return true;
             }
+        }
+        if (function_exists('has_block') && has_block(MapBlock::NAME, $post)) {
+            return true;
         }
         $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
         if (!is_string($elementor_data)) {
