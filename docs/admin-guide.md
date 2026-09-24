@@ -4,14 +4,18 @@ Everything happens in the **Places** menu of the WordPress admin.
 
 ## Add a place
 
-1. **Places → Add**.
-2. Enter the **title** and the **description** (shown in the map popup).
-3. **Excerpt** (side panel): the audience, for example “24 people”. It is shown after “Audience:”.
-4. **Location** box: address, postal code, city, then **Geocode address** to place the marker. You can also click the small map to move it.
-5. **Contact** box: phone, email, website, opening hours. An empty field is not shown on the map.
-6. **Management** box: manager name(s). Separate several names with a comma: the label becomes plural.
-7. Side panel: **Entity** (gives the colour), **Place type**, regions, services, accessibility.
+The place screen is a form, not an article editor: the sections follow the order in which a place is described.
+
+1. **Places → Add**, then the **name** of the place.
+2. **Location**: address, postal code, city, then **Geocode address** to place the marker, or click the map next to the fields to move it. Latitude and longitude can also be typed.
+3. **Description**: a few lines of plain text, shown in the popup and the list. Paragraphs are kept.
+4. **Contact**: phone, email, website, opening hours. An empty field is not shown on the map.
+5. **People**: one row per person with a **role** and a **name** (“Director: Marie Beton”, “Secretary general: Antonin Klark”). **Add a person** adds a row, the cross removes one, the handle reorders by drag and drop. The role field suggests common roles but accepts any text. The popup shows one line per person, in this order.
+6. **Photo gallery**: see below.
+7. Side panel: **Entity** (gives the colour), **Place type**, regions, services, accessibility, and the **Place image** (cover).
 8. **Publish**. A draft does not appear on the map.
+
+Places created with an earlier version keep their manager names: they appear in the People section with the default role until edited. A site that needs the full content editor can add `editor` with the `geofolio_place_supports` filter.
 
 ## Duplicate a place
 
@@ -51,7 +55,7 @@ Without a valid key, the map falls back to Positron served by OpenFreeMap (no ke
 | Description, Audience, Capacity | text of the place; audience is shown after “Audience:” |
 | Address, Postal code, City, Region, Department | location; rows without latitude / longitude are geocoded |
 | Latitude, Longitude | coordinates |
-| Phone, Email, Website, Manager, Opening hours | contact and management |
+| Phone, Email, Website, Manager, Opening hours | contact; Manager holds names separated by commas, given the default role |
 | Services, Accessibility | several values separated by `;` |
 | Image, Gallery | photo file names, for datasets shipped with their photos |
 
