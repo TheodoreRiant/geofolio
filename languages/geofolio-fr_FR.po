@@ -1301,6 +1301,60 @@ msgstr "Afficher"
 msgid "Hide"
 msgstr "Masquer"
 
+#: src/Admin/PlaceEditScreen.php
+msgid "A few lines shown in the popup: mission, audience, what makes this place special."
+msgstr "Quelques lignes affichées dans le popup : mission, public accueilli, ce qui rend ce lieu particulier."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Plain text. Keep it short: it appears in the map popup and in the list."
+msgstr "Texte brut. Restez court : ce texte apparaît dans le popup de la carte et dans la liste."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Description"
+msgstr "Description"
+
+msgid "Manager"
+msgstr "Responsable"
+
+msgid "Director"
+msgstr "Directeur/trice"
+
+msgid "Secretary general"
+msgstr "Secrétaire général(e)"
+
+msgid "Head of service"
+msgstr "Chef(fe) de service"
+
+msgid "Contact person"
+msgstr "Personne à contacter"
+
+msgid "People"
+msgstr "Personnes"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Add a person"
+msgstr "Ajouter une personne"
+
+msgid "Role and name, in the order shown on the map. Drag a row to reorder."
+msgstr "Rôle et nom, dans l'ordre affiché sur la carte. Glissez une ligne pour réordonner."
+
+msgid "Drag to reorder"
+msgstr "Glisser pour réordonner"
+
+msgid "First Last"
+msgstr "Prénom Nom"
+
+msgid "Remove this person"
+msgstr "Retirer cette personne"
+
+msgctxt "role separator"
+msgid ": "
+msgstr " : "
 #: blocks/map/build/index.js
 msgid "Site setting"
 msgstr "Réglage du site"

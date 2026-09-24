@@ -8,6 +8,7 @@ namespace Geofolio;
 use Geofolio\Admin\Duplicate;
 use Geofolio\Blocks\MapBlock;
 use Geofolio\Admin\MetaBoxes;
+use Geofolio\Admin\PlaceEditScreen;
 use Geofolio\Domain\FieldRegistry;
 use Geofolio\Domain\Schema;
 use Geofolio\Admin\SettingsPage;
@@ -72,6 +73,7 @@ final class Plugin {
         PlacePostType::get_instance();
         Taxonomies::get_instance();
         MetaBoxes::get_instance();
+        PlaceEditScreen::get_instance();
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
@@ -350,6 +352,8 @@ final class Plugin {
                 'noResults'         => __('No place found', 'geofolio'),
                 'filterAll'         => __('All types', 'geofolio'),
                 'manager'           => __('Manager: ', 'geofolio'),
+                /* translators: between a person's role and their name in the popup */
+                'roleSeparator'     => _x(': ', 'role separator', 'geofolio'),
                 'managers'          => __('Managers: ', 'geofolio'),
                 'entityHint'        => __('Click an entity to show only that one.', 'geofolio'),
                 'entityReset'       => __('Show all', 'geofolio'),

@@ -172,3 +172,139 @@
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
 }
+
+/* ============================================================
+   Écran d'édition d'un lieu : formulaire en sections
+   ============================================================ */
+
+.gfo-place-form {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.gfo-section {
+    padding: 16px 20px 20px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.gfo-section > h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #f0f0f1;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.gfo-section > h2 .dashicons {
+    color: #2271b1;
+}
+
+.gfo-section .gfo-meta-box {
+    padding: 0;
+}
+
+.gfo-section .gfo-meta-box > p {
+    margin: 0 0 12px;
+}
+
+.gfo-section label strong {
+    font-weight: 600;
+}
+
+/* Localisation : champs à gauche, carte à droite, sur toute la hauteur */
+.gfo-section--location .gfo-meta-box {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+    column-gap: 24px;
+    align-items: start;
+}
+
+.gfo-section--location #geofolio_admin_map {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+    height: 100% !important;
+    min-height: 340px;
+    margin-top: 0 !important;
+}
+
+.gfo-section--location .gfo-meta-box > .description {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+}
+
+.gfo-section--description textarea {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+    .gfo-section--location .gfo-meta-box {
+        grid-template-columns: 1fr;
+    }
+    .gfo-section--location #geofolio_admin_map {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: 280px;
+    }
+}
+
+/* Le titre devient le nom du lieu */
+.gfo-place-screen #titlediv #title {
+    font-size: 1.6em;
+}
+
+/* Personnes du lieu : lignes rôle + nom */
+.gfo-people-header,
+.gfo-person-row {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.4fr) 32px;
+    gap: 8px;
+    align-items: center;
+}
+
+.gfo-people-header {
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #646970;
+}
+
+.gfo-person-row {
+    margin-bottom: 8px;
+}
+
+.gfo-person-row input {
+    width: 100%;
+}
+
+.gfo-person-handle {
+    color: #a7aaad;
+    cursor: move;
+}
+
+.gfo-person-remove {
+    color: #a7aaad;
+    text-decoration: none;
+}
+
+.gfo-person-remove:hover,
+.gfo-person-remove:focus {
+    color: #d63638;
+}
+
+.gfo-person-row.ui-sortable-helper {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#geofolio_people_add .dashicons {
+    vertical-align: text-bottom;
+}

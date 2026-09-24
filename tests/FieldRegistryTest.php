@@ -13,17 +13,18 @@ final class FieldRegistryTest extends TestCase {
         $GLOBALS['gfo_test_images'] = array(10, 11, 12);
     }
 
-    public function test_le_registre_couvre_les_onze_champs() {
+    public function test_le_registre_couvre_les_douze_champs() {
         $this->assertSame(array(
             'address', 'postal_code', 'city', 'latitude', 'longitude', 'phone',
-            'email', 'website', 'manager', 'opening_hours', 'gallery',
+            'email', 'website', 'manager', 'people',
+            'opening_hours', 'gallery',
         ), FieldRegistry::fields());
     }
 
     public function test_chaque_champ_a_une_cle_de_meta_distincte() {
         $keys = array_map(array(FieldRegistry::class, 'meta_key'), FieldRegistry::fields());
 
-        $this->assertCount(11, array_unique($keys));
+        $this->assertCount(count(FieldRegistry::fields()), array_unique($keys));
         foreach ($keys as $key) {
             $this->assertStringStartsWith('_', $key);
         }

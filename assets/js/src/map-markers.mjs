@@ -238,8 +238,16 @@ const markersMethods = {
             html += '<p class="gfo-popup-desc">' + escHtml(mission) + '</p>';
         }
 
-        // Directeur/trice(s) — singulier/pluriel selon la présence d'une virgule
-        if (place.manager) {
+        // Personnes : rôle + nom, dans l'ordre saisi. Repli sur l'ancien
+        // champ « manager » (noms seuls) pour les données non migrées.
+        if (place.people && place.people.length) {
+            var separator = (geofolioConfig.i18n && geofolioConfig.i18n.roleSeparator) || ': ';
+            place.people.forEach(function (person) {
+                html += '<p class="gfo-popup-manager">'
+                    + (person.role ? '<strong>' + escHtml(person.role) + escHtml(separator) + '</strong>' : '')
+                    + escHtml(person.name) + '</p>';
+            });
+        } else if (place.manager) {
             html += '<p class="gfo-popup-manager"><strong>'
                 + escHtml(managerLabel(place.manager, geofolioConfig.i18n))
                 + '</strong>' + escHtml(place.manager) + '</p>';

@@ -645,7 +645,12 @@
       if (mission) {
         html += '<p class="gfo-popup-desc">' + escHtml(mission) + "</p>";
       }
-      if (place.manager) {
+      if (place.people && place.people.length) {
+        var separator = geofolioConfig.i18n && geofolioConfig.i18n.roleSeparator || ": ";
+        place.people.forEach(function(person) {
+          html += '<p class="gfo-popup-manager">' + (person.role ? "<strong>" + escHtml(person.role) + escHtml(separator) + "</strong>" : "") + escHtml(person.name) + "</p>";
+        });
+      } else if (place.manager) {
         html += '<p class="gfo-popup-manager"><strong>' + escHtml(managerLabel(place.manager, geofolioConfig.i18n)) + "</strong>" + escHtml(place.manager) + "</p>";
       }
       if (place.excerpt && place.description && place.excerpt !== place.description) {

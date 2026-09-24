@@ -142,3 +142,14 @@ foreach (glob(dirname(__DIR__) . '/*/src/autoload.php') as $companion_autoload) 
 function wp_json_encode($data) {
     return json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }
+
+if (!function_exists('esc_textarea')) {
+    function esc_textarea($text) {
+        return htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
+    }
+}
+if (!function_exists('remove_meta_box')) {
+    function remove_meta_box($id, $screen, $context) {
+        $GLOBALS['gfo_test_removed_meta_boxes'][] = array($id, $screen, $context);
+    }
+}
