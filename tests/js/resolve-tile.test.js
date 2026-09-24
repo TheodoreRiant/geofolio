@@ -1,20 +1,15 @@
 /**
  * Tests de la résolution du fond de carte côté navigateur.
  *
- * Le bloc « FONDS DE CARTE » de assets/js/geofolio.js est extrait et exécuté
- * isolément : pas de DOM, pas de jQuery, pas de Leaflet à charger.
+ * resolveTile() (assets/js/src/tiles.mjs) est importé et exécuté sans DOM,
+ * jQuery ni Leaflet, avec un objet window contrôlé.
  *
  * Lancer :  node --test tests/js/*.test.js
  */
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
-
-const SOURCE = path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js');
-const BLOCK_START = '    const FALLBACK_TILE';
-const BLOCK_END   = '    /* ================================================================ */\n    /*  SVG ICON CONSTANTS';
+const { load } = require('./modules.js');
 
 /**
  * Charger resolveTile() avec un objet `window` contrôlé.
@@ -23,16 +18,9 @@ const BLOCK_END   = '    /* ====================================================
  * @returns {Function} resolveTile
  */
 function loadResolver(tiles) {
-    const source = fs.readFileSync(SOURCE, 'utf8');
-    const start  = source.indexOf(BLOCK_START);
-    const end    = source.indexOf(BLOCK_END);
-
-    assert.ok(start !== -1 && end > start, 'Bloc « FONDS DE CARTE » introuvable dans geofolio.js');
-
-    const factory = new Function('window', source.slice(start, end) + '; return resolveTile;');
-    const win     = tiles ? { geofolioConfig: { tiles } } : {};
-
-    return factory(win);
+    // resolveTile() lit window.geofolioConfig à chaque appel.
+    global.window = tiles ? { geofolioConfig: { tiles } } : {};
+    return load('tiles').resolveTile;
 }
 
 /** Table de fonds représentative du site : CARTO sans clé, IGN disponible. */

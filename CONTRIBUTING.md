@@ -21,15 +21,19 @@ Run both suites before every commit:
 
 ```bash
 php phpunit.phar                 # PHPUnit, in-memory WordPress stubs (tests/stubs/) — or: composer test
-node --test tests/js/*.test.js   # pure functions extracted from assets/js/geofolio.js — or: npm test
+node --test tests/js/*.test.js   # ES modules of assets/js/src/, imported directly — or: npm test
 npm run lint                     # ESLint (blocking in CI) and Stylelint
 composer lint                    # PHPCS, WordPress standard (warnings only in CI)
 ```
 
 - Write the test first (it must fail), then the code.
-- Testable logic lives in pure functions: static methods in PHP, stateless functions in JS. Node tests extract JS functions from the source file using comment markers (`/* ---- NAME : début ---- */`): do not rename them without updating the test.
+- Testable logic lives in pure functions: static methods in PHP, stateless functions in JS modules (`assets/js/src/*.mjs`), which Node tests import directly (`tests/js/modules.js`).
 - Every HTML output escapes its data (`escHtml` / `escAttr` in JS, `esc_html` / `esc_attr` / `esc_url` in PHP). The REST API returns plain text.
 - Every displayed string is translatable: English source strings, domain `geofolio`; in JS, through `geofolioConfig.i18n`. Regenerate `languages/geofolio.pot` with `wp i18n make-pot`.
+
+## Map script
+
+`assets/js/geofolio.js` is **built** by esbuild from the ES modules in `assets/js/src/` (`index.mjs` is the entry; the `GeofolioMap` class lives in `map.mjs`, with its autocomplete, carousel and marker methods in `map-*.mjs`). Edit the modules, then run `npm run build:js`; a Node test fails when the built file is out of date. The output is an unminified IIFE, readable in the browser.
 
 ## Stylesheet
 

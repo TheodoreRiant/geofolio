@@ -10,17 +10,10 @@ const test   = require('node:test');
 const assert = require('node:assert');
 const fs     = require('node:fs');
 const path   = require('node:path');
+const { load, SOURCE } = require('./modules.js');
 
 function loadHelpers() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    /* ---- TYPES : début ---- */');
-    const end   = source.indexOf('    /* ---- TYPES : fin ---- */', start);
-
-    assert.ok(start !== -1 && end > start, 'Fonctions des types introuvables dans geofolio.js');
-
-    return new Function(source.slice(start, end)
-        + '; return { PIN_PATH, typeKey, buildTypeCatalog, resolveTypeConfig };')();
+    return load('types');
 }
 
 const { PIN_PATH, typeKey, buildTypeCatalog, resolveTypeConfig } = loadHelpers();
@@ -64,15 +57,12 @@ test('un catalogue absent donne un objet vide', () => {
 });
 
 test('plus aucune configuration de type codée en dur', () => {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    assert.ok(!/TYPE_CONFIG|LABEL_OVERRIDES|formatTypeLabel/.test(source));
+    assert.ok(!/TYPE_CONFIG|LABEL_OVERRIDES|formatTypeLabel/.test(SOURCE));
 });
 
 test('chaque variable CSS posée en ligne par le JS est lue par la feuille de style', () => {
     const css  = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'css', 'geofolio.css'), 'utf8');
-    const js   = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const set  = [...new Set([...js.matchAll(/style="[^"]*?(--[a-z-]+)\s*:/g)].map((m) => m[1]))];
+    const set  = [...new Set([...SOURCE.matchAll(/style="[^"]*?(--[a-z-]+)\s*:/g)].map((m) => m[1]))];
     const unread = set.filter((name) => !css.includes('var(' + name));
     assert.deepStrictEqual(unread, []);
 });

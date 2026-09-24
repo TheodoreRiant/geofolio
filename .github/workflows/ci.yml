@@ -35,6 +35,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
+      # esbuild : le test js-build vérifie que geofolio.js est à jour.
+      - run: npm ci
       - run: node --test tests/js/*.test.js
 
   lint:

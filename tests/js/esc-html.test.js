@@ -1,5 +1,5 @@
 /**
- * Tests de l'échappement HTML (assets/js/geofolio.js).
+ * Tests de l'échappement HTML (assets/js/src/escape.mjs).
  *
  * escHtml() sert aussi dans les attributs entre guillemets : les deux types
  * de guillemets doivent être échappés, sans quoi un texte alternatif piégé
@@ -10,18 +10,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadEscapers() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    /* HTML-escape');
-    const end   = source.indexOf('    /* N\'accepte qu\'une URL', start);
-
-    assert.ok(start !== -1 && end > start, 'escHtml / escAttr introuvables dans geofolio.js');
-
-    return new Function(source.slice(start, end) + '; return { escHtml, escAttr };')();
+    return load('escape');
 }
 
 test('le guillemet double est échappé', () => {

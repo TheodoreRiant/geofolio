@@ -9,29 +9,12 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
-
-const SOURCE = fs.readFileSync(
-    path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-
-function slice(from, to) {
-    const start = SOURCE.indexOf(from);
-    const end   = SOURCE.indexOf(to, start);
-    assert.ok(start !== -1 && end > start, 'Bloc introuvable : ' + from);
-    return SOURCE.slice(start, end);
-}
-
-/* Échappement équivalent à escHtml (qui passe par jQuery dans la page). */
-const escHtml = (s) => String(s === undefined || s === null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const { load } = require('./modules.js');
 
 function loadHelpers() {
-    const fold      = slice('    function foldChar', '    /* Wrap the first');
-    const highlight = slice('    /* Wrap the first', '    /* Libelle de la ligne');
-    const filters   = slice('    function matchesSearch', '    function matchesType');
-    return new Function('escHtml', fold + highlight + filters
-        + '; return { foldText, highlightMatch, matchesSearch };')(escHtml);
+    const { foldText, highlightMatch } = load('text');
+    const { matchesSearch } = load('filters');
+    return { foldText, highlightMatch, matchesSearch };
 }
 
 test('le repli retire accents, casse et apostrophes typographiques', () => {

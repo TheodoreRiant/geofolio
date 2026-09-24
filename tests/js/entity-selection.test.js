@@ -10,18 +10,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadToggle() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    function toggleEntitySelection');
-    const end   = source.indexOf('    /* ====', start);
-
-    assert.ok(start !== -1 && end > start, 'toggleEntitySelection introuvable dans geofolio.js');
-
-    return new Function(source.slice(start, end) + '; return toggleEntitySelection;')();
+    return load('filters').toggleEntitySelection;
 }
 
 test('le premier clic isole l\'entité cliquée', () => {
