@@ -135,6 +135,7 @@ class PlaceEditScreen {
      * @param \WP_Post $post
      */
     public static function render_description($post) {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML construit par description_field(), qui échappe chaque valeur (esc_attr__, esc_textarea, esc_html__).
         echo self::description_field((string) $post->post_content);
     }
 
