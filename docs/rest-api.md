@@ -21,6 +21,7 @@ Response:
       "id": 42, "title": "…", "excerpt": "…", "description": "…", "url": "…", "thumbnail": "…",
       "lat": 45.76, "lng": 4.83, "address": "…", "postal_code": "…", "city": "…",
       "phone": "…", "email": "…", "manager": "…", "website": "…", "opening_hours": "…",
+      "people": [{ "role": "Director", "name": "Marie Beton" }],
       "gallery_count": 2, "types": ["…"], "services": ["…"], "accessibility": ["…"], "regions": ["…"],
       "entity": { "id": 4, "name": "…", "slug": "…", "color": "#1F4E79" },
       "distance": null
@@ -39,3 +40,5 @@ The full place: same fields as above (terms as objects), plus `content` (rendere
 ## `GET /wp-json/geofolio/v1/filters`
 
 `types` (with `label`, `icon`, `path`), `regions`, `services`, `accessibility` (non-empty terms), `entities` (all, with `color` and `count`) and `default_color`.
+
+`people` lists the place's people in display order, each with a `role` and a `name`. `manager` keeps the names only, separated by commas, for consumers written before `people` existed.
