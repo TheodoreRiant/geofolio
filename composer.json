@@ -6,9 +6,24 @@
     "require": {
         "php": ">=7.4"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "wp-coding-standards/wpcs": "^3.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "Geofolio\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "phpunit --no-configuration --bootstrap tests/bootstrap.php tests",
+        "lint": "phpcs --standard=WordPress --extensions=php --report=summary geofolio.php src views"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
     }
 }

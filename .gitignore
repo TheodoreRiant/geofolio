@@ -1,6 +1,8 @@
 .DS_Store
 *.log
 node_modules/
+vendor/
+composer.lock
 .claude/
 mockup-*.html
 

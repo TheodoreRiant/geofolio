@@ -372,15 +372,11 @@
     /*  SVG ICON CONSTANTS                                               */
     /* ================================================================ */
 
-    const SVG_SEARCH = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>';
-
     const SVG_PHONE = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.14 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.05 1.11L6.1 1a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 8.9a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0121 16.18z"/></svg>';
 
     const SVG_PHONE_14 = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.14 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.05 1.11L6.1 1a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 8.9a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0121 16.18z"/></svg>';
 
     const SVG_LOCATION = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-
-    const SVG_ARROW_RIGHT = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
     const SVG_NO_RESULTS = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>';
 
@@ -540,7 +536,9 @@
                     try {
                         gm.resize();
                         if (typeof gm.triggerRepaint === 'function') { gm.triggerRepaint(); }
-                    } catch (e) {}
+                    } catch (e) { // eslint-disable-line no-unused-vars
+                        // Carte MapLibre déjà retirée (widget détruit) : rien à redessiner.
+                    }
                     if (gm.isStyleLoaded && gm.isStyleLoaded()) { afterStyle++; }
                 }
                 if (afterStyle >= 6 || ticks >= 50) { clearInterval(iv); }
@@ -1746,7 +1744,7 @@
                     self.renderAll();
                     $btn.removeClass('loading');
                 },
-                function(error) {
+                function() {
                     var errorMsg = t('geolocError');
                     self.showToast(errorMsg);
                     $btn.removeClass('loading');

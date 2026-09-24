@@ -2,11 +2,14 @@
 
 ## Setup
 
-No build step for now: PHP and JavaScript are served as they are. A bundler (esbuild or `@wordpress/scripts`) is planned.
+The plugin runs without any build: PHP and JavaScript are served as they are. Node and Composer are only development tools.
 
 ```bash
 git clone <repository>
 cd geofolio
+npm ci                  # esbuild, ESLint, Stylelint
+composer install        # optional: PHPUnit 9.6 and PHPCS with the WordPress standard
+# or, without Composer:
 curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit-11.phar   # ignored by git
 ```
 
@@ -17,8 +20,10 @@ To try it in a real WordPress: `docker compose up -d`, then http://localhost:808
 Run both suites before every commit:
 
 ```bash
-php phpunit.phar                 # PHPUnit, in-memory WordPress stubs (tests/stubs/)
-node --test tests/js/*.test.js   # pure functions extracted from assets/js/geofolio.js
+php phpunit.phar                 # PHPUnit, in-memory WordPress stubs (tests/stubs/) — or: composer test
+node --test tests/js/*.test.js   # pure functions extracted from assets/js/geofolio.js — or: npm test
+npm run lint                     # ESLint (blocking in CI) and Stylelint
+composer lint                    # PHPCS, WordPress standard (warnings only in CI)
 ```
 
 - Write the test first (it must fail), then the code.
