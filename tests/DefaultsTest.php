@@ -17,7 +17,7 @@ final class DefaultsTest extends TestCase {
         $expected = array(
             'height', 'center_lat', 'center_lng', 'zoom', 'show_search', 'show_filter',
             'show_filters', 'show_list', 'show_fullscreen', 'sidebar_position',
-            'sidebar_title', 'sidebar_subtitle', 'tile_style',
+            'sidebar_title', 'sidebar_subtitle', 'tile_style', 'fit_bounds',
         );
         $this->assertSame($expected, array_keys(Defaults::all()));
     }

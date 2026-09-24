@@ -5,6 +5,10 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Added
+- Elementor widget: "Fit the view to the places" switch (shortcode attribute `fit_bounds`). Off, the map keeps the configured centre and zoom instead of zooming to the places after every filter.
+- Elementor widget: style sections for the sidebar title and subtitle (typography, colour) and for the entity pills (typography, border radius through `--gfo-pill-radius`, show or hide the help sentence).
+- Elementor widget declares its stylesheets and scripts (`get_style_depends()` / `get_script_depends()`), so they load in the editor and in global templates.
+- `height="container"`: no inline height, the map fills `.gfo-map-container`, whose height the site (or Elementor) sets.
 - `uninstall.php`: removes options, transients and migration snapshots; places and taxonomies are deleted only when `GEOFOLIO_UNINSTALL_DATA` is true.
 - readme: "External services", "Privacy" and "Source code and development" sections (map tile providers, geocoder, no CDN, no tracking).
 - `tests/PluginCheckTest.php`: guards against unescaped output, direct file operations, form data read before nonce verification, undocumented external services.
@@ -14,6 +18,9 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 - CSV files are read with `SplFileObject`; temporary files are removed with `wp_delete_file()`.
 - Entity colour saved only with a nonce and the `manage_categories` capability.
 - Admin notices are dismissible.
+
+### Changed
+- Elementor widget: the map height is a responsive control on the container only. Tablet and mobile default to 600px and 85vh, as in the stylesheet; a desktop value no longer overrides them.
 
 ### Fixed
 - The map now tells the visitor when the places cannot be loaded, instead of silently showing an empty list.

@@ -73,6 +73,7 @@ class Defaults {
             'sidebar_title'    => __('Our locations', 'geofolio'),
             'sidebar_subtitle' => '',
             'tile_style'       => '',
+            'fit_bounds'       => 'true',
         );
     }
 }

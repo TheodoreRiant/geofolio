@@ -128,6 +128,12 @@
     width: 100%;
 }
 
+/* Hauteur fixée par le conteneur (height="container", widget Elementor
+   responsive) : aucun style en ligne, le wrapper remplit le conteneur. */
+.gfo-map-container--sized .gfo-map-wrapper {
+    height: 100%;
+}
+
 .gfo-map-container *,
 .gfo-map-container *::before,
 .gfo-map-container *::after {
@@ -711,7 +717,8 @@ body.gfo-body-fullscreen {
     gap: 5px;
     padding: 6px 14px;
     border: 2px solid var(--pill-color) !important;
-    border-radius: 20px !important;
+    /* !important contre les thèmes : la valeur réglable passe par la variable. */
+    border-radius: var(--gfo-pill-radius, 20px) !important;
     background: var(--pill-color) !important;
     color: #fff !important;
     font-family: var(--gfo-font);

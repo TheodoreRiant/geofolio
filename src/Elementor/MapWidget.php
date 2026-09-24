@@ -14,6 +14,7 @@ namespace Geofolio\Elementor;
 use Geofolio\Domain\Schema;
 
 use Geofolio\Map\Defaults;
+use Geofolio\Plugin;
 use Geofolio\Map\Renderer;
 use Geofolio\Map\TileProviders;
 
@@ -23,6 +24,8 @@ if (!defined('ABSPATH')) {
 
 class MapWidget extends \Elementor\Widget_Base {
 
+    use HeaderStyleControls;
+
     /** Widget identifier. */
     const NAME = 'geofolio_map';
 
@@ -31,6 +34,10 @@ class MapWidget extends \Elementor\Widget_Base {
         'center_lat', 'center_lng', 'show_search', 'show_filter', 'show_list', 'show_fullscreen',
         'sidebar_position', 'sidebar_title', 'sidebar_subtitle', 'tile_style',
     ];
+
+    /** Hauteurs par défaut par appareil, alignées sur le CSS (tablette 600px, mobile 85vh). */
+    const TABLET_HEIGHT = ['unit' => 'px', 'size' => 600];
+    const MOBILE_HEIGHT = ['unit' => 'vh', 'size' => 85];
 
     /**
      * Widget identifier used internally by Elementor.
@@ -67,6 +74,26 @@ class MapWidget extends \Elementor\Widget_Base {
      *
      * @return string[]
      */
+    /**
+     * Feuilles de style de la carte : Elementor les charge avec le widget,
+     * y compris dans l'éditeur et les modèles globaux.
+     *
+     * @return string[]
+     */
+    public function get_style_depends(): array {
+        return Plugin::MAP_STYLE_HANDLES;
+    }
+
+    /**
+     * Scripts de la carte (config JS comprise, via Plugin::enqueue_map_assets
+     * au rendu).
+     *
+     * @return string[]
+     */
+    public function get_script_depends(): array {
+        return Plugin::MAP_SCRIPT_HANDLES;
+    }
+
     public function get_keywords(): array {
         return ['map', 'carte', 'places', 'lieux', 'leaflet'];
     }
@@ -95,6 +122,8 @@ class MapWidget extends \Elementor\Widget_Base {
     private function register_style_controls(): void {
         $this->register_style_layout();
         $this->register_style_sidebar();
+        $this->register_style_sidebar_heading();
+        $this->register_style_entity_pills();
         $this->register_style_search_bar();
         $this->register_style_filter_dropdown();
         $this->register_style_establishment_cards();
@@ -126,21 +155,25 @@ class MapWidget extends \Elementor\Widget_Base {
             ]
         );
 
-        $this->add_control(
+        // Responsive, sur le seul conteneur : le wrapper le remplit
+        // (height="container"). Les défauts tablette et mobile reprennent
+        // ceux du CSS, qu'une valeur ordinateur n'écrase plus.
+        $this->add_responsive_control(
             'map_height',
             [
-                'label'      => __('Map height', 'geofolio'),
-                'type'       => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', 'vh', '%'],
-                'range'      => [
+                'label'          => __('Map height', 'geofolio'),
+                'type'           => \Elementor\Controls_Manager::SLIDER,
+                'size_units'     => ['px', 'vh', '%'],
+                'range'          => [
                     'px' => ['min' => 200, 'max' => 1200, 'step' => 10],
                     'vh' => ['min' => 20, 'max' => 100, 'step' => 5],
                     '%'  => ['min' => 20, 'max' => 100, 'step' => 5],
                 ],
-                'default'    => self::slider_default($defaults['height']),
-                'selectors'  => [
+                'default'        => self::slider_default($defaults['height']),
+                'tablet_default' => self::TABLET_HEIGHT,
+                'mobile_default' => self::MOBILE_HEIGHT,
+                'selectors'      => [
                     '{{WRAPPER}} .gfo-map-container' => 'height: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .gfo-map-wrapper' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -169,7 +202,7 @@ class MapWidget extends \Elementor\Widget_Base {
                 'type'        => \Elementor\Controls_Manager::NUMBER,
                 'default'     => (float) $defaults['center_lat'],
                 'step'        => 0.0001,
-                'description' => __('Used when the map contains no place.', 'geofolio'),
+                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'geofolio'),
             ]
         );
 
@@ -180,7 +213,7 @@ class MapWidget extends \Elementor\Widget_Base {
                 'type'        => \Elementor\Controls_Manager::NUMBER,
                 'default'     => (float) $defaults['center_lng'],
                 'step'        => 0.0001,
-                'description' => __('Used when the map contains no place.', 'geofolio'),
+                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'geofolio'),
             ]
         );
 
@@ -193,6 +226,19 @@ class MapWidget extends \Elementor\Widget_Base {
                     'px' => ['min' => 1, 'max' => 18, 'step' => 1],
                 ],
                 'default' => ['size' => (int) $defaults['zoom']],
+            ]
+        );
+
+        $this->add_control(
+            'fit_bounds',
+            [
+                'label'        => __('Fit the view to the places', 'geofolio'),
+                'type'         => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'     => __('Yes', 'geofolio'),
+                'label_off'    => __('No', 'geofolio'),
+                'return_value' => 'true',
+                'default'      => self::switcher_default($defaults['fit_bounds']),
+                'description'  => __('On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above.', 'geofolio'),
             ]
         );
 
@@ -1182,8 +1228,10 @@ class MapWidget extends \Elementor\Widget_Base {
     public static function settings_to_atts(array $settings): array {
         $atts = Defaults::all();
 
-        if (isset($settings['map_height']['size']) && $settings['map_height']['size'] !== '') {
-            $atts['height'] = $settings['map_height']['size'] . ($settings['map_height']['unit'] ?? 'px');
+        // La hauteur est écrite par Elementor sur le conteneur, par appareil.
+        $atts['height'] = Renderer::HEIGHT_FROM_CONTAINER;
+        if (array_key_exists('fit_bounds', $settings)) {
+            $atts['fit_bounds'] = $settings['fit_bounds'] === 'true' ? 'true' : 'false';
         }
         if (isset($settings['zoom']['size']) && $settings['zoom']['size'] !== '') {
             $atts['zoom'] = (string) $settings['zoom']['size'];
