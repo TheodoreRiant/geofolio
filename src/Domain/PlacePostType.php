@@ -13,6 +13,13 @@ if (!defined('ABSPATH')) {
 
 class PlacePostType {
 
+    /**
+     * Icône du menu d'administration : la carte pliée et l'épingle de Geofolio
+     * (brand/icon-mono.svg), en SVG encodé ; WordPress la colore selon le
+     * thème d'administration.
+     */
+    const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJHZW9mb2xpbyI+PHBhdGggZmlsbD0iYmxhY2siIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEuNSA1LjIgNiAzLjZsNCAxLjYgNC0xLjYgNC41IDEuNnYxMC42TDE0IDE3LjRsLTQtMS42LTQgMS42LTQuNS0xLjZWNS4yWm0xLjYgMS4xdjguMmwyLjEuOFY3LjFsLTIuMS0uOFptMTIuNy44djguMmwyLjEtLjhWNi4zbC0yLjEuOFoiLz48cGF0aCBmaWxsPSJibGFjayIgZD0iTTEwIDIuMmMtMi40IDAtNC4zIDEuOS00LjMgNC4zIDAgMy4zIDQuMyA3LjIgNC4zIDcuMnM0LjMtMy45IDQuMy03LjJjMC0yLjQtMS45LTQuMy00LjMtNC4zWm0wIDZhMS43IDEuNyAwIDEgMSAwLTMuNCAxLjcgMS43IDAgMCAxIDAgMy40WiIvPjwvc3ZnPg==';
+
     private static $instance = null;
 
     public static function get_instance() {
@@ -98,7 +105,7 @@ class PlacePostType {
             'has_archive'        => true,
             'hierarchical'       => false,
             'menu_position'      => 20,
-            'menu_icon'          => 'dashicons-location',
+            'menu_icon'          => self::MENU_ICON,
             // Pas d'éditeur d'article : un lieu se renseigne dans un formulaire
             // (voir Admin\PlaceEditScreen). Un site qui veut une vraie page
             // rédigée par lieu peut réactiver « editor » par ce filtre.
