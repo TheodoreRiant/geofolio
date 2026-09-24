@@ -1423,3 +1423,65 @@ msgstr ""
 #: src/Admin/SettingsPage.php
 msgid "Used by maps that do not set their own value (block, shortcode or Elementor widget)."
 msgstr ""
+
+#. translators: 1: old post type, 2: Geofolio post type
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Posts of type %1$s become %2$s, with their meta, terms and photos."
+msgstr ""
+
+#. translators: 1: old taxonomy, 2: Geofolio taxonomy
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Taxonomy %1$s becomes %2$s."
+msgstr ""
+
+#. translators: %d: number of type names in the icon catalogue
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Types without an icon get one from a catalogue of %d names; unmatched types are listed in the report."
+msgstr ""
+
+#. translators: %s: old Elementor widget names
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Elementor widgets %s are renamed on every page, revisions included."
+msgstr ""
+
+#. translators: %s: old shortcode names
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Shortcodes %s are replaced by [geofolio]."
+msgstr ""
+
+#. translators: %s: URL slug
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "Place URLs keep the slug %s."
+msgstr ""
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Names, colours and font are set only where you have not set them yet."
+msgstr ""
+
+#. translators: %s: plugin file
+#: src/Migration/Legacy/ImportScreen.php
+#, php-format
+msgid "The old plugin %s is deactivated at the end."
+msgstr ""
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Geofolio: import the data of your previous map plugin"
+msgstr ""
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "A snapshot of the data is taken first. The import will:"
+msgstr ""
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Role given to the people of the former manager field:"
+msgstr ""
+
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Run the import"
+msgstr ""

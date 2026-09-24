@@ -31,6 +31,27 @@ final class FakeMigrationStep implements Step {
     }
 }
 
+final class FakeConfirmedStep implements Step, \Geofolio\Migration\ConfirmedStep {
+    private $id;
+
+    public function __construct($id) {
+        $this->id = $id;
+    }
+
+    public function id() {
+        return $this->id;
+    }
+
+    public function run() {
+        FakeMigrationStep::$calls[] = $this->id;
+        return array('done' => $this->id);
+    }
+
+    public function requires_confirmation() {
+        return true;
+    }
+}
+
 final class MigrationRunnerTest extends TestCase {
 
     protected function setUp(): void {
@@ -121,5 +142,24 @@ final class MigrationRunnerTest extends TestCase {
 
         $this->assertSame(array('error' => 'permission denied'), self::runner()->run());
         $this->assertSame(array(), FakeMigrationStep::$calls);
+    }
+
+    /** Une étape à confirmer (import d'un ancien plugin) bloque l'exécution automatique de toutes. */
+    public function test_une_etape_a_confirmer_suspend_l_execution_automatique() {
+        self::register(array(new FakeConfirmedStep('import'), new FakeMigrationStep('b')));
+
+        self::runner()->maybe_run_auto();
+
+        $this->assertSame(array(), FakeMigrationStep::$calls);
+        $this->assertTrue(self::runner()->awaits_confirmation());
+    }
+
+    public function test_une_fois_confirmee_l_etape_tourne_avec_les_autres() {
+        self::register(array(new FakeConfirmedStep('import'), new FakeMigrationStep('b')));
+
+        self::runner()->run(true);
+
+        $this->assertSame(array('import', 'b'), FakeMigrationStep::$calls);
+        $this->assertFalse(self::runner()->awaits_confirmation());
     }
 }

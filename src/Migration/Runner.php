@@ -93,7 +93,9 @@ class Runner {
      * l'administration. Le verrou transitoire évite une double exécution.
      */
     public function maybe_run_auto() {
-        if (!current_user_can('manage_options') || !$this->pending() || get_transient(self::LOCK)) {
+        // Une étape à confirmer suspend tout : les suivantes supposent
+        // souvent ses données, et tourner avant les marquerait faites à vide.
+        if (!current_user_can('manage_options') || !$this->pending() || $this->awaits_confirmation() || get_transient(self::LOCK)) {
             return;
         }
         set_transient(self::LOCK, 1, self::LOCK_TTL);
@@ -102,6 +104,20 @@ class Runner {
         } finally {
             delete_transient(self::LOCK);
         }
+    }
+
+    /**
+     * Une étape en attente demande-t-elle une confirmation ?
+     *
+     * @return bool
+     */
+    public function awaits_confirmation() {
+        foreach ($this->pending() as $step) {
+            if ($step instanceof ConfirmedStep && $step->requires_confirmation()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

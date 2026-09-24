@@ -20,6 +20,8 @@ use Geofolio\Elementor\Integration;
 use Geofolio\Import\Importer;
 use Geofolio\Map\Defaults;
 use Geofolio\Map\Shortcode;
+use Geofolio\Migration\Legacy\ImportScreen;
+use Geofolio\Migration\Legacy\ImportStep;
 use Geofolio\Migration\Runner;
 use Geofolio\Rest\ResponseCache;
 use Geofolio\Rest\PlacesController;
@@ -79,6 +81,11 @@ final class Plugin {
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
+        // Import depuis un ancien plugin de carte décrit par un compagnon.
+        add_filter('geofolio_migration_steps', array(ImportStep::class, 'register'), 1);
+        if (is_admin()) {
+            ImportScreen::register();
+        }
         add_action('geofolio_assets_enqueued', array(AppearanceSettings::class, 'add_inline_style'));
         add_action('update_option_' . LabelsSettings::OPTION_NAME, array(LabelsSettings::class, 'on_update'), 10, 2);
         add_action('add_option_' . LabelsSettings::OPTION_NAME, static function ($option, $value) {
