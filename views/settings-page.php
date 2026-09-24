@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
                     <select id="geofolio_tile_style"
                             name="<?php echo esc_attr($view['option_name']); ?>[tile_style]">
                         <option value=""<?php selected($view['settings']['tile_style'], ''); ?>>
-                            <?php esc_html_e('— Let each page decide (Elementor / shortcode setting) —', 'geofolio'); ?>
+                            <?php esc_html_e('— Let each map decide (block, Elementor or shortcode setting) —', 'geofolio'); ?>
                         </option>
                         <?php foreach ($view['providers'] as $id => $provider) : ?>
                             <option value="<?php echo esc_attr($id); ?>"<?php selected($view['settings']['tile_style'], $id); ?>>
@@ -39,7 +39,7 @@ if (!defined('ABSPATH')) {
                         <?php endforeach; ?>
                     </select>
                     <p class="description">
-                        <?php esc_html_e('Each Elementor page stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page.', 'geofolio'); ?>
+                        <?php esc_html_e('Each map (block, Elementor widget or shortcode) stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page.', 'geofolio'); ?>
                     </p>
                 </td>
             </tr>
@@ -76,7 +76,7 @@ if (!defined('ABSPATH')) {
                             printf(
                                 /* translators: %s: nom de la constante PHP */
                                 esc_html__('To avoid storing the key in the database, you can also define it in wp-config.php: %s', 'geofolio'),
-                                '<code>define(\'' . esc_html($view['key_constant']) . '\', \'votre-cle\');</code>'
+                                '<code>define(\'' . esc_html($view['key_constant']) . '\', \'your-key\');</code>'
                             );
                             ?>
                         </p>

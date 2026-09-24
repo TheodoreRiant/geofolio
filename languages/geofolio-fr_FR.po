@@ -229,12 +229,12 @@ msgid "Basemap applied to the site"
 msgstr "Fond appliqué au site"
 
 #: src/Admin/SettingsPage.php:431
-msgid "— Let each page decide (Elementor / shortcode setting) —"
-msgstr "— Laisser chaque page décider (réglage Elementor / shortcode) —"
+msgid "— Let each map decide (block, Elementor or shortcode setting) —"
+msgstr "— Laisser chaque carte décider (réglage du bloc, d’Elementor ou du shortcode) —"
 
 #: src/Admin/SettingsPage.php:440
-msgid "Each Elementor page stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page."
-msgstr "Chaque page Elementor enregistre son propre fond de carte. Choisir une valeur ici l'impose à toutes les cartes du site, sans avoir à rouvrir chaque page."
+msgid "Each map (block, Elementor widget or shortcode) stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page."
+msgstr "Chaque carte (bloc, widget Elementor ou shortcode) enregistre son propre fond de carte. Choisir une valeur ici l’impose à toutes les cartes du site, sans avoir à rouvrir chaque page."
 
 #: src/Admin/SettingsPage.php:447
 msgid "Provider API key"
