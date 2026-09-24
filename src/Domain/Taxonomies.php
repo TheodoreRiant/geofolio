@@ -7,6 +7,8 @@ namespace Geofolio\Domain;
 
 use Geofolio\Map\Defaults;
 
+use Geofolio\Admin\LabelsSettings;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -77,7 +79,7 @@ class Taxonomies {
 
         // Entité (branche organisationnelle avec couleur)
         register_taxonomy(Schema::TAX_ENTITY, Schema::POST_TYPE, array(
-            'labels' => array(
+            'labels' => LabelsSettings::entity_labels(array(
                 'name'              => __('Entities', 'geofolio'),
                 'singular_name'     => __('Entity', 'geofolio'),
                 'search_items'      => __('Search entities', 'geofolio'),
@@ -87,7 +89,7 @@ class Taxonomies {
                 'add_new_item'      => __('Add an entity', 'geofolio'),
                 'new_item_name'     => __('New entity name', 'geofolio'),
                 'menu_name'         => __('Entities', 'geofolio'),
-            ),
+            )),
             'hierarchical'      => true,
             'show_ui'           => true,
             'show_in_rest'      => true,

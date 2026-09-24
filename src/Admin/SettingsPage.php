@@ -17,6 +17,7 @@ namespace Geofolio\Admin;
 use Geofolio\Domain\Schema;
 use Geofolio\Map\TileProviders;
 
+use Geofolio\Map\Defaults;
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -28,8 +29,20 @@ final class SettingsPage {
     const PAGE_SLUG    = 'geofolio-settings';
     const KEY_CONSTANT = 'GEOFOLIO_TILE_API_KEY';
 
-    /** Gabarit de la page de réglages. */
+    /** Gabarit de la page de réglages (onglet Carte). */
     const VIEW = __DIR__ . '/../../views/settings-page.php';
+
+    /** Onglets de la page. */
+    const TAB_MAP        = 'map';
+    const TAB_APPEARANCE = 'appearance';
+    const TAB_LABELS     = 'labels';
+
+    /** Gabarit de chaque onglet. */
+    const VIEWS = array(
+        self::TAB_MAP        => self::VIEW,
+        self::TAB_APPEARANCE => __DIR__ . '/../../views/settings-appearance.php',
+        self::TAB_LABELS     => __DIR__ . '/../../views/settings-labels.php',
+    );
 
     private static $instance = null;
 
@@ -211,6 +224,85 @@ final class SettingsPage {
                 'default'           => self::defaults(),
             )
         );
+        register_setting(
+            AppearanceSettings::OPTION_GROUP,
+            AppearanceSettings::OPTION_NAME,
+            array(
+                'type'              => 'array',
+                'sanitize_callback' => array(__CLASS__, 'sanitize_appearance'),
+                'default'           => AppearanceSettings::defaults(),
+            )
+        );
+        register_setting(
+            LabelsSettings::OPTION_GROUP,
+            LabelsSettings::OPTION_NAME,
+            array(
+                'type'              => 'array',
+                'sanitize_callback' => array(__CLASS__, 'sanitize_labels'),
+                'default'           => LabelsSettings::defaults(),
+            )
+        );
+    }
+
+    /**
+     * Onglet « Apparence » : nettoyage et confirmation.
+     *
+     * @param mixed $input
+     * @return array
+     */
+    public static function sanitize_appearance($input) {
+        self::confirm_saved(AppearanceSettings::OPTION_NAME);
+        return AppearanceSettings::sanitize($input);
+    }
+
+    /**
+     * Onglet « Libellés et défauts » : nettoyage et confirmation.
+     *
+     * @param mixed $input
+     * @return array
+     */
+    public static function sanitize_labels($input) {
+        self::confirm_saved(LabelsSettings::OPTION_NAME);
+        return LabelsSettings::sanitize($input);
+    }
+
+    /**
+     * Message « Réglages enregistrés », une seule fois par option : WordPress
+     * appelle le nettoyage deux fois quand l'option n'existe pas encore.
+     *
+     * @param string $option
+     */
+    private static function confirm_saved($option) {
+        static $done = array();
+        if (!empty($done[$option])) {
+            return;
+        }
+        $done[$option] = true;
+        add_settings_error($option, 'geofolio_saved', __('Settings saved.', 'geofolio'), 'success');
+    }
+
+    /**
+     * Onglets de la page : identifiant => libellé.
+     *
+     * @return array<string, string>
+     */
+    public static function tabs() {
+        return array(
+            self::TAB_MAP        => __('Map', 'geofolio'),
+            self::TAB_APPEARANCE => __('Appearance', 'geofolio'),
+            self::TAB_LABELS     => __('Labels and defaults', 'geofolio'),
+        );
+    }
+
+    /**
+     * Onglet demandé dans l'URL (navigation seule, aucune action : pas de nonce).
+     *
+     * @return string
+     */
+    public static function current_tab() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- simple choix d'onglet à l'affichage, aucune donnée enregistrée.
+        $tab = isset($_GET['tab']) ? sanitize_key(wp_unslash($_GET['tab'])) : self::TAB_MAP;
+        return array_key_exists($tab, self::tabs()) ? $tab : self::TAB_MAP;
     }
 
     /**
@@ -407,8 +499,29 @@ final class SettingsPage {
             wp_die(esc_html__('You do not have the required permissions.', 'geofolio'));
         }
 
-        $view = self::view_data();
-        include self::VIEW;
+        $tab  = self::current_tab();
+        $view = array_merge(self::view_data(), array(
+            'tab'      => $tab,
+            'tabs'     => self::tabs(),
+            'page_url' => admin_url(Schema::ADMIN_PARENT . '&page=' . self::PAGE_SLUG),
+        ));
+        if ($tab === self::TAB_APPEARANCE) {
+            $view['appearance'] = AppearanceSettings::get_all();
+            $view['defaults']   = array('primary_color' => Defaults::COLOR);
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('wp-color-picker');
+            wp_add_inline_script('wp-color-picker', 'jQuery(function($){$(".gfo-color-field").wpColorPicker();});');
+        } elseif ($tab === self::TAB_LABELS) {
+            $view['labels']   = LabelsSettings::get_all();
+            $view['defaults'] = array(
+                'place_slug'    => Schema::PLACE_SLUG,
+                'sidebar_title' => __('Our locations', 'geofolio'),
+                'center_lat'    => Defaults::CENTER_LAT,
+                'center_lng'    => Defaults::CENTER_LNG,
+                'zoom'          => Defaults::ZOOM,
+            );
+        }
+        include self::VIEWS[$tab];
     }
 
     /**

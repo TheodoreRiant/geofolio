@@ -2,6 +2,15 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Settings tabs "Appearance" and "Labels and defaults"** (Places → Map settings), each saved in its own option:
+  - Appearance: main and accent colours (darker and lighter shades derived with `color-mix`), font (bundled Poppins by default, or the theme's font), corner radius. They become `--gfo-*` variables on `.gfo-map-container`, added after the map stylesheet; an Elementor widget's own style settings still win on its page. The main colour is also the fallback marker colour.
+  - Labels and defaults: singular and plural names of places and entities in the admin, URL slug of places (rewrite rules regenerated when it changes), default sidebar title and subtitle, centre, zoom and "fit the view" for maps that do not set them.
+  - Priority: filter > setting > plugin default, so `geofolio_defaults`, `geofolio_default_color`, `geofolio_place_labels` and `geofolio_place_slug` keep working.
+- The REST cache is refreshed when these settings change (fallback colour, place URLs).
+
 ## [1.3.0] — 2026-09-24
 
 ### Added

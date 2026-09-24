@@ -14,6 +14,8 @@
 
 namespace Geofolio\Rest;
 
+use Geofolio\Admin\AppearanceSettings;
+use Geofolio\Admin\LabelsSettings;
 use Geofolio\Admin\SettingsPage;
 use Geofolio\Domain\Schema;
 
@@ -105,6 +107,12 @@ class ResponseCache {
         add_action('deleted_post', array(__CLASS__, 'on_post_change'));
         add_action('set_object_terms', array(__CLASS__, 'on_post_change'));
         add_action('update_option_' . SettingsPage::OPTION_NAME, $flush);
+        // Couleur de repli (route filters) et URL des lieux (slug) suivent les
+        // réglages ; le premier enregistrement passe par add_option.
+        foreach (array(AppearanceSettings::OPTION_NAME, LabelsSettings::OPTION_NAME) as $option) {
+            add_action('update_option_' . $option, $flush);
+            add_action('add_option_' . $option, $flush);
+        }
 
         foreach (array('added_post_meta', 'updated_post_meta', 'deleted_post_meta') as $hook) {
             add_action($hook, array(__CLASS__, 'on_post_meta_change'), 10, 3);

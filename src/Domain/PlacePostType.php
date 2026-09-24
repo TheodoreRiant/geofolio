@@ -5,6 +5,8 @@
 
 namespace Geofolio\Domain;
 
+use Geofolio\Admin\LabelsSettings;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -73,6 +75,7 @@ class PlacePostType {
             'remove_featured_image' => __('Remove image', 'geofolio'),
             'use_featured_image'    => __('Use as image', 'geofolio'),
         );
+        $labels   = LabelsSettings::place_labels($labels);
         $filtered = apply_filters('geofolio_place_labels', $labels);
         return is_array($filtered) ? array_merge($labels, $filtered) : $labels;
     }

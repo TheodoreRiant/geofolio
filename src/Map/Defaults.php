@@ -8,6 +8,9 @@
 
 namespace Geofolio\Map;
 
+use Geofolio\Admin\AppearanceSettings;
+use Geofolio\Admin\LabelsSettings;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -35,7 +38,8 @@ class Defaults {
      * @return array<string, string>
      */
     public static function all() {
-        $defaults = self::base();
+        // Priorité : filtre > réglage « Libellés et défauts » > code.
+        $defaults = array_merge(self::base(), LabelsSettings::map_defaults());
         $filtered = apply_filters('geofolio_defaults', $defaults);
 
         return is_array($filtered)
@@ -49,7 +53,8 @@ class Defaults {
      * @return string
      */
     public static function color() {
-        $color = apply_filters('geofolio_default_color', self::COLOR);
+        $setting = AppearanceSettings::get_all()['primary_color'];
+        $color   = apply_filters('geofolio_default_color', $setting !== '' ? $setting : self::COLOR);
         return is_string($color) && preg_match(self::COLOR_PATTERN, $color) ? $color : self::COLOR;
     }
 
