@@ -4,7 +4,7 @@ Tags: map, leaflet, locations, directory, elementor
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,12 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 
 == Changelog ==
 
+= 1.2.0 =
+* Fix: the settings and CSV import pages were unreachable (403) and missing from the Places menu.
+* Elementor widget: responsive map height (tablet and mobile keep their own heights), "Fit the view to the places" switch, styles for the sidebar title and subtitle and for the entity pills.
+* The map shows a message when the places cannot be loaded; the results counter is announced to screen readers.
+* Faster map loading: the place list and filters are cached, and refreshed as soon as a place, a term or a setting changes.
+
 = 1.1.0 =
 * Complete sample dataset: 16 places with photos, contacts, managers, opening hours, entity colours and type icons.
 * CSV import: type icon, entity colour, audience, region, accessibility and photo columns; several values per cell.
@@ -83,3 +89,8 @@ Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocode
 
 = 1.0.0 =
 * First public release, derived from a map plugin built for a single client: generic post type and taxonomies, English source strings with a French translation, data-driven type icons, generic CSV import, extension filters, PSR-4 code base.
+
+== Upgrade Notice ==
+
+= 1.2.0 =
+Fixes the unreachable settings and import pages. Elementor widget: tablet and mobile now keep their own map height (600px and 85vh by default) instead of the desktop height; set them in the widget if needed.
