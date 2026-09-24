@@ -94,6 +94,7 @@ class Snapshot {
     public static function list_all() {
         global $wpdb;
         $like = $wpdb->esc_like(self::OPTION_PREFIX) . '%';
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- liste des snapshots par préfixe d'option, requête préparée, page d'administration seulement.
         $rows = $wpdb->get_results($wpdb->prepare(
             "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE %s ORDER BY option_name DESC",
             $like

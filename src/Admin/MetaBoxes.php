@@ -96,41 +96,41 @@ class MetaBoxes {
         ?>
         <div class="gfo-meta-box">
             <p>
-                <label for="geofolio_address"><strong><?php _e('Address', 'geofolio'); ?></strong></label>
+                <label for="geofolio_address"><strong><?php esc_html_e('Address', 'geofolio'); ?></strong></label>
                 <input type="text" id="geofolio_address" name="geofolio_address" value="<?php echo esc_attr($adresse); ?>" class="widefat" />
             </p>
 
             <p class="gfo-row">
                 <span class="gfo-col">
-                    <label for="geofolio_postal_code"><strong><?php _e('Postal code', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_postal_code"><strong><?php esc_html_e('Postal code', 'geofolio'); ?></strong></label>
                     <input type="text" id="geofolio_postal_code" name="geofolio_postal_code" value="<?php echo esc_attr($code_postal); ?>" />
                 </span>
                 <span class="gfo-col">
-                    <label for="geofolio_city"><strong><?php _e('City', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_city"><strong><?php esc_html_e('City', 'geofolio'); ?></strong></label>
                     <input type="text" id="geofolio_city" name="geofolio_city" value="<?php echo esc_attr($ville); ?>" />
                 </span>
             </p>
 
             <p>
                 <button type="button" id="geofolio_geocode_btn" class="button">
-                    <?php _e('Geocode address', 'geofolio'); ?>
+                    <?php esc_html_e('Geocode address', 'geofolio'); ?>
                 </button>
                 <span id="geofolio_geocode_status"></span>
             </p>
 
             <p class="gfo-row">
                 <span class="gfo-col">
-                    <label for="geofolio_latitude"><strong><?php _e('Latitude', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_latitude"><strong><?php esc_html_e('Latitude', 'geofolio'); ?></strong></label>
                     <input type="text" id="geofolio_latitude" name="geofolio_latitude" value="<?php echo esc_attr($latitude); ?>" />
                 </span>
                 <span class="gfo-col">
-                    <label for="geofolio_longitude"><strong><?php _e('Longitude', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_longitude"><strong><?php esc_html_e('Longitude', 'geofolio'); ?></strong></label>
                     <input type="text" id="geofolio_longitude" name="geofolio_longitude" value="<?php echo esc_attr($longitude); ?>" />
                 </span>
             </p>
 
             <div id="geofolio_admin_map" style="height: 300px; margin-top: 15px;"></div>
-            <p class="description"><?php _e('Click on the map to place the marker, or use the "Geocode" button to find the coordinates automatically.', 'geofolio'); ?></p>
+            <p class="description"><?php esc_html_e('Click on the map to place the marker, or use the "Geocode" button to find the coordinates automatically.', 'geofolio'); ?></p>
         </div>
         <?php
     }
@@ -147,22 +147,22 @@ class MetaBoxes {
         <div class="gfo-meta-box">
             <p class="gfo-row">
                 <span class="gfo-col">
-                    <label for="geofolio_phone"><strong><?php _e('Phone', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_phone"><strong><?php esc_html_e('Phone', 'geofolio'); ?></strong></label>
                     <input type="tel" id="geofolio_phone" name="geofolio_phone" value="<?php echo esc_attr($telephone); ?>" />
                 </span>
                 <span class="gfo-col">
-                    <label for="geofolio_email"><strong><?php _e('Email', 'geofolio'); ?></strong></label>
+                    <label for="geofolio_email"><strong><?php esc_html_e('Email', 'geofolio'); ?></strong></label>
                     <input type="email" id="geofolio_email" name="geofolio_email" value="<?php echo esc_attr($email); ?>" />
                 </span>
             </p>
 
             <p>
-                <label for="geofolio_website"><strong><?php _e('Website', 'geofolio'); ?></strong></label>
+                <label for="geofolio_website"><strong><?php esc_html_e('Website', 'geofolio'); ?></strong></label>
                 <input type="url" id="geofolio_website" name="geofolio_website" value="<?php echo esc_url($site_web); ?>" class="widefat" placeholder="https://" />
             </p>
 
             <p>
-                <label for="geofolio_opening_hours"><strong><?php _e('Opening hours', 'geofolio'); ?></strong></label>
+                <label for="geofolio_opening_hours"><strong><?php esc_html_e('Opening hours', 'geofolio'); ?></strong></label>
                 <textarea id="geofolio_opening_hours" name="geofolio_opening_hours" class="widefat" rows="4"><?php echo esc_textarea($horaires); ?></textarea>
             </p>
         </div>
@@ -177,7 +177,7 @@ class MetaBoxes {
         ?>
         <div class="gfo-meta-box">
             <p>
-                <label for="geofolio_manager"><strong><?php _e('Manager(s)', 'geofolio'); ?></strong></label>
+                <label for="geofolio_manager"><strong><?php esc_html_e('Manager(s)', 'geofolio'); ?></strong></label>
                 <input type="text"
                        id="geofolio_manager"
                        name="geofolio_manager"
@@ -224,7 +224,8 @@ class MetaBoxes {
      */
     public function save_meta_boxes($post_id, $post) {
         // Vérifications de sécurité
-        if (!isset($_POST['geofolio_meta_nonce']) || !wp_verify_nonce($_POST['geofolio_meta_nonce'], 'geofolio_save_meta')) {
+        if (!isset($_POST['geofolio_meta_nonce'])
+            || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['geofolio_meta_nonce'])), 'geofolio_save_meta')) {
             return;
         }
 
@@ -240,6 +241,7 @@ class MetaBoxes {
         foreach (FieldRegistry::fields() as $field) {
             $input = FieldRegistry::form_field($field);
             if (isset($_POST[$input])) {
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- FieldRegistry::sanitize() applique le nettoyage propre à chaque champ (texte, e-mail, URL, texte multiligne).
                 $value = FieldRegistry::sanitize($field, wp_unslash($_POST[$input]));
                 // update_post_meta() retire une couche de barres obliques.
                 update_post_meta($post_id, FieldRegistry::meta_key($field), wp_slash($value));

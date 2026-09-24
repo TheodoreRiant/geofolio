@@ -67,7 +67,7 @@ final class PlaceMapper {
             array(
                 'id'        => $post_id,
                 'title'     => self::plain_text(get_the_title($post)),
-                'content'   => apply_filters('the_content', $post->post_content),
+                'content'   => apply_filters('the_content', $post->post_content), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- filtre du cœur WordPress.
                 'excerpt'   => self::plain_text(get_the_excerpt($post)),
                 'url'       => get_permalink($post),
                 'thumbnail' => get_the_post_thumbnail_url($post_id, 'large') ?: '',

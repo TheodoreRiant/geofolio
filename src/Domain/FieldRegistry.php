@@ -47,7 +47,7 @@ final class FieldRegistry {
      */
     public static function meta_key($field) {
         if (!isset(self::FIELDS[$field])) {
-            throw new \InvalidArgumentException('Unknown place field: ' . $field);
+            throw new \InvalidArgumentException('Unknown place field: ' . esc_html((string) $field));
         }
         return self::FIELDS[$field][0];
     }

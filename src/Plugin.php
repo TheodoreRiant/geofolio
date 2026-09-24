@@ -149,6 +149,7 @@ final class Plugin {
      * Charger les traductions
      */
     public function load_textdomain() {
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- charge languages/ du plugin tant que le paquet de langue wordpress.org n'existe pas (installation depuis GitHub).
         load_plugin_textdomain(
             'geofolio',
             false,

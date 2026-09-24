@@ -24,8 +24,14 @@ class Importer {
     /** Seule extension acceptée pour le fichier téléversé. */
     const ALLOWED_EXTENSION = 'csv';
 
-    /** Caractère d'échappement de fgetcsv() : aucun, conforme à la RFC 4180. */
+    /** Caractère d'échappement CSV : aucun, conforme à la RFC 4180. */
     const CSV_ESCAPE = '';
+
+    /** Transient (suffixé par l'utilisateur) portant le résultat du dernier import. */
+    const RESULT_TRANSIENT = 'geofolio_import_result_';
+
+    /** Durée de vie du résultat d'import, en secondes. */
+    const RESULT_TTL = 60;
 
     /** Page d'import, cible des redirections. */
     const IMPORT_PAGE = 'edit.php?post_type=etablissement&page=geofolio-import';
@@ -89,32 +95,33 @@ class Importer {
     public function render_import_page() {
         ?>
         <div class="wrap">
-            <h1><?php _e('Import places', 'geofolio'); ?></h1>
+            <h1><?php esc_html_e('Import places', 'geofolio'); ?></h1>
 
-            <?php if (isset($_GET['imported'])) : ?>
-                <div class="notice notice-success">
-                    <p><?php printf(/* translators: %d: number of imported places */ __('%d place(s) imported successfully!', 'geofolio'), intval($_GET['imported'])); ?></p>
-                    <?php if (!empty($_GET['skipped'])) : ?>
-                        <p><?php printf(/* translators: %d: number of skipped lines */ __('%d malformed line(s) skipped: column count differs from the header.', 'geofolio'), intval($_GET['skipped'])); ?></p>
+            <?php $result = self::pull_result(); ?>
+            <?php if (isset($result['imported'])) : ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php printf(/* translators: %d: number of imported places */ esc_html__('%d place(s) imported successfully!', 'geofolio'), (int) $result['imported']); ?></p>
+                    <?php if (!empty($result['skipped'])) : ?>
+                        <p><?php printf(/* translators: %d: number of skipped lines */ esc_html__('%d malformed line(s) skipped: column count differs from the header.', 'geofolio'), (int) $result['skipped']); ?></p>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($_GET['error'])) : ?>
-                <div class="notice notice-error">
-                    <p><?php echo esc_html(wp_unslash($_GET['error'])); ?></p>
+            <?php if (!empty($result['error'])) : ?>
+                <div class="notice notice-error is-dismissible">
+                    <p><?php echo esc_html($result['error']); ?></p>
                 </div>
             <?php endif; ?>
 
             <div class="card" style="max-width: 600px; padding: 20px;">
-                <h2><?php _e('Import from a CSV file', 'geofolio'); ?></h2>
-                <p><?php _e('The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):', 'geofolio'); ?></p>
+                <h2><?php esc_html_e('Import from a CSV file', 'geofolio'); ?></h2>
+                <p><?php esc_html_e('The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):', 'geofolio'); ?></p>
                 <ul style="list-style: disc; margin-left: 20px;">
-                    <li><strong>Nom</strong> / <strong>Name</strong> - <?php _e('name of the place (required)', 'geofolio'); ?></li>
+                    <li><strong>Nom</strong> / <strong>Name</strong> - <?php esc_html_e('name of the place (required)', 'geofolio'); ?></li>
                     <li><strong>Type</strong>, <strong>Service</strong>, <strong>Entité</strong> / <strong>Entity</strong></li>
                     <li><strong>Description</strong>, <strong>Capacité</strong> / <strong>Capacity</strong></li>
                     <li><strong>Adresse</strong> / <strong>Address</strong>, <strong>Code postal</strong>, <strong>Ville</strong> / <strong>City</strong>, <strong>Dép</strong> / <strong>Department</strong></li>
-                    <li><strong>Latitude</strong>, <strong>Longitude</strong> - <?php _e('without them, the address is geocoded', 'geofolio'); ?></li>
+                    <li><strong>Latitude</strong>, <strong>Longitude</strong> - <?php esc_html_e('without them, the address is geocoded', 'geofolio'); ?></li>
                     <li><strong>Téléphone</strong> / <strong>Phone</strong>, <strong>Email</strong>, <strong>Site web</strong> / <strong>Website</strong>, <strong>Horaires</strong></li>
                 </ul>
 
@@ -122,21 +129,21 @@ class Importer {
                     <?php wp_nonce_field('geofolio_import_csv', 'geofolio_import_nonce'); ?>
 
                     <p>
-                        <label for="csv_file"><strong><?php _e('CSV file:', 'geofolio'); ?></strong></label><br>
+                        <label for="csv_file"><strong><?php esc_html_e('CSV file:', 'geofolio'); ?></strong></label><br>
                         <input type="file" name="csv_file" id="csv_file" accept=".csv" required />
                     </p>
 
                     <p>
                         <label>
                             <input type="checkbox" name="skip_existing" value="1" checked />
-                            <?php _e('Skip places that already exist (same name)', 'geofolio'); ?>
+                            <?php esc_html_e('Skip places that already exist (same name)', 'geofolio'); ?>
                         </label>
                     </p>
 
                     <p>
                         <label>
                             <input type="checkbox" name="geocode" value="1" checked />
-                            <?php _e('Geocode addresses automatically', 'geofolio'); ?>
+                            <?php esc_html_e('Geocode addresses automatically', 'geofolio'); ?>
                         </label>
                     </p>
 
@@ -147,8 +154,8 @@ class Importer {
             </div>
 
             <div class="card" style="max-width: 600px; padding: 20px; margin-top: 20px;">
-                <h2><?php _e('Default dataset', 'geofolio'); ?></h2>
-                <p><?php _e('Import the preset places (a sample dataset, or the one provided by a preset).', 'geofolio'); ?></p>
+                <h2><?php esc_html_e('Default dataset', 'geofolio'); ?></h2>
+                <p><?php esc_html_e('Import the preset places (a sample dataset, or the one provided by a preset).', 'geofolio'); ?></p>
 
                 <form method="post">
                     <?php wp_nonce_field('geofolio_import_default', 'geofolio_import_default_nonce'); ?>
@@ -161,60 +168,66 @@ class Importer {
 
     /**
      * Gérer l'import. Accroché à admin_init : toute requête admin passe ici,
-     * d'où la vérification de capacité avant celle du nonce.
+     * d'où la vérification de capacité, puis du nonce, avant toute lecture
+     * des données du formulaire.
      */
     public function handle_import() {
-        if (isset($_POST['geofolio_import']) && isset($_FILES['csv_file'])) {
-            $this->handle_csv_upload();
+        if (!current_user_can('manage_options')) {
             return;
         }
 
-        if (isset($_POST['geofolio_import_default'])) {
+        if (isset($_POST['geofolio_import'], $_POST['geofolio_import_nonce'])
+            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['geofolio_import_nonce'])), 'geofolio_import_csv')) {
+            $this->handle_csv_upload(self::uploaded_file(), isset($_POST['skip_existing']), isset($_POST['geocode']));
+            return;
+        }
+
+        if (isset($_POST['geofolio_import_default'], $_POST['geofolio_import_default_nonce'])
+            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['geofolio_import_default_nonce'])), 'geofolio_import_default')) {
             $this->handle_default_import();
         }
     }
 
     /**
-     * Vérifier capacité et nonce d'un formulaire d'import.
+     * Fichier téléversé, chaque clé nettoyée. Appelé par handle_import()
+     * après vérification du nonce.
      *
-     * @param string $field  Champ du nonce.
-     * @param string $action Action du nonce.
-     * @return bool
+     * @return array{name: string, tmp_name: string, size: int, error: int}
      */
-    private function is_authorized($field, $action) {
-        if (!current_user_can('manage_options')) {
-            return false;
-        }
-        return isset($_POST[$field])
-            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST[$field])), $action);
+    private static function uploaded_file() {
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce vérifié dans handle_import().
+        return array(
+            'name'     => isset($_FILES['csv_file']['name']) ? sanitize_file_name(wp_unslash($_FILES['csv_file']['name'])) : '',
+            'tmp_name' => isset($_FILES['csv_file']['tmp_name']) ? sanitize_text_field(wp_unslash($_FILES['csv_file']['tmp_name'])) : '',
+            'size'     => isset($_FILES['csv_file']['size']) ? absint($_FILES['csv_file']['size']) : 0,
+            'error'    => isset($_FILES['csv_file']['error']) ? absint($_FILES['csv_file']['error']) : UPLOAD_ERR_NO_FILE,
+        );
+        // phpcs:enable
     }
 
     /**
      * Import d'un CSV téléversé.
+     *
+     * @param array $file          Entrée nettoyée de $_FILES (voir uploaded_file()).
+     * @param bool  $skip_existing Ignorer les lieux déjà présents.
+     * @param bool  $geocode       Géocoder les adresses sans coordonnées.
      */
-    private function handle_csv_upload() {
-        if (!$this->is_authorized('geofolio_import_nonce', 'geofolio_import_csv')) {
-            return;
-        }
-
-        $file  = $_FILES['csv_file'];
+    private function handle_csv_upload(array $file, $skip_existing, $geocode) {
         $error = self::upload_error($file);
+        if ($error === '' && !is_uploaded_file($file['tmp_name'])) {
+            $error = __('Error while uploading the file.', 'geofolio');
+        }
         if ($error !== '') {
             $this->redirect(array('error' => $error));
         }
 
-        $result = $this->import_csv($file['tmp_name'], isset($_POST['skip_existing']), isset($_POST['geocode']));
-        $this->redirect($result);
+        $this->redirect($this->import_csv($file['tmp_name'], (bool) $skip_existing, (bool) $geocode));
     }
 
     /**
      * Import du jeu de données livré avec le plugin.
      */
     private function handle_default_import() {
-        if (!$this->is_authorized('geofolio_import_default_nonce', 'geofolio_import_default')) {
-            return;
-        }
-
         $csv_file = self::default_dataset();
         if (is_readable($csv_file)) {
             $this->redirect($this->import_csv($csv_file, true, true, dirname($csv_file) . '/' . self::PHOTOS_DIR));
@@ -232,13 +245,29 @@ class Importer {
     }
 
     /**
-     * Rediriger vers la page d'import avec des paramètres d'URL, puis sortir.
+     * Mémoriser le résultat pour l'utilisateur courant, puis revenir sur la
+     * page d'import. Rien ne transite par l'URL.
      *
-     * @param array $args Paramètres (imported, skipped, error).
+     * @param array $args Résultat (imported, skipped, error).
      */
     private function redirect(array $args) {
-        wp_safe_redirect(add_query_arg(array_map('rawurlencode', array_map('strval', $args)), admin_url(self::IMPORT_PAGE)));
+        set_transient(self::RESULT_TRANSIENT . get_current_user_id(), $args, self::RESULT_TTL);
+        wp_safe_redirect(admin_url(self::IMPORT_PAGE));
         exit;
+    }
+
+    /**
+     * Résultat du dernier import de l'utilisateur courant, consommé à la lecture.
+     *
+     * @return array
+     */
+    private static function pull_result() {
+        $key    = self::RESULT_TRANSIENT . get_current_user_id();
+        $result = get_transient($key);
+        if ($result !== false) {
+            delete_transient($key);
+        }
+        return is_array($result) ? $result : array();
     }
 
     /**
@@ -275,23 +304,28 @@ class Importer {
     public static function parse_csv($file_path) {
         $empty = array('rows' => array(), 'skipped' => 0);
 
-        $handle = is_readable($file_path) ? fopen($file_path, 'r') : false;
-        if (!$handle) {
+        if (!is_string($file_path) || !is_file($file_path) || !is_readable($file_path)) {
             return $empty;
         }
 
-        $header = fgetcsv($handle, 0, ',', '"', self::CSV_ESCAPE);
-        if (!is_array($header) || $header === array(null)) {
-            fclose($handle);
+        try {
+            $file = new \SplFileObject($file_path, 'r');
+        } catch (\RuntimeException $e) {
             return $empty;
         }
-        $header = array_map(array(__CLASS__, 'normalize_header'), $header);
+        $file->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::READ_AHEAD | \SplFileObject::DROP_NEW_LINE);
+        $file->setCsvControl(',', '"', self::CSV_ESCAPE);
 
+        $header  = null;
         $rows    = array();
         $skipped = 0;
-        while (($row = fgetcsv($handle, 0, ',', '"', self::CSV_ESCAPE)) !== false) {
-            if ($row === array(null)) {
+        foreach ($file as $row) {
+            if (!is_array($row) || $row === array(null)) {
                 continue; // Ligne vide.
+            }
+            if ($header === null) {
+                $header = array_map(array(__CLASS__, 'normalize_header'), $row);
+                continue;
             }
             if (count($row) !== count($header)) {
                 $skipped++;
@@ -299,9 +333,8 @@ class Importer {
             }
             $rows[] = array_combine($header, $row);
         }
-        fclose($handle);
 
-        return array('rows' => $rows, 'skipped' => $skipped);
+        return $header === null ? $empty : array('rows' => $rows, 'skipped' => $skipped);
     }
 
     /**

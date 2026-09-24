@@ -26,6 +26,9 @@ class Duplicate {
     /** Paramètre ajouté à l'URL d'édition de la copie pour afficher l'avis. */
     const NOTICE_ARG = 'geofolio_duplicated';
 
+    /** Durée de vie du transient portant la notice « copie créée », en secondes. */
+    const NOTICE_TTL = 60;
+
     /**
      * Metas propres au post d'origine, jamais recopiées : verrou d'édition,
      * dernier éditeur, anciens slugs, état de corbeille, pings en attente.
@@ -108,10 +111,27 @@ class Duplicate {
         wp_localize_script('geofolio-duplicate', 'geofolioDuplicate', array(
             'url'    => self::duplicate_url($post->ID),
             'label'  => __('Duplicate this place', 'geofolio'),
-            'notice' => empty($_GET[self::NOTICE_ARG])
-                ? ''
-                : __('Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map.', 'geofolio'),
+            'notice' => self::pull_notice($post->ID)
+                ? __('Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map.', 'geofolio')
+                : '',
         ));
+    }
+
+    /**
+     * La copie que l'on vient d'ouvrir est-elle celle créée par l'utilisateur
+     * courant ? Consommé à la lecture : la notice ne s'affiche qu'une fois.
+     *
+     * @param int $post_id
+     * @return bool
+     */
+    private static function pull_notice($post_id) {
+        $key     = self::NOTICE_ARG . '_' . get_current_user_id();
+        $created = get_transient($key);
+        if ($created === false) {
+            return false;
+        }
+        delete_transient($key);
+        return (int) $created === (int) $post_id;
     }
 
     /* ------------------------------------------------------------------ */
@@ -122,7 +142,7 @@ class Duplicate {
      * Point d'entrée admin.php?action=geofolio_duplicate.
      */
     public function handle_admin_action() {
-        $result = self::process_request(wp_unslash($_GET));
+        $result = self::process_request(wp_unslash($_GET)); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce et capacité vérifiés dans process_request(), fonction pure couverte par DuplicateTest.
 
         if (is_wp_error($result)) {
             wp_die(
@@ -132,7 +152,8 @@ class Duplicate {
             );
         }
 
-        wp_safe_redirect(add_query_arg(self::NOTICE_ARG, 1, get_edit_post_link($result, 'raw')));
+        set_transient(self::NOTICE_ARG . '_' . get_current_user_id(), (int) $result, self::NOTICE_TTL);
+        wp_safe_redirect(get_edit_post_link($result, 'raw'));
         exit;
     }
 

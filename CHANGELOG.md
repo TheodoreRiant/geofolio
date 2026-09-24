@@ -2,6 +2,22 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- `uninstall.php`: removes options, transients and migration snapshots; places and taxonomies are deleted only when `GEOFOLIO_UNINSTALL_DATA` is true.
+- readme: "External services", "Privacy" and "Source code and development" sections (map tile providers, geocoder, no CDN, no tracking).
+- `tests/PluginCheckTest.php`: guards against unescaped output, direct file operations, form data read before nonce verification, undocumented external services.
+
+### Changed
+- Import results and the "copy created" notice are carried by a per-user transient instead of URL parameters.
+- CSV files are read with `SplFileObject`; temporary files are removed with `wp_delete_file()`.
+- Entity colour saved only with a nonce and the `manage_categories` capability.
+- Admin notices are dismissible.
+
+### Fixed
+- Plugin Check: 39 errors (unescaped `_e()`/`printf`, exception message, `fopen`/`unlink`) and 39 warnings resolved or justified; the archive now passes with 0 errors and 0 warnings.
+
 ## [1.1.0] — 2026-09-24
 
 ### Added

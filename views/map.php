@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div<?php foreach ($view['container'] as $name => $value) : ?> <?php echo esc_attr($name); ?>="<?php echo esc_attr($value); ?>"<?php endforeach; ?>>
+<div<?php foreach ($view['container'] as $geofolio_attr => $geofolio_value) : ?> <?php echo esc_attr($geofolio_attr); ?>="<?php echo esc_attr($geofolio_value); ?>"<?php endforeach; ?>>
 
     <?php if ($view['has_sidebar']) : ?>
     <div class="gfo-map-sidebar">

@@ -1168,6 +1168,7 @@ class MapWidget extends \Elementor\Widget_Base {
      * (no shortcode string: a "]" in a title would break it).
      */
     protected function render(): void {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML produit par views/map.php, où chaque valeur est échappée ; wp_kses_post() retirerait les SVG inline.
         echo Renderer::render(self::settings_to_atts($this->get_settings_for_display()));
     }
 

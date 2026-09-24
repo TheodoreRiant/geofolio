@@ -153,7 +153,7 @@ class Runner {
      */
     public function admin_handle_run() {
         if (!current_user_can('manage_options')) {
-            wp_die(__('Permission denied', 'geofolio'));
+            wp_die(esc_html__('Permission denied', 'geofolio'));
         }
         check_admin_referer(self::ACTION);
 
