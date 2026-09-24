@@ -1,0 +1,321 @@
+<?php
+/**
+ * Tests des réglages du plugin (clé API, fond imposé, validation).
+ */
+
+use PHPUnit\Framework\TestCase;
+use Geofolio\Admin\SettingsPage;
+use Geofolio\Map\TileProviders;
+
+final class SettingsTest extends TestCase {
+
+    protected function setUp(): void {
+        gfo_test_reset();
+    }
+
+    /**
+     * Installer des réglages en base simulée.
+     *
+     * @param array $settings Réglages partiels.
+     */
+    private function store(array $settings) {
+        gfo_test_reset(array(SettingsPage::OPTION_NAME => $settings));
+    }
+
+    /**
+     * Valider une entrée via l'instance de réglages.
+     *
+     * @param mixed $input Entrée brute.
+     * @return array Réglages nettoyés.
+     */
+    private function sanitize($input) {
+        return SettingsPage::get_instance()->sanitize($input);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Lecture                                                          */
+    /* ---------------------------------------------------------------- */
+
+    public function test_les_valeurs_par_defaut_sont_completees() {
+        $this->store(array('api_key' => 'abc'));
+        $settings = SettingsPage::get_all();
+
+        $this->assertSame('abc', $settings['api_key']);
+        $this->assertSame('', $settings['tile_style']);
+        $this->assertSame('', $settings['custom_tile_url']);
+    }
+
+    public function test_une_option_corrompue_retombe_sur_les_defauts() {
+        $this->store(array());
+        gfo_test_reset(array(SettingsPage::OPTION_NAME => 'chaine-inattendue'));
+
+        $this->assertSame(SettingsPage::defaults(), SettingsPage::get_all());
+    }
+
+    public function test_la_cle_api_est_lue_sans_espaces() {
+        $this->store(array('api_key' => "  ma-cle  "));
+
+        $this->assertSame('ma-cle', SettingsPage::get_api_key());
+    }
+
+    public function test_aucune_constante_definie_signifie_champ_modifiable() {
+        $this->assertFalse(SettingsPage::is_key_locked_by_constant());
+    }
+
+    public function test_un_fond_impose_inconnu_est_ignore() {
+        $this->store(array('tile_style' => 'fond-inexistant'));
+
+        $this->assertSame('', SettingsPage::get_forced_tile_style());
+    }
+
+    public function test_un_fond_impose_valide_est_retourne() {
+        $this->store(array('tile_style' => 'ign-plan'));
+
+        $this->assertSame('ign-plan', SettingsPage::get_forced_tile_style());
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Résolution du fond affiché                                       */
+    /* ---------------------------------------------------------------- */
+
+    public function test_le_fond_impose_prime_sur_celui_de_la_page() {
+        $this->store(array('tile_style' => 'osm-fr'));
+
+        $resolved = SettingsPage::resolve_tile('positron');
+
+        $this->assertSame('osm-fr', $resolved['id']);
+    }
+
+    public function test_sans_fond_impose_la_page_decide() {
+        $this->store(array());
+
+        $resolved = SettingsPage::resolve_tile('osm-fr');
+
+        $this->assertSame('osm-fr', $resolved['id']);
+    }
+
+    public function test_une_page_restee_sur_carto_bascule_sur_le_plan_ign() {
+        // Les pages Elementor du site enregistrent « positron » : sans clé
+        // CARTO, la carte doit basculer seule plutôt que d'afficher le
+        // filigrane « API KEY REQUIRED ».
+        $this->store(array());
+
+        $resolved = SettingsPage::resolve_tile('positron');
+
+        $this->assertSame(TileProviders::FALLBACK_ID, $resolved['id']);
+        $this->assertSame('missing_key', $resolved['fallbackReason']);
+    }
+
+    public function test_un_fond_a_cle_configure_avec_sa_cle_est_servi() {
+        $this->store(array('tile_style' => 'jawg-light', 'api_key' => 'jeton-xyz'));
+
+        $resolved = SettingsPage::resolve_tile('positron');
+
+        $this->assertSame('jawg-light', $resolved['id']);
+        $this->assertStringContainsString('jeton-xyz', $resolved['url']);
+    }
+
+    public function test_un_fond_a_cle_sans_cle_ne_casse_pas_la_carte() {
+        $this->store(array('tile_style' => 'jawg-light'));
+
+        $resolved = SettingsPage::resolve_tile('positron');
+
+        $this->assertSame(TileProviders::FALLBACK_ID, $resolved['id']);
+        $this->assertSame('missing_key', $resolved['fallbackReason']);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Table transmise au JS                                            */
+    /* ---------------------------------------------------------------- */
+
+    public function test_la_config_js_marque_indisponibles_les_fonds_sans_cle() {
+        $this->store(array());
+        $config = SettingsPage::js_tiles_config();
+
+        $this->assertFalse($config['providers']['jawg-light']['available']);
+        $this->assertSame('', $config['providers']['jawg-light']['url']);
+        $this->assertTrue($config['providers']['osm-fr']['available']);
+        $this->assertFalse($config['providers']['positron']['available']);
+        $this->assertSame(TileProviders::FALLBACK_ID, $config['fallback']);
+        $this->assertSame('', $config['forced']);
+    }
+
+    public function test_la_config_js_expose_les_fonds_a_cle_une_fois_la_cle_saisie() {
+        $this->store(array('api_key' => 'jeton-xyz', 'tile_style' => 'jawg-light'));
+        $config = SettingsPage::js_tiles_config();
+
+        $this->assertTrue($config['providers']['jawg-light']['available']);
+        $this->assertStringContainsString('jeton-xyz', $config['providers']['jawg-light']['url']);
+        $this->assertSame('jawg-light', $config['forced']);
+    }
+
+    public function test_la_config_js_n_expose_jamais_de_jeton_key_non_remplace() {
+        $this->store(array('api_key' => 'jeton-xyz'));
+
+        foreach (SettingsPage::js_tiles_config()['providers'] as $id => $provider) {
+            $this->assertStringNotContainsString('{key}', $provider['url'], "Jeton {key} resté dans $id");
+        }
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Validation du formulaire                                         */
+    /* ---------------------------------------------------------------- */
+
+    public function test_une_entree_non_tableau_restaure_les_defauts() {
+        $clean = $this->sanitize('nimporte quoi');
+
+        $this->assertSame(SettingsPage::defaults(), $clean);
+        $this->assertContains('geofolio_bad_payload', gfo_test_error_codes());
+    }
+
+    public function test_un_fond_inconnu_est_rejete_avec_message() {
+        $clean = $this->sanitize(array('tile_style' => 'fond-bidon'));
+
+        $this->assertSame('', $clean['tile_style']);
+        $this->assertContains('geofolio_bad_style', gfo_test_error_codes());
+    }
+
+    public function test_un_fond_connu_est_conserve() {
+        $clean = $this->sanitize(array('tile_style' => 'ign-plan'));
+
+        $this->assertSame('ign-plan', $clean['tile_style']);
+        $this->assertSame(array('geofolio_saved'), gfo_test_error_codes());
+    }
+
+    /**
+     * Sur un sous-menu personnalise, WordPress n'affiche pas son message
+     * « Reglages enregistres » : sans confirmation explicite, l'utilisateur
+     * clique Enregistrer et n'a aucun retour.
+     */
+    public function test_un_enregistrement_valide_confirme_a_l_utilisateur() {
+        $this->sanitize(array('tile_style' => '', 'api_key' => 'abc'));
+
+        $this->assertContains('geofolio_saved', gfo_test_error_codes());
+    }
+
+    public function test_une_erreur_bloquante_supprime_la_confirmation() {
+        $this->sanitize(array('custom_tile_url' => 'http://pas-https.fr/{z}/{x}/{y}.png'));
+
+        $codes = gfo_test_error_codes();
+        $this->assertContains('geofolio_bad_custom_url', $codes);
+        $this->assertNotContains('geofolio_saved', $codes);
+    }
+
+    /**
+     * Un simple avertissement (« ce fond exige une cle ») ne doit PAS masquer
+     * la confirmation : les reglages ont bien ete enregistres.
+     */
+    public function test_un_avertissement_laisse_la_confirmation() {
+        $this->sanitize(array('tile_style' => 'jawg-light', 'api_key' => ''));
+
+        $codes = gfo_test_error_codes();
+        $this->assertContains('geofolio_style_without_key', $codes);
+        $this->assertContains('geofolio_saved', $codes);
+    }
+
+    public function test_la_cle_api_est_nettoyee() {
+        $clean = $this->sanitize(array('api_key' => "  ma-cle\n"));
+
+        $this->assertSame('ma-cle', $clean['api_key']);
+    }
+
+    public function test_une_url_personnalisee_invalide_n_est_pas_enregistree() {
+        $clean = $this->sanitize(array('custom_tile_url' => 'http://exemple.fr/{z}/{x}/{y}.png'));
+
+        $this->assertSame('', $clean['custom_tile_url']);
+        $this->assertContains('geofolio_bad_custom_url', gfo_test_error_codes());
+    }
+
+    public function test_une_url_personnalisee_valide_est_enregistree() {
+        $url   = 'https://exemple.fr/{z}/{x}/{y}.png?key={key}';
+        $clean = $this->sanitize(array('custom_tile_url' => $url));
+
+        $this->assertSame($url, $clean['custom_tile_url']);
+    }
+
+    public function test_l_attribution_personnalisee_est_filtree() {
+        $clean = $this->sanitize(array(
+            'custom_tile_attribution' => '<a href="https://exemple.fr">Exemple</a><script>alert(1)</script>',
+        ));
+
+        $this->assertStringContainsString('<a href="https://exemple.fr">Exemple</a>', $clean['custom_tile_attribution']);
+        $this->assertStringNotContainsString('<script>', $clean['custom_tile_attribution']);
+    }
+
+    public function test_un_fond_a_cle_sans_cle_declenche_un_avertissement() {
+        $this->assertSame(array(), gfo_test_error_codes());
+
+        $this->sanitize(array('tile_style' => 'jawg-light', 'api_key' => ''));
+
+        $this->assertContains('geofolio_style_without_key', gfo_test_error_codes());
+    }
+
+    public function test_le_fond_personnalise_sans_url_declenche_un_avertissement() {
+        $this->sanitize(array('tile_style' => TileProviders::CUSTOM_ID));
+
+        $this->assertContains('geofolio_custom_without_url', gfo_test_error_codes());
+    }
+
+    public function test_une_cle_contenant_un_pourcentage_est_preservee() {
+        $clean = $this->sanitize(array('api_key' => 'ab%3Dcd'));
+
+        $this->assertSame('ab%3Dcd', $clean['api_key']);
+    }
+
+    public function test_une_cle_absente_du_formulaire_conserve_la_valeur_en_base() {
+        // Cas du champ désactivé quand la constante wp-config.php définit la
+        // clé : le navigateur ne soumet pas le champ, la base ne doit pas
+        // être vidée pour autant.
+        $this->store(array('api_key' => 'cle-en-base'));
+
+        $clean = $this->sanitize(array('tile_style' => 'ign-plan'));
+
+        $this->assertSame('cle-en-base', $clean['api_key']);
+    }
+
+    public function test_le_html_est_retire_de_la_cle() {
+        $clean = $this->sanitize(array('api_key' => "<b>ma</b> cle\n"));
+
+        $this->assertSame('macle', $clean['api_key']);
+    }
+
+    public function test_la_validation_ne_modifie_pas_l_entree() {
+        $input = array('tile_style' => 'ign-plan', 'api_key' => '  abc  ');
+        $copy  = $input;
+
+        $this->sanitize($input);
+
+        $this->assertSame($copy, $input);
+    }
+
+    public function test_les_champs_absents_prennent_leur_valeur_par_defaut() {
+        $clean = $this->sanitize(array('api_key' => 'abc'));
+
+        $this->assertSame(array_keys(SettingsPage::defaults()), array_keys($clean));
+        $this->assertSame('', $clean['tile_style']);
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Masquage de la clé                                               */
+    /* ---------------------------------------------------------------- */
+
+    public function test_une_cle_courte_est_entierement_masquee() {
+        $this->assertSame('••••••', SettingsPage::mask_key('abcdef'));
+    }
+
+    public function test_une_cle_longue_laisse_voir_ses_extremites() {
+        $masked = SettingsPage::mask_key('abcd1234567890wxyz');
+
+        $this->assertStringStartsWith('abcd', $masked);
+        $this->assertStringEndsWith('wxyz', $masked);
+        $this->assertStringNotContainsString('1234567890', $masked);
+    }
+
+    public function test_un_lien_d_attribution_en_nouvel_onglet_recoit_noopener() {
+        $clean = $this->sanitize(array(
+            'custom_tile_attribution' => '<a href="https://exemple.fr" target="_blank">Exemple</a>',
+        ));
+
+        $this->assertStringContainsString('rel="noopener"', $clean['custom_tile_attribution']);
+    }
+}

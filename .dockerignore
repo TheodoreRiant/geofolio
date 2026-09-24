@@ -1,0 +1,14 @@
+# Only the plugin files go into the image (see docker/Dockerfile)
+*
+!assets/
+!src/
+!views/
+!data/
+!languages/
+!geofolio.php
+!readme.txt
+!docker/entrypoint.sh
+!docker/init.sh
+!docker/pages.php
+# macOS Finder copies committed by mistake, never loaded by the plugin
+**/* 2.*

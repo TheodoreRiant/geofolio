@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: PHPUnit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+      # PHPUnit 9.6 runs on every supported PHP version (PHPUnit 11 needs PHP 8.2).
+      - run: curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit-9.6.phar
+      - run: php phpunit.phar --no-configuration --bootstrap tests/bootstrap.php tests
+
+  node:
+    name: Node tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node --test tests/js/*.test.js
+
+  phpcs:
+    name: PHPCS (WordPress, warnings only)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+      - run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require --quiet wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
+      - run: ~/.composer/vendor/bin/phpcs --standard=WordPress --extensions=php --report=summary geofolio.php src views || true

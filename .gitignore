@@ -1,0 +1,18 @@
+.DS_Store
+*.log
+node_modules/
+.claude/
+mockup-*.html
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+.mcp.json
+!.mcp.json.example
+
+.phpunit.result.cache
+phpunit.phar
+
+# Local work plans
+**/docs/plans/

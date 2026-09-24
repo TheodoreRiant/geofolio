@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 130" role="img" aria-label="Photo à venir" preserveAspectRatio="xMidYMid slice">
+    <defs>
+        <linearGradient id="gfoPhBg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F8FAFC"/>
+            <stop offset="1" stop-color="#E2E8F0"/>
+        </linearGradient>
+    </defs>
+    <rect width="360" height="130" fill="url(#gfoPhBg)"/>
+    <g fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="146" y="26" width="68" height="52" rx="6"/>
+        <path d="M152 74 L170 54 L182 64 L196 50 L208 74"/>
+    </g>
+    <circle cx="166" cy="44" r="6" fill="#94A3B8"/>
+    <text x="180" y="104" text-anchor="middle" font-family="Poppins, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" letter-spacing="0.4" fill="#64748B">Photo à venir</text>
+</svg>

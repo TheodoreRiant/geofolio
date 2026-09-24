@@ -1,0 +1,1226 @@
+# Copyright (C) 2026 Théodore Riant
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Geofolio 1.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/TheodoreRiant/geofolio/issues\n"
+"Last-Translator: Théodore Riant\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-24T12:29:57+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: geofolio\n"
+
+#. Plugin Name of the plugin
+#: geofolio.php
+#: src/Elementor/Integration.php:35
+#: src/Elementor/MapWidget.php:46
+msgid "Geofolio"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: geofolio.php
+msgid "https://github.com/TheodoreRiant/geofolio"
+msgstr ""
+
+#. Description of the plugin
+#: geofolio.php
+msgid "Interactive map of places with search, filters and an Elementor widget."
+msgstr ""
+
+#. Author of the plugin
+#: geofolio.php
+msgid "Théodore Riant"
+msgstr ""
+
+#. Author URI of the plugin
+#: geofolio.php
+msgid "https://allside.studio"
+msgstr ""
+
+#. translators: %s: place title
+#: src/Admin/Duplicate.php:80
+#, php-format
+msgid "Duplicate “%s”"
+msgstr ""
+
+#. translators: %s: place title
+#: src/Admin/Duplicate.php:81
+msgid "Duplicate"
+msgstr ""
+
+#: src/Admin/Duplicate.php:110
+msgid "Duplicate this place"
+msgstr ""
+
+#: src/Admin/Duplicate.php:113
+msgid "Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map."
+msgstr ""
+
+#: src/Admin/Duplicate.php:130
+msgid "Duplication failed"
+msgstr ""
+
+#: src/Admin/Duplicate.php:152
+msgid "This duplication link has expired or is invalid. Reload the list of places and try again."
+msgstr ""
+
+#: src/Admin/Duplicate.php:160
+msgid "You do not have the required permissions to duplicate this place."
+msgstr ""
+
+#. translators: %s: titre de l'établissement d'origine
+#: src/Admin/Duplicate.php:242
+#, php-format
+msgid "%s (copy)"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:50
+msgid "Location"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:59
+msgid "Contact"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:68
+msgid "Management"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:77
+#: src/Plugin.php:354
+#: src/Plugin.php:414
+msgid "Photo gallery"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:99
+msgid "Address"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:105
+msgid "Postal code"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:109
+msgid "City"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:116
+msgid "Geocode address"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:123
+msgid "Latitude"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:127
+msgid "Longitude"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:133
+msgid "Click on the map to place the marker, or use the \"Geocode\" button to find the coordinates automatically."
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:150
+msgid "Phone"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:154
+msgid "Email"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:160
+msgid "Website"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:165
+msgid "Opening hours"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:180
+msgid "Manager(s)"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:186
+msgid "First Last (separate several names with a comma)"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:206
+msgid "Add / edit photos"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:209
+msgid "Clear the gallery"
+msgstr ""
+
+#: src/Admin/MetaBoxes.php:216
+msgid "Drag and drop to reorder. First photo = cover."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:189
+#: src/Admin/SettingsPage.php:414
+msgid "Map configuration"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:190
+msgid "Map settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:245
+msgid "Unrecognised settings: the default values have been restored."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:256
+msgid "Unknown basemap: the “each page decides” setting was kept."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:278
+msgid "Invalid tile URL: it must start with https:// and contain {z}, {x} and {y}. It was not saved."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:298
+msgid "The “Custom URL” basemap needs a tile URL: the map will use the keyless Positron basemap in the meantime."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:310
+msgid "This basemap requires an API key: the map will use the keyless Positron basemap until the key is set."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:324
+msgid "Settings saved."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:372
+msgid "Map:"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:375
+msgid "Open the map settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:388
+msgid "the selected basemap requires an API key that is not set; the keyless Positron basemap is shown instead."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:390
+msgid "the custom tile URL is missing or invalid; the keyless Positron basemap is shown instead."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:392
+msgid "the requested basemap does not exist; the keyless Positron basemap is shown instead."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:403
+msgid "You do not have the required permissions."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:421
+msgid "Basemap"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:425
+msgid "Basemap applied to the site"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:431
+msgid "— Let each page decide (Elementor / shortcode setting) —"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:440
+msgid "Each Elementor page stores its own basemap. Choosing a value here forces it on every map of the site, without reopening each page."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:447
+msgid "Provider API key"
+msgstr ""
+
+#. translators: %s: nom de la constante PHP
+#: src/Admin/SettingsPage.php:463
+#, php-format
+msgid "The key is set by the %s constant in wp-config.php: it takes precedence and cannot be changed here."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:470
+msgid "Only needed for basemaps marked “key required”. The IGN and OpenStreetMap basemaps work without a key. Since 2026, CARTO basemaps (Positron, Voyager, Dark Matter) require a key: without it, their tiles are stamped “API KEY REQUIRED”."
+msgstr ""
+
+#. translators: %s: nom de la constante PHP
+#: src/Admin/SettingsPage.php:476
+#, php-format
+msgid "To avoid storing the key in the database, you can also define it in wp-config.php: %s"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:483
+msgid "Good to know:"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:484
+msgid "a tile key is always visible in the page source, since it is the visitor's browser that sends it to the provider. Restrict it to your site's domain in your provider account."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:490
+msgid "Custom provider"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:492
+msgid "Only fill this in if you chose the “Custom URL” basemap above."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:497
+msgid "Tile URL"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:508
+msgid "Accepted tokens: {z}, {x}, {y} (required), {s} for subdomains, {r} for @2x tiles, and {key}, replaced by the API key above."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:514
+msgid "Attribution"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:523
+msgid "Legal notice shown at the bottom of the map. <a> links are allowed."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:532
+msgid "Current state"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:536
+msgid "API key"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:539
+msgid "no key saved"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:543
+msgid "(set in wp-config.php)"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:553
+msgid "Forced basemap, actually displayed"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:554
+msgid "Default basemap for pages that do not set one"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:57
+#: src/Domain/PlacePostType.php:59
+msgid "Places"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:58
+#: src/Domain/PlacePostType.php:60
+msgid "Place"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:61
+msgid "Add"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:62
+msgid "Add a place"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:63
+msgid "New place"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:64
+msgid "Edit place"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:65
+msgid "View place"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:66
+msgid "All places"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:67
+msgid "Search places"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:68
+msgid "Parent place:"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:69
+msgid "No places found."
+msgstr ""
+
+#: src/Domain/PlacePostType.php:70
+msgid "No places in the trash."
+msgstr ""
+
+#: src/Domain/PlacePostType.php:71
+msgid "Place image"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:72
+msgid "Set image"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:73
+msgid "Remove image"
+msgstr ""
+
+#: src/Domain/PlacePostType.php:74
+msgid "Use as image"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:49
+msgid "Place types"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:50
+msgid "Place type"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:57
+msgid "Regions"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:58
+msgid "Region"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:65
+msgid "Services"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:66
+msgid "Service"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:73
+#: src/Domain/Taxonomies.php:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:81
+#: src/Domain/Taxonomies.php:89
+msgid "Entities"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:82
+msgid "Entity"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:83
+msgid "Search entities"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:84
+msgid "All entities"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:85
+msgid "Edit entity"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:86
+msgid "Update entity"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:87
+msgid "Add an entity"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:88
+msgid "New entity name"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:107
+#, php-format
+msgid "Search %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:108
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:109
+#, php-format
+msgid "Parent %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:110
+#, php-format
+msgid "Parent %s:"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:111
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:112
+#, php-format
+msgid "Update %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:113
+#, php-format
+msgid "Add %s"
+msgstr ""
+
+#. translators: %s: taxonomy name
+#: src/Domain/Taxonomies.php:114
+#, php-format
+msgid "New %s"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:137
+#: src/Domain/Taxonomies.php:154
+msgid "Colour"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:139
+#: src/Domain/Taxonomies.php:157
+msgid "Colour used for markers and cards on the interactive map."
+msgstr ""
+
+#: src/Domain/Taxonomies.php:178
+#: src/Domain/Taxonomies.php:194
+msgid "Icon"
+msgstr ""
+
+#: src/Domain/Taxonomies.php:180
+#: src/Domain/Taxonomies.php:197
+msgid "Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin."
+msgstr ""
+
+#: src/Domain/Taxonomies.php:214
+msgid "Automatic"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:124
+msgid "Map parameters"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:132
+msgid "Map height"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:151
+msgid "Full width (break out of the container)"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:153
+#: src/Elementor/MapWidget.php:220
+#: src/Elementor/MapWidget.php:232
+#: src/Elementor/MapWidget.php:244
+#: src/Elementor/MapWidget.php:256
+msgid "Yes"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:154
+#: src/Elementor/MapWidget.php:221
+#: src/Elementor/MapWidget.php:233
+#: src/Elementor/MapWidget.php:245
+#: src/Elementor/MapWidget.php:257
+msgid "No"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:161
+msgid "Makes the widget span the full window width, even when the parent section is constrained (e.g. max-width 1200px)."
+msgstr ""
+
+#: src/Elementor/MapWidget.php:168
+msgid "Centre latitude"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:172
+#: src/Elementor/MapWidget.php:183
+msgid "Used when the map contains no place."
+msgstr ""
+
+#: src/Elementor/MapWidget.php:179
+msgid "Centre longitude"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:190
+msgid "Initial zoom"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:210
+msgid "Display options"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:218
+msgid "Show the search"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:230
+msgid "Show the type filter"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:242
+msgid "Show the results list"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:254
+#: src/Elementor/MapWidget.php:1107
+msgid "Full screen button"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:274
+msgid "Sidebar content"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:282
+msgid "Sidebar position"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:285
+msgid "Left"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:286
+msgid "Right"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:295
+msgid "Sidebar title"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:305
+msgid "Sidebar subtitle"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:318
+msgid "Tile style"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:321
+msgid "— Use the site setting —"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:325
+msgid "The API key for “key required” basemaps is set in Places → Map settings."
+msgstr ""
+
+#: src/Elementor/MapWidget.php:343
+msgid "Layout"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:351
+msgid "Sidebar width"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:367
+msgid "Container padding"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:379
+msgid "Container radius"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:392
+msgid "Container shadow"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:407
+msgid "Sidebar"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:415
+msgid "Sidebar background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:426
+msgid "Sidebar border colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:437
+msgid "Sidebar header background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:455
+msgid "Search bar"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:463
+msgid "Search field background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:475
+msgid "Field border"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:483
+msgid "Radius"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:498
+msgid "Field typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:506
+msgid "Search button"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:517
+msgid "Normal"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:523
+#: src/Elementor/MapWidget.php:565
+msgid "Background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:534
+#: src/Elementor/MapWidget.php:576
+msgid "Pictogram colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:536
+msgid "Colour of the search icon (magnifier)."
+msgstr ""
+
+#: src/Elementor/MapWidget.php:549
+#: src/Elementor/MapWidget.php:589
+msgid "Border"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:559
+msgid "Hover"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:608
+msgid "Dropdown filter"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:616
+msgid "Select background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:628
+msgid "Select border"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:636
+msgid "Select radius"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:651
+msgid "Select typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:666
+msgid "Place cards"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:674
+msgid "Card background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:685
+#: src/Elementor/MapWidget.php:1137
+msgid "Hover background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:696
+msgid "Active card background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:708
+msgid "Card border"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:716
+msgid "Card padding"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:728
+msgid "Spacing between cards"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:749
+msgid "Type badge"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:757
+msgid "Badge radius"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:772
+msgid "Badge typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:787
+msgid "Card title"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:796
+msgid "Title typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:804
+msgid "Title colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:822
+msgid "Card meta"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:831
+msgid "Meta typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:839
+msgid "Meta colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:857
+msgid "Phone link"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:865
+msgid "Link colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:876
+msgid "Hover colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:888
+msgid "Phone typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:903
+msgid "Map & colours"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:911
+msgid "Primary colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:913
+msgid "Affects clusters, buttons and links. Markers take the colour of their entity."
+msgstr ""
+
+#: src/Elementor/MapWidget.php:923
+msgid "Accent colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:925
+msgid "Affects links and the phone number"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:942
+msgid "Clusters"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:950
+msgid "Cluster background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:961
+msgid "Cluster border"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:972
+msgid "Cluster text"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:990
+msgid "Popup"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:998
+msgid "Popup background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1009
+msgid "Popup radius"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1024
+msgid "Popup shadow"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1033
+msgid "Popup title typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1049
+msgid "Results header"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1057
+msgid "Header background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1069
+msgid "Header typography"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1077
+msgid "Counter background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1089
+msgid "Counter colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1115
+msgid "Button background"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1126
+msgid "Icon colour"
+msgstr ""
+
+#: src/Elementor/MapWidget.php:1148
+msgid "Button radius"
+msgstr ""
+
+#: src/Import/Importer.php:75
+#: src/Import/Importer.php:89
+msgid "Import places"
+msgstr ""
+
+#: src/Import/Importer.php:76
+msgid "Import CSV"
+msgstr ""
+
+#. translators: %d: number of imported places
+#: src/Import/Importer.php:93
+#, php-format
+msgid "%d place(s) imported successfully!"
+msgstr ""
+
+#. translators: %d: number of skipped lines
+#: src/Import/Importer.php:95
+#, php-format
+msgid "%d malformed line(s) skipped: column count differs from the header."
+msgstr ""
+
+#: src/Import/Importer.php:107
+msgid "Import from a CSV file"
+msgstr ""
+
+#: src/Import/Importer.php:108
+msgid "The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):"
+msgstr ""
+
+#: src/Import/Importer.php:110
+msgid "name of the place (required)"
+msgstr ""
+
+#: src/Import/Importer.php:114
+msgid "without them, the address is geocoded"
+msgstr ""
+
+#: src/Import/Importer.php:122
+msgid "CSV file:"
+msgstr ""
+
+#: src/Import/Importer.php:129
+msgid "Skip places that already exist (same name)"
+msgstr ""
+
+#: src/Import/Importer.php:136
+msgid "Geocode addresses automatically"
+msgstr ""
+
+#: src/Import/Importer.php:141
+msgid "Import"
+msgstr ""
+
+#: src/Import/Importer.php:147
+msgid "Default dataset"
+msgstr ""
+
+#: src/Import/Importer.php:148
+msgid "Import the preset places (a sample dataset, or the one provided by a preset)."
+msgstr ""
+
+#: src/Import/Importer.php:152
+msgid "Import the preset places"
+msgstr ""
+
+#: src/Import/Importer.php:219
+msgid "Default dataset not found."
+msgstr ""
+
+#: src/Import/Importer.php:249
+msgid "Error while uploading the file."
+msgstr ""
+
+#. translators: %d: maximum file size in megabytes
+#: src/Import/Importer.php:253
+#, php-format
+msgid "File too large: %d MB maximum."
+msgstr ""
+
+#: src/Import/Importer.php:259
+msgid "Only .csv files are accepted."
+msgstr ""
+
+#: src/Import/Importer.php:397
+msgid "Capacity:"
+msgstr ""
+
+#: src/Map/Defaults.php:73
+msgid "Our locations"
+msgstr ""
+
+#: src/Map/TileProviders.php:61
+msgid "IGN map (France, no key)"
+msgstr ""
+
+#: src/Map/TileProviders.php:71
+msgid "OpenStreetMap France (no key)"
+msgstr ""
+
+#: src/Map/TileProviders.php:84
+msgid "CARTO Voyager — light (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:94
+msgid "CARTO Positron — minimal (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:104
+msgid "CARTO Dark Matter — dark (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:114
+msgid "OpenStreetMap standard (no key)"
+msgstr ""
+
+#: src/Map/TileProviders.php:124
+msgid "IGN clean map — vector, experimental (no key)"
+msgstr ""
+
+#: src/Map/TileProviders.php:134
+msgid "IGN grey map — vector, experimental (no key)"
+msgstr ""
+
+#: src/Map/TileProviders.php:144
+msgid "Positron via OpenFreeMap — vector, no key, worldwide"
+msgstr ""
+
+#: src/Map/TileProviders.php:154
+msgid "Jawg Light — clean, French labels (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:164
+msgid "MapTiler Streets (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:174
+msgid "Stadia Alidade Smooth (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:184
+msgid "Thunderforest Atlas (key required)"
+msgstr ""
+
+#: src/Map/TileProviders.php:194
+msgid "Custom URL (other provider)"
+msgstr ""
+
+#: src/Migration/Runner.php:156
+msgid "Permission denied"
+msgstr ""
+
+#: src/Migration/Runner.php:192
+msgid "Data up to date."
+msgstr ""
+
+#: src/Migration/Runner.php:196
+msgid "Run the migration again (taxonomies + colours)"
+msgstr ""
+
+#: src/Plugin.php:332
+msgid "No place found"
+msgstr ""
+
+#: src/Plugin.php:333
+#: views/map.php:58
+#: views/map.php:113
+msgid "All types"
+msgstr ""
+
+#: src/Plugin.php:334
+msgid "Manager: "
+msgstr ""
+
+#: src/Plugin.php:335
+msgid "Managers: "
+msgstr ""
+
+#: src/Plugin.php:336
+msgid "Click an entity to show only that one."
+msgstr ""
+
+#: src/Plugin.php:337
+msgid "Show all"
+msgstr ""
+
+#: src/Plugin.php:338
+msgid "Unable to find your location"
+msgstr ""
+
+#: src/Plugin.php:339
+msgid "Geolocation is not available"
+msgstr ""
+
+#: src/Plugin.php:340
+#: views/map.php:129
+msgid "Full screen"
+msgstr ""
+
+#: src/Plugin.php:341
+msgid "Exit full screen"
+msgstr ""
+
+#: src/Plugin.php:342
+msgid "Filters"
+msgstr ""
+
+#: src/Plugin.php:343
+msgid "Open filters"
+msgstr ""
+
+#: src/Plugin.php:344
+msgctxt "close the filters drawer"
+msgid "Close"
+msgstr ""
+
+#: src/Plugin.php:345
+msgid "Close filters"
+msgstr ""
+
+#. translators: %d: number of places in a map cluster
+#: src/Plugin.php:347
+#, php-format
+msgid "%d places"
+msgstr ""
+
+#: src/Plugin.php:348
+msgid "Photo coming soon"
+msgstr ""
+
+#: src/Plugin.php:349
+msgid "Audience:"
+msgstr ""
+
+#. translators: 1: photo position, 2: number of photos
+#: src/Plugin.php:351
+#, php-format
+msgid "%1$d of %2$d"
+msgstr ""
+
+#. translators: %d: photo position
+#: src/Plugin.php:353
+#, php-format
+msgid "Go to photo %d"
+msgstr ""
+
+#: src/Plugin.php:355
+msgctxt "ARIA role description"
+msgid "carousel"
+msgstr ""
+
+#: src/Plugin.php:356
+msgid "Previous photo"
+msgstr ""
+
+#: src/Plugin.php:357
+msgid "Next photo"
+msgstr ""
+
+#: src/Plugin.php:392
+msgid "The location map could not be loaded. Coordinates can still be entered by hand."
+msgstr ""
+
+#: src/Plugin.php:393
+msgid "Please enter an address"
+msgstr ""
+
+#: src/Plugin.php:394
+msgid "Searching..."
+msgstr ""
+
+#. translators: %s: address found by the geocoder
+#: src/Plugin.php:396
+#, php-format
+msgid "Address found: %s"
+msgstr ""
+
+#: src/Plugin.php:397
+msgid "Address not found"
+msgstr ""
+
+#: src/Plugin.php:398
+msgid "Error during the search"
+msgstr ""
+
+#: src/Plugin.php:415
+msgid "Use these photos"
+msgstr ""
+
+#: src/Plugin.php:416
+msgid "Remove this photo"
+msgstr ""
+
+#: src/Plugin.php:417
+msgid "The WordPress media library could not be loaded on this page. Reload the page; if the problem persists, temporarily deactivate other plugins to find the conflict."
+msgstr ""
+
+#: src/Plugin.php:418
+msgid "The saved photo list was unreadable and has been reset. Select your photos again before saving."
+msgstr ""
+
+#: src/Rest/PlacesController.php:252
+msgid "Place not found"
+msgstr ""
+
+#: views/map.php:31
+msgid "Search for a place..."
+msgstr ""
+
+#: views/map.php:40
+#: views/map.php:95
+msgid "Search"
+msgstr ""
+
+#: views/map.php:57
+#: views/map.php:112
+msgid "Filter by type"
+msgstr ""
+
+#: views/map.php:66
+msgid "place(s)"
+msgstr ""
+
+#: views/map.php:86
+msgid "Search..."
+msgstr ""
+
+#: views/map.php:123
+msgid "Loading map..."
+msgstr ""
+
+#: views/map.php:130
+msgid "Enter full screen"
+msgstr ""

@@ -1,0 +1,32 @@
+# Normalised line endings
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.jpg binary
+# Third-party libraries stored byte for byte (hashes in VERSIONS.md)
+/assets/vendor/** -text
+
+# Excluded from the plugin ZIP (`git archive`): development files.
+/.github            export-ignore
+/docs               export-ignore
+/tests              export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/.editorconfig      export-ignore
+/.mcp.json.example  export-ignore
+/phpunit.xml.dist   export-ignore
+/docker             export-ignore
+/compose.yaml       export-ignore
+/compose.override.yaml export-ignore
+/.dockerignore      export-ignore
+/CHANGELOG.md       export-ignore
+/CONTRIBUTING.md    export-ignore
+/SECURITY.md        export-ignore
+/README.md          export-ignore
+/LICENSE            export-ignore
+
+# GitHub language statistics
+/docs/**            linguist-documentation
+/data/**/*.csv      linguist-generated
+/.env.example       export-ignore
+/composer.json      export-ignore

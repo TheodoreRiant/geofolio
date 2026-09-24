@@ -1,0 +1,60 @@
+# Local environment for Geofolio: WordPress 7.1.2 / PHP 8.0 + MariaDB,
+# installed on first start with Geofolio and its sample dataset.
+#
+#   docker compose up -d        → http://localhost:8080  (admin: admin / admin)
+#   docker compose logs -f wordpress
+#   docker compose down -v      → erase everything (database included)
+#
+# compose.override.yaml (loaded automatically) mounts the repository code:
+# a change is visible on reload, without rebuilding.
+
+name: geofolio
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: ghcr.io/theodoreriant/geofolio:${GEOFOLIO_TAG:-latest}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        GEOFOLIO_VERSION: ${GEOFOLIO_TAG:-dev}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${GEOFOLIO_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+      GEOFOLIO_SITE_URL: http://localhost:${GEOFOLIO_PORT:-8080}
+      # Tile provider key (CARTO…), defined in .env, never committed: without
+      # it, "key required" basemaps fall back to the IGN map.
+      GEOFOLIO_TILE_API_KEY: ${GEOFOLIO_TILE_API_KEY:-}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('GEOFOLIO_TILE_API_KEY', getenv_docker('GEOFOLIO_TILE_API_KEY', ''));
+    volumes:
+      - wp_data:/var/www/html
+
+volumes:
+  db_data:
+  wp_data:
