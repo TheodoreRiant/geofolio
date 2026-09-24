@@ -318,4 +318,34 @@ final class SettingsTest extends TestCase {
 
         $this->assertStringContainsString('rel="noopener"', $clean['custom_tile_attribution']);
     }
+
+    /* ---------------------------------------------------------------- */
+    /*  Page de réglages                                                 */
+    /* ---------------------------------------------------------------- */
+
+    public function test_la_page_recoit_des_valeurs_preparees() {
+        gfo_test_reset(array(SettingsPage::OPTION_NAME => array('api_key' => 'abcd1234efgh5678', 'tile_style' => 'osm')));
+
+        $view = SettingsPage::view_data();
+
+        $this->assertSame('osm', $view['settings']['tile_style']);
+        $this->assertSame(SettingsPage::OPTION_NAME, $view['option_name']);
+        $this->assertSame(SettingsPage::mask_key('abcd1234efgh5678'), $view['masked_key']);
+        $this->assertFalse($view['locked']);
+        $this->assertTrue($view['forced']);
+        $this->assertSame('osm', $view['resolved_id']);
+        $this->assertArrayHasKey('osm', $view['providers']);
+    }
+
+    public function test_sans_cle_la_page_n_affiche_pas_de_cle_masquee() {
+        $this->assertSame('', SettingsPage::view_data()['masked_key']);
+    }
+
+    /** Le HTML vit dans views/settings-page.php, comme celui de la carte. */
+    public function test_la_classe_ne_contient_plus_de_html() {
+        $source = file_get_contents(__DIR__ . '/../src/Admin/SettingsPage.php');
+
+        $this->assertStringNotContainsString('<table', $source);
+        $this->assertFileExists(__DIR__ . '/../views/settings-page.php');
+    }
 }

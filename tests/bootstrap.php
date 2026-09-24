@@ -93,6 +93,13 @@ function register_setting() {}
  *
  * @param array $options Options à installer.
  */
+/** Langue du site simulée. */
+$GLOBALS['gfo_test_locale'] = 'en_US';
+
+function get_locale() {
+    return $GLOBALS['gfo_test_locale'];
+}
+
 function gfo_test_reset(array $options = array()) {
     $GLOBALS['gfo_test_options']        = $options;
     $GLOBALS['gfo_test_settings_errors'] = array();

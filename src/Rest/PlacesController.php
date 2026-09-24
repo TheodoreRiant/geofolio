@@ -112,6 +112,39 @@ class PlacesController {
      * @return \WP_REST_Response
      */
     public function get_places($request) {
+        $params = self::request_params($request);
+        if (!ResponseCache::is_cacheable($params)) {
+            return rest_ensure_response(self::build_places($request));
+        }
+        return rest_ensure_response(ResponseCache::remember(
+            ResponseCache::key('places', $params),
+            static function () use ($request) {
+                return self::build_places($request);
+            }
+        ));
+    }
+
+    /**
+     * Paramètres de la route places qui influencent la réponse.
+     *
+     * @param \WP_REST_Request $request
+     * @return array
+     */
+    public static function request_params($request) {
+        $params = array();
+        foreach (array_keys(self::places_args()) as $name) {
+            $params[$name] = $request->get_param($name);
+        }
+        return $params;
+    }
+
+    /**
+     * Corps de la réponse places.
+     *
+     * @param \WP_REST_Request $request
+     * @return array
+     */
+    private static function build_places($request) {
         $query = new \WP_Query(self::query_args($request));
 
         $user_lat = $request->get_param('lat');
@@ -142,12 +175,12 @@ class PlacesController {
             });
         }
 
-        return rest_ensure_response(array(
+        return array(
             'count'  => count($places),
             'places' => $places,
             // Libellé et icône de chaque type : la carte ne code rien en dur.
             'types'  => Icons::type_catalog(),
-        ));
+        );
     }
 
     /**
@@ -199,6 +232,18 @@ class PlacesController {
      * @return \WP_REST_Response
      */
     public function get_filters() {
+        return rest_ensure_response(ResponseCache::remember(
+            ResponseCache::key('filters', array()),
+            array(__CLASS__, 'build_filters')
+        ));
+    }
+
+    /**
+     * Corps de la réponse filters.
+     *
+     * @return array
+     */
+    public static function build_filters() {
         $entity_terms = get_terms(array('taxonomy' => Schema::TAX_ENTITY, 'hide_empty' => false));
         $entities     = array();
         if (is_array($entity_terms)) {
@@ -207,14 +252,14 @@ class PlacesController {
             }
         }
 
-        return rest_ensure_response(array(
+        return array(
             'types'         => self::describe_filter_types(Taxonomies::get_filter_terms(Schema::TAX_TYPE)),
             'regions'       => Taxonomies::get_filter_terms(Schema::TAX_REGION),
             'services'      => Taxonomies::get_filter_terms(Schema::TAX_SERVICE),
             'accessibility' => Taxonomies::get_filter_terms(Schema::TAX_ACCESSIBILITY),
             'entities'      => $entities,
             'default_color' => Defaults::color(),
-        ));
+        );
     }
 
     /**
