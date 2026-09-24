@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Geofolio wordpress.org banner (1544×500)</title>
+<style>
+  @font-face { font-family: "Poppins"; font-weight: 400; src: url("../assets/fonts/poppins-400.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; src: url("../assets/fonts/poppins-600.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 700; src: url("../assets/fonts/poppins-700.woff2") format("woff2"); }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1544px; height: 500px; overflow: hidden; position: relative;
+    background: #1F4E79;
+    background-image:
+      radial-gradient(1000px 520px at 84% 50%, #2A6396 0%, rgba(42, 99, 150, 0) 62%),
+      linear-gradient(135deg, #17395A 0%, #1F4E79 55%, #24598A 100%);
+    font-family: "Poppins", "Helvetica Neue", Arial, sans-serif; color: #fff;
+  }
+  .grid { position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 64px 64px; -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.9)); mask-image: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.9)); }
+  .left { position: absolute; left: 96px; top: 92px; width: 760px; }
+  .brand { display: flex; align-items: center; gap: 26px; }
+  .brand svg { width: 118px; height: 118px; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.35)); }
+  .name { font-size: 78px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .tagline { margin-top: 34px; font-size: 30px; font-weight: 600; line-height: 1.3; color: #F3F7FB; }
+  .sub { margin-top: 14px; font-size: 21px; color: #C9D8E6; line-height: 1.45; }
+  .card { position: absolute; right: 96px; top: 60px; width: 560px; height: 380px; border-radius: 26px; background: #EEF3F8; overflow: hidden;
+          box-shadow: 0 30px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.12); }
+  .card svg { width: 100%; height: 100%; display: block; }
+  .list { position: absolute; left: 0; top: 0; bottom: 0; width: 176px; background: #fff; border-right: 1px solid #DCE7F2; padding: 20px 16px; box-sizing: border-box; }
+  .list .t { height: 12px; width: 104px; border-radius: 6px; background: #1F4E79; margin-bottom: 16px; }
+  .list .row { display: flex; gap: 9px; align-items: center; margin-bottom: 15px; }
+  .list .dot { width: 24px; height: 24px; border-radius: 7px; flex: none; }
+  .list .l1 { height: 8px; border-radius: 4px; background: #1F4E79; opacity: .85; width: 90px; margin-bottom: 5px; }
+  .list .l2 { height: 6px; border-radius: 3px; background: #C9D8E6; width: 58px; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="left">
+    <div class="brand">
+      <svg viewBox="0 0 256 256" role="img" aria-label="Geofolio icon">
+        <rect width="256" height="256" rx="56" fill="#1F4E79" stroke="rgba(255,255,255,0.35)" stroke-width="3"/>
+        <path d="M44 78 L104 60 L152 78 L212 60 L212 178 L152 196 L104 178 L44 196 Z" fill="#FFFFFF"/>
+        <path d="M104 60 L152 78 L152 196 L104 178 Z" fill="#DCE7F2"/>
+        <path d="M44 132 C 80 118, 96 146, 128 134 S 176 112, 212 122" fill="none" stroke="#C9D8E6" stroke-width="7" stroke-linecap="round"/>
+        <path d="M74 196 C 92 160, 112 150, 128 134" fill="none" stroke="#C9D8E6" stroke-width="7" stroke-linecap="round"/>
+        <path d="M128 40c-27.6 0-50 21.9-50 48.9C78 126 128 166 128 166s50-40 50-77.1C178 61.9 155.6 40 128 40z" fill="#E07A3F"/>
+        <circle cx="128" cy="88" r="18" fill="#FFFFFF"/>
+      </svg>
+      <div class="name">Geofolio</div>
+    </div>
+    <div class="tagline">Interactive map of places for WordPress</div>
+    <div class="sub">Search, filters, synchronised list and photo popups.<br>Gutenberg block, Elementor widget, shortcode, CSV import.</div>
+  </div>
+  <div class="card">
+    <svg viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg">
+      <rect width="560" height="380" fill="#EEF3F8"/>
+      <path d="M250 30 h150 a14 14 0 0 1 14 14 v70 a14 14 0 0 1 -14 14 h-150 a14 14 0 0 1 -14 -14 v-70 a14 14 0 0 1 14 -14z" fill="#DDEBDD"/>
+      <path d="M420 250 h140 v130 h-140z" fill="#DDEBDD" opacity=".9"/>
+      <path d="M176 380 C 240 300, 330 290, 380 250 S 500 190, 560 180 V 380 Z" fill="#CFE0EF"/>
+      <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M176 80 H560" stroke-width="14"/><path d="M176 190 H560" stroke-width="10"/>
+        <path d="M320 0 V380" stroke-width="14"/><path d="M450 0 V250" stroke-width="10"/>
+        <path d="M176 300 C 250 270, 280 230, 340 220 S 470 160, 560 140" stroke-width="10"/>
+      </g>
+      <g fill="none" stroke="#DCE7F2" stroke-linecap="round"><path d="M176 80 H560" stroke-width="2" stroke-dasharray="10 12"/><path d="M320 0 V380" stroke-width="2" stroke-dasharray="10 12"/></g>
+      <circle cx="500" cy="318" r="26" fill="#fff" stroke="#1F4E79" stroke-width="4"/>
+      <circle cx="490" cy="318" r="6" fill="#6B4BC7"/><circle cx="506" cy="310" r="6" fill="#2E7D5B"/><circle cx="508" cy="326" r="6" fill="#E07A3F"/>
+      <g transform="translate(380 130) scale(0.62)"><path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#6B4BC7" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/></g>
+      <g transform="translate(250 240) scale(0.62)"><path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#2E7D5B" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/></g>
+      <g transform="translate(505 62) scale(0.62)"><path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#E07A3F" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/></g>
+      <g transform="translate(300 262)">
+        <rect x="0" y="0" width="170" height="86" rx="12" fill="#fff" stroke="#DCE7F2"/>
+        <rect x="12" y="12" width="52" height="14" rx="7" fill="#6B4BC7"/><rect x="12" y="36" width="120" height="10" rx="5" fill="#1F4E79"/>
+        <rect x="12" y="54" width="90" height="8" rx="4" fill="#C9D8E6"/><rect x="12" y="68" width="66" height="8" rx="4" fill="#C9D8E6"/>
+      </g>
+    </svg>
+    <div class="list">
+      <div class="t"></div>
+      <div class="row"><div class="dot" style="background:#6B4BC7"></div><div><div class="l1"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#2E7D5B"></div><div><div class="l1" style="width:72px"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#E07A3F"></div><div><div class="l1" style="width:96px"></div><div class="l2" style="width:44px"></div></div></div>
+      <div class="row"><div class="dot" style="background:#6B4BC7"></div><div><div class="l1" style="width:64px"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#2E7D5B"></div><div><div class="l1" style="width:82px"></div><div class="l2" style="width:50px"></div></div></div>
+      <div class="row"><div class="dot" style="background:#E07A3F"></div><div><div class="l1" style="width:74px"></div><div class="l2"></div></div></div>
+    </div>
+  </div>
+</body>
+</html>
