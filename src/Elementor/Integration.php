@@ -11,6 +11,13 @@ if (!defined('ABSPATH')) {
 
 class Integration {
 
+    /**
+     * Nom du widget carte. Ici plutôt que dans MapWidget : lire une constante
+     * de MapWidget charge la classe, qui hérite de \Elementor\Widget_Base et
+     * provoque une erreur fatale sur un site sans Elementor.
+     */
+    const WIDGET_NAME = 'geofolio_map';
+
     private static $instance = null;
 
     public static function get_instance() {

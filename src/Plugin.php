@@ -13,7 +13,6 @@ use Geofolio\Admin\SettingsPage;
 use Geofolio\Domain\PlacePostType;
 use Geofolio\Domain\Taxonomies;
 use Geofolio\Elementor\Integration;
-use Geofolio\Elementor\MapWidget;
 use Geofolio\Import\Importer;
 use Geofolio\Map\Defaults;
 use Geofolio\Map\Shortcode;
@@ -209,7 +208,7 @@ final class Plugin {
      * @return string[]
      */
     public static function elementor_widget_names() {
-        return array_values(array_filter((array) apply_filters('geofolio_elementor_widget_names', array(MapWidget::NAME)), 'is_string'));
+        return array_values(array_filter((array) apply_filters('geofolio_elementor_widget_names', array(Integration::WIDGET_NAME)), 'is_string'));
     }
 
     /**
