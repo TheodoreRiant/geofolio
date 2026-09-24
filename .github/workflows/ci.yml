@@ -52,6 +52,8 @@ jobs:
       - run: npm ci
       - run: npm run lint:js
       - run: npm run lint:css
+      # Le bloc compilé (blocks/map/build) est versionné : il doit être à jour.
+      - run: npm run build:block && git diff --exit-code blocks/map/build
 
   phpcs:
     name: PHPCS (WordPress, warnings only)
