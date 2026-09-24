@@ -1,5 +1,5 @@
 import { buildTypeCatalog } from './types.mjs';
-import { sanitizeColor } from './colors.mjs';
+import { sanitizeColor, resolveEntityColor } from './colors.mjs';
 import { escHtml, escAttr } from './escape.mjs';
 import { foldText } from './text.mjs';
 import { t } from './i18n.mjs';
@@ -19,6 +19,7 @@ class GeofolioMap {
         this.map        = null;
         this.markers    = null;
         this.markerMap  = {};
+        this._markerCache = {};
 
         // Cache-based data management
         this.allPlaces      = [];
@@ -445,6 +446,7 @@ class GeofolioMap {
                 if (self._destroyed) return;
 
                 self.typeCatalog           = buildTypeCatalog(response.types);
+                self._markerCache          = {}; // nouvelle liste : marqueurs à reconstruire
                 self.allPlaces     = response.places || [];
                 self.filteredPlaces = self.allPlaces.slice();
                 self.buildEntityPills();
@@ -702,13 +704,11 @@ class GeofolioMap {
             return;
         }
 
-        this.filteredPlaces.forEach(function(place) {
+        // Fiches assemblées puis insérées en une fois (un seul recalcul de mise en page).
+        var cards = this.filteredPlaces.map(function(place) {
             var typeStr  = (place.types && place.types[0]) ? place.types[0] : '';
             var config   = self.getTypeConfig(typeStr);
-            var entityColor = sanitizeColor(
-                (place.entity && place.entity.color) ? place.entity.color : config.color,
-                config.color
-            );
+            var entityColor = resolveEntityColor(place, config.color);
             var cityStr = place.city || '';
 
             // Phone link (with stopPropagation to prevent card click)
@@ -744,8 +744,9 @@ class GeofolioMap {
                 + '</div>'
                 + '</div>';
 
-            $list.append(cardHtml);
+            return cardHtml;
         });
+        $list.html(cards.join(''));
     }
 
     /* ============================================================ */
@@ -835,6 +836,7 @@ class GeofolioMap {
 
         this.markers    = null;
         this.markerMap  = {};
+        this._markerCache = {};
         this._escHandler = null;
     }
 }
