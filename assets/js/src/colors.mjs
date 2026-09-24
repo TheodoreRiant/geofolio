@@ -15,4 +15,11 @@ function sanitizeColor(value, fallback) {
     return COLOR_RE.test(v) ? v : fb;
 }
 
-export { COLOR_RE, DEFAULT_COLOR, sanitizeColor };
+/* Couleur d'un lieu : celle de son entité, sinon celle de son type
+   (toutes deux validées). */
+function resolveEntityColor(place, typeColor) {
+    var entityColor = place && place.entity && place.entity.color;
+    return sanitizeColor(entityColor || typeColor, typeColor);
+}
+
+export { COLOR_RE, DEFAULT_COLOR, sanitizeColor, resolveEntityColor };

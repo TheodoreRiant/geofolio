@@ -5,6 +5,9 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Changed
+- Markers are built once per place and shown again when filters change, instead of rebuilding every marker, icon, popup and listener on each filter or keystroke (20 filter changes on the sample dataset: 214 markers rebuilt before, none now). The cache is reset when the place list is reloaded.
+- The place list is inserted in one operation instead of one card at a time.
+- The entity/type colour rule lives in one function (`resolveEntityColor`) instead of four copies.
 - The map script is split into ES modules (`assets/js/src/`: escaping, text, i18n, colours, types, filters, carousel, basemaps, icons, and the `GeofolioMap` class with its autocomplete, carousel and marker methods in separate files) bundled by esbuild into `assets/js/geofolio.js`, still an unminified IIFE. Node tests import the modules instead of cutting the source file at comment markers. Behaviour unchanged (computed styles and an interaction scenario compared before/after).
 - The stylesheet is split into 20 partials (`assets/css/src/`, numbered in cascade order) assembled into `assets/css/geofolio.css` by `npm run build:css`; the served file stays readable and needs no build to run. The computed styles of every map element are unchanged (checked at seven widths, map at rest and popup open).
 - The three `@media (max-width: 640px)` blocks are merged into one; duplicate selectors and declarations removed.

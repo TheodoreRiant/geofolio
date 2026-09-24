@@ -34,6 +34,10 @@
     var v = value.trim();
     return COLOR_RE.test(v) ? v : fb;
   }
+  function resolveEntityColor(place, typeColor) {
+    var entityColor = place && place.entity && place.entity.color;
+    return sanitizeColor(entityColor || typeColor, typeColor);
+  }
 
   // assets/js/src/escape.mjs
   var HTML_ENTITIES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
@@ -453,6 +457,20 @@
     }
   };
 
+  // assets/js/src/marker-cache.mjs
+  function syncMarkerCache(cache, places, create) {
+    var next = Object.assign({}, cache);
+    var markers = [];
+    places.forEach(function(place) {
+      if (!place.lat || !place.lng) return;
+      if (!next[place.id]) {
+        next[place.id] = create(place);
+      }
+      markers.push(next[place.id]);
+    });
+    return { cache: next, markers };
+  }
+
   // assets/js/src/map-markers.mjs
   var markersMethods = {
     initMarkerCluster() {
@@ -504,53 +522,62 @@
       return resolveTypeConfig(this.typeCatalog, type, DEFAULT_COLOR);
     },
     /**
-     * Clears all existing markers and re-adds them from the
-     * current filteredPlaces list.
+     * Marqueur d'un lieu : icône, popup et écouteur de clic. Construit une
+     * seule fois par lieu (voir renderMarkers et syncMarkerCache).
+     *
+     * @param {Object} place
+     * @returns {L.Marker}
+     */
+    createMarker(place) {
+      var self = this;
+      var marker = L.marker([place.lat, place.lng], {
+        icon: self.createMarkerIcon(place)
+      });
+      marker.bindPopup(self.createPopupContent(place), {
+        maxWidth: 380,
+        maxHeight: 400,
+        className: "gfo-popup",
+        autoPan: true,
+        // Padding haut/gauche large pour que le popup ne se glisse
+        // jamais sous les pastilles d'entités flottantes en haut
+        // ni sous le bouton fullscreen. Padding bas plus court car
+        // pas d'obstacle.
+        autoPanPaddingTopLeft: L.point(20, 110),
+        autoPanPaddingBottomRight: L.point(20, 80)
+      });
+      marker.placeId = place.id;
+      var placeType = place.types && place.types[0] ? place.types[0] : "";
+      marker.entityColor = resolveEntityColor(place, self.getTypeConfig(placeType).color);
+      marker.on("click", function() {
+        self.$container.find(".gfo-place-card").removeClass("active");
+        var $card = self.$container.find('.gfo-place-card[data-id="' + place.id + '"]');
+        $card.addClass("active");
+        if ($card.length) {
+          var $list = self.$container.find(".gfo-place-list");
+          if ($list.length) {
+            $list.animate({
+              scrollTop: $list.scrollTop() + $card.position().top - 60
+            }, 300);
+          }
+        }
+      });
+      return marker;
+    },
+    /**
+     * Affiche les marqueurs des lieux filtrés, construits une fois par lieu
+     * puis réaffichés : un filtre ne refait ni icône, ni popup, ni écouteurs
+     * (cache vidé quand la liste des lieux est rechargée).
      */
     renderMarkers() {
       var self = this;
       var markerList = [];
+      var synced = syncMarkerCache(this._markerCache || {}, this.filteredPlaces, this.createMarker.bind(this));
+      this._markerCache = synced.cache;
+      markerList = synced.markers;
       this.markers.clearLayers();
       this.markerMap = {};
-      this.filteredPlaces.forEach(function(place) {
-        if (!place.lat || !place.lng) return;
-        var marker = L.marker([place.lat, place.lng], {
-          icon: self.createMarkerIcon(place)
-        });
-        marker.bindPopup(self.createPopupContent(place), {
-          maxWidth: 380,
-          maxHeight: 400,
-          className: "gfo-popup",
-          autoPan: true,
-          // Padding haut/gauche large pour que le popup ne se glisse
-          // jamais sous les pastilles d'entités flottantes en haut
-          // ni sous le bouton fullscreen. Padding bas plus court car
-          // pas d'obstacle.
-          autoPanPaddingTopLeft: L.point(20, 110),
-          autoPanPaddingBottomRight: L.point(20, 80)
-        });
-        marker.placeId = place.id;
-        var placeType = place.types && place.types[0] ? place.types[0] : "";
-        var placeConfig = self.getTypeConfig(placeType);
-        marker.entityColor = sanitizeColor(
-          place.entity && place.entity.color ? place.entity.color : placeConfig.color,
-          placeConfig.color
-        );
-        marker.on("click", function() {
-          self.$container.find(".gfo-place-card").removeClass("active");
-          var $card = self.$container.find('.gfo-place-card[data-id="' + place.id + '"]');
-          $card.addClass("active");
-          if ($card.length) {
-            var $list = self.$container.find(".gfo-place-list");
-            if ($list.length) {
-              $list.animate({
-                scrollTop: $list.scrollTop() + $card.position().top - 60
-              }, 300);
-            }
-          }
-        });
-        self.markerMap[place.id] = marker;
-        markerList.push(marker);
+      markerList.forEach(function(marker) {
+        self.markerMap[marker.placeId] = marker;
       });
       this.markers.addLayers(markerList);
       if (this.config.fitBounds && markerList.length > 0 && !this.userLocation) {
@@ -572,10 +599,7 @@
     createMarkerIcon(place) {
       var type = place.types && place.types[0] ? place.types[0] : "";
       var config = this.getTypeConfig(type);
-      var entityColor = sanitizeColor(
-        place.entity && place.entity.color ? place.entity.color : config.color,
-        config.color
-      );
+      var entityColor = resolveEntityColor(place, config.color);
       var w = 40;
       var h = 52;
       return L.divIcon({
@@ -597,10 +621,7 @@
       var title = place.title || "";
       var type = place.types && place.types[0] ? place.types[0] : "";
       var config = this.getTypeConfig(type);
-      var entityColor = sanitizeColor(
-        place.entity && place.entity.color ? place.entity.color : config.color,
-        config.color
-      );
+      var entityColor = resolveEntityColor(place, config.color);
       var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(", ");
       var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '">';
       if (place.gallery_count > 0) {
@@ -769,6 +790,7 @@
       this.map = null;
       this.markers = null;
       this.markerMap = {};
+      this._markerCache = {};
       this.allPlaces = [];
       this.filteredPlaces = [];
       this.typeCatalog = {};
@@ -1106,6 +1128,7 @@
         success: function(response) {
           if (self._destroyed) return;
           self.typeCatalog = buildTypeCatalog(response.types);
+          self._markerCache = {};
           self.allPlaces = response.places || [];
           self.filteredPlaces = self.allPlaces.slice();
           self.buildEntityPills();
@@ -1299,13 +1322,10 @@
         );
         return;
       }
-      this.filteredPlaces.forEach(function(place) {
+      var cards = this.filteredPlaces.map(function(place) {
         var typeStr = place.types && place.types[0] ? place.types[0] : "";
         var config = self.getTypeConfig(typeStr);
-        var entityColor = sanitizeColor(
-          place.entity && place.entity.color ? place.entity.color : config.color,
-          config.color
-        );
+        var entityColor = resolveEntityColor(place, config.color);
         var cityStr = place.city || "";
         var phoneHtml = "";
         if (place.phone) {
@@ -1313,8 +1333,9 @@
         }
         var managerHtml = place.manager ? '<div class="gfo-place-manager">' + escHtml(place.manager) + "</div>" : "";
         var cardHtml = '<div class="gfo-place-card" data-id="' + place.id + '" data-lat="' + (place.lat || "") + '" data-lng="' + (place.lng || "") + '" role="listitem" tabindex="0"><div class="gfo-place-icon" style="background:' + entityColor + "12;color:" + entityColor + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + config.svgPath + '</svg></div><div class="gfo-place-info"><div class="gfo-place-name">' + escHtml(place.title) + '</div><div class="gfo-place-meta"><span class="gfo-place-type" style="background:' + entityColor + "18;color:" + entityColor + '">' + escHtml(config.label) + '</span><span class="gfo-place-city">' + escHtml(cityStr) + "</span></div>" + managerHtml + phoneHtml + "</div></div>";
-        $list.append(cardHtml);
+        return cardHtml;
       });
+      $list.html(cards.join(""));
     }
     /* ============================================================ */
     /*  INTERACTIONS: FOCUS & HIGHLIGHT                              */
@@ -1389,6 +1410,7 @@
       }
       this.markers = null;
       this.markerMap = {};
+      this._markerCache = {};
       this._escHandler = null;
     }
   };
