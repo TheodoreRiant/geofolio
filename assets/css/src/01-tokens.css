@@ -1,0 +1,108 @@
+/**
+ * Geofolio - Styles principaux
+ * Sidebar with establishment cards, search bar, dropdown filter,
+ * SVG markers, clusters, mobile toolbar, responsive popup.
+ *
+ * Neutral palette: a preset or theme restyles the map by overriding the
+ * --gfo-* custom properties on .gfo-map-container.
+ *
+ * !important is kept for two cases only: the plugin's <button> elements
+ * (pills, carousel arrows and dots, "Show all" link), which themes and
+ * Elementor kits style aggressively, and the fullscreen mode, which must
+ * win over its parents. A value meant to be adjustable goes through a
+ * custom property read inside the !important declaration
+ * (e.g. --gfo-pill-radius).
+ */
+
+/* ============================================================
+   1. CSS VARIABLES
+   All variables are overridable via Elementor selectors.
+   ============================================================ */
+/* Poppins (SIL Open Font License), self-hosted: no request to a font CDN */
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('../fonts/poppins-300.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/poppins-400.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/poppins-600.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/poppins-700.woff2') format('woff2');
+}
+
+:root {
+    /* Core palette (neutral) */
+    --gfo-primary: #1F4E79;
+    --gfo-primary-dark: #163A5A;
+    --gfo-primary-light: #2A6396;
+    --gfo-accent: #E07A1F;
+    --gfo-accent-dark: #C4661A;
+
+    /* Surfaces */
+    --gfo-bg: #F8FAFC;
+    --gfo-surface: #FFFFFF;
+
+    /* Text */
+    --gfo-text: #1E293B;
+    --gfo-text-secondary: #64748B;
+    --gfo-text-muted: #94A3B8;
+
+    /* Borders */
+    --gfo-border: #E2E8F0;
+    --gfo-border-light: #F1F5F9;
+
+    /* Radius */
+    --gfo-radius-sm: 6px;
+    --gfo-radius: 10px;
+    --gfo-radius-lg: 14px;
+
+    /* Shadows */
+    --gfo-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --gfo-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --gfo-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
+    --gfo-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
+
+    /* Typography — Poppins, system fallback. Titles use the same family
+       unless a preset sets --gfo-font-title. */
+    --gfo-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --gfo-font-title: var(--gfo-font);
+
+    /* Layout */
+    --gfo-sidebar-width: 380px;
+
+    /* Transitions */
+    --gfo-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --gfo-transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Spacing (8px grid, used internally) */
+    --gfo-space-xs: 4px;
+    --gfo-space-sm: 8px;
+    --gfo-space-md: 16px;
+    --gfo-space-lg: 24px;
+    --gfo-space-xl: 32px;
+
+    /* Extra radius for legacy compat */
+    --gfo-radius-xl: 20px;
+
+    /* Slow transition for bottom sheet / drawer */
+    --gfo-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+

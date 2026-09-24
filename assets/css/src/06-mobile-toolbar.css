@@ -1,0 +1,25 @@
+/* ============================================================
+   15. MOBILE TOOLBAR (.gfo-mobile-toolbar)
+   Hidden on desktop. Flex column on mobile.
+   ============================================================ */
+.gfo-mobile-toolbar {
+    display: none;
+    flex-direction: column;
+    padding: 10px 12px;
+    gap: 8px;
+    background: var(--gfo-surface);
+    border-bottom: 1px solid var(--gfo-border);
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+/* Search row inside mobile toolbar */
+.gfo-mobile-toolbar .gfo-search-row {
+    gap: 6px;
+}
+
+/* Filter dropdown inside mobile toolbar */
+.gfo-mobile-toolbar .gfo-filter-select {
+    margin-top: 0;
+}
+

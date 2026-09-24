@@ -1,3 +1,4 @@
+/* Built by tools/build-css.js from assets/css/src/: edit the partials, then run npm run build:css. */
 /**
  * Geofolio - Styles principaux
  * Sidebar with establishment cards, search bar, dropdown filter,
@@ -5,6 +6,13 @@
  *
  * Neutral palette: a preset or theme restyles the map by overriding the
  * --gfo-* custom properties on .gfo-map-container.
+ *
+ * !important is kept for two cases only: the plugin's <button> elements
+ * (pills, carousel arrows and dots, "Show all" link), which themes and
+ * Elementor kits style aggressively, and the fullscreen mode, which must
+ * win over its parents. A value meant to be adjustable goes through a
+ * custom property read inside the !important declaration
+ * (e.g. --gfo-pill-radius).
  */
 
 /* ============================================================
@@ -172,8 +180,7 @@ body.gfo-body-fullscreen {
     max-height: 100%;
     overflow: hidden;
     border-right: 1px solid var(--gfo-border);
-    overflow: hidden;
-    height: 100%;
+    transition: transform var(--gfo-transition-slow), height var(--gfo-transition-slow);
     position: relative;
     z-index: 10;
 }
@@ -233,6 +240,7 @@ body.gfo-body-fullscreen {
    Flex row, gap 6px, input + button.
    ============================================================ */
 .gfo-search-row {
+    position: relative; /* ancre de la liste d'autocomplétion */
     display: flex;
     flex-direction: row;
     gap: 6px;
@@ -445,6 +453,7 @@ body.gfo-body-fullscreen {
         background var(--gfo-transition),
         border-left-color var(--gfo-transition),
         box-shadow var(--gfo-transition);
+    will-change: background, border-left-color;
     animation: gfo-fade-in 0.25s ease both;
     position: relative;
 }
@@ -681,12 +690,6 @@ body.gfo-body-fullscreen {
     flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-    .gfo-entity-hint {
-        font-size: 10.5px;
-        padding: 3px 8px;
-    }
-}
 
 .gfo-entity-pills {
     display: flex;
@@ -839,8 +842,8 @@ body.gfo-body-fullscreen {
    SVG pin markers with icons.
    ============================================================ */
 .gfo-marker-icon {
-    background: none !important;
-    border: none !important;
+    background: none;
+    border: none;
 }
 
 .gfo-marker {
@@ -849,6 +852,7 @@ body.gfo-body-fullscreen {
     position: relative;
     cursor: pointer;
     transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s ease;
+    will-change: transform, filter;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
     transform-origin: bottom center;
     animation: marker-bounce-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -872,8 +876,8 @@ body.gfo-body-fullscreen {
    White bg, colored border, rounded, modern design.
    ============================================================ */
 .gfo-cluster-icon {
-    background: none !important;
-    border: none !important;
+    background: none;
+    border: none;
 }
 
 .gfo-cluster {
@@ -886,6 +890,7 @@ body.gfo-body-fullscreen {
     background: var(--gfo-cluster-bg);
     position: relative;
     transition: transform 0.15s ease;
+    will-change: transform;
     cursor: pointer;
 }
 
@@ -1287,8 +1292,8 @@ body.gfo-body-fullscreen {
    23. USER LOCATION MARKER (.gfo-user-marker)
    ============================================================ */
 .gfo-user-marker-icon {
-    background: none !important;
-    border: none !important;
+    background: none;
+    border: none;
 }
 
 .gfo-user-marker {
@@ -1520,9 +1525,6 @@ body.gfo-body-fullscreen {
         box-shadow: var(--gfo-shadow-lg);
         z-index: 500;
         border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
-    }
-
-    .gfo-map-sidebar.gfo-drawer-open {
         height: 55%;
         transform: translateY(0);
     }
@@ -1737,21 +1739,8 @@ body.gfo-body-fullscreen {
    37. TRANSITION HELPERS
    Smooth transitions for dynamic state changes triggered by JS.
    ============================================================ */
-.gfo-map-sidebar {
-    transition: transform var(--gfo-transition-slow), height var(--gfo-transition-slow);
-}
-
-.gfo-place-card {
-    will-change: background, border-left-color;
-}
-
-.gfo-marker {
-    will-change: transform, filter;
-}
-
-.gfo-cluster {
-    will-change: transform;
-}
+/* Transitions et will-change : déclarés avec la règle de base de chaque
+   composant (.gfo-map-sidebar, .gfo-place-card, .gfo-marker, .gfo-cluster). */
 
 /* ================================================================ */
 /*  TOAST NOTIFICATION                                               */
@@ -1799,10 +1788,6 @@ body.gfo-body-fullscreen {
 /* ============================================================
    AUTOCOMPLETE (v2.5)
    ============================================================ */
-
-.gfo-search-row {
-    position: relative;
-}
 
 .gfo-autocomplete-results {
     position: absolute;
@@ -1862,16 +1847,6 @@ body.gfo-body-fullscreen {
     font-style: italic;
 }
 
-@media (max-width: 640px) {
-    .gfo-mobile-toolbar .gfo-autocomplete-results {
-        position: fixed;
-        top: auto;
-        bottom: 60px;
-        left: 10px;
-        right: 10px;
-        max-height: 50vh;
-    }
-}
 
 /* ============================================================
    CARROUSEL (v2.6)
@@ -2046,7 +2021,23 @@ body.gfo-body-fullscreen {
     100% { background-position: -200% 0; }
 }
 
+/* Petits écrans (<= 640px) : un seul bloc, placé après les règles de base
+   de chaque composant qu'il ajuste (pastilles, autocomplétion, carrousel). */
 @media (max-width: 640px) {
+    .gfo-entity-hint {
+        font-size: 10.5px;
+        padding: 3px 8px;
+    }
+
+    .gfo-mobile-toolbar .gfo-autocomplete-results {
+        position: fixed;
+        top: auto;
+        bottom: 60px;
+        left: 10px;
+        right: 10px;
+        max-height: 50vh;
+    }
+
     .gfo-carousel-slide { height: 180px; }
 
     /* Meme specificite et meme !important que la regle de base, sinon la

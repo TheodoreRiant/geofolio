@@ -48,10 +48,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint:js
-      # Stylelint non bloquant tant que les doublons CSS relevés par la revue
-      # de code (lot C) ne sont pas résorbés.
       - run: npm run lint:css
-        continue-on-error: true
 
   phpcs:
     name: PHPCS (WordPress, warnings only)

@@ -31,6 +31,10 @@ composer lint                    # PHPCS, WordPress standard (warnings only in C
 - Every HTML output escapes its data (`escHtml` / `escAttr` in JS, `esc_html` / `esc_attr` / `esc_url` in PHP). The REST API returns plain text.
 - Every displayed string is translatable: English source strings, domain `geofolio`; in JS, through `geofolioConfig.i18n`. Regenerate `languages/geofolio.pot` with `wp i18n make-pot`.
 
+## Stylesheet
+
+`assets/css/geofolio.css` is **built**: edit the partials in `assets/css/src/` (numbered in cascade order), then run `npm run build:css`. A Node test fails when the built file is out of date. Keep `!important` for the plugin's buttons and the fullscreen mode only (see the header of `01-tokens.css`).
+
 ## Commits
 
 `type: description` (types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`). The body explains the **cause** and the **why**, not only the what.
