@@ -1,5 +1,5 @@
 /**
- * Tests du HTML du carrousel du popup (assets/js/geofolio.js).
+ * Tests du HTML du carrousel du popup (assets/js/src/carousel.mjs).
  *
  * Le texte alternatif d'un média est modifiable par un compte Auteur sans
  * droit unfiltered_html : il ne doit jamais pouvoir sortir de son attribut.
@@ -9,27 +9,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadBuilder() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const escStart = source.indexOf('    /* HTML-escape');
-    const escEnd   = source.indexOf('    /* N\'accepte qu\'une URL', escStart);
-    const start    = source.indexOf('    /* ---- CARROUSEL DU POPUP : début ---- */');
-    const end      = source.indexOf('    /* ---- CARROUSEL DU POPUP : fin ---- */', start);
-
-    assert.ok(escStart !== -1 && escEnd > escStart, 'escHtml introuvable dans geofolio.js');
-    assert.ok(start !== -1 && end > start, 'Bloc « CARROUSEL DU POPUP » introuvable dans geofolio.js');
-
-    const i18nStart = source.indexOf('    /* ---- I18N : début ---- */');
-    const i18nEnd   = source.indexOf('    /* ---- I18N : fin ---- */', i18nStart);
-    assert.ok(i18nStart !== -1 && i18nEnd > i18nStart, 'Bloc « I18N » introuvable dans geofolio.js');
-
-    return new Function(
-        source.slice(escStart, escEnd) + source.slice(i18nStart, i18nEnd) + source.slice(start, end)
-        + '; return buildCarouselHtml;')();
+    return load('carousel').buildCarouselHtml;
 }
 
 const PAYLOAD = '" onload="alert(1)';

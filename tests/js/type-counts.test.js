@@ -10,24 +10,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadHelpers() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    function matchesSearch');
-    const end   = source.indexOf('    /* ====', start);
-
-    assert.ok(start !== -1 && end > start, 'Prédicats de filtrage introuvables dans geofolio.js');
-
-    // matchesSearch s'appuie sur foldText (repli accents / apostrophes).
-    const foldStart = source.indexOf('    function foldChar');
-    const foldEnd   = source.indexOf('    /* Wrap the first', foldStart);
-    assert.ok(foldStart !== -1 && foldEnd > foldStart, 'foldText introuvable dans geofolio.js');
-
-    return new Function(source.slice(foldStart, foldEnd) + source.slice(start, end)
-        + '; return { matchesSearch, matchesType, matchesEntities, countTypes, visibleTypeKeys };')();
+    return load('filters');
 }
 
 const ETABS = [

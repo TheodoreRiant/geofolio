@@ -1,5 +1,5 @@
 /**
- * Tests des aides de lien du popup (assets/js/geofolio.js).
+ * Tests des aides de lien du popup (assets/js/src/escape.mjs).
  *
  * Le champ « Site web » est saisi a la main dans l'admin : il doit etre
  * assaini avant de devenir un href, et affiche sous forme compacte.
@@ -9,18 +9,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadHelpers() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    /* HTML-escape');
-    const end   = source.indexOf('    /* Wrap the first');
-
-    assert.ok(start !== -1 && end > start, 'Aides de lien introuvables dans geofolio.js');
-
-    return new Function(source.slice(start, end) + '; return { escAttr, safeUrl, prettyUrl };')();
+    return load('escape');
 }
 
 test('une URL http(s) est conservée telle quelle', () => {

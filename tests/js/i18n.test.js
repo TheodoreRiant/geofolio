@@ -1,6 +1,6 @@
 /**
  * Tests de l'internationalisation côté carte : formatage des libellés
- * traduits, et aucune chaîne affichable codée en dur dans geofolio.js.
+ * traduits, et aucune chaîne affichable codée en dur dans les modules de la carte.
  *
  * Lancer :  node --test tests/js/*.test.js
  */
@@ -9,14 +9,10 @@ const test   = require('node:test');
 const assert = require('node:assert');
 const fs     = require('node:fs');
 const path   = require('node:path');
-
-const SOURCE = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
+const { load, SOURCE } = require('./modules.js');
 
 function loadFormatText() {
-    const start = SOURCE.indexOf('    /* ---- I18N : début ---- */');
-    const end   = SOURCE.indexOf('    /* ---- I18N : fin ---- */', start);
-    assert.ok(start !== -1 && end > start, 'Bloc « I18N » introuvable dans geofolio.js');
-    return new Function(SOURCE.slice(start, end) + '; return formatText;')();
+    return load('i18n').formatText;
 }
 
 test('les marqueurs %d et %s sont remplacés dans l\'ordre', () => {
@@ -40,7 +36,7 @@ test('aucun repli de texte affichable codé en dur', () => {
     assert.deepStrictEqual(offenders.filter((o) => !allowed.includes(o)), []);
 });
 
-test('aucun caractère accentué hors commentaires dans geofolio.js', () => {
+test('aucun caractère accentué hors commentaires dans les modules de la carte', () => {
     const code = SOURCE.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     assert.deepStrictEqual(code.match(/[À-ÿ]/g) || [], []);
 });

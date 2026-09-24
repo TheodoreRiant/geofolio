@@ -27,7 +27,20 @@ module.exports = [
         },
     },
     {
-        files: ['tests/js/**/*.js', 'eslint.config.js'],
+        // Modules sources de la carte (assemblés par tools/build-js.js).
+        files: ['assets/js/src/**/*.mjs'],
+        languageOptions: {
+            ecmaVersion: 2020,
+            sourceType: 'module',
+            globals: { ...globals.browser, L: 'readonly', elementorFrontend: 'readonly', geofolioConfig: 'readonly' },
+        },
+    },
+    {
+        // Fichier assemblé : on analyse ses sources.
+        ignores: ['assets/js/geofolio.js'],
+    },
+    {
+        files: ['tests/js/**/*.js', 'tests/js/**/*.mjs', 'tools/**/*.js', 'eslint.config.js'],
         languageOptions: { ecmaVersion: 2022, sourceType: 'commonjs', globals: globals.node },
     },
 ];

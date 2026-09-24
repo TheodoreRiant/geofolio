@@ -32,6 +32,7 @@
 /composer.json      export-ignore
 /package.json       export-ignore
 /assets/css/src     export-ignore
+/assets/js/src      export-ignore
 /tools              export-ignore
 /package-lock.json  export-ignore
 /eslint.config.js   export-ignore

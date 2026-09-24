@@ -1,5 +1,5 @@
 /**
- * Cycle de vie de la carte (assets/js/geofolio.js) : destruction complète
+ * Cycle de vie de la carte (modules assets/js/src/) : destruction complète
  * et retour visible en cas d'échec du chargement.
  *
  * Lancer :  node --test tests/js/*.test.js
@@ -7,22 +7,19 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
-
-const SOURCE = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
+const { SOURCE } = require('./modules.js');
 
 /** Corps d'une méthode de classe, de sa signature à la méthode suivante. */
 function methodBody(name) {
-    const start = SOURCE.indexOf('        ' + name + '(');
-    assert.ok(start !== -1, name + '() introuvable');
-    const next = SOURCE.slice(start + 1).search(/\n {8}(?:\/\*\*|[a-zA-Z_]+\([^)]*\) \{)/);
+    const start = SOURCE.indexOf('\n    ' + name + '(') + 1;
+    assert.ok(start !== 0, name + '() introuvable');
+    const next = SOURCE.slice(start + 1).search(/\n {4}(?:\/\*\*|[a-zA-Z_]+\([^)]*\) \{)/);
     return SOURCE.slice(start, next === -1 ? undefined : start + 1 + next);
 }
 
 test('la classe ne définit destroy() qu\'une fois', () => {
     // Une seconde définition écrase silencieusement la première.
-    const definitions = SOURCE.match(/^ {8}destroy\(\) \{/gm) || [];
+    const definitions = SOURCE.match(/^ {4}destroy\(\) \{/gm) || [];
     assert.strictEqual(definitions.length, 1);
 });
 

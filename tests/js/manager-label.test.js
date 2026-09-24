@@ -9,18 +9,10 @@
 
 const test   = require('node:test');
 const assert = require('node:assert');
-const fs     = require('node:fs');
-const path   = require('node:path');
+const { load } = require('./modules.js');
 
 function loadDirecteurLabel() {
-    const source = fs.readFileSync(
-        path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio.js'), 'utf8');
-    const start = source.indexOf('    function managerLabel');
-    const end   = source.indexOf('    /* ====', start);
-
-    assert.ok(start !== -1 && end > start, 'managerLabel introuvable dans geofolio.js');
-
-    return new Function(source.slice(start, end) + '; return managerLabel;')();
+    return load('text').managerLabel;
 }
 
 const I18N = { manager: 'Directeur/trice : ', managers: 'Directeurs/trices : ' };

@@ -4,9 +4,11 @@
   "description": "Development tooling for the Geofolio WordPress plugin (the plugin itself needs no build to run).",
   "license": "GPL-2.0-or-later",
   "scripts": {
+    "build": "npm run build:css && npm run build:js",
     "build:css": "node tools/build-css.js",
+    "build:js": "node tools/build-js.js",
     "test": "node --test tests/js/*.test.js",
-    "lint:js": "eslint assets/js tests/js",
+    "lint:js": "eslint assets/js tests/js tools eslint.config.js",
     "lint:css": "stylelint \"assets/css/src/*.css\" assets/css/geofolio-admin.css",
     "lint": "npm run lint:js && npm run lint:css"
   },
