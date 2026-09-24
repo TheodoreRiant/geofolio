@@ -20,6 +20,8 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 - Admin notices are dismissible.
 
 ### Changed
+- REST responses for the full place list and the filters are cached in transients (12 h at most). Any change to a place, its meta or terms, a place taxonomy term (colour and icon included) or the settings invalidates them at once through a generation counter. Text search and proximity requests, and single places, are never cached.
+- Settings page HTML moved to `views/settings-page.php`; `SettingsPage::view_data()` prepares the values.
 - Elementor widget: the map height is a responsive control on the container only. Tablet and mobile default to 600px and 85vh, as in the stylesheet; a desktop value no longer overrides them.
 
 ### Fixed

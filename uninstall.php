@@ -19,6 +19,7 @@ $geofolio_options = array(
     'geofolio_schema_version',
     'geofolio_migrations_done',
     'geofolio_migration_log_last',
+    'geofolio_rest_cache_generation',
 );
 foreach ($geofolio_options as $geofolio_option) {
     delete_option($geofolio_option);

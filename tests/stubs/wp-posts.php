@@ -82,6 +82,11 @@ function gfo_test_add_post(array $fields, array $meta = array(), array $terms = 
     return $post;
 }
 
+function get_post_type($post = null) {
+    $object = is_object($post) ? $post : get_post($post);
+    return $object && isset($object->post_type) ? $object->post_type : false;
+}
+
 function get_post($post_id) {
     return $GLOBALS['gfo_test_posts'][(int) $post_id] ?? null;
 }

@@ -18,6 +18,7 @@ use Geofolio\Import\Importer;
 use Geofolio\Map\Defaults;
 use Geofolio\Map\Shortcode;
 use Geofolio\Migration\Runner;
+use Geofolio\Rest\ResponseCache;
 use Geofolio\Rest\PlacesController;
 
 if (!defined('ABSPATH')) {
@@ -73,6 +74,7 @@ final class Plugin {
         MetaBoxes::get_instance();
         Duplicate::get_instance();
         PlacesController::get_instance();
+        ResponseCache::register();
         Shortcode::get_instance();
         Importer::get_instance();
         Runner::get_instance();
