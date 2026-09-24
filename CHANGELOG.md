@@ -5,9 +5,15 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Added
+- Plugin directory page: readme with the block, "Who is it for", "Accessibility", "Developers" and a ten-question FAQ; icon (SVG and PNG), banner and eight screenshots on the fictional sample dataset (`.wordpress-org/`).
 - **Gutenberg block "Geofolio Map"** (`geofolio/map`): server-side rendered through the same renderer as the shortcode and the Elementor widget, with an inspector for height, basemap, "fit the view to the places" (or centre and zoom), search, type filter, list, fullscreen button, sidebar position, title and subtitle. The editor shows the real map: the map assets are loaded in the editor iframe and the preview is initialised after each server render (`window.Geofolio.init()`). Wide and full alignments. Requires WordPress 6.6 (`react-jsx-runtime`); on 6.5 the block is simply not offered.
 - WordPress Playground blueprint (`.wordpress-org/blueprints/blueprint.json`) for the "Live Preview" button of the plugin directory: installs Geofolio, imports the sample dataset with its photos and opens a page with the block.
 - French translation of the block (block.json strings and editor script, JSON translation file).
+
+### Fixed
+- The place location map in the admin drew only a corner of its tiles when the meta box panel of the block editor was opened or resized.
+- Search suggestions: the highlight split the matched word ("Libr ary").
+- Settings page: texts mention the block, and the `wp-config.php` example uses an English placeholder.
 
 ## [1.2.1] — 2026-09-24
 
