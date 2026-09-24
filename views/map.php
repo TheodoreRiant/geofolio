@@ -62,7 +62,7 @@ if (!defined('ABSPATH')) {
 
             <?php if ($view['show_list']) : ?>
             <div class="gfo-results-header">
-                <span class="gfo-results-count">0</span>
+                <span class="gfo-results-count" aria-live="polite">0</span>
                 <?php esc_html_e('place(s)', 'geofolio'); ?>
             </div>
 

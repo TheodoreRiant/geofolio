@@ -888,9 +888,11 @@
                     self.renderAll();
                     self.showLoading(false);
                 },
-                error: function(xhr, status, error) {
-                    if (self._destroyed) return;
+                error: function(xhr, status) {
+                    // Requête annulée par destroy() : rien à signaler.
+                    if (self._destroyed || status === 'abort') return;
                     self.showLoading(false);
+                    self.showToast(t('loadError'));
                 },
             });
         }
@@ -1033,15 +1035,6 @@
             $dropdown.attr('hidden', true).empty();
             $input.attr('aria-expanded', 'false').removeAttr('aria-activedescendant');
             this._acIndex = -1;
-        }
-
-        /**
-         * Tear down document-level listeners. Call when the widget is being
-         * removed (e.g. Elementor editor re-render) to avoid leaks.
-         */
-        destroy() {
-            $(document).off('.gfoAC_' + this.mapId);
-            $(document).off('keydown.gfomap_' + this.mapId);
         }
 
         /* ============================================================ */
@@ -1466,7 +1459,7 @@
             var h = 52;
 
             return L.divIcon({
-                html: '<div class="gfo-marker" data-id="' + place.id + '" style="--pin-color:' + entityColor + '">'
+                html: '<div class="gfo-marker" data-id="' + place.id + '">'
                     + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 52" class="gfo-pin-svg">'
                     + '<path d="M20 0C11 0 4 7 4 16c0 12 16 27 16 27s16-15 16-27C36 7 29 0 20 0z" fill="' + entityColor + '" stroke="#fff" stroke-width="1.5"/>'
                     + '<circle cx="20" cy="16" r="5" fill="#fff" />'
@@ -1500,7 +1493,7 @@
             );
             var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(', ');
 
-            var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '" style="--popup-color: ' + entityColor + '">';
+            var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '">';
 
             // Image / Galerie : placeholder shimmer si galerie attendue
             // (le carrousel est injecté en popupopen via fetch detail).
@@ -1825,7 +1818,7 @@
          * @param {string} message - Message to display
          */
         showToast(message) {
-            var $toast = $('<div class="gfo-toast">' + message + '</div>');
+            var $toast = $('<div class="gfo-toast" role="status">' + escHtml(message) + '</div>');
             this.$container.append($toast);
             setTimeout(function() { $toast.addClass('gfo-toast-visible'); }, 10);
             setTimeout(function() {
@@ -1853,6 +1846,7 @@
             }
 
             $(document).off('keydown.gfomap_' + this.mapId);
+            $(document).off('.gfoAC_' + this.mapId);
             this.$container.off();
 
             if (this.map) {

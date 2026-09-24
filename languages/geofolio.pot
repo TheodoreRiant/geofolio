@@ -1085,6 +1085,10 @@ msgid "Geolocation is not available"
 msgstr ""
 
 #: src/Plugin.php:340
+msgid "The places could not be loaded. Please reload the page."
+msgstr ""
+
+#: src/Plugin.php:340
 #: views/map.php:129
 msgid "Full screen"
 msgstr ""

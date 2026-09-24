@@ -16,6 +16,11 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 - Admin notices are dismissible.
 
 ### Fixed
+- The map now tells the visitor when the places cannot be loaded, instead of silently showing an empty list.
+- `destroy()` was defined twice in the map class and the active one left the search autocomplete listeners on `document`; a single method now removes them all (Elementor editor re-renders no longer leak handlers).
+- The results counter is announced to screen readers (`aria-live="polite"`).
+- Toast messages are escaped before being inserted.
+- Removed the `--pin-color` and `--popup-color` inline properties, which no stylesheet read.
 - Plugin Check: 39 errors (unescaped `_e()`/`printf`, exception message, `fopen`/`unlink`) and 39 warnings resolved or justified; the archive now passes with 0 errors and 0 warnings.
 
 ## [1.1.0] — 2026-09-24

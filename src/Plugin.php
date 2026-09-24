@@ -338,6 +338,7 @@ final class Plugin {
                 'entityReset'       => __('Show all', 'geofolio'),
                 'geolocError'       => __('Unable to find your location', 'geofolio'),
                 'geolocUnavailable' => __('Geolocation is not available', 'geofolio'),
+                'loadError'         => __('The places could not be loaded. Please reload the page.', 'geofolio'),
                 'enterFullscreen'   => __('Full screen', 'geofolio'),
                 'exitFullscreen'    => __('Exit full screen', 'geofolio'),
                 'filters'           => __('Filters', 'geofolio'),
