@@ -5,6 +5,8 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 ## [Unreleased]
 
 ### Added
+- **Brand assets** (`brand/`, excluded from the archive): new icon (folded map and pin) as SVG, PNG from 16 to 1024 px, maskable variant, favicon; social preview `og-image.png` (1280×640, retina variant) and its HTML source; wordpress.org icon and banners regenerated from the same identity.
+- Admin menu icon: Geofolio's own pictogram instead of the generic Dashicons pin (`PlacePostType::MENU_ICON`).
 - **Settings tabs "Appearance" and "Labels and defaults"** (Places → Map settings), each saved in its own option:
   - Appearance: main and accent colours (darker and lighter shades derived with `color-mix`), font (bundled Poppins by default, or the theme's font), corner radius. They become `--gfo-*` variables on `.gfo-map-container`, added after the map stylesheet; an Elementor widget's own style settings still win on its page. The main colour is also the fallback marker colour.
   - Labels and defaults: singular and plural names of places and entities in the admin, URL slug of places (rewrite rules regenerated when it changes), default sidebar title and subtitle, centre, zoom and "fit the view" for maps that do not set them.

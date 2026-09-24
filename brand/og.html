@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Geofolio social preview</title>
+<style>
+  @font-face { font-family: "Poppins"; font-weight: 400; src: url("../assets/fonts/poppins-400.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; src: url("../assets/fonts/poppins-600.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 700; src: url("../assets/fonts/poppins-700.woff2") format("woff2"); }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1280px; height: 640px; overflow: hidden;
+    background: #1F4E79;
+    background-image:
+      radial-gradient(900px 520px at 88% 46%, #2A6396 0%, rgba(42, 99, 150, 0) 62%),
+      linear-gradient(135deg, #17395A 0%, #1F4E79 55%, #24598A 100%);
+    font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    position: relative;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.9));
+    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.9));
+  }
+  .left { position: absolute; left: 88px; top: 96px; width: 690px; }
+  .brand { display: flex; align-items: center; gap: 28px; }
+  .brand svg { width: 132px; height: 132px; filter: drop-shadow(0 12px 28px rgba(0,0,0,0.35)); }
+  .name { font-size: 84px; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .tagline { margin-top: 40px; font-size: 32px; font-weight: 600; line-height: 1.25; color: #F3F7FB; }
+  .sub { margin-top: 18px; font-size: 21px; font-weight: 400; line-height: 1.45; color: #C9D8E6; }
+  .chips { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .chip { padding: 8px 15px; border-radius: 999px; font-size: 17px; font-weight: 600;
+          background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22); color: #fff; }
+  .chip.accent { background: #E07A3F; border-color: #E07A3F; }
+  /* Carte illustrée à droite */
+  .card { position: absolute; right: 80px; top: 92px; width: 440px; height: 456px;
+          border-radius: 28px; background: #EEF3F8; overflow: hidden;
+          box-shadow: 0 30px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(255,255,255,0.12); }
+  .card svg { width: 100%; height: 100%; display: block; }
+  .list { position: absolute; left: 0; top: 0; bottom: 0; width: 150px; background: #FFFFFF; border-right: 1px solid #DCE7F2; padding: 18px 14px; box-sizing: border-box; }
+  .list .t { height: 12px; width: 92px; border-radius: 6px; background: #1F4E79; margin-bottom: 14px; }
+  .list .row { display: flex; gap: 8px; align-items: center; margin-bottom: 13px; }
+  .list .dot { width: 22px; height: 22px; border-radius: 7px; flex: none; }
+  .list .l1 { height: 8px; border-radius: 4px; background: #1F4E79; opacity: 0.85; width: 78px; margin-bottom: 5px; }
+  .list .l2 { height: 6px; border-radius: 3px; background: #C9D8E6; width: 52px; }
+  .footer { position: absolute; left: 88px; bottom: 40px; font-size: 18px; color: #9FB6CC; letter-spacing: 0.01em; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+
+  <div class="left">
+    <div class="brand">
+      <svg viewBox="0 0 256 256" role="img" aria-label="Geofolio icon">
+        <rect width="256" height="256" rx="56" fill="#1F4E79" stroke="rgba(255,255,255,0.35)" stroke-width="3"/>
+        <path d="M44 78 L104 60 L152 78 L212 60 L212 178 L152 196 L104 178 L44 196 Z" fill="#FFFFFF"/>
+        <path d="M104 60 L152 78 L152 196 L104 178 Z" fill="#DCE7F2"/>
+        <path d="M44 132 C 80 118, 96 146, 128 134 S 176 112, 212 122" fill="none" stroke="#C9D8E6" stroke-width="7" stroke-linecap="round"/>
+        <path d="M74 196 C 92 160, 112 150, 128 134" fill="none" stroke="#C9D8E6" stroke-width="7" stroke-linecap="round"/>
+        <path d="M128 40c-27.6 0-50 21.9-50 48.9C78 126 128 166 128 166s50-40 50-77.1C178 61.9 155.6 40 128 40z" fill="#E07A3F"/>
+        <circle cx="128" cy="88" r="18" fill="#FFFFFF"/>
+      </svg>
+      <div class="name">Geofolio</div>
+    </div>
+    <div class="tagline">Interactive map of places<br>for WordPress</div>
+    <div class="sub">Search, filters, synchronised list, photo popups.<br>Places edited like content, not like code.</div>
+    <div class="chips">
+      <span class="chip accent">Open source</span>
+      <span class="chip">Gutenberg block</span>
+      <span class="chip">Elementor widget</span>
+      <span class="chip">CSV import</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <svg viewBox="0 0 440 456" xmlns="http://www.w3.org/2000/svg">
+      <!-- fond carte -->
+      <rect width="440" height="456" fill="#EEF3F8"/>
+      <!-- parcs -->
+      <path d="M210 40 h120 a14 14 0 0 1 14 14 v70 a14 14 0 0 1 -14 14 h-120 a14 14 0 0 1 -14 -14 v-70 a14 14 0 0 1 14 -14z" fill="#DDEBDD"/>
+      <path d="M300 300 h110 v120 h-110z" fill="#DDEBDD" opacity="0.9"/>
+      <!-- eau -->
+      <path d="M150 456 C 190 380, 260 360, 300 320 S 380 250, 440 240 V 456 Z" fill="#CFE0EF"/>
+      <!-- routes -->
+      <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M150 90 H440" stroke-width="14"/>
+        <path d="M150 210 H440" stroke-width="10"/>
+        <path d="M260 0 V456" stroke-width="14"/>
+        <path d="M360 0 V300" stroke-width="10"/>
+        <path d="M150 330 C 220 300, 240 260, 300 250 S 400 180, 440 160" stroke-width="10"/>
+      </g>
+      <g fill="none" stroke="#DCE7F2" stroke-linecap="round">
+        <path d="M150 90 H440" stroke-width="2" stroke-dasharray="10 12"/>
+        <path d="M260 0 V456" stroke-width="2" stroke-dasharray="10 12"/>
+      </g>
+      <!-- cluster -->
+      <circle cx="378" cy="378" r="26" fill="#FFFFFF" stroke="#1F4E79" stroke-width="4"/>
+      <circle cx="368" cy="378" r="6" fill="#6B4BC7"/>
+      <circle cx="384" cy="370" r="6" fill="#2E7D5B"/>
+      <circle cx="386" cy="386" r="6" fill="#E07A3F"/>
+      <!-- épingles -->
+      <g transform="translate(300 150) scale(0.62)">
+        <path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#6B4BC7" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/>
+      </g>
+      <g transform="translate(215 270) scale(0.62)">
+        <path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#2E7D5B" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/>
+      </g>
+      <g transform="translate(395 70) scale(0.62)">
+        <path d="M0 -60c-24 0-44 19-44 42.6C-44 14 0 50 0 50s44-36 44-67.4C44 -41 24 -60 0 -60z" fill="#E07A3F" stroke="#fff" stroke-width="4"/><circle cx="0" cy="-18" r="15" fill="#fff"/>
+      </g>
+      <!-- popup -->
+      <g transform="translate(160 322)">
+        <rect x="0" y="0" width="170" height="86" rx="12" fill="#FFFFFF" stroke="#DCE7F2"/>
+        <rect x="12" y="12" width="52" height="14" rx="7" fill="#6B4BC7"/>
+        <rect x="12" y="36" width="120" height="10" rx="5" fill="#1F4E79"/>
+        <rect x="12" y="54" width="90" height="8" rx="4" fill="#C9D8E6"/>
+        <rect x="12" y="68" width="66" height="8" rx="4" fill="#C9D8E6"/>
+        <path d="M118 0 l10 -12 l10 12z" fill="#FFFFFF"/>
+      </g>
+    </svg>
+    <div class="list">
+      <div class="t"></div>
+      <div class="row"><div class="dot" style="background:#6B4BC7"></div><div><div class="l1"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#2E7D5B"></div><div><div class="l1" style="width:64px"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#E07A3F"></div><div><div class="l1" style="width:84px"></div><div class="l2" style="width:40px"></div></div></div>
+      <div class="row"><div class="dot" style="background:#6B4BC7"></div><div><div class="l1" style="width:58px"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#2E7D5B"></div><div><div class="l1" style="width:72px"></div><div class="l2" style="width:46px"></div></div></div>
+      <div class="row"><div class="dot" style="background:#E07A3F"></div><div><div class="l1" style="width:66px"></div><div class="l2"></div></div></div>
+      <div class="row"><div class="dot" style="background:#6B4BC7"></div><div><div class="l1" style="width:80px"></div><div class="l2" style="width:36px"></div></div></div>
+    </div>
+  </div>
+
+  <div class="footer">github.com/TheodoreRiant/geofolio · GPL v2 or later</div>
+</body>
+</html>
