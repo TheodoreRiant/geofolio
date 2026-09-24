@@ -1,0 +1,33 @@
+/* ============================================================
+   37. TRANSITION HELPERS
+   Smooth transitions for dynamic state changes triggered by JS.
+   ============================================================ */
+/* Transitions et will-change : déclarés avec la règle de base de chaque
+   composant (.gfo-map-sidebar, .gfo-place-card, .gfo-marker, .gfo-cluster). */
+
+/* ================================================================ */
+/*  TOAST NOTIFICATION                                               */
+/* ================================================================ */
+
+.gfo-toast {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.gfo-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+

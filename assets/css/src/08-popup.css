@@ -1,0 +1,178 @@
+/* ============================================================
+   18. POPUP (.gfo-popup)
+   Leaflet popup override with type badge, title, address, link.
+   ============================================================ */
+.gfo-popup .leaflet-popup-content-wrapper {
+    border-radius: var(--gfo-radius-lg);
+    padding: 0;
+    overflow: hidden;
+    box-shadow: var(--gfo-shadow-lg);
+    border: none;
+}
+
+.gfo-popup .leaflet-popup-content {
+    margin: 0;
+    min-width: 280px;
+    max-width: 360px;
+}
+
+.gfo-popup .leaflet-popup-tip-container {
+    margin-top: -1px;
+}
+
+.gfo-popup .leaflet-popup-tip {
+    box-shadow: var(--gfo-shadow-sm);
+}
+
+.gfo-popup-content {
+    font-family: var(--gfo-font);
+}
+
+/* Popup image */
+.gfo-popup-image {
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+}
+
+.gfo-popup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder image (etablissement sans aucune photo) */
+.gfo-popup-image--placeholder {
+    background: var(--gfo-border-light, #F1F5F9);
+}
+
+.gfo-popup-image--placeholder img {
+    object-fit: cover;
+    opacity: 0.9;
+}
+
+/* Popup body */
+.gfo-popup-body {
+    padding: 14px 16px 0;
+}
+
+/* Popup badges row (entite + type) */
+.gfo-popup-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.gfo-popup-entity-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.gfo-popup-type-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+/* Popup title */
+.gfo-popup-title {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gfo-text);
+    line-height: 1.3;
+}
+
+/* Popup description (full, no truncation) */
+.gfo-popup-desc {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: var(--gfo-text-secondary);
+    line-height: 1.5;
+}
+
+/* Popup nombre/public */
+.gfo-popup-nombre {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: var(--gfo-text);
+    line-height: 1.4;
+    background: var(--gfo-bg);
+    padding: 6px 10px;
+    border-radius: var(--gfo-radius-sm);
+}
+
+/* Popup info block */
+.gfo-popup-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gfo-space-sm);
+    margin-bottom: var(--gfo-space-md);
+}
+
+.gfo-popup-address,
+.gfo-popup-phone,
+.gfo-popup-email,
+.gfo-popup-services,
+.gfo-popup-hours,
+.gfo-popup-access,
+.gfo-popup-website,
+.gfo-popup-distance {
+    margin: 0;
+    font-size: 12px;
+    color: var(--gfo-text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    line-height: 1.4;
+}
+
+.gfo-popup-email a,
+.gfo-popup-website a,
+.gfo-popup-services span,
+.gfo-popup-hours span,
+.gfo-popup-access span {
+    color: var(--gfo-text-secondary);
+    text-decoration: none;
+}
+.gfo-popup-email a:hover,
+.gfo-popup-website a:hover { text-decoration: underline; }
+
+/* Les horaires sont saisis en texte libre sur plusieurs lignes. */
+.gfo-popup-hours span { white-space: pre-line; }
+
+.gfo-popup-address svg,
+.gfo-popup-phone svg,
+.gfo-popup-hours svg,
+.gfo-popup-access svg,
+.gfo-popup-website svg,
+.gfo-popup-distance svg {
+    color: var(--gfo-text-muted);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.gfo-popup-phone a {
+    color: var(--gfo-accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.gfo-popup-phone a:hover {
+    text-decoration: underline;
+}
+
+.gfo-popup-distance {
+    color: var(--gfo-accent);
+    font-weight: 600;
+}
+

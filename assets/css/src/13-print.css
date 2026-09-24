@@ -1,0 +1,27 @@
+/* ============================================================
+   32. PRINT STYLES
+   ============================================================ */
+@media print {
+    .gfo-map-sidebar {
+        display: none;
+    }
+
+    .gfo-mobile-toolbar {
+        display: none;
+    }
+
+    .gfo-sidebar-toggle,
+    .gfo-fullscreen-btn {
+        display: none;
+    }
+
+    .gfo-map-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .gfo-map-loading {
+        display: none;
+    }
+}
+

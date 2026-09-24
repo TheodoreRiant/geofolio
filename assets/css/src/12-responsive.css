@@ -1,0 +1,203 @@
+/* ============================================================
+   29. RESPONSIVE - Tablet (769px - 1024px)
+   ============================================================ */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .gfo-map-container {
+        height: 600px;
+    }
+
+    .gfo-map-sidebar {
+        width: 320px;
+    }
+
+    .gfo-sidebar-title {
+        font-size: 18px;
+    }
+
+    .gfo-place-card {
+        padding: 12px 14px;
+    }
+
+}
+
+/* ============================================================
+   30. RESPONSIVE - MOBILE (max-width: 768px)
+   Toolbar above map, sidebar hidden, bottom sheet.
+   ============================================================ */
+@media (max-width: 768px) {
+    /* Container becomes column */
+    .gfo-map-container {
+        flex-direction: column;
+        height: 85vh;
+        position: relative;
+        border-radius: var(--gfo-radius);
+    }
+
+    /* Sidebar hidden by default on mobile */
+    .gfo-map-sidebar {
+        display: none;
+    }
+
+    /* But if sidebar is shown as bottom sheet, restore it */
+    .gfo-map-sidebar.gfo-drawer-open {
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        border-right: none;
+        border-top: 1px solid var(--gfo-border);
+        box-shadow: var(--gfo-shadow-lg);
+        z-index: 500;
+        border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+        height: 55%;
+        transform: translateY(0);
+    }
+
+    /* Mobile toolbar visible, au-dessus de la carte (calques Leaflet à 400)
+       et des pastilles : ses suggestions de recherche (position fixed)
+       restent dans son contexte d'empilement et passaient sous la carte.
+       Sous le tiroir (500). */
+    .gfo-mobile-toolbar {
+        display: flex;
+        position: relative;
+        z-index: 450;
+    }
+
+    /* Map takes full remaining height */
+    .gfo-map-wrapper {
+        height: 100%;
+    }
+
+    /* Drawer handle shown */
+    .gfo-drawer-handle {
+        display: flex;
+        border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+    }
+
+    /* Sidebar toggle button shown */
+    .gfo-sidebar-toggle {
+        display: flex;
+    }
+
+    /* Fullscreen button adjustment */
+    .gfo-fullscreen-btn {
+        bottom: 60px;
+    }
+
+    .gfo-sidebar-title {
+        font-size: 17px;
+    }
+
+    .gfo-sidebar-subtitle {
+        font-size: 12px;
+    }
+
+    /* Popup responsive */
+    .gfo-popup .leaflet-popup-content {
+        min-width: 220px;
+        max-width: 280px;
+    }
+
+    /* Etab cards smaller on mobile */
+    .gfo-place-card {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .gfo-place-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .gfo-place-name {
+        font-size: 13px;
+    }
+
+    /* La barre mobile (recherche + types) occupe le haut du wrapper : la
+       section repasse dans le flux, juste sous elle, avec une hauteur nulle.
+       Ses pastilles débordent sur la carte sans jamais recouvrir la barre,
+       quelle que soit sa hauteur. */
+    .gfo-entity-section {
+        position: relative;
+        top: 8px;       /* décalage visuel, sans pousser la carte */
+        left: auto;
+        right: auto;
+        flex: 0 0 0;
+        height: 0;
+        margin: 0 8px;
+        overflow: visible;
+        gap: 3px;
+        z-index: 440;   /* au-dessus de la carte, sous la barre mobile */
+    }
+
+    /* Hauteur nulle : sans cela, la rangée de pastilles (défilante) serait
+       écrasée par la colonne flex. */
+    .gfo-entity-section > * {
+        flex-shrink: 0;
+    }
+
+    .gfo-entity-pills {
+        padding: 0;
+        gap: 4px;
+    }
+
+    .gfo-entity-pill {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+}
+
+/* ============================================================
+   31. RESPONSIVE - Small mobile (max-width: 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+    .gfo-sidebar-header {
+        padding: var(--gfo-space-sm) var(--gfo-space-sm) var(--gfo-space-xs);
+    }
+
+    .gfo-place-card {
+        padding: 10px var(--gfo-space-sm);
+        gap: 8px;
+    }
+
+    .gfo-place-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--gfo-radius-sm);
+    }
+
+    .gfo-mobile-toolbar {
+        padding: 8px 10px;
+        gap: 6px;
+    }
+
+    .gfo-mobile-toolbar .gfo-search-input {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .gfo-mobile-toolbar .gfo-filter-select {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .gfo-entity-section {
+        top: 6px;
+        margin: 0 6px;
+        gap: 2px;
+    }
+
+    .gfo-entity-pills {
+        padding: 0;
+        gap: 3px;
+        border-radius: 20px;
+    }
+
+    .gfo-entity-pill {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+

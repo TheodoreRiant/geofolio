@@ -1,0 +1,63 @@
+/* ============================================================
+   AUTOCOMPLETE (v2.5)
+   ============================================================ */
+
+.gfo-autocomplete-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.gfo-autocomplete-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+}
+
+.gfo-autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.gfo-autocomplete-item:hover,
+.gfo-autocomplete-item.is-highlighted {
+    background: #f8fafc;
+}
+
+.gfo-ac-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gfo-text);
+    margin-bottom: 2px;
+}
+
+.gfo-ac-meta {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.gfo-autocomplete-item mark {
+    background: rgba(193, 142, 216, 0.45);
+    color: #1e293b;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-weight: 600;
+}
+
+.gfo-autocomplete-empty {
+    padding: 14px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+    font-style: italic;
+}
+
+

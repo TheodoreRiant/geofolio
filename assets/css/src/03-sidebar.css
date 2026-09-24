@@ -1,0 +1,453 @@
+/* ============================================================
+   3. SIDEBAR (.gfo-map-sidebar)
+   Fixed width, flex column, border-right, full height.
+   ============================================================ */
+.gfo-map-sidebar {
+    width: var(--gfo-sidebar-width);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--gfo-surface);
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    border-right: 1px solid var(--gfo-border);
+    transition: transform var(--gfo-transition-slow), height var(--gfo-transition-slow);
+    position: relative;
+    z-index: 10;
+}
+
+/* Inner wrapper: flex 1, column, overflow hidden */
+.gfo-sidebar-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ---- Sidebar Header ---- */
+.gfo-sidebar-header {
+    padding: 20px 16px 14px;
+    background: var(--gfo-surface);
+    border-bottom: 1px solid var(--gfo-border-light);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gfo-space-sm);
+}
+
+/* Title */
+.gfo-sidebar-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gfo-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+/* Subtitle */
+.gfo-sidebar-subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: var(--gfo-text-secondary);
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Sidebar right position class */
+.gfo-map-container.gfo-sidebar-right .gfo-map-sidebar {
+    border-right: none;
+    border-left: 1px solid var(--gfo-border);
+    order: 2;
+}
+
+.gfo-map-container.gfo-sidebar-right .gfo-map-wrapper {
+    order: 1;
+}
+
+/* ============================================================
+   4. SEARCH (.gfo-search-row)
+   Flex row, gap 6px, input + button.
+   ============================================================ */
+.gfo-search-row {
+    position: relative; /* ancre de la liste d'autocomplétion */
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: stretch;
+}
+
+/* Search input */
+.gfo-search-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1.5px solid var(--gfo-border);
+    border-radius: var(--gfo-radius);
+    font-size: 13px;
+    outline: none;
+    transition: border-color var(--gfo-transition), box-shadow var(--gfo-transition), background var(--gfo-transition);
+    color: var(--gfo-text);
+    background: var(--gfo-bg);
+    min-width: 0;
+    font-family: var(--gfo-font);
+}
+
+.gfo-search-input::placeholder {
+    color: var(--gfo-text-muted);
+}
+
+/* Préfixe .gfo-map-container : le reset du thème cible
+   input[type="search"] (et :focus) et imposait sa bordure grise #666 / #333
+   à la place de celle du plugin. */
+.gfo-map-container .gfo-search-input {
+    border: 1.5px solid var(--gfo-border);
+}
+
+.gfo-map-container .gfo-search-input:focus {
+    border-color: var(--gfo-primary);
+    box-shadow: 0 0 0 3px rgba(2, 66, 102, 0.15);
+    background: var(--gfo-surface);
+}
+
+/* Search button */
+.gfo-search-btn {
+    padding: 10px 12px;
+    background: var(--gfo-primary);
+    color: white;
+    border: none;
+    border-radius: var(--gfo-radius);
+    cursor: pointer;
+    transition: background var(--gfo-transition), color var(--gfo-transition), border-color var(--gfo-transition), transform var(--gfo-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.gfo-search-btn:hover {
+    background: var(--gfo-primary-dark);
+    transform: translateY(-1px);
+}
+
+.gfo-search-btn:active {
+    transform: translateY(0);
+}
+
+.gfo-search-btn svg {
+    display: block;
+    transition: stroke var(--gfo-transition);
+}
+
+/* ============================================================
+   5. FILTER DROPDOWN (.gfo-filter-select)
+   Full width select with custom chevron.
+   ============================================================ */
+.gfo-filter-select {
+    display: block;
+    width: 100%;
+    padding: 9px 36px 9px 12px;
+    border: 1.5px solid var(--gfo-border);
+    border-radius: var(--gfo-radius);
+    font-size: 13px;
+    font-family: var(--gfo-font);
+    outline: none;
+    color: var(--gfo-text);
+    background-color: var(--gfo-bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-top: 10px;
+    transition: border-color var(--gfo-transition), box-shadow var(--gfo-transition);
+}
+
+.gfo-map-container .gfo-filter-select:focus {
+    border-color: var(--gfo-primary);
+    box-shadow: 0 0 0 3px rgba(2, 66, 102, 0.15);
+}
+
+.gfo-filter-select:hover {
+    border-color: var(--gfo-text-muted);
+}
+
+/* ============================================================
+   6. GEOLOCATION
+   ============================================================ */
+
+.gfo-geoloc-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 10px;
+    background: var(--gfo-accent);
+    color: white;
+    border: none;
+    border-radius: var(--gfo-radius);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background var(--gfo-transition), transform var(--gfo-transition);
+    white-space: nowrap;
+    min-width: 0;
+    font-family: var(--gfo-font);
+}
+
+.gfo-geoloc-btn:hover {
+    background: var(--gfo-accent-dark);
+    transform: translateY(-1px);
+}
+
+.gfo-geoloc-btn:active {
+    transform: translateY(0);
+}
+
+.gfo-geoloc-btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.gfo-geoloc-btn.loading svg {
+    animation: gfo-spin 1s linear infinite;
+}
+
+/* ============================================================
+   10. RESULTS HEADER (.gfo-results-header)
+   ============================================================ */
+
+.gfo-results-header {
+    padding: 8px 16px;
+    background: var(--gfo-surface);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gfo-text-secondary);
+    border-bottom: 1px solid var(--gfo-border-light);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--gfo-space-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Count pill */
+.gfo-results-count {
+    color: var(--gfo-primary);
+    font-weight: 800;
+    font-size: 14px;
+    min-width: 22px;
+    text-align: center;
+    background: rgba(30, 58, 95, 0.07);
+    border-radius: var(--gfo-radius-xl);
+    padding: 0 8px;
+    line-height: 1.7;
+    display: inline-block;
+}
+
+/* Results list scrollable area */
+.gfo-place-list {
+    flex: 1 1 0%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gfo-border) transparent;
+    scroll-behavior: smooth;
+    min-height: 0;
+    max-height: calc(100% - 1px); /* force scroll containment */
+}
+
+.gfo-place-list::-webkit-scrollbar { width: 4px; }
+.gfo-place-list::-webkit-scrollbar-track { background: transparent; }
+.gfo-place-list::-webkit-scrollbar-thumb {
+    background: var(--gfo-border);
+    border-radius: 2px;
+}
+
+/* ============================================================
+   11. ESTABLISHMENT CARDS (.gfo-place-card)
+   New v4 card design with icon circle + meta row.
+   ============================================================ */
+.gfo-place-card {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--gfo-border-light);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition:
+        background var(--gfo-transition),
+        border-left-color var(--gfo-transition),
+        box-shadow var(--gfo-transition);
+    will-change: background, border-left-color;
+    animation: gfo-fade-in 0.25s ease both;
+    position: relative;
+}
+
+.gfo-place-card:hover {
+    background: #edf2f6; /* fallback */
+    background: color-mix(in srgb, var(--gfo-primary) 7%, #fff);
+    border-left-color: var(--gfo-accent);
+}
+
+.gfo-place-card.active {
+    background: #e1e8ed; /* fallback */
+    background: color-mix(in srgb, var(--gfo-primary) 12%, #fff);
+    border-left-color: var(--gfo-primary);
+}
+
+.gfo-place-card:last-child {
+    border-bottom: none;
+}
+
+/* Le clic souris donne le focus a la carte (elle porte tabindex="0") :
+   sans cette regle, l'element selectionne s'entourait d'un cadre orange.
+   Le fond suffit a signaler la selection ; le cadre reste reserve a la
+   navigation clavier, ou il est le seul repere disponible. */
+.gfo-place-card:focus {
+    outline: none;
+}
+
+.gfo-place-card:focus-visible {
+    outline: 2px solid var(--gfo-accent);
+    outline-offset: -2px;
+}
+
+/* Stagger animation for etab cards */
+.gfo-place-card:nth-child(1)  { animation-delay: 0.02s; }
+.gfo-place-card:nth-child(2)  { animation-delay: 0.04s; }
+.gfo-place-card:nth-child(3)  { animation-delay: 0.06s; }
+.gfo-place-card:nth-child(4)  { animation-delay: 0.08s; }
+.gfo-place-card:nth-child(5)  { animation-delay: 0.10s; }
+.gfo-place-card:nth-child(6)  { animation-delay: 0.12s; }
+.gfo-place-card:nth-child(7)  { animation-delay: 0.14s; }
+.gfo-place-card:nth-child(8)  { animation-delay: 0.16s; }
+.gfo-place-card:nth-child(9)  { animation-delay: 0.18s; }
+.gfo-place-card:nth-child(10) { animation-delay: 0.20s; }
+
+/* Icon circle */
+.gfo-place-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--gfo-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.gfo-place-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Card info column */
+.gfo-place-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Establishment name */
+.gfo-place-name {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 650;
+    color: var(--gfo-text);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+/* Meta row: type badge + city */
+.gfo-place-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Type badge pill */
+.gfo-place-type {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    white-space: nowrap;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* City label */
+.gfo-place-city {
+    font-size: 12px;
+    color: var(--gfo-text-secondary);
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Phone link */
+.gfo-place-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    color: var(--gfo-accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--gfo-transition);
+    line-height: 1.4;
+}
+
+.gfo-place-phone:hover {
+    text-decoration: underline;
+    color: var(--gfo-accent-dark);
+}
+
+.gfo-place-phone svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    opacity: 0.7;
+}
+
+/* ============================================================
+   13. NO RESULTS (.gfo-no-results)
+   ============================================================ */
+.gfo-no-results {
+    padding: 40px var(--gfo-space-lg);
+    text-align: center;
+    color: var(--gfo-text-muted);
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.gfo-no-results svg {
+    opacity: 0.25;
+}
+
+.gfo-no-results p {
+    margin: 0;
+    line-height: 1.5;
+}
+

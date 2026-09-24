@@ -1,0 +1,39 @@
+/* Petits écrans (<= 640px) : un seul bloc, placé après les règles de base
+   de chaque composant qu'il ajuste (pastilles, autocomplétion, carrousel). */
+@media (max-width: 640px) {
+    .gfo-entity-hint {
+        font-size: 10.5px;
+        padding: 3px 8px;
+    }
+
+    .gfo-mobile-toolbar .gfo-autocomplete-results {
+        position: fixed;
+        top: auto;
+        bottom: 60px;
+        left: 10px;
+        right: 10px;
+        max-height: 50vh;
+    }
+
+    .gfo-carousel-slide { height: 180px; }
+
+    /* Meme specificite et meme !important que la regle de base, sinon la
+       taille mobile serait ecrasee par celle du bureau. */
+    .gfo-carousel .gfo-carousel-prev,
+    .gfo-carousel .gfo-carousel-next {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .gfo-carousel .gfo-carousel-prev svg,
+    .gfo-carousel .gfo-carousel-next svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gfo-carousel-track { transition: none; }
+    .gfo-popup-image-placeholder { animation: none; }
+}
+

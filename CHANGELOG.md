@@ -2,6 +2,13 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- The stylesheet is split into 20 partials (`assets/css/src/`, numbered in cascade order) assembled into `assets/css/geofolio.css` by `npm run build:css`; the served file stays readable and needs no build to run. The computed styles of every map element are unchanged (checked at seven widths, map at rest and popup open).
+- The three `@media (max-width: 640px)` blocks are merged into one; duplicate selectors and declarations removed.
+- `!important` removed from the Leaflet icon resets, which nothing overrides; the remaining ones (plugin buttons, fullscreen) are documented.
+
 ## [1.2.0] — 2026-09-24
 
 ### Added

@@ -1,0 +1,153 @@
+/* ============================================================
+   19. FULLSCREEN BUTTON (.gfo-fullscreen-btn)
+   ============================================================ */
+.gfo-fullscreen-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    z-index: 1000;
+    width: 36px;
+    height: 36px;
+    background: var(--gfo-surface);
+    border: 1px solid var(--gfo-border);
+    border-radius: var(--gfo-radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gfo-text);
+    transition: background var(--gfo-transition), box-shadow var(--gfo-transition), transform var(--gfo-transition);
+    box-shadow: var(--gfo-shadow-sm);
+}
+
+.gfo-fullscreen-btn:hover {
+    background: var(--gfo-bg);
+    box-shadow: var(--gfo-shadow);
+    transform: scale(1.06);
+}
+
+.gfo-fullscreen-btn .icon-exit { display: none; }
+.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-enter { display: none; }
+.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-exit  { display: block; }
+
+/* ============================================================
+   20. SIDEBAR TOGGLE BUTTON (mobile)
+   ============================================================ */
+.gfo-sidebar-toggle {
+    display: none;
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    z-index: 1000;
+    padding: 9px 16px;
+    background: var(--gfo-primary);
+    color: white;
+    border: none;
+    border-radius: var(--gfo-radius-xl);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: var(--gfo-shadow-md);
+    align-items: center;
+    gap: var(--gfo-space-sm);
+    transition: background var(--gfo-transition), transform var(--gfo-transition);
+    letter-spacing: 0.02em;
+    font-family: var(--gfo-font);
+}
+
+.gfo-sidebar-toggle:hover {
+    background: var(--gfo-primary-dark);
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   21. DRAWER HANDLE (mobile bottom sheet)
+   ============================================================ */
+.gfo-drawer-handle {
+    display: none;
+    justify-content: center;
+    padding: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: var(--gfo-surface);
+    border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+}
+
+.gfo-drawer-handle::before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    background: var(--gfo-border);
+    border-radius: 2px;
+    transition: background var(--gfo-transition);
+}
+
+.gfo-drawer-handle:hover::before {
+    background: var(--gfo-text-muted);
+}
+
+/* ============================================================
+   22. LOADING OVERLAY (.gfo-map-loading)
+   ============================================================ */
+.gfo-map-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    z-index: 500;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.gfo-map-loading span {
+    font-size: 13px;
+    color: var(--gfo-text-secondary);
+    font-weight: 500;
+}
+
+.gfo-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--gfo-border-light);
+    border-top-color: var(--gfo-primary);
+    border-radius: 50%;
+    animation: gfo-spin 0.75s linear infinite;
+}
+
+/* ============================================================
+   23. USER LOCATION MARKER (.gfo-user-marker)
+   ============================================================ */
+.gfo-user-marker-icon {
+    background: none;
+    border: none;
+}
+
+.gfo-user-marker {
+    width: 16px;
+    height: 16px;
+    background: var(--gfo-accent);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.5);
+    animation: gfo-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   25. ADMIN MARKER (used in admin backend)
+   ============================================================ */
+.gfo-admin-marker {
+    width: 24px;
+    height: 24px;
+    background: var(--gfo-primary);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
