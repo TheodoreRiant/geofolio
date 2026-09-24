@@ -2,7 +2,7 @@
 
 Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.2.0] — 2026-09-24
 
 ### Added
 - Elementor widget: "Fit the view to the places" switch (shortcode attribute `fit_bounds`). Off, the map keeps the configured centre and zoom instead of zooming to the places after every filter.
