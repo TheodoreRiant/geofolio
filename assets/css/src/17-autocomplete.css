@@ -47,7 +47,10 @@
 .gfo-autocomplete-item mark {
     background: rgba(193, 142, 216, 0.45);
     color: #1e293b;
-    padding: 0 2px;
+    /* Pas de padding : sur un élément en ligne, il écarte les lettres du mot
+       (« Libr ary »). L'ombre élargit le fond sans déplacer le texte. */
+    padding: 0;
+    box-shadow: 0 0 0 1px rgba(193, 142, 216, 0.45);
     border-radius: 2px;
     font-weight: 600;
 }
