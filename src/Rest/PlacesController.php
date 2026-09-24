@@ -175,12 +175,12 @@ class PlacesController {
             }
         }
         if (count($tax_query) > 1) {
-            $args['tax_query'] = $tax_query;
+            $args['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- filtre par taxonomie demandé par le visiteur.
         }
 
         $search = (string) $request->get_param('search');
         if ($search !== '') {
-            $args['meta_query'] = array('relation' => 'OR');
+            $args['meta_query'] = array('relation' => 'OR'); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- recherche sur les metas d'adresse.
             foreach (self::SEARCH_FIELDS as $field) {
                 $args['meta_query'][] = array(
                     'key'     => FieldRegistry::meta_key($field),

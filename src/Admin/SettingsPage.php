@@ -368,7 +368,7 @@ final class SettingsPage {
         }
 
         printf(
-            '<div class="notice notice-warning"><p><strong>%s</strong> %s <a href="%s">%s</a></p></div>',
+            '<div class="notice notice-warning is-dismissible"><p><strong>%s</strong> %s <a href="%s">%s</a></p></div>',
             esc_html__('Map:', 'geofolio'),
             esc_html(self::describe_fallback($resolved['fallbackReason'])),
             esc_url(admin_url('edit.php?post_type=etablissement&page=' . self::PAGE_SLUG)),

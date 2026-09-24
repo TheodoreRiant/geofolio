@@ -134,9 +134,10 @@ class Taxonomies {
     public function entity_add_form_fields() {
         ?>
         <div class="form-field">
-            <label for="entity_color"><?php _e('Colour', 'geofolio'); ?></label>
+            <?php wp_nonce_field('geofolio_entity_color', 'geofolio_entity_color_nonce'); ?>
+            <label for="entity_color"><?php esc_html_e('Colour', 'geofolio'); ?></label>
             <input type="text" name="entity_color" id="entity_color" value="<?php echo esc_attr(Defaults::color()); ?>" class="gfo-color-picker" />
-            <p class="description"><?php _e('Colour used for markers and cards on the interactive map.', 'geofolio'); ?></p>
+            <p class="description"><?php esc_html_e('Colour used for markers and cards on the interactive map.', 'geofolio'); ?></p>
         </div>
         <?php
     }
@@ -151,10 +152,11 @@ class Taxonomies {
         }
         ?>
         <tr class="form-field">
-            <th scope="row"><label for="entity_color"><?php _e('Colour', 'geofolio'); ?></label></th>
+            <th scope="row"><label for="entity_color"><?php esc_html_e('Colour', 'geofolio'); ?></label></th>
             <td>
+                <?php wp_nonce_field('geofolio_entity_color', 'geofolio_entity_color_nonce'); ?>
                 <input type="text" name="entity_color" id="entity_color" value="<?php echo esc_attr($color); ?>" class="gfo-color-picker" />
-                <p class="description"><?php _e('Colour used for markers and cards on the interactive map.', 'geofolio'); ?></p>
+                <p class="description"><?php esc_html_e('Colour used for markers and cards on the interactive map.', 'geofolio'); ?></p>
             </td>
         </tr>
         <?php
@@ -164,9 +166,13 @@ class Taxonomies {
      * Sauvegarder la couleur de l'entité
      */
     public function save_entity_color($term_id) {
-        if (isset($_POST['entity_color'])) {
-            update_term_meta($term_id, Schema::ENTITY_COLOR_META, sanitize_hex_color($_POST['entity_color']));
+        if (!isset($_POST['entity_color'], $_POST['geofolio_entity_color_nonce'])
+            || !wp_verify_nonce(sanitize_key(wp_unslash($_POST['geofolio_entity_color_nonce'])), 'geofolio_entity_color')
+            || !current_user_can('manage_categories')) {
+            return;
         }
+        $color = sanitize_hex_color(sanitize_text_field(wp_unslash($_POST['entity_color'])));
+        update_term_meta($term_id, Schema::ENTITY_COLOR_META, (string) $color);
     }
 
     /**
@@ -175,9 +181,9 @@ class Taxonomies {
     public function type_add_form_fields() {
         ?>
         <div class="form-field">
-            <span class="gfo-icon-picker-label"><?php _e('Icon', 'geofolio'); ?></span>
+            <span class="gfo-icon-picker-label"><?php esc_html_e('Icon', 'geofolio'); ?></span>
             <?php self::render_icon_picker(''); ?>
-            <p class="description"><?php _e('Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin.', 'geofolio'); ?></p>
+            <p class="description"><?php esc_html_e('Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin.', 'geofolio'); ?></p>
         </div>
         <?php
     }
@@ -191,10 +197,10 @@ class Taxonomies {
         $icon = get_term_meta($term->term_id, Icons::TERM_META, true);
         ?>
         <tr class="form-field">
-            <th scope="row"><?php _e('Icon', 'geofolio'); ?></th>
+            <th scope="row"><?php esc_html_e('Icon', 'geofolio'); ?></th>
             <td>
                 <?php self::render_icon_picker(is_string($icon) ? $icon : ''); ?>
-                <p class="description"><?php _e('Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin.', 'geofolio'); ?></p>
+                <p class="description"><?php esc_html_e('Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin.', 'geofolio'); ?></p>
             </td>
         </tr>
         <?php
@@ -211,7 +217,7 @@ class Taxonomies {
         <fieldset class="gfo-icon-picker">
             <label class="gfo-icon-choice">
                 <input type="radio" name="geofolio_type_icon" value="" <?php checked($current, ''); ?> />
-                <span><?php _e('Automatic', 'geofolio'); ?></span>
+                <span><?php esc_html_e('Automatic', 'geofolio'); ?></span>
             </label>
             <?php foreach (Icons::all() as $key => $path) : ?>
             <label class="gfo-icon-choice" title="<?php echo esc_attr($key); ?>">

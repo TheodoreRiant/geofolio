@@ -96,6 +96,7 @@ final class MediaImporter {
             return $this->attachments[$source];
         }
 
+        // phpcs:disable WordPress.DB.SlowDBQuery -- déduplication par URL source : une seule ligne attendue, à l'import seulement.
         $existing = get_posts(array(
             'post_type'      => 'attachment',
             'post_status'    => 'inherit',
@@ -104,6 +105,7 @@ final class MediaImporter {
             'meta_key'       => self::SOURCE_META,
             'meta_value'     => $source,
         ));
+        // phpcs:enable
         $id = $existing ? (int) $existing[0] : self::sideload($path, $post_id);
         if ($id && !$existing) {
             update_post_meta($id, self::SOURCE_META, $source);
@@ -132,7 +134,7 @@ final class MediaImporter {
         }
         $id = media_handle_sideload(array('name' => basename($path), 'tmp_name' => $tmp), $post_id);
         if (is_wp_error($id)) {
-            @unlink($tmp);
+            wp_delete_file($tmp);
             return 0;
         }
         return (int) $id;

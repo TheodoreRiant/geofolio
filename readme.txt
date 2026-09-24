@@ -26,6 +26,22 @@ No build step and no external CDN: Leaflet, MarkerCluster and MapLibre are bundl
 
 Site-specific behaviour (default values, icons, CSV columns, URL slugs, labels, data migrations) goes through filters, so a companion plugin can adapt Geofolio without modifying it.
 
+= External services =
+
+Geofolio never sends anything to the plugin author. It only contacts the third-party services below, and only to do what the site owner set up:
+
+* **Map tiles.** The visitor's browser loads map tiles from the basemap chosen in **Map settings**. What is sent: the coordinates of the tiles being viewed (area and zoom level), the visitor's IP address as with any embedded resource, and the site's API key for keyed providers. Providers, with their terms and privacy policies: OpenFreeMap (default, no key) https://openfreemap.org/ ; OpenStreetMap https://www.openstreetmap.org/copyright and https://operations.osmfoundation.org/policies/tiles/ ; IGN Géoplateforme https://geoservices.ign.fr/ ; CARTO https://carto.com/ ; Jawg https://www.jawg.io/ ; MapTiler https://www.maptiler.com/ ; Stadia Maps https://stadiamaps.com/ ; Thunderforest https://www.thunderforest.com/ . Keyed providers are used only if the site owner enters a key.
+* **Geocoding.** When an editor imports a CSV file without coordinates, or clicks "Geocode address" when editing a place, the postal address is sent to the Base Adresse Nationale API (French public service, no key, https://adresse.data.gouv.fr/ ) to obtain coordinates. Nothing is sent for visitors. The `geofolio_geocoder_url` filter can point the import to another geocoder, such as Nominatim ( https://operations.osmfoundation.org/policies/nominatim/ ).
+* **Nothing else.** Leaflet, MarkerCluster, MapLibre and the Poppins font are bundled with the plugin: no CDN, no external script.
+
+= Privacy =
+
+No analytics, no tracking, no data sent to the plugin author. Visitors only reach the map tile provider selected by the site owner. Place data stays in the WordPress database. The Poppins font is served from the plugin (SIL Open Font License).
+
+= Source code and development =
+
+Development happens on GitHub: https://github.com/TheodoreRiant/geofolio (source, issues, changelog, contribution guide). The plugin ships its readable sources; the only third-party code is in `assets/vendor/`, with each library's licence and version.
+
 == Installation ==
 
 1. Upload the plugin and activate it.
