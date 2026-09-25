@@ -18,7 +18,7 @@ class PlacePostType {
      * (brand/icon-mono.svg), en SVG encodé ; WordPress la colore selon le
      * thème d'administration.
      */
-    const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJHZW9mb2xpbyI+PHBhdGggZmlsbD0iYmxhY2siIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEuNSA1LjIgNiAzLjZsNCAxLjYgNC0xLjYgNC41IDEuNnYxMC42TDE0IDE3LjRsLTQtMS42LTQgMS42LTQuNS0xLjZWNS4yWm0xLjYgMS4xdjguMmwyLjEuOFY3LjFsLTIuMS0uOFptMTIuNy44djguMmwyLjEtLjhWNi4zbC0yLjEuOFoiLz48cGF0aCBmaWxsPSJibGFjayIgZD0iTTEwIDIuMmMtMi40IDAtNC4zIDEuOS00LjMgNC4zIDAgMy4zIDQuMyA3LjIgNC4zIDcuMnM0LjMtMy45IDQuMy03LjJjMC0yLjQtMS45LTQuMy00LjMtNC4zWm0wIDZhMS43IDEuNyAwIDEgMSAwLTMuNCAxLjcgMS43IDAgMCAxIDAgMy40WiIvPjwvc3ZnPg==';
+    const MENU_ICON = 'dashicons-location';
 
     private static $instance = null;
 
