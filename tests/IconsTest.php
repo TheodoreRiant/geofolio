@@ -4,12 +4,12 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\Icons;
+use MappedPlaces\Domain\Icons;
 
 final class IconsTest extends TestCase {
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_la_bibliotheque_compte_une_vingtaine_d_icones() {
@@ -36,7 +36,7 @@ final class IconsTest extends TestCase {
     }
 
     public function test_le_filtre_peut_ajouter_une_icone() {
-        add_filter('geofolio_icons', static function ($icons) {
+        add_filter('mapped_places_icons', static function ($icons) {
             return array_merge($icons, array('tree' => '<circle cx="12" cy="12" r="4"/>'));
         });
 
@@ -44,7 +44,7 @@ final class IconsTest extends TestCase {
     }
 
     public function test_une_icone_ajoutee_avec_une_cle_invalide_est_ignoree() {
-        add_filter('geofolio_icons', static function ($icons) {
+        add_filter('mapped_places_icons', static function ($icons) {
             return array_merge($icons, array('Bad Key' => '<circle r="1"/>', 'empty' => ''));
         });
 
@@ -54,7 +54,7 @@ final class IconsTest extends TestCase {
     }
 
     public function test_le_trace_d_une_icone_ne_garde_que_des_formes_svg() {
-        add_filter('geofolio_icons', static function ($icons) {
+        add_filter('mapped_places_icons', static function ($icons) {
             return array_merge($icons, array('evil' => '<script>alert(1)</script><path d="M1 1"/>'));
         });
 

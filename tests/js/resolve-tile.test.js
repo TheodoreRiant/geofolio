@@ -14,12 +14,12 @@ const { load } = require('./modules.js');
 /**
  * Charger resolveTile() avec un objet `window` contrôlé.
  *
- * @param {object} tiles Contenu de geofolioConfig.tiles, ou null.
+ * @param {object} tiles Contenu de mappedPlacesConfig.tiles, ou null.
  * @returns {Function} resolveTile
  */
 function loadResolver(tiles) {
-    // resolveTile() lit window.geofolioConfig à chaque appel.
-    global.window = tiles ? { geofolioConfig: { tiles } } : {};
+    // resolveTile() lit window.mappedPlacesConfig à chaque appel.
+    global.window = tiles ? { mappedPlacesConfig: { tiles } } : {};
     return load('tiles').resolveTile;
 }
 

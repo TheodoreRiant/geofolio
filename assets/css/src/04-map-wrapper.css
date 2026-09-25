@@ -1,16 +1,16 @@
 /* ============================================================
-   14. MAP WRAPPER (.gfo-map-wrapper)
+   14. MAP WRAPPER (.mapl-map-wrapper)
    ============================================================ */
-.gfo-map-wrapper {
+.mapl-map-wrapper {
     flex: 1;
     min-width: 0;
     position: relative;
-    background: var(--gfo-bg); /* fond neutre charte pendant le chargement des tuiles */
+    background: var(--mapl-bg); /* fond neutre charte pendant le chargement des tuiles */
     display: flex;
     flex-direction: column;
 }
 
-.gfo-map-canvas {
+.mapl-map-canvas {
     width: 100%;
     flex: 1;
 }

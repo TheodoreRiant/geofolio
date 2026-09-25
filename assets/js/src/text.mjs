@@ -48,7 +48,7 @@ function highlightMatch(text, query) {
 
 /* Libelle de la ligne « responsable » du popup : pluriel des que le
    champ liste plusieurs noms (separes par une virgule). Les libelles,
-   ponctuation comprise, viennent de geofolioConfig.i18n. */
+   ponctuation comprise, viennent de mappedPlacesConfig.i18n. */
 function managerLabel(value, i18n) {
     var labels = i18n || {};
     var plural = String(value || '').indexOf(',') !== -1;

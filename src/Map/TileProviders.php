@@ -13,7 +13,7 @@
  * la restreindre par domaine référent chez le fournisseur.
  */
 
-namespace Geofolio\Map;
+namespace MappedPlaces\Map;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -58,7 +58,7 @@ final class TileProviders {
         return array(
             'ign-plan' => array(
                 'id'           => 'ign-plan',
-                'label'        => __('IGN map (France, no key)', 'geofolio'),
+                'label'        => __('IGN map (France, no key)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://data.geopf.fr/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png',
                 'attribution'  => '&copy; <a href="https://www.ign.fr/">IGN-F</a> / <a href="https://geoservices.ign.fr/">Géoplateforme</a>',
@@ -68,7 +68,7 @@ final class TileProviders {
             ),
             'osm-fr' => array(
                 'id'           => 'osm-fr',
-                'label'        => __('OpenStreetMap France (no key)', 'geofolio'),
+                'label'        => __('OpenStreetMap France (no key)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
                 'attribution'  => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> France',
@@ -81,7 +81,7 @@ final class TileProviders {
             // « API KEY REQUIRED » en travers de la carte. D'où requires_key.
             'voyager' => array(
                 'id'           => 'voyager',
-                'label'        => __('CARTO Voyager — light (key required)', 'geofolio'),
+                'label'        => __('CARTO Voyager — light (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key={key}',
                 'attribution'  => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -91,7 +91,7 @@ final class TileProviders {
             ),
             'positron' => array(
                 'id'           => 'positron',
-                'label'        => __('CARTO Positron — minimal (key required)', 'geofolio'),
+                'label'        => __('CARTO Positron — minimal (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key={key}',
                 'attribution'  => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -101,7 +101,7 @@ final class TileProviders {
             ),
             'darkmatter' => array(
                 'id'           => 'darkmatter',
-                'label'        => __('CARTO Dark Matter — dark (key required)', 'geofolio'),
+                'label'        => __('CARTO Dark Matter — dark (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key={key}',
                 'attribution'  => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -111,7 +111,7 @@ final class TileProviders {
             ),
             'osm' => array(
                 'id'           => 'osm',
-                'label'        => __('OpenStreetMap standard (no key)', 'geofolio'),
+                'label'        => __('OpenStreetMap standard (no key)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'attribution'  => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -121,7 +121,7 @@ final class TileProviders {
             ),
             'ign-epure' => array(
                 'id'           => 'ign-epure',
-                'label'        => __('IGN clean map — vector, experimental (no key)', 'geofolio'),
+                'label'        => __('IGN clean map — vector, experimental (no key)', 'mapped-places'),
                 'type'         => 'vector',
                 'url'          => 'https://data.geopf.fr/annexes/ressources/vectorTiles/styles/PLAN.IGN/epure.json',
                 'attribution'  => '&copy; <a href="https://www.ign.fr/">IGN-F</a> / <a href="https://geoservices.ign.fr/">Géoplateforme</a>',
@@ -131,7 +131,7 @@ final class TileProviders {
             ),
             'ign-gris' => array(
                 'id'           => 'ign-gris',
-                'label'        => __('IGN grey map — vector, experimental (no key)', 'geofolio'),
+                'label'        => __('IGN grey map — vector, experimental (no key)', 'mapped-places'),
                 'type'         => 'vector',
                 'url'          => 'https://data.geopf.fr/annexes/ressources/vectorTiles/styles/PLAN.IGN/gris.json',
                 'attribution'  => '&copy; <a href="https://www.ign.fr/">IGN-F</a> / <a href="https://geoservices.ign.fr/">Géoplateforme</a>',
@@ -141,7 +141,7 @@ final class TileProviders {
             ),
             'openfreemap-positron' => array(
                 'id'           => 'openfreemap-positron',
-                'label'        => __('Positron via OpenFreeMap — vector, no key, worldwide', 'geofolio'),
+                'label'        => __('Positron via OpenFreeMap — vector, no key, worldwide', 'mapped-places'),
                 'type'         => 'vector',
                 'url'          => 'https://tiles.openfreemap.org/styles/positron',
                 'attribution'  => '&copy; <a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -151,7 +151,7 @@ final class TileProviders {
             ),
             'jawg-light' => array(
                 'id'           => 'jawg-light',
-                'label'        => __('Jawg Light — clean, French labels (key required)', 'geofolio'),
+                'label'        => __('Jawg Light — clean, French labels (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://tile.jawg.io/jawg-light/{z}/{x}/{y}{r}.png?access-token={key}&lang=fr',
                 'attribution'  => '<a href="https://jawg.io" target="_blank">&copy; Jawg</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -161,7 +161,7 @@ final class TileProviders {
             ),
             'maptiler-streets' => array(
                 'id'           => 'maptiler-streets',
-                'label'        => __('MapTiler Streets (key required)', 'geofolio'),
+                'label'        => __('MapTiler Streets (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key={key}',
                 'attribution'  => '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -171,7 +171,7 @@ final class TileProviders {
             ),
             'stadia-smooth' => array(
                 'id'           => 'stadia-smooth',
-                'label'        => __('Stadia Alidade Smooth (key required)', 'geofolio'),
+                'label'        => __('Stadia Alidade Smooth (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?key={key}',
                 'attribution'  => '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -181,7 +181,7 @@ final class TileProviders {
             ),
             'thunderforest-atlas' => array(
                 'id'           => 'thunderforest-atlas',
-                'label'        => __('Thunderforest Atlas (key required)', 'geofolio'),
+                'label'        => __('Thunderforest Atlas (key required)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => 'https://{s}.tile.thunderforest.com/atlas/{z}/{x}/{y}.png?apikey={key}',
                 'attribution'  => '&copy; <a href="https://www.thunderforest.com/" target="_blank">Thunderforest</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -191,7 +191,7 @@ final class TileProviders {
             ),
             self::CUSTOM_ID => array(
                 'id'           => self::CUSTOM_ID,
-                'label'        => __('Custom URL (other provider)', 'geofolio'),
+                'label'        => __('Custom URL (other provider)', 'mapped-places'),
                 'type'         => 'raster',
                 'url'          => '',   // fourni par les réglages
                 'attribution'  => '',   // fournie par les réglages

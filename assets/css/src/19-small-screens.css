@@ -1,12 +1,12 @@
 /* Petits écrans (<= 640px) : un seul bloc, placé après les règles de base
    de chaque composant qu'il ajuste (pastilles, autocomplétion, carrousel). */
 @media (max-width: 640px) {
-    .gfo-entity-hint {
+    .mapl-entity-hint {
         font-size: 10.5px;
         padding: 3px 8px;
     }
 
-    .gfo-mobile-toolbar .gfo-autocomplete-results {
+    .mapl-mobile-toolbar .mapl-autocomplete-results {
         position: fixed;
         top: auto;
         bottom: 60px;
@@ -15,25 +15,25 @@
         max-height: 50vh;
     }
 
-    .gfo-carousel-slide { height: 180px; }
+    .mapl-carousel-slide { height: 180px; }
 
     /* Meme specificite et meme !important que la regle de base, sinon la
        taille mobile serait ecrasee par celle du bureau. */
-    .gfo-carousel .gfo-carousel-prev,
-    .gfo-carousel .gfo-carousel-next {
+    .mapl-carousel .mapl-carousel-prev,
+    .mapl-carousel .mapl-carousel-next {
         width: 32px !important;
         height: 32px !important;
     }
 
-    .gfo-carousel .gfo-carousel-prev svg,
-    .gfo-carousel .gfo-carousel-next svg {
+    .mapl-carousel .mapl-carousel-prev svg,
+    .mapl-carousel .mapl-carousel-next svg {
         width: 18px;
         height: 18px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .gfo-carousel-track { transition: none; }
-    .gfo-popup-image-placeholder { animation: none; }
+    .mapl-carousel-track { transition: none; }
+    .mapl-popup-image-placeholder { animation: none; }
 }
 

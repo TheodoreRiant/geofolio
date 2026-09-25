@@ -1,10 +1,10 @@
-# French translation of Geofolio.
+# French translation of Mapped Places.
 # Copyright (C) 2026 Théodore Riant
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geofolio 1.1.0\n"
-"Report-Msgid-Bugs-To: https://github.com/TheodoreRiant/geofolio/issues\n"
+"Project-Id-Version: Mapped Places 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/TheodoreRiant/mapped-places/issues\n"
 "Last-Translator: Théodore Riant\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -15,32 +15,32 @@ msgstr ""
 "POT-Creation-Date: 2026-09-24T12:29:57+00:00\n"
 "PO-Revision-Date: 2026-09-24 12:00+0200\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: geofolio\n"
+"X-Domain: mapped-places\n"
 
 #. Plugin Name of the plugin
-#: geofolio.php
+#: mapped-places.php
 #: src/Elementor/Integration.php:35
 #: src/Elementor/MapWidget.php:46
-msgid "Geofolio"
-msgstr "Geofolio"
+msgid "Mapped Places"
+msgstr "Mapped Places"
 
 #. Plugin URI of the plugin
-#: geofolio.php
-msgid "https://github.com/TheodoreRiant/geofolio"
-msgstr "https://github.com/TheodoreRiant/geofolio"
+#: mapped-places.php
+msgid "https://github.com/TheodoreRiant/mapped-places"
+msgstr "https://github.com/TheodoreRiant/mapped-places"
 
 #. Description of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "Interactive map of places with search, filters and an Elementor widget."
 msgstr "Carte interactive des lieux, avec recherche, filtres et widget Elementor."
 
 #. Author of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "Théodore Riant"
 msgstr "Théodore Riant"
 
 #. Author URI of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "https://allside.studio"
 msgstr "https://allside.studio"
 
@@ -1365,8 +1365,8 @@ msgstr "Une longueur CSS : 600px, 80vh, 40rem…"
 
 #: blocks/map/src/block.json
 msgctxt "block title"
-msgid "Geofolio Map"
-msgstr "Carte Geofolio"
+msgid "Mapped Places Map"
+msgstr "Carte Mapped Places"
 
 #: blocks/map/src/block.json
 msgctxt "block description"
@@ -1481,13 +1481,13 @@ msgstr "Valeurs par défaut des nouvelles cartes"
 msgid "Used by maps that do not set their own value (block, shortcode or Elementor widget)."
 msgstr "Utilisées par les cartes qui ne fixent pas leur propre valeur (bloc, shortcode ou widget Elementor)."
 
-#. translators: 1: old post type, 2: Geofolio post type
+#. translators: 1: old post type, 2: Mapped Places post type
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
 msgid "Posts of type %1$s become %2$s, with their meta, terms and photos."
 msgstr "Les contenus de type %1$s deviennent des %2$s, avec leurs métadonnées, leurs termes et leurs photos."
 
-#. translators: 1: old taxonomy, 2: Geofolio taxonomy
+#. translators: 1: old taxonomy, 2: Mapped Places taxonomy
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
 msgid "Taxonomy %1$s becomes %2$s."
@@ -1508,8 +1508,8 @@ msgstr "Les widgets Elementor %s sont renommés sur toutes les pages, révisions
 #. translators: %s: old shortcode names
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
-msgid "Shortcodes %s are replaced by [geofolio]."
-msgstr "Les shortcodes %s sont remplacés par [geofolio]."
+msgid "Shortcodes %s are replaced by [mapped-places]."
+msgstr "Les shortcodes %s sont remplacés par [mapped-places]."
 
 #. translators: %s: URL slug
 #: src/Migration/Legacy/ImportScreen.php
@@ -1528,8 +1528,8 @@ msgid "The old plugin %s is deactivated at the end."
 msgstr "L’ancienne extension %s est désactivée à la fin."
 
 #: src/Migration/Legacy/ImportScreen.php
-msgid "Geofolio: import the data of your previous map plugin"
-msgstr "Geofolio : importer les données de votre ancienne extension de carte"
+msgid "Mapped Places: import the data of your previous map plugin"
+msgstr "Mapped Places : importer les données de votre ancienne extension de carte"
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "A snapshot of the data is taken first. The import will:"
@@ -1542,3 +1542,11 @@ msgstr "Rôle donné aux personnes de l’ancien champ « responsable » :"
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Run the import"
 msgstr "Lancer l’import"
+
+#: views/settings-page.php
+msgid "Data migrations"
+msgstr "Migrations de données"
+
+#: views/settings-page.php
+msgid "Steps waiting to run."
+msgstr "Étapes en attente d’exécution."

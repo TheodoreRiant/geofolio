@@ -7,13 +7,13 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Rest\PlaceMapper;
+use MappedPlaces\Rest\PlaceMapper;
 
 final class PopupImagesTest extends TestCase {
 
     protected function setUp(): void {
         // Les IDs 5, 10, 11 et 12 sont des images ; 99 ne l'est pas.
-        $GLOBALS['gfo_test_images'] = array(5, 10, 11, 12);
+        $GLOBALS['mapl_test_images'] = array(5, 10, 11, 12);
     }
 
     public function test_la_couverture_passe_en_tete_devant_la_galerie() {

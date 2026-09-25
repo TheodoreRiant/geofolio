@@ -3,9 +3,9 @@
  * Custom Post Type Établissement
  */
 
-namespace Geofolio\Domain;
+namespace MappedPlaces\Domain;
 
-use Geofolio\Admin\LabelsSettings;
+use MappedPlaces\Admin\LabelsSettings;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 class PlacePostType {
 
     /**
-     * Icône du menu d'administration : la carte pliée et l'épingle de Geofolio
+     * Icône du menu d'administration : la carte pliée et l'épingle de Mapped Places
      * (brand/icon-mono.svg), en SVG encodé ; WordPress la colore selon le
      * thème d'administration.
      */
@@ -57,33 +57,33 @@ class PlacePostType {
 
     /**
      * Libellés du type de contenu, adaptables par le filtre
-     * geofolio_place_labels (« Établissements » plutôt que « Lieux »…).
+     * mapped_places_place_labels (« Établissements » plutôt que « Lieux »…).
      *
      * @return array<string, string>
      */
     public static function labels() {
         $labels = array(
-            'name'                  => __('Places', 'geofolio'),
-            'singular_name'         => __('Place', 'geofolio'),
-            'menu_name'             => __('Places', 'geofolio'),
-            'name_admin_bar'        => __('Place', 'geofolio'),
-            'add_new'               => __('Add', 'geofolio'),
-            'add_new_item'          => __('Add a place', 'geofolio'),
-            'new_item'              => __('New place', 'geofolio'),
-            'edit_item'             => __('Edit place', 'geofolio'),
-            'view_item'             => __('View place', 'geofolio'),
-            'all_items'             => __('All places', 'geofolio'),
-            'search_items'          => __('Search places', 'geofolio'),
-            'parent_item_colon'     => __('Parent place:', 'geofolio'),
-            'not_found'             => __('No places found.', 'geofolio'),
-            'not_found_in_trash'    => __('No places in the trash.', 'geofolio'),
-            'featured_image'        => __('Place image', 'geofolio'),
-            'set_featured_image'    => __('Set image', 'geofolio'),
-            'remove_featured_image' => __('Remove image', 'geofolio'),
-            'use_featured_image'    => __('Use as image', 'geofolio'),
+            'name'                  => __('Places', 'mapped-places'),
+            'singular_name'         => __('Place', 'mapped-places'),
+            'menu_name'             => __('Places', 'mapped-places'),
+            'name_admin_bar'        => __('Place', 'mapped-places'),
+            'add_new'               => __('Add', 'mapped-places'),
+            'add_new_item'          => __('Add a place', 'mapped-places'),
+            'new_item'              => __('New place', 'mapped-places'),
+            'edit_item'             => __('Edit place', 'mapped-places'),
+            'view_item'             => __('View place', 'mapped-places'),
+            'all_items'             => __('All places', 'mapped-places'),
+            'search_items'          => __('Search places', 'mapped-places'),
+            'parent_item_colon'     => __('Parent place:', 'mapped-places'),
+            'not_found'             => __('No places found.', 'mapped-places'),
+            'not_found_in_trash'    => __('No places in the trash.', 'mapped-places'),
+            'featured_image'        => __('Place image', 'mapped-places'),
+            'set_featured_image'    => __('Set image', 'mapped-places'),
+            'remove_featured_image' => __('Remove image', 'mapped-places'),
+            'use_featured_image'    => __('Use as image', 'mapped-places'),
         );
         $labels   = LabelsSettings::place_labels($labels);
-        $filtered = apply_filters('geofolio_place_labels', $labels);
+        $filtered = apply_filters('mapped_places_place_labels', $labels);
         return is_array($filtered) ? array_merge($labels, $filtered) : $labels;
     }
 
@@ -109,7 +109,7 @@ class PlacePostType {
             // Pas d'éditeur d'article : un lieu se renseigne dans un formulaire
             // (voir Admin\PlaceEditScreen). Un site qui veut une vraie page
             // rédigée par lieu peut réactiver « editor » par ce filtre.
-            'supports'           => apply_filters('geofolio_place_supports', array('title', 'thumbnail')),
+            'supports'           => apply_filters('mapped_places_place_supports', array('title', 'thumbnail')),
             'show_in_rest'       => true,
         );
 

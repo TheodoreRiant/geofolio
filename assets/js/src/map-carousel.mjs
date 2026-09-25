@@ -1,5 +1,5 @@
 /**
- * Méthodes de GeofolioMap : Photos du popup : carrousel et repli.
+ * Méthodes de MappedPlacesMap : Photos du popup : carrousel et repli.
  * Ajoutées au prototype par map.mjs.
  */
 import { escAttr } from './escape.mjs';
@@ -12,15 +12,15 @@ const carouselMethods = {
     /**
      * Construire le slot image « placeholder » affiché lorsqu'un
      * établissement n'a AUCUNE photo (ni galerie ni image à la une).
-     * Réutilise la classe .gfo-popup-image avec un modificateur
+     * Réutilise la classe .mapl-popup-image avec un modificateur
      * pour styler le rendu générique.
      *
      * @returns {string}
      */
     renderImagePlaceholder() {
-        var base = (window.geofolioConfig && geofolioConfig.pluginUrl) ? geofolioConfig.pluginUrl : '';
+        var base = (window.mappedPlacesConfig && mappedPlacesConfig.pluginUrl) ? mappedPlacesConfig.pluginUrl : '';
         var src  = base + 'assets/images/placeholder.svg';
-        return '<div class="gfo-popup-image gfo-popup-image--placeholder">' +
+        return '<div class="mapl-popup-image mapl-popup-image--placeholder">' +
                    '<img src="' + src + '" alt="' + escAttr(t('photoPlaceholder')) + '" loading="lazy" />' +
                '</div>';
     },
@@ -50,13 +50,13 @@ const carouselMethods = {
      * @param {HTMLElement} rootNode Conteneur du popup
      */
     initCarousel(rootNode) {
-        var $carousel = $(rootNode).find('.gfo-carousel');
+        var $carousel = $(rootNode).find('.mapl-carousel');
         if (!$carousel.length) return;
 
-        var $track   = $carousel.find('.gfo-carousel-track');
-        var $slides  = $carousel.find('.gfo-carousel-slide');
-        var $dots    = $carousel.find('.gfo-carousel-dot');
-        var $counter = $carousel.find('.gfo-carousel-counter');
+        var $track   = $carousel.find('.mapl-carousel-track');
+        var $slides  = $carousel.find('.mapl-carousel-slide');
+        var $dots    = $carousel.find('.mapl-carousel-dot');
+        var $counter = $carousel.find('.mapl-carousel-counter');
         var total    = $slides.length;
         if (total <= 1) return;
 
@@ -82,9 +82,9 @@ const carouselMethods = {
         }
 
         $carousel.off('.carousel');
-        $carousel.on('click.carousel', '.gfo-carousel-prev', function(e) { e.stopPropagation(); goTo(state.index - 1); });
-        $carousel.on('click.carousel', '.gfo-carousel-next', function(e) { e.stopPropagation(); goTo(state.index + 1); });
-        $carousel.on('click.carousel', '.gfo-carousel-dot',  function(e) { e.stopPropagation(); goTo(parseInt($(this).data('slide'), 10)); });
+        $carousel.on('click.carousel', '.mapl-carousel-prev', function(e) { e.stopPropagation(); goTo(state.index - 1); });
+        $carousel.on('click.carousel', '.mapl-carousel-next', function(e) { e.stopPropagation(); goTo(state.index + 1); });
+        $carousel.on('click.carousel', '.mapl-carousel-dot',  function(e) { e.stopPropagation(); goTo(parseInt($(this).data('slide'), 10)); });
 
         $carousel.on('keydown.carousel', function(e) {
             if (e.key === 'ArrowLeft')      { e.preventDefault(); goTo(state.index - 1); }
@@ -124,7 +124,7 @@ const carouselMethods = {
      * @param {Array}  gallery  Array d'images (peut être vide)
      */
     injectGalleryIntoPopup($node, gallery) {
-        var $placeholder = $node.find('.gfo-popup-image-placeholder');
+        var $placeholder = $node.find('.mapl-popup-image-placeholder');
         if (!$placeholder.length) return;
 
         if (gallery && gallery.length > 0) {
@@ -134,10 +134,10 @@ const carouselMethods = {
         }
 
         // Fallback : essayer le thumbnail (featured image) depuis le cache liste
-        var placeId = parseInt($node.find('.gfo-popup-content').data('place-id'), 10);
+        var placeId = parseInt($node.find('.mapl-popup-content').data('place-id'), 10);
         var place   = this.allPlaces.find(function(e) { return e.id === placeId; });
         if (place && place.thumbnail) {
-            $placeholder.replaceWith('<div class="gfo-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(place.title) + '" loading="lazy" /></div>');
+            $placeholder.replaceWith('<div class="mapl-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(place.title) + '" loading="lazy" /></div>');
         } else {
             // Galerie vide et pas d'image à la une : placeholder générique
             $placeholder.replaceWith(this.renderImagePlaceholder());

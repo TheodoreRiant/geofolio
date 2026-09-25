@@ -57,7 +57,7 @@ class PluginCheckTest extends TestCase {
         // le fait doit vérifier un nonce dans son propre corps.
         $taxonomies = (string) file_get_contents(self::ROOT . '/src/Domain/Taxonomies.php');
         $this->assertMatchesRegularExpression('/function save_entity_color\(.*?wp_verify_nonce/s', $taxonomies);
-        $this->assertStringContainsString("wp_nonce_field('geofolio_entity_color'", $taxonomies);
+        $this->assertStringContainsString("wp_nonce_field('mapped_places_entity_color'", $taxonomies);
 
         $importer = (string) file_get_contents(self::ROOT . '/src/Import/Importer.php');
         $this->assertMatchesRegularExpression('/function handle_import\(\).*?wp_verify_nonce/s', $importer);
@@ -66,12 +66,49 @@ class PluginCheckTest extends TestCase {
 
     public function test_le_readme_documente_les_services_externes(): void {
         $readme = (string) file_get_contents(self::ROOT . '/readme.txt');
-        $this->assertStringContainsString('= External services =', $readme);
-        foreach (array('openfreemap.org', 'openstreetmap.org', 'geoservices.ign.fr', 'carto.com', 'jawg.io', 'maptiler.com', 'stadiamaps.com', 'thunderforest.com', 'adresse.data.gouv.fr') as $host) {
-            $this->assertStringContainsString($host, $readme, "Service externe non documenté : $host");
+        // Section de premier niveau, exigée par le répertoire.
+        $this->assertStringContainsString("\n== External services ==\n", $readme);
+        $section = substr($readme, strpos($readme, '== External services =='));
+        $section = substr($section, 0, strpos($section, "\n== ", 5));
+        foreach (array('openfreemap.org', 'openstreetmap.org', 'data.geopf.fr', 'carto.com', 'jawg.io', 'maptiler.com', 'stadiamaps.com', 'thunderforest.com', 'adresse.data.gouv.fr') as $host) {
+            $this->assertStringContainsString($host, $section, "Service externe non documenté : $host");
         }
+        // Chaque fournisseur : conditions d'utilisation et confidentialité.
+        $this->assertSame(8, preg_match_all('/^\* \*\*.+terms: https?:\/\/\S+, privacy: https?:\/\/\S+$/m', $section), 'Un lien CGU et un lien confidentialité par fournisseur de tuiles.');
+        $this->assertMatchesRegularExpression('/^Terms: https?:\/\/\S+, privacy: https?:\/\/\S+$/m', $section, 'CGU et confidentialité du géocodeur.');
         $this->assertStringContainsString('= Privacy =', $readme);
-        $this->assertStringContainsString('github.com/TheodoreRiant/geofolio', $readme, 'Lien vers le code source (règle 4).');
+        $this->assertStringContainsString('github.com/TheodoreRiant/mapped-places', $readme, 'Lien vers le code source (règle 4).');
+    }
+
+    public function test_les_avis_d_administration_restent_sur_les_ecrans_du_plugin(): void {
+        // Règle 11 du répertoire : pas d'avis sur tout le tableau de bord.
+        foreach (self::core_php_files() as $path) {
+            $code = (string) file_get_contents($path);
+            if (strpos($code, "'admin_notices'") === false) {
+                continue;
+            }
+            $this->assertStringContainsString('Screen::is_plugin_screen()', $code, substr($path, strlen(self::ROOT) + 1) . ' : un avis doit tester Screen::is_plugin_screen().');
+        }
+        $runner = (string) file_get_contents(self::ROOT . '/src/Migration/Runner.php');
+        $this->assertStringNotContainsString('admin_notices', $runner, 'Le bouton de relance vit dans la page de réglages.');
+    }
+
+    public function test_les_parametres_de_duplication_sont_assainis(): void {
+        $duplicate = (string) file_get_contents(self::ROOT . '/src/Admin/Duplicate.php');
+        $this->assertStringContainsString("sanitize_text_field(wp_unslash(\$_GET['_wpnonce']))", $duplicate);
+        $this->assertStringContainsString("absint(wp_unslash(\$_GET['post']))", $duplicate);
+        $this->assertStringNotContainsString('process_request(wp_unslash($_GET))', $duplicate);
+    }
+
+    public function test_les_traductions_viennent_des_paquets_de_langue(): void {
+        $plugin = (string) file_get_contents(self::ROOT . '/src/Plugin.php');
+        $this->assertStringNotContainsString('load_plugin_textdomain', $plugin);
+        $main = (string) file_get_contents(self::ROOT . '/mapped-places.php');
+        $this->assertStringNotContainsString('Domain Path', $main);
+        $attributes = (string) file_get_contents(self::ROOT . '/.gitattributes');
+        foreach (array('*.po', '*.mo', '*.json') as $ext) {
+            $this->assertStringContainsString("/languages/$ext", $attributes, "Fichier de traduction hors archive : $ext");
+        }
     }
 
     public function test_la_desinstallation_est_protegee(): void {
@@ -79,10 +116,10 @@ class PluginCheckTest extends TestCase {
         $this->assertFileExists($path);
         $uninstall = (string) file_get_contents($path);
         $this->assertStringContainsString("defined('WP_UNINSTALL_PLUGIN')", $uninstall);
-        foreach (array('geofolio_settings', 'geofolio_migrations_done', 'geofolio_migration_log_last', 'geofolio_snapshot_') as $key) {
+        foreach (array('mapped_places_settings', 'mapped_places_migrations_done', 'mapped_places_migration_log_last', 'mapped_places_snapshot_') as $key) {
             $this->assertStringContainsString($key, $uninstall, "Option non nettoyée : $key");
         }
-        $this->assertStringContainsString('GEOFOLIO_UNINSTALL_DATA', $uninstall, 'La suppression des lieux doit rester un choix explicite.');
+        $this->assertStringContainsString('MAPPED_PLACES_UNINSTALL_DATA', $uninstall, 'La suppression des lieux doit rester un choix explicite.');
     }
 
     public function test_les_notices_d_administration_sont_fermables(): void {

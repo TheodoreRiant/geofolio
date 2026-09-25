@@ -2,8 +2,8 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geofolio 1.1.0\n"
-"Report-Msgid-Bugs-To: https://github.com/TheodoreRiant/geofolio/issues\n"
+"Project-Id-Version: Mapped Places 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/TheodoreRiant/mapped-places/issues\n"
 "Last-Translator: Théodore Riant\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -12,32 +12,32 @@ msgstr ""
 "POT-Creation-Date: 2026-09-24T12:29:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: geofolio\n"
+"X-Domain: mapped-places\n"
 
 #. Plugin Name of the plugin
-#: geofolio.php
+#: mapped-places.php
 #: src/Elementor/Integration.php:35
 #: src/Elementor/MapWidget.php:46
-msgid "Geofolio"
+msgid "Mapped Places"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: geofolio.php
-msgid "https://github.com/TheodoreRiant/geofolio"
+#: mapped-places.php
+msgid "https://github.com/TheodoreRiant/mapped-places"
 msgstr ""
 
 #. Description of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "Interactive map of places with search, filters and an Elementor widget."
 msgstr ""
 
 #. Author of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "Théodore Riant"
 msgstr ""
 
 #. Author URI of the plugin
-#: geofolio.php
+#: mapped-places.php
 msgid "https://allside.studio"
 msgstr ""
 
@@ -1308,7 +1308,7 @@ msgstr ""
 
 #: blocks/map/src/block.json
 msgctxt "block title"
-msgid "Geofolio Map"
+msgid "Mapped Places Map"
 msgstr ""
 
 #: blocks/map/src/block.json
@@ -1424,13 +1424,13 @@ msgstr ""
 msgid "Used by maps that do not set their own value (block, shortcode or Elementor widget)."
 msgstr ""
 
-#. translators: 1: old post type, 2: Geofolio post type
+#. translators: 1: old post type, 2: Mapped Places post type
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
 msgid "Posts of type %1$s become %2$s, with their meta, terms and photos."
 msgstr ""
 
-#. translators: 1: old taxonomy, 2: Geofolio taxonomy
+#. translators: 1: old taxonomy, 2: Mapped Places taxonomy
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
 msgid "Taxonomy %1$s becomes %2$s."
@@ -1451,7 +1451,7 @@ msgstr ""
 #. translators: %s: old shortcode names
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
-msgid "Shortcodes %s are replaced by [geofolio]."
+msgid "Shortcodes %s are replaced by [mapped-places]."
 msgstr ""
 
 #. translators: %s: URL slug
@@ -1471,7 +1471,7 @@ msgid "The old plugin %s is deactivated at the end."
 msgstr ""
 
 #: src/Migration/Legacy/ImportScreen.php
-msgid "Geofolio: import the data of your previous map plugin"
+msgid "Mapped Places: import the data of your previous map plugin"
 msgstr ""
 
 #: src/Migration/Legacy/ImportScreen.php
@@ -1484,4 +1484,12 @@ msgstr ""
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Run the import"
+msgstr ""
+
+#: views/settings-page.php
+msgid "Data migrations"
+msgstr ""
+
+#: views/settings-page.php
+msgid "Steps waiting to run."
 msgstr ""

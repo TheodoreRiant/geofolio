@@ -9,7 +9,7 @@
  * jour à l'enregistrement pour les consommateurs qui ne connaissent que lui.
  */
 
-namespace Geofolio\Domain;
+namespace MappedPlaces\Domain;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,7 +26,7 @@ final class People {
      * @return string
      */
     public static function default_role() {
-        return (string) apply_filters('geofolio_default_person_role', __('Manager', 'geofolio'));
+        return (string) apply_filters('mapped_places_default_person_role', __('Manager', 'mapped-places'));
     }
 
     /**
@@ -36,13 +36,13 @@ final class People {
      */
     public static function role_suggestions() {
         $roles = array(
-            __('Director', 'geofolio'),
-            __('Manager', 'geofolio'),
-            __('Secretary general', 'geofolio'),
-            __('Head of service', 'geofolio'),
-            __('Contact person', 'geofolio'),
+            __('Director', 'mapped-places'),
+            __('Manager', 'mapped-places'),
+            __('Secretary general', 'mapped-places'),
+            __('Head of service', 'mapped-places'),
+            __('Contact person', 'mapped-places'),
         );
-        $filtered = apply_filters('geofolio_people_roles', $roles);
+        $filtered = apply_filters('mapped_places_people_roles', $roles);
         return array_values(array_unique(array_filter(array_map('strval', is_array($filtered) ? $filtered : $roles))));
     }
 

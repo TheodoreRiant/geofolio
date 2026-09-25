@@ -16,8 +16,8 @@ You will get an acknowledgement within 3 business days; a fix follows as soon as
 
 ## Scope
 
-- REST routes `geofolio/v1` (public, read-only).
+- REST routes `mapped-places/v1` (public, read-only).
 - Admin screens: place editing, duplication, map settings, CSV import.
 - Map display (content injection through place data).
 
-Secrets (basemap API keys, hosting credentials) are never committed: the tile key is set in the admin or with the `GEOFOLIO_TILE_API_KEY` constant in `wp-config.php`.
+Secrets (basemap API keys, hosting credentials) are never committed: the tile key is set in the admin or with the `MAPPED_PLACES_TILE_API_KEY` constant in `wp-config.php`.

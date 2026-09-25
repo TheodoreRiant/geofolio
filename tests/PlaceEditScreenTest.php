@@ -5,9 +5,9 @@
  * boxes historiques retirées de la colonne principale.
  */
 
-use Geofolio\Admin\MetaBoxes;
-use Geofolio\Admin\PlaceEditScreen;
-use Geofolio\Domain\Schema;
+use MappedPlaces\Admin\MetaBoxes;
+use MappedPlaces\Admin\PlaceEditScreen;
+use MappedPlaces\Domain\Schema;
 use PHPUnit\Framework\TestCase;
 
 class PlaceEditScreenTest extends TestCase {
@@ -37,21 +37,21 @@ class PlaceEditScreenTest extends TestCase {
     }
 
     public function test_les_meta_boxes_de_la_colonne_principale_sont_retirees(): void {
-        $GLOBALS['gfo_test_removed_meta_boxes'] = array();
+        $GLOBALS['mapl_test_removed_meta_boxes'] = array();
         PlaceEditScreen::get_instance()->remove_default_boxes();
-        $removed = array_column($GLOBALS['gfo_test_removed_meta_boxes'], 0);
+        $removed = array_column($GLOBALS['mapl_test_removed_meta_boxes'], 0);
         foreach (MetaBoxes::BOX_IDS as $box_id) {
             $this->assertContains($box_id, $removed, 'Meta box encore affichée deux fois : ' . $box_id);
         }
         $this->assertContains('postexcerpt', $removed);
-        foreach ($GLOBALS['gfo_test_removed_meta_boxes'] as $call) {
+        foreach ($GLOBALS['mapl_test_removed_meta_boxes'] as $call) {
             $this->assertSame(Schema::POST_TYPE, $call[1]);
         }
     }
 
     public function test_le_type_de_contenu_n_a_plus_l_editeur_d_article(): void {
         $source = (string) file_get_contents(dirname(__DIR__) . '/src/Domain/PlacePostType.php');
-        $this->assertMatchesRegularExpression("/'supports'\\s*=>\\s*apply_filters\\('geofolio_place_supports',\\s*array\\('title', 'thumbnail'\\)\\)/", $source);
+        $this->assertMatchesRegularExpression("/'supports'\\s*=>\\s*apply_filters\\('mapped_places_place_supports',\\s*array\\('title', 'thumbnail'\\)\\)/", $source);
         $this->assertStringNotContainsString("'editor'", preg_replace('#//[^\n]*#', '', $source), 'Le support editor ne doit pas être actif par défaut.');
     }
 }

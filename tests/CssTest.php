@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 final class CssTest extends TestCase {
 
-    const CSS = __DIR__ . '/../assets/css/geofolio.css';
+    const CSS = __DIR__ . '/../assets/css/mapped-places.css';
 
     /** Classes supprimées : jamais produites par le gabarit ni par le JS. */
     const REMOVED_CLASSES = array(
-        'gfo-category-card', 'gfo-filter-group', 'gfo-sidebar-filters', 'gfo-radius-select',
-        'gfo-result-item', 'gfo-result-type', 'gfo-marker-pulse', 'gfo-popup-link', 'gfo-tag',
-        'gfo-map-legend', 'gfo-sheet-peek', 'gfo-sr-only', 'gfo-dark',
+        'mapl-category-card', 'mapl-filter-group', 'mapl-sidebar-filters', 'mapl-radius-select',
+        'mapl-result-item', 'mapl-result-type', 'mapl-marker-pulse', 'mapl-popup-link', 'mapl-tag',
+        'mapl-map-legend', 'mapl-sheet-peek', 'mapl-sr-only', 'mapl-dark',
     );
 
     private static function css(): string {
@@ -46,9 +46,9 @@ final class CssTest extends TestCase {
     public function test_les_variables_derivees_suivent_le_conteneur() {
         $css = self::css();
         preg_match('/:root\s*\{([^}]*)\}/', $css, $root);
-        preg_match('/\n\.gfo-map-container\s*\{([^}]*)\}/', $css, $container);
+        preg_match('/\n\.mapl-map-container\s*\{([^}]*)\}/', $css, $container);
 
-        foreach (array('--gfo-cluster-bg', '--gfo-cluster-border', '--gfo-cluster-text', '--gfo-popup-accent') as $var) {
+        foreach (array('--mapl-cluster-bg', '--mapl-cluster-border', '--mapl-cluster-text', '--mapl-popup-accent') as $var) {
             $this->assertStringNotContainsString($var . ':', $root[1], $var);
             $this->assertStringContainsString($var . ':', $container[1], $var);
         }
@@ -57,9 +57,9 @@ final class CssTest extends TestCase {
     public function test_la_palette_neutre_est_dans_root() {
         preg_match('/:root\s*\{([^}]*)\}/', self::css(), $root);
 
-        $this->assertMatchesRegularExpression('/--gfo-primary:\s*#1F4E79;/i', $root[1]);
-        $this->assertMatchesRegularExpression('/--gfo-accent:\s*#E07A1F;/i', $root[1]);
-        $this->assertMatchesRegularExpression('/--gfo-font-title:\s*var\(--gfo-font\);/', $root[1]);
+        $this->assertMatchesRegularExpression('/--mapl-primary:\s*#1F4E79;/i', $root[1]);
+        $this->assertMatchesRegularExpression('/--mapl-accent:\s*#E07A1F;/i', $root[1]);
+        $this->assertMatchesRegularExpression('/--mapl-font-title:\s*var\(--mapl-font\);/', $root[1]);
     }
 
     public function test_la_feuille_reste_sous_2100_lignes() {
@@ -72,20 +72,20 @@ final class CssTest extends TestCase {
     }
 
     public function test_chaque_classe_produite_par_le_js_a_une_regle_css() {
-        $js  = (string) file_get_contents(__DIR__ . '/../assets/js/geofolio.js');
+        $js  = (string) file_get_contents(__DIR__ . '/../assets/js/mapped-places.js');
         $css = self::css();
-        preg_match_all('/gfo-[a-z0-9-]*[a-z0-9]/', $js, $matches);
+        preg_match_all('/mapl-[a-z0-9-]*[a-z0-9]/', $js, $matches);
 
         $missing = array_filter(array_unique($matches[0]), static function ($class) use ($css) {
             return !preg_match('/\\.' . preg_quote($class, '/') . '(?![\\w-])/', $css)
-                && strpos($class, 'gfo-cluster-') !== 0  // gfo-cluster-{small,medium,large}
-                && $class !== 'gfo-ac';                   // préfixe d'identifiant, pas une classe
+                && strpos($class, 'mapl-cluster-') !== 0  // mapl-cluster-{small,medium,large}
+                && $class !== 'mapl-ac';                   // préfixe d'identifiant, pas une classe
         });
         $this->assertSame(array(), array_values($missing));
     }
 
     /** Hauteur fixée par le conteneur (widget Elementor) : le wrapper le remplit. */
     public function test_le_wrapper_remplit_un_conteneur_dimensionne() {
-        $this->assertMatchesRegularExpression('/\.gfo-map-container--sized \.gfo-map-wrapper\s*\{[^}]*height:\s*100%/', self::css());
+        $this->assertMatchesRegularExpression('/\.mapl-map-container--sized \.mapl-map-wrapper\s*\{[^}]*height:\s*100%/', self::css());
     }
 }

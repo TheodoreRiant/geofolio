@@ -1,13 +1,13 @@
 <?php
 /**
- * Contrôles du widget Elementor Geofolio. Onglet Style : couleurs de la carte, clusters, popup, en-tête des résultats, bouton plein écran.
+ * Contrôles du widget Elementor Mapped Places. Onglet Style : couleurs de la carte, clusters, popup, en-tête des résultats, bouton plein écran.
  *
  * Méthodes utilisées par MapWidget::register_controls().
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -22,7 +22,7 @@ trait MapStyleControls {
         $this->start_controls_section(
             'style_map_colors',
             [
-                'label' => __('Map & colours', 'geofolio'),
+                'label' => __('Map & colours', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -30,11 +30,11 @@ trait MapStyleControls {
         $this->add_control(
             'primary_color',
             [
-                'label'     => __('Primary colour', 'geofolio'),
+                'label'     => __('Primary colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
-                'description' => __('Affects clusters, buttons and links. Markers take the colour of their entity.', 'geofolio'),
+                'description' => __('Affects clusters, buttons and links. Markers take the colour of their entity.', 'mapped-places'),
                 'selectors' => [
-                    '{{WRAPPER}}' => '--gfo-primary: {{VALUE}};',
+                    '{{WRAPPER}}' => '--mapl-primary: {{VALUE}};',
                 ],
             ]
         );
@@ -42,11 +42,11 @@ trait MapStyleControls {
         $this->add_control(
             'accent_color',
             [
-                'label'     => __('Accent colour', 'geofolio'),
+                'label'     => __('Accent colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
-                'description' => __('Affects links and the phone number', 'geofolio'),
+                'description' => __('Affects links and the phone number', 'mapped-places'),
                 'selectors' => [
-                    '{{WRAPPER}}' => '--gfo-accent: {{VALUE}};',
+                    '{{WRAPPER}}' => '--mapl-accent: {{VALUE}};',
                 ],
             ]
         );
@@ -61,7 +61,7 @@ trait MapStyleControls {
         $this->start_controls_section(
             'style_clusters',
             [
-                'label' => __('Clusters', 'geofolio'),
+                'label' => __('Clusters', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -69,10 +69,10 @@ trait MapStyleControls {
         $this->add_control(
             'cluster_bg',
             [
-                'label'     => __('Cluster background', 'geofolio'),
+                'label'     => __('Cluster background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}}' => '--gfo-cluster-bg: {{VALUE}};',
+                    '{{WRAPPER}}' => '--mapl-cluster-bg: {{VALUE}};',
                 ],
             ]
         );
@@ -80,10 +80,10 @@ trait MapStyleControls {
         $this->add_control(
             'cluster_border_color',
             [
-                'label'     => __('Cluster border', 'geofolio'),
+                'label'     => __('Cluster border', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}}' => '--gfo-cluster-border: {{VALUE}};',
+                    '{{WRAPPER}}' => '--mapl-cluster-border: {{VALUE}};',
                 ],
             ]
         );
@@ -91,10 +91,10 @@ trait MapStyleControls {
         $this->add_control(
             'cluster_text_color',
             [
-                'label'     => __('Cluster text', 'geofolio'),
+                'label'     => __('Cluster text', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}}' => '--gfo-cluster-text: {{VALUE}};',
+                    '{{WRAPPER}}' => '--mapl-cluster-text: {{VALUE}};',
                 ],
             ]
         );
@@ -109,7 +109,7 @@ trait MapStyleControls {
         $this->start_controls_section(
             'style_popup',
             [
-                'label' => __('Popup', 'geofolio'),
+                'label' => __('Popup', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -117,10 +117,10 @@ trait MapStyleControls {
         $this->add_control(
             'popup_bg',
             [
-                'label'     => __('Popup background', 'geofolio'),
+                'label'     => __('Popup background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-popup .leaflet-popup-content-wrapper' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-popup .leaflet-popup-content-wrapper' => 'background: {{VALUE}};',
                 ],
             ]
         );
@@ -128,13 +128,13 @@ trait MapStyleControls {
         $this->add_control(
             'popup_radius',
             [
-                'label'     => __('Popup radius', 'geofolio'),
+                'label'     => __('Popup radius', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::SLIDER,
                 'range'     => [
                     'px' => ['min' => 0, 'max' => 30, 'step' => 1],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-popup .leaflet-popup-content-wrapper' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-popup .leaflet-popup-content-wrapper' => 'border-radius: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -143,8 +143,8 @@ trait MapStyleControls {
             \Elementor\Group_Control_Box_Shadow::get_type(),
             [
                 'name'     => 'popup_shadow',
-                'label'    => __('Popup shadow', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-popup .leaflet-popup-content-wrapper',
+                'label'    => __('Popup shadow', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-popup .leaflet-popup-content-wrapper',
             ]
         );
 
@@ -152,8 +152,8 @@ trait MapStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'      => 'popup_title_typography',
-                'label'     => __('Popup title typography', 'geofolio'),
-                'selector'  => '{{WRAPPER}} .gfo-popup-title',
+                'label'     => __('Popup title typography', 'mapped-places'),
+                'selector'  => '{{WRAPPER}} .mapl-popup-title',
                 'separator' => 'before',
             ]
         );
@@ -168,7 +168,7 @@ trait MapStyleControls {
         $this->start_controls_section(
             'style_results_header',
             [
-                'label' => __('Results header', 'geofolio'),
+                'label' => __('Results header', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -176,10 +176,10 @@ trait MapStyleControls {
         $this->add_control(
             'results_bg',
             [
-                'label'     => __('Header background', 'geofolio'),
+                'label'     => __('Header background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-results-header' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-results-header' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -188,18 +188,18 @@ trait MapStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'results_typography',
-                'label'    => __('Header typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-results-header',
+                'label'    => __('Header typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-results-header',
             ]
         );
 
         $this->add_control(
             'count_bg',
             [
-                'label'     => __('Counter background', 'geofolio'),
+                'label'     => __('Counter background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-results-count' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-results-count' => 'background-color: {{VALUE}};',
                 ],
                 'separator' => 'before',
             ]
@@ -208,10 +208,10 @@ trait MapStyleControls {
         $this->add_control(
             'count_color',
             [
-                'label'     => __('Counter colour', 'geofolio'),
+                'label'     => __('Counter colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-results-count' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-results-count' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -226,7 +226,7 @@ trait MapStyleControls {
         $this->start_controls_section(
             'style_fullscreen_btn',
             [
-                'label' => __('Full screen button', 'geofolio'),
+                'label' => __('Full screen button', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -234,10 +234,10 @@ trait MapStyleControls {
         $this->add_control(
             'fullscreen_btn_bg',
             [
-                'label'     => __('Button background', 'geofolio'),
+                'label'     => __('Button background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-fullscreen-btn' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-fullscreen-btn' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -245,10 +245,10 @@ trait MapStyleControls {
         $this->add_control(
             'fullscreen_btn_color',
             [
-                'label'     => __('Icon colour', 'geofolio'),
+                'label'     => __('Icon colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-fullscreen-btn' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-fullscreen-btn' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -256,10 +256,10 @@ trait MapStyleControls {
         $this->add_control(
             'fullscreen_btn_hover_bg',
             [
-                'label'     => __('Hover background', 'geofolio'),
+                'label'     => __('Hover background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-fullscreen-btn:hover' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-fullscreen-btn:hover' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -267,13 +267,13 @@ trait MapStyleControls {
         $this->add_control(
             'fullscreen_btn_radius',
             [
-                'label'     => __('Button radius', 'geofolio'),
+                'label'     => __('Button radius', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::SLIDER,
                 'range'     => [
                     'px' => ['min' => 0, 'max' => 30, 'step' => 1],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-fullscreen-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-fullscreen-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );

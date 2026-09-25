@@ -1,23 +1,23 @@
 <?php
 /**
- * Tests du bloc « Geofolio Map » : attributs du bloc → attributs du rendu
+ * Tests du bloc « Mapped Places Map » : attributs du bloc → attributs du rendu
  * partagé (même Renderer que le shortcode et le widget Elementor).
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Blocks\MapBlock;
-use Geofolio\Map\Defaults;
+use MappedPlaces\Blocks\MapBlock;
+use MappedPlaces\Map\Defaults;
 
 final class MapBlockTest extends TestCase {
 
     const BLOCK_JSON = __DIR__ . '/../blocks/map/src/block.json';
 
     protected function setUp(): void {
-        gfo_test_reset();
+        mapl_test_reset();
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     private static function block(): array {
@@ -27,8 +27,8 @@ final class MapBlockTest extends TestCase {
     public function test_le_bloc_porte_le_nom_et_le_domaine_du_plugin() {
         $block = self::block();
 
-        $this->assertSame('geofolio/map', $block['name']);
-        $this->assertSame('geofolio', $block['textdomain']);
+        $this->assertSame('mapped-places/map', $block['name']);
+        $this->assertSame('mapped-places', $block['textdomain']);
         $this->assertSame('file:./render.php', $block['render']);
     }
 

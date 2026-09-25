@@ -1,8 +1,8 @@
 <?php
 /**
- * Gabarit de la carte : structure attendue par assets/js/geofolio.js.
+ * Gabarit de la carte : structure attendue par assets/js/mapped-places.js.
  *
- *   .gfo-map-container > .gfo-map-sidebar + .gfo-map-wrapper
+ *   .mapl-map-container > .mapl-map-sidebar + .mapl-map-wrapper
  *
  * Reçoit $view, préparé par Renderer::prepare() : toutes les
  * valeurs y sont déjà typées, le gabarit ne fait qu'échapper.
@@ -14,30 +14,30 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div<?php foreach ($view['container'] as $geofolio_attr => $geofolio_value) : ?> <?php echo esc_attr($geofolio_attr); ?>="<?php echo esc_attr($geofolio_value); ?>"<?php endforeach; ?>>
+<div<?php foreach ($view['container'] as $mapped_places_attr => $mapped_places_value) : ?> <?php echo esc_attr($mapped_places_attr); ?>="<?php echo esc_attr($mapped_places_value); ?>"<?php endforeach; ?>>
 
     <?php if ($view['has_sidebar']) : ?>
-    <div class="gfo-map-sidebar">
-        <div class="gfo-sidebar-inner">
+    <div class="mapl-map-sidebar">
+        <div class="mapl-sidebar-inner">
 
-            <div class="gfo-sidebar-header">
-                <h3 class="gfo-sidebar-title"><?php echo esc_html($view['sidebar_title']); ?></h3>
-                <p class="gfo-sidebar-subtitle"><?php echo esc_html($view['sidebar_subtitle']); ?></p>
+            <div class="mapl-sidebar-header">
+                <h3 class="mapl-sidebar-title"><?php echo esc_html($view['sidebar_title']); ?></h3>
+                <p class="mapl-sidebar-subtitle"><?php echo esc_html($view['sidebar_subtitle']); ?></p>
 
                 <?php if ($view['show_search']) : ?>
-                <div class="gfo-search-row">
+                <div class="mapl-search-row">
                     <input type="text"
-                           class="gfo-search-input"
-                           placeholder="<?php esc_attr_e('Search for a place...', 'geofolio'); ?>"
+                           class="mapl-search-input"
+                           placeholder="<?php esc_attr_e('Search for a place...', 'mapped-places'); ?>"
                            autocomplete="off"
                            role="combobox"
                            aria-autocomplete="list"
                            aria-expanded="false"
                            aria-haspopup="listbox"
-                           aria-controls="gfo-ac-desktop-<?php echo esc_attr($view['map_id']); ?>" />
+                           aria-controls="mapl-ac-desktop-<?php echo esc_attr($view['map_id']); ?>" />
                     <button type="button"
-                            class="gfo-search-btn"
-                            aria-label="<?php esc_attr_e('Search', 'geofolio'); ?>">
+                            class="mapl-search-btn"
+                            aria-label="<?php esc_attr_e('Search', 'mapped-places'); ?>">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                              fill="none" stroke="currentColor" stroke-width="2.5"
                              stroke-linecap="round" stroke-linejoin="round">
@@ -45,54 +45,54 @@ if (!defined('ABSPATH')) {
                             <path d="m21 21-4.35-4.35"></path>
                         </svg>
                     </button>
-                    <div id="gfo-ac-desktop-<?php echo esc_attr($view['map_id']); ?>"
-                         class="gfo-autocomplete-results"
+                    <div id="mapl-ac-desktop-<?php echo esc_attr($view['map_id']); ?>"
+                         class="mapl-autocomplete-results"
                          role="listbox"
                          hidden></div>
                 </div>
                 <?php endif; ?>
 
                 <?php if ($view['show_filter']) : ?>
-                <select class="gfo-filter-select"
-                        aria-label="<?php esc_attr_e('Filter by type', 'geofolio'); ?>">
-                    <option value=""><?php esc_html_e('All types', 'geofolio'); ?></option>
+                <select class="mapl-filter-select"
+                        aria-label="<?php esc_attr_e('Filter by type', 'mapped-places'); ?>">
+                    <option value=""><?php esc_html_e('All types', 'mapped-places'); ?></option>
                 </select>
                 <?php endif; ?>
-            </div><!-- .gfo-sidebar-header -->
+            </div><!-- .mapl-sidebar-header -->
 
             <?php if ($view['show_list']) : ?>
-            <div class="gfo-results-header">
-                <span class="gfo-results-count" aria-live="polite">0</span>
-                <?php esc_html_e('place(s)', 'geofolio'); ?>
+            <div class="mapl-results-header">
+                <span class="mapl-results-count" aria-live="polite">0</span>
+                <?php esc_html_e('place(s)', 'mapped-places'); ?>
             </div>
 
-            <div class="gfo-place-list" role="list">
+            <div class="mapl-place-list" role="list">
                 <!-- Populated by JS -->
             </div>
             <?php endif; ?>
 
-        </div><!-- .gfo-sidebar-inner -->
-    </div><!-- .gfo-map-sidebar -->
+        </div><!-- .mapl-sidebar-inner -->
+    </div><!-- .mapl-map-sidebar -->
     <?php endif; ?>
 
-    <div class="gfo-map-wrapper"<?php if ($view['height'] !== '') : ?> style="height: <?php echo esc_attr($view['height']); ?>;"<?php endif; ?>>
+    <div class="mapl-map-wrapper"<?php if ($view['height'] !== '') : ?> style="height: <?php echo esc_attr($view['height']); ?>;"<?php endif; ?>>
 
         <?php if ($view['has_sidebar']) : ?>
-        <div class="gfo-mobile-toolbar">
+        <div class="mapl-mobile-toolbar">
             <?php if ($view['show_search']) : ?>
-            <div class="gfo-search-row">
+            <div class="mapl-search-row">
                 <input type="text"
-                       class="gfo-search-input"
-                       placeholder="<?php esc_attr_e('Search...', 'geofolio'); ?>"
+                       class="mapl-search-input"
+                       placeholder="<?php esc_attr_e('Search...', 'mapped-places'); ?>"
                        autocomplete="off"
                        role="combobox"
                        aria-autocomplete="list"
                        aria-expanded="false"
                        aria-haspopup="listbox"
-                       aria-controls="gfo-ac-mobile-<?php echo esc_attr($view['map_id']); ?>" />
+                       aria-controls="mapl-ac-mobile-<?php echo esc_attr($view['map_id']); ?>" />
                 <button type="button"
-                        class="gfo-search-btn"
-                        aria-label="<?php esc_attr_e('Search', 'geofolio'); ?>">
+                        class="mapl-search-btn"
+                        aria-label="<?php esc_attr_e('Search', 'mapped-places'); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                          fill="none" stroke="currentColor" stroke-width="2.5"
                          stroke-linecap="round" stroke-linejoin="round">
@@ -100,34 +100,34 @@ if (!defined('ABSPATH')) {
                         <path d="m21 21-4.35-4.35"></path>
                     </svg>
                 </button>
-                <div id="gfo-ac-mobile-<?php echo esc_attr($view['map_id']); ?>"
-                     class="gfo-autocomplete-results"
+                <div id="mapl-ac-mobile-<?php echo esc_attr($view['map_id']); ?>"
+                     class="mapl-autocomplete-results"
                      role="listbox"
                      hidden></div>
             </div>
             <?php endif; ?>
 
             <?php if ($view['show_filter']) : ?>
-            <select class="gfo-filter-select"
-                    aria-label="<?php esc_attr_e('Filter by type', 'geofolio'); ?>">
-                <option value=""><?php esc_html_e('All types', 'geofolio'); ?></option>
+            <select class="mapl-filter-select"
+                    aria-label="<?php esc_attr_e('Filter by type', 'mapped-places'); ?>">
+                <option value=""><?php esc_html_e('All types', 'mapped-places'); ?></option>
             </select>
             <?php endif; ?>
-        </div><!-- .gfo-mobile-toolbar -->
+        </div><!-- .mapl-mobile-toolbar -->
         <?php endif; ?>
 
-        <div class="gfo-map-canvas"></div>
+        <div class="mapl-map-canvas"></div>
 
-        <div class="gfo-map-loading" aria-live="polite">
-            <div class="gfo-spinner"></div>
-            <span><?php esc_html_e('Loading map...', 'geofolio'); ?></span>
+        <div class="mapl-map-loading" aria-live="polite">
+            <div class="mapl-spinner"></div>
+            <span><?php esc_html_e('Loading map...', 'mapped-places'); ?></span>
         </div>
 
         <?php if ($view['show_fullscreen']) : ?>
         <button type="button"
-                class="gfo-fullscreen-btn"
-                title="<?php esc_attr_e('Full screen', 'geofolio'); ?>"
-                aria-label="<?php esc_attr_e('Enter full screen', 'geofolio'); ?>">
+                class="mapl-fullscreen-btn"
+                title="<?php esc_attr_e('Full screen', 'mapped-places'); ?>"
+                aria-label="<?php esc_attr_e('Enter full screen', 'mapped-places'); ?>">
             <svg class="icon-enter" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
@@ -147,6 +147,6 @@ if (!defined('ABSPATH')) {
         </button>
         <?php endif; ?>
 
-    </div><!-- .gfo-map-wrapper -->
+    </div><!-- .mapl-map-wrapper -->
 
-</div><!-- .gfo-map-container -->
+</div><!-- .mapl-map-container -->

@@ -6,8 +6,8 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Elementor\MapWidget;
-use Geofolio\Map\Defaults;
+use MappedPlaces\Elementor\MapWidget;
+use MappedPlaces\Map\Defaults;
 
 final class ElementorWidgetTest extends TestCase {
 
@@ -25,7 +25,7 @@ final class ElementorWidgetTest extends TestCase {
     );
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     private static function controls(): array {
@@ -33,7 +33,7 @@ final class ElementorWidgetTest extends TestCase {
     }
 
     /**
-     * Classes gfo-* citées dans les sélecteurs des contrôles.
+     * Classes mapl-* citées dans les sélecteurs des contrôles.
      *
      * @return string[]
      */
@@ -45,7 +45,7 @@ final class ElementorWidgetTest extends TestCase {
                 $selectors[] = $args['selector'];
             }
             foreach ($selectors as $selector) {
-                preg_match_all('/\.(gfo-[a-z0-9_-]+)/', $selector, $matches);
+                preg_match_all('/\.(mapl-[a-z0-9_-]+)/', $selector, $matches);
                 $classes = array_merge($classes, $matches[1]);
             }
         }
@@ -54,7 +54,7 @@ final class ElementorWidgetTest extends TestCase {
 
     public function test_chaque_classe_ciblee_existe_dans_le_gabarit_ou_le_js() {
         $sources = file_get_contents(self::ROOT . '/views/map.php')
-            . file_get_contents(self::ROOT . '/assets/js/geofolio.js');
+            . file_get_contents(self::ROOT . '/assets/js/mapped-places.js');
 
         $classes = self::selector_classes();
         $this->assertNotEmpty($classes);
@@ -80,11 +80,11 @@ final class ElementorWidgetTest extends TestCase {
     public function test_la_largeur_de_sidebar_pilote_la_variable_css() {
         $selectors = self::controls()['sidebar_width']['selectors'];
 
-        $this->assertSame(array('{{WRAPPER}} .gfo-map-container' => '--gfo-sidebar-width: {{SIZE}}{{UNIT}};'), $selectors);
+        $this->assertSame(array('{{WRAPPER}} .mapl-map-container' => '--mapl-sidebar-width: {{SIZE}}{{UNIT}};'), $selectors);
     }
 
     public function test_les_defauts_des_controles_viennent_des_valeurs_partagees() {
-        add_filter('geofolio_defaults', static function ($defaults) {
+        add_filter('mapped_places_defaults', static function ($defaults) {
             return array_merge($defaults, array('sidebar_title' => 'Titre filtré', 'zoom' => '11', 'center_lat' => '45.1'));
         });
         $controls = self::controls();
@@ -106,7 +106,7 @@ final class ElementorWidgetTest extends TestCase {
         $this->assertStringContainsString('Nos lieux ] et &quot;plus&quot;', $html);
         // La hauteur est écrite par Elementor sur le conteneur, jamais en ligne.
         $this->assertStringNotContainsString('height: 500px;', $html);
-        $this->assertStringContainsString('gfo-map-container--sized', $html);
+        $this->assertStringContainsString('mapl-map-container--sized', $html);
         $this->assertStringContainsString('data-zoom="9"', $html);
     }
 
@@ -115,14 +115,14 @@ final class ElementorWidgetTest extends TestCase {
         $html   = $widget->test_render();
 
         $this->assertStringContainsString('data-center-lat="46.6034"', $html);
-        $this->assertStringContainsString('<div class="gfo-map-wrapper">', $html);
+        $this->assertStringContainsString('<div class="mapl-map-wrapper">', $html);
     }
 
     public function test_la_hauteur_est_responsive_sur_le_seul_conteneur() {
         $control = self::controls()['map_height'];
 
         $this->assertTrue($control['responsive'] ?? false);
-        $this->assertSame(array('{{WRAPPER}} .gfo-map-container'), array_keys($control['selectors']));
+        $this->assertSame(array('{{WRAPPER}} .mapl-map-container'), array_keys($control['selectors']));
         // Les valeurs par défaut reprennent celles du CSS : 85vh en mobile.
         $this->assertSame(array('unit' => 'vh', 'size' => 85), $control['mobile_default']);
         $this->assertSame(array('unit' => 'px', 'size' => 600), $control['tablet_default']);
@@ -143,23 +143,23 @@ final class ElementorWidgetTest extends TestCase {
     public function test_le_widget_declare_ses_dependances() {
         $widget = new MapWidget();
 
-        $this->assertSame(\Geofolio\Plugin::MAP_STYLE_HANDLES, $widget->get_style_depends());
-        $this->assertSame(\Geofolio\Plugin::MAP_SCRIPT_HANDLES, $widget->get_script_depends());
+        $this->assertSame(\MappedPlaces\Plugin::MAP_STYLE_HANDLES, $widget->get_style_depends());
+        $this->assertSame(\MappedPlaces\Plugin::MAP_SCRIPT_HANDLES, $widget->get_script_depends());
     }
 
     public function test_titre_sous_titre_et_pastilles_ont_des_controles_de_style() {
         $classes = self::selector_classes();
 
-        foreach (array('gfo-sidebar-title', 'gfo-sidebar-subtitle', 'gfo-entity-pill', 'gfo-entity-hint') as $class) {
+        foreach (array('mapl-sidebar-title', 'mapl-sidebar-subtitle', 'mapl-entity-pill', 'mapl-entity-hint') as $class) {
             $this->assertContains($class, $classes, $class);
         }
     }
 
     public function test_l_arrondi_des_pastilles_passe_par_une_variable() {
         $control = self::controls()['pill_radius'];
-        $css     = file_get_contents(self::ROOT . '/assets/css/geofolio.css');
+        $css     = file_get_contents(self::ROOT . '/assets/css/mapped-places.css');
 
-        $this->assertStringContainsString('--gfo-pill-radius:', implode('', $control['selectors']));
-        $this->assertStringContainsString('border-radius: var(--gfo-pill-radius', $css);
+        $this->assertStringContainsString('--mapl-pill-radius:', implode('', $control['selectors']));
+        $this->assertStringContainsString('border-radius: var(--mapl-pill-radius', $css);
     }
 }

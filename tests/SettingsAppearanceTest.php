@@ -5,20 +5,20 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\LabelsSettings;
-use Geofolio\Domain\PlacePostType;
-use Geofolio\Domain\Schema;
-use Geofolio\Map\Defaults;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Domain\PlacePostType;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Map\Defaults;
 
 final class SettingsAppearanceTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
+        mapl_test_reset();
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     /* ---------------------------------------------------------------- */
@@ -52,24 +52,24 @@ final class SettingsAppearanceTest extends TestCase {
             'primary_color' => '#024266', 'accent_color' => '#FB6223', 'font' => 'theme', 'radius' => '8',
         ));
 
-        $this->assertStringStartsWith('.gfo-map-container{', $css);
-        $this->assertStringContainsString('--gfo-primary:#024266;', $css);
-        $this->assertStringContainsString('--gfo-accent:#FB6223;', $css);
+        $this->assertStringStartsWith('.mapl-map-container{', $css);
+        $this->assertStringContainsString('--mapl-primary:#024266;', $css);
+        $this->assertStringContainsString('--mapl-accent:#FB6223;', $css);
         // « initial » rend la variable invalide : font-family retombe sur
         // unset et hérite de la page (« inherit » hériterait de la variable).
-        $this->assertStringContainsString('--gfo-font:initial;', $css);
-        $this->assertStringContainsString('--gfo-font-title:initial;', $css);
-        $this->assertStringContainsString('--gfo-radius:8px;', $css);
+        $this->assertStringContainsString('--mapl-font:initial;', $css);
+        $this->assertStringContainsString('--mapl-font-title:initial;', $css);
+        $this->assertStringContainsString('--mapl-radius:8px;', $css);
         // Teintes dérivées : elles suivent la couleur choisie.
-        $this->assertMatchesRegularExpression('/--gfo-primary-dark:color-mix\(in srgb,#024266/', $css);
+        $this->assertMatchesRegularExpression('/--mapl-primary-dark:color-mix\(in srgb,#024266/', $css);
     }
 
     public function test_la_couleur_principale_devient_la_couleur_de_repli_des_marqueurs() {
-        gfo_test_reset(array(AppearanceSettings::OPTION_NAME => array('primary_color' => '#024266')));
+        mapl_test_reset(array(AppearanceSettings::OPTION_NAME => array('primary_color' => '#024266')));
         $this->assertSame('#024266', Defaults::color());
 
         // Le filtre garde le dernier mot.
-        add_filter('geofolio_default_color', static function () { return '#111111'; });
+        add_filter('mapped_places_default_color', static function () { return '#111111'; });
         $this->assertSame('#111111', Defaults::color());
     }
 
@@ -91,7 +91,7 @@ final class SettingsAppearanceTest extends TestCase {
     }
 
     public function test_le_reglage_l_emporte_sur_la_valeur_du_code() {
-        gfo_test_reset(array(LabelsSettings::OPTION_NAME => array('sidebar_title' => 'Nos établissements', 'zoom' => '9')));
+        mapl_test_reset(array(LabelsSettings::OPTION_NAME => array('sidebar_title' => 'Nos établissements', 'zoom' => '9')));
         $defaults = Defaults::all();
 
         $this->assertSame('Nos établissements', $defaults['sidebar_title']);
@@ -100,22 +100,22 @@ final class SettingsAppearanceTest extends TestCase {
     }
 
     public function test_le_filtre_l_emporte_sur_le_reglage() {
-        gfo_test_reset(array(LabelsSettings::OPTION_NAME => array('sidebar_title' => 'Réglage')));
-        add_filter('geofolio_defaults', static function ($d) { $d['sidebar_title'] = 'Filtre'; return $d; });
+        mapl_test_reset(array(LabelsSettings::OPTION_NAME => array('sidebar_title' => 'Réglage')));
+        add_filter('mapped_places_defaults', static function ($d) { $d['sidebar_title'] = 'Filtre'; return $d; });
 
         $this->assertSame('Filtre', Defaults::all()['sidebar_title']);
     }
 
     public function test_le_slug_regle_s_applique_avant_le_filtre() {
-        gfo_test_reset(array(LabelsSettings::OPTION_NAME => array('place_slug' => 'etablissement')));
+        mapl_test_reset(array(LabelsSettings::OPTION_NAME => array('place_slug' => 'etablissement')));
         $this->assertSame('etablissement', Schema::place_slug());
 
-        add_filter('geofolio_place_slug', static function () { return 'lieu'; });
+        add_filter('mapped_places_place_slug', static function () { return 'lieu'; });
         $this->assertSame('lieu', Schema::place_slug());
     }
 
     public function test_les_noms_regles_remplacent_les_libelles_principaux() {
-        gfo_test_reset(array(LabelsSettings::OPTION_NAME => array('place_singular' => 'Établissement', 'place_plural' => 'Établissements')));
+        mapl_test_reset(array(LabelsSettings::OPTION_NAME => array('place_singular' => 'Établissement', 'place_plural' => 'Établissements')));
         $labels = PlacePostType::labels();
 
         $this->assertSame('Établissements', $labels['name']);
@@ -124,7 +124,7 @@ final class SettingsAppearanceTest extends TestCase {
     }
 
     public function test_les_noms_de_l_entite_sont_reglables() {
-        gfo_test_reset(array(LabelsSettings::OPTION_NAME => array('entity_singular' => 'Pôle', 'entity_plural' => 'Pôles')));
+        mapl_test_reset(array(LabelsSettings::OPTION_NAME => array('entity_singular' => 'Pôle', 'entity_plural' => 'Pôles')));
         $labels = LabelsSettings::entity_labels(array('name' => 'Entities', 'singular_name' => 'Entity', 'menu_name' => 'Entities'));
 
         $this->assertSame(array('name' => 'Pôles', 'singular_name' => 'Pôle', 'menu_name' => 'Pôles'), $labels);

@@ -3,7 +3,7 @@
  * Calculs géographiques purs.
  */
 
-namespace Geofolio\Support;
+namespace MappedPlaces\Support;
 
 if (!defined('ABSPATH')) {
     exit;

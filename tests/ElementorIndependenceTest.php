@@ -1,6 +1,6 @@
 <?php
 /**
- * Geofolio doit fonctionner sans Elementor.
+ * Mapped Places doit fonctionner sans Elementor.
  *
  * Jusqu'en 1.2.0, Plugin::elementor_widget_names() lisait MapWidget::NAME :
  * l'accès à la constante chargeait MapWidget, qui hérite de
@@ -9,9 +9,9 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Elementor\Integration;
-use Geofolio\Elementor\MapWidget;
-use Geofolio\Plugin;
+use MappedPlaces\Elementor\Integration;
+use MappedPlaces\Elementor\MapWidget;
+use MappedPlaces\Plugin;
 
 final class ElementorIndependenceTest extends TestCase {
 
@@ -38,7 +38,7 @@ final class ElementorIndependenceTest extends TestCase {
     }
 
     public function test_le_nom_du_widget_vient_de_l_integration() {
-        $this->assertSame('geofolio_map', Integration::WIDGET_NAME);
+        $this->assertSame('mapped_places_map', Integration::WIDGET_NAME);
         $this->assertSame(Integration::WIDGET_NAME, MapWidget::NAME);
         $this->assertContains(Integration::WIDGET_NAME, Plugin::elementor_widget_names());
     }

@@ -10,13 +10,13 @@
  */
 
 define('ABSPATH', __DIR__ . '/');
-define('GEOFOLIO_PLUGIN_DIR', dirname(__DIR__) . '/');
+define('MAPPED_PLACES_PLUGIN_DIR', dirname(__DIR__) . '/');
 
 /** Options simulées, remplacées par chaque test. */
-$GLOBALS['gfo_test_options'] = array();
+$GLOBALS['mapl_test_options'] = array();
 
 /** Erreurs de réglages collectées par add_settings_error(). */
-$GLOBALS['gfo_test_settings_errors'] = array();
+$GLOBALS['mapl_test_settings_errors'] = array();
 
 function __($text, $domain = null) {
     return $text;
@@ -27,8 +27,8 @@ function esc_html__($text, $domain = null) {
 }
 
 function get_option($name, $default = false) {
-    return array_key_exists($name, $GLOBALS['gfo_test_options'])
-        ? $GLOBALS['gfo_test_options'][$name]
+    return array_key_exists($name, $GLOBALS['mapl_test_options'])
+        ? $GLOBALS['mapl_test_options'][$name]
         : $default;
 }
 
@@ -65,7 +65,7 @@ function wp_kses($value, $allowed) {
 }
 
 function add_settings_error($setting, $code, $message, $type = 'error') {
-    $GLOBALS['gfo_test_settings_errors'][] = array(
+    $GLOBALS['mapl_test_settings_errors'][] = array(
         'setting' => $setting,
         'code'    => $code,
         'message' => $message,
@@ -76,10 +76,10 @@ function add_settings_error($setting, $code, $message, $type = 'error') {
 function add_meta_box() {}
 
 /** Pieces jointes simulees reconnues comme images. */
-$GLOBALS['gfo_test_images'] = array();
+$GLOBALS['mapl_test_images'] = array();
 
 function wp_attachment_is_image($id) {
-    return in_array((int) $id, $GLOBALS['gfo_test_images'], true);
+    return in_array((int) $id, $GLOBALS['mapl_test_images'], true);
 }
 
 function absint($value) {
@@ -94,15 +94,15 @@ function register_setting() {}
  * @param array $options Options à installer.
  */
 /** Langue du site simulée. */
-$GLOBALS['gfo_test_locale'] = 'en_US';
+$GLOBALS['mapl_test_locale'] = 'en_US';
 
 function get_locale() {
-    return $GLOBALS['gfo_test_locale'];
+    return $GLOBALS['mapl_test_locale'];
 }
 
-function gfo_test_reset(array $options = array()) {
-    $GLOBALS['gfo_test_options']        = $options;
-    $GLOBALS['gfo_test_settings_errors'] = array();
+function mapl_test_reset(array $options = array()) {
+    $GLOBALS['mapl_test_options']        = $options;
+    $GLOBALS['mapl_test_settings_errors'] = array();
 }
 
 /**
@@ -110,10 +110,10 @@ function gfo_test_reset(array $options = array()) {
  *
  * @return string[]
  */
-function gfo_test_error_codes() {
+function mapl_test_error_codes() {
     return array_map(
         static function ($error) { return $error['code']; },
-        $GLOBALS['gfo_test_settings_errors']
+        $GLOBALS['mapl_test_settings_errors']
     );
 }
 
@@ -150,6 +150,6 @@ if (!function_exists('esc_textarea')) {
 }
 if (!function_exists('remove_meta_box')) {
     function remove_meta_box($id, $screen, $context) {
-        $GLOBALS['gfo_test_removed_meta_boxes'][] = array($id, $screen, $context);
+        $GLOBALS['mapl_test_removed_meta_boxes'][] = array($id, $screen, $context);
     }
 }

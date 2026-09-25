@@ -3,7 +3,7 @@
  * Régions françaises par numéro de département (sur deux caractères).
  *
  * Non branchée par défaut : un préréglage la relie au filtre
- * geofolio_import_region pour déduire la région d'un lieu importé.
+ * mapped_places_import_region pour déduire la région d'un lieu importé.
  */
 
 if (!defined('ABSPATH')) {

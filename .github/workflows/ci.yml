@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-      # esbuild : le test js-build vérifie que geofolio.js est à jour.
+      # esbuild : le test js-build vérifie que mapped-places.js est à jour.
       - run: npm ci
       - run: node --test tests/js/*.test.js
 
@@ -69,4 +69,4 @@ jobs:
       - run: |
           composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require --quiet wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
-      - run: ~/.composer/vendor/bin/phpcs --standard=WordPress --extensions=php --report=summary geofolio.php src views || true
+      - run: ~/.composer/vendor/bin/phpcs --standard=WordPress --extensions=php --report=summary mapped-places.php src views || true

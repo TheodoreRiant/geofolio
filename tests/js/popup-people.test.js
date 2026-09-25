@@ -10,7 +10,7 @@ const assert = require('node:assert');
 const { load } = require('./modules.js');
 
 function render(place) {
-    global.geofolioConfig = {
+    global.mappedPlacesConfig = {
         i18n: { roleSeparator: ' : ', manager: 'Directeur/trice : ', managers: 'Directeurs/trices : ' },
     };
     const { markersMethods } = load('map-markers');
@@ -30,18 +30,18 @@ test('chaque personne a sa ligne, rôle en gras puis nom, dans l\'ordre', () => 
         ],
         manager: 'Marie Beton, Antonin Klark',
     });
-    const lines = html.match(/<p class="gfo-popup-manager">.*?<\/p>/g);
+    const lines = html.match(/<p class="mapl-popup-manager">.*?<\/p>/g);
     assert.strictEqual(lines.length, 2);
-    assert.strictEqual(lines[0], '<p class="gfo-popup-manager"><strong>Directrice : </strong>Marie Beton</p>');
-    assert.strictEqual(lines[1], '<p class="gfo-popup-manager"><strong>Secrétaire général : </strong>Antonin Klark</p>');
+    assert.strictEqual(lines[0], '<p class="mapl-popup-manager"><strong>Directrice : </strong>Marie Beton</p>');
+    assert.strictEqual(lines[1], '<p class="mapl-popup-manager"><strong>Secrétaire général : </strong>Antonin Klark</p>');
 });
 
 test('une personne sans rôle n\'affiche que son nom, et le HTML est échappé', () => {
     const html = render({ id: 1, title: 'X', people: [{ role: '', name: 'Jean <b>Dupont</b>' }] });
-    assert.ok(html.includes('<p class="gfo-popup-manager">Jean &lt;b&gt;Dupont&lt;/b&gt;</p>'));
+    assert.ok(html.includes('<p class="mapl-popup-manager">Jean &lt;b&gt;Dupont&lt;/b&gt;</p>'));
 });
 
 test('sans liste de personnes, l\'ancien champ manager garde son libellé', () => {
     const html = render({ id: 1, title: 'X', people: [], manager: 'Jeanne Martin' });
-    assert.ok(html.includes('<p class="gfo-popup-manager"><strong>Directeur/trice : </strong>Jeanne Martin</p>'));
+    assert.ok(html.includes('<p class="mapl-popup-manager"><strong>Directeur/trice : </strong>Jeanne Martin</p>'));
 });

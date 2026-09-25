@@ -1,20 +1,20 @@
 <?php
 /**
- * Elementor Widget: Geofolio
+ * Elementor Widget: Mapped Places
  *
  * Provides extensive customization of the interactive map
  * via 3 Content sections and 15 Style sections.
  *
- * @package GeofolioMap
+ * @package MappedPlacesMap
  * @since   3.0.0
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
 
-use Geofolio\Map\Defaults;
-use Geofolio\Plugin;
-use Geofolio\Map\Renderer;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Plugin;
+use MappedPlaces\Map\Renderer;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -52,7 +52,7 @@ class MapWidget extends \Elementor\Widget_Base {
      * Human-readable title shown in the Elementor panel.
      */
     public function get_title(): string {
-        return __('Geofolio', 'geofolio');
+        return __('Mapped Places', 'mapped-places');
     }
 
     /**
@@ -68,7 +68,7 @@ class MapWidget extends \Elementor\Widget_Base {
      * @return string[]
      */
     public function get_categories(): array {
-        return ['geofolio', 'general'];
+        return ['mapped-places', 'general'];
     }
 
     /**

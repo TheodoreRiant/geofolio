@@ -1,17 +1,17 @@
 /**
- * Geofolio - Styles principaux
+ * Mapped Places - Styles principaux
  * Sidebar with establishment cards, search bar, dropdown filter,
  * SVG markers, clusters, mobile toolbar, responsive popup.
  *
  * Neutral palette: a preset or theme restyles the map by overriding the
- * --gfo-* custom properties on .gfo-map-container.
+ * --mapl-* custom properties on .mapl-map-container.
  *
  * !important is kept for two cases only: the plugin's <button> elements
  * (pills, carousel arrows and dots, "Show all" link), which themes and
  * Elementor kits style aggressively, and the fullscreen mode, which must
  * win over its parents. A value meant to be adjustable goes through a
  * custom property read inside the !important declaration
- * (e.g. --gfo-pill-radius).
+ * (e.g. --mapl-pill-radius).
  */
 
 /* ============================================================
@@ -50,59 +50,59 @@
 
 :root {
     /* Core palette (neutral) */
-    --gfo-primary: #1F4E79;
-    --gfo-primary-dark: #163A5A;
-    --gfo-primary-light: #2A6396;
-    --gfo-accent: #E07A1F;
-    --gfo-accent-dark: #C4661A;
+    --mapl-primary: #1F4E79;
+    --mapl-primary-dark: #163A5A;
+    --mapl-primary-light: #2A6396;
+    --mapl-accent: #E07A1F;
+    --mapl-accent-dark: #C4661A;
 
     /* Surfaces */
-    --gfo-bg: #F8FAFC;
-    --gfo-surface: #FFFFFF;
+    --mapl-bg: #F8FAFC;
+    --mapl-surface: #FFFFFF;
 
     /* Text */
-    --gfo-text: #1E293B;
-    --gfo-text-secondary: #64748B;
-    --gfo-text-muted: #94A3B8;
+    --mapl-text: #1E293B;
+    --mapl-text-secondary: #64748B;
+    --mapl-text-muted: #94A3B8;
 
     /* Borders */
-    --gfo-border: #E2E8F0;
-    --gfo-border-light: #F1F5F9;
+    --mapl-border: #E2E8F0;
+    --mapl-border-light: #F1F5F9;
 
     /* Radius */
-    --gfo-radius-sm: 6px;
-    --gfo-radius: 10px;
-    --gfo-radius-lg: 14px;
+    --mapl-radius-sm: 6px;
+    --mapl-radius: 10px;
+    --mapl-radius-lg: 14px;
 
     /* Shadows */
-    --gfo-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --gfo-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --gfo-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
-    --gfo-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
+    --mapl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --mapl-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --mapl-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
+    --mapl-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
 
     /* Typography — Poppins, system fallback. Titles use the same family
-       unless a preset sets --gfo-font-title. */
-    --gfo-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --gfo-font-title: var(--gfo-font);
+       unless a preset sets --mapl-font-title. */
+    --mapl-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --mapl-font-title: var(--mapl-font);
 
     /* Layout */
-    --gfo-sidebar-width: 380px;
+    --mapl-sidebar-width: 380px;
 
     /* Transitions */
-    --gfo-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    --gfo-transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    --mapl-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mapl-transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* Spacing (8px grid, used internally) */
-    --gfo-space-xs: 4px;
-    --gfo-space-sm: 8px;
-    --gfo-space-md: 16px;
-    --gfo-space-lg: 24px;
-    --gfo-space-xl: 32px;
+    --mapl-space-xs: 4px;
+    --mapl-space-sm: 8px;
+    --mapl-space-md: 16px;
+    --mapl-space-lg: 24px;
+    --mapl-space-xl: 32px;
 
     /* Extra radius for legacy compat */
-    --gfo-radius-xl: 20px;
+    --mapl-radius-xl: 20px;
 
     /* Slow transition for bottom sheet / drawer */
-    --gfo-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mapl-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 

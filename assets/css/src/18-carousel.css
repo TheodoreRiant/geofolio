@@ -2,31 +2,31 @@
    CARROUSEL (v2.6)
    ============================================================ */
 
-.gfo-carousel {
+.mapl-carousel {
     position: relative;
     overflow: hidden;
     border-radius: 8px 8px 0 0;
     background: #f1f5f9;
 }
 
-.gfo-carousel:focus-visible {
-    outline: 2px solid var(--gfo-accent);
+.mapl-carousel:focus-visible {
+    outline: 2px solid var(--mapl-accent);
     outline-offset: 2px;
 }
 
-.gfo-carousel-track {
+.mapl-carousel-track {
     display: flex;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
 
-.gfo-carousel-slide {
+.mapl-carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
     height: 200px;
 }
 
-.gfo-carousel-slide img {
+.mapl-carousel-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -38,9 +38,9 @@
    les puces du carrousel heritaient d'un cadre rose et d'un rectangle qui
    les rendaient illisibles. Chaque propriete reprise ici est une propriete
    que le theme peut ecraser. */
-.gfo-carousel .gfo-carousel-prev,
-.gfo-carousel .gfo-carousel-next,
-.gfo-carousel .gfo-carousel-dot {
+.mapl-carousel .mapl-carousel-prev,
+.mapl-carousel .mapl-carousel-next,
+.mapl-carousel .mapl-carousel-dot {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
@@ -61,17 +61,17 @@
     z-index: 10;
 }
 
-.gfo-carousel .gfo-carousel-prev::before,
-.gfo-carousel .gfo-carousel-prev::after,
-.gfo-carousel .gfo-carousel-next::before,
-.gfo-carousel .gfo-carousel-next::after,
-.gfo-carousel .gfo-carousel-dot::before,
-.gfo-carousel .gfo-carousel-dot::after {
+.mapl-carousel .mapl-carousel-prev::before,
+.mapl-carousel .mapl-carousel-prev::after,
+.mapl-carousel .mapl-carousel-next::before,
+.mapl-carousel .mapl-carousel-next::after,
+.mapl-carousel .mapl-carousel-dot::before,
+.mapl-carousel .mapl-carousel-dot::after {
     content: none !important;
 }
 
-.gfo-carousel .gfo-carousel-prev,
-.gfo-carousel .gfo-carousel-next {
+.mapl-carousel .mapl-carousel-prev,
+.mapl-carousel .mapl-carousel-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -87,22 +87,22 @@
     transition: background 0.2s, opacity 0.2s;
 }
 
-.gfo-carousel .gfo-carousel-prev:hover,
-.gfo-carousel .gfo-carousel-next:hover {
+.mapl-carousel .mapl-carousel-prev:hover,
+.mapl-carousel .mapl-carousel-next:hover {
     background: rgba(15, 23, 42, 0.78) !important;
 }
 
-.gfo-carousel .gfo-carousel-prev:focus-visible,
-.gfo-carousel .gfo-carousel-next:focus-visible {
+.mapl-carousel .mapl-carousel-prev:focus-visible,
+.mapl-carousel .mapl-carousel-next:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 2px;
 }
 
-.gfo-carousel .gfo-carousel-prev { left: 10px; }
-.gfo-carousel .gfo-carousel-next { right: 10px; }
+.mapl-carousel .mapl-carousel-prev { left: 10px; }
+.mapl-carousel .mapl-carousel-next { right: 10px; }
 
-.gfo-carousel .gfo-carousel-prev svg,
-.gfo-carousel .gfo-carousel-next svg {
+.mapl-carousel .mapl-carousel-prev svg,
+.mapl-carousel .mapl-carousel-next svg {
     width: 20px;
     height: 20px;
     color: #fff;
@@ -111,7 +111,7 @@
     pointer-events: none;
 }
 
-.gfo-carousel-counter {
+.mapl-carousel-counter {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -124,7 +124,7 @@
     z-index: 10;
 }
 
-.gfo-carousel-dots {
+.mapl-carousel-dots {
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -135,7 +135,7 @@
     z-index: 10;
 }
 
-.gfo-carousel .gfo-carousel-dot {
+.mapl-carousel .mapl-carousel-dot {
     width: 9px !important;
     height: 9px !important;
     border-radius: 999px !important;
@@ -148,25 +148,25 @@
 
 /* La puce active s'allonge : la position dans la galerie reste lisible
    meme pour un oeil qui ne distingue pas bien les nuances de blanc. */
-.gfo-carousel .gfo-carousel-dot.is-active {
+.mapl-carousel .mapl-carousel-dot.is-active {
     width: 22px !important;
     background: #fff !important;
     box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.45), 0 1px 3px rgba(0, 0, 0, 0.4) !important;
 }
 
-.gfo-carousel .gfo-carousel-dot:focus-visible {
+.mapl-carousel .mapl-carousel-dot:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
 }
 
-.gfo-popup-image-placeholder {
+.mapl-popup-image-placeholder {
     height: 200px;
     background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
     background-size: 200% 100%;
-    animation: gfo-shimmer 1.5s infinite linear;
+    animation: mapl-shimmer 1.5s infinite linear;
 }
 
-@keyframes gfo-shimmer {
+@keyframes mapl-shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }

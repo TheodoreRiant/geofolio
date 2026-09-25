@@ -19,10 +19,10 @@ module.exports = [
                 maplibregl: 'readonly',
                 wp: 'readonly',
                 elementorFrontend: 'readonly',
-                geofolioConfig: 'readonly',
-                geofolioAdmin: 'readonly',
-                geofolioGallery: 'readonly',
-                geofolioDuplicate: 'readonly',
+                mappedPlacesConfig: 'readonly',
+                mappedPlacesAdmin: 'readonly',
+                mappedPlacesGallery: 'readonly',
+                mappedPlacesDuplicate: 'readonly',
             },
         },
     },
@@ -32,12 +32,12 @@ module.exports = [
         languageOptions: {
             ecmaVersion: 2020,
             sourceType: 'module',
-            globals: { ...globals.browser, L: 'readonly', elementorFrontend: 'readonly', geofolioConfig: 'readonly' },
+            globals: { ...globals.browser, L: 'readonly', elementorFrontend: 'readonly', mappedPlacesConfig: 'readonly' },
         },
     },
     {
         // Fichier assemblé : on analyse ses sources.
-        ignores: ['assets/js/geofolio.js'],
+        ignores: ['assets/js/mapped-places.js'],
     },
     {
         files: ['tests/js/**/*.js', 'tests/js/**/*.mjs', 'tools/**/*.js', 'eslint.config.js'],

@@ -1,20 +1,20 @@
 <?php
 /**
- * Bloc Gutenberg « Geofolio Map » : enregistrement, attributs, rendu et
+ * Bloc Gutenberg « Mapped Places Map » : enregistrement, attributs, rendu et
  * aperçu dans l'éditeur.
  *
  * Le rendu passe par Renderer, comme le shortcode et le widget Elementor :
  * mêmes valeurs par défaut, même gabarit, même échappement.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Blocks;
+namespace MappedPlaces\Blocks;
 
-use Geofolio\Map\Defaults;
-use Geofolio\Map\Renderer;
-use Geofolio\Map\TileProviders;
-use Geofolio\Plugin;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Map\Renderer;
+use MappedPlaces\Map\TileProviders;
+use MappedPlaces\Plugin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 class MapBlock {
 
     /** Nom du bloc. */
-    const NAME = 'geofolio/map';
+    const NAME = 'mapped-places/map';
 
     /**
      * Script requis par l'éditeur du bloc (JSX compilé par @wordpress/scripts),
@@ -55,10 +55,10 @@ class MapBlock {
         register_block_type(self::BUILD_DIR);
 
         $handle = generate_block_asset_handle(self::NAME, 'editorScript');
-        wp_localize_script($handle, 'geofolioBlock', array(
+        wp_localize_script($handle, 'mappedPlacesBlock', array(
             'tiles' => TileProviders::labels(),
         ));
-        wp_set_script_translations($handle, 'geofolio', GEOFOLIO_PLUGIN_DIR . 'languages');
+        wp_set_script_translations($handle, 'mapped-places', MAPPED_PLACES_PLUGIN_DIR . 'languages');
     }
 
     /**

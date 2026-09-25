@@ -8,9 +8,9 @@
  * n'est pas publiée.
  */
 
-namespace Geofolio\Admin;
+namespace MappedPlaces\Admin;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -19,12 +19,12 @@ if (!defined('ABSPATH')) {
 class Duplicate {
 
     /** Action admin (admin.php?action=…) et clé du lien dans la liste. */
-    const ACTION = 'geofolio_duplicate';
+    const ACTION = 'mapped_places_duplicate';
 
     const POST_TYPE = Schema::POST_TYPE;
 
     /** Paramètre ajouté à l'URL d'édition de la copie pour afficher l'avis. */
-    const NOTICE_ARG = 'geofolio_duplicated';
+    const NOTICE_ARG = 'mapped_places_duplicated';
 
     /** Durée de vie du transient portant la notice « copie créée », en secondes. */
     const NOTICE_TTL = 60;
@@ -80,8 +80,8 @@ class Duplicate {
             self::ACTION => sprintf(
                 '<a href="%s" aria-label="%s">%s</a>',
                 esc_url(self::duplicate_url($post->ID)),
-                esc_attr(sprintf(/* translators: %s: place title */ __('Duplicate “%s”', 'geofolio'), $post->post_title)),
-                esc_html__('Duplicate', 'geofolio')
+                esc_attr(sprintf(/* translators: %s: place title */ __('Duplicate “%s”', 'mapped-places'), $post->post_title)),
+                esc_html__('Duplicate', 'mapped-places')
             ),
         ));
     }
@@ -101,18 +101,18 @@ class Duplicate {
         }
 
         wp_enqueue_script(
-            'geofolio-duplicate',
-            GEOFOLIO_PLUGIN_URL . 'assets/js/geofolio-duplicate.js',
+            'mapped-places-duplicate',
+            MAPPED_PLACES_PLUGIN_URL . 'assets/js/mapped-places-duplicate.js',
             array('wp-plugins', 'wp-element', 'wp-data', 'wp-notices', 'wp-edit-post'),
-            GEOFOLIO_VERSION,
+            MAPPED_PLACES_VERSION,
             true
         );
 
-        wp_localize_script('geofolio-duplicate', 'geofolioDuplicate', array(
+        wp_localize_script('mapped-places-duplicate', 'mappedPlacesDuplicate', array(
             'url'    => self::duplicate_url($post->ID),
-            'label'  => __('Duplicate this place', 'geofolio'),
+            'label'  => __('Duplicate this place', 'mapped-places'),
             'notice' => self::pull_notice($post->ID)
-                ? __('Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map.', 'geofolio')
+                ? __('Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map.', 'mapped-places')
                 : '',
         ));
     }
@@ -139,15 +139,23 @@ class Duplicate {
     /* ------------------------------------------------------------------ */
 
     /**
-     * Point d'entrée admin.php?action=geofolio_duplicate.
+     * Point d'entrée admin.php?action=mapped_places_duplicate.
      */
     public function handle_admin_action() {
-        $result = self::process_request(wp_unslash($_GET)); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce et capacité vérifiés dans process_request(), fonction pure couverte par DuplicateTest.
+        // Lecture assainie des deux seuls paramètres attendus ; le nonce et la
+        // capacité sont vérifiés dans process_request() (couvert par DuplicateTest).
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        $query = array(
+            'post'     => isset($_GET['post']) ? absint(wp_unslash($_GET['post'])) : 0,
+            '_wpnonce' => isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '',
+        );
+        // phpcs:enable WordPress.Security.NonceVerification.Recommended
+        $result = self::process_request($query);
 
         if (is_wp_error($result)) {
             wp_die(
                 esc_html($result->get_error_message()),
-                esc_html__('Duplication failed', 'geofolio'),
+                esc_html__('Duplication failed', 'mapped-places'),
                 array('response' => 403, 'back_link' => true)
             );
         }
@@ -169,16 +177,16 @@ class Duplicate {
 
         if (!$post_id || !wp_verify_nonce($nonce, self::nonce_action($post_id))) {
             return new \WP_Error(
-                'geofolio_duplicate_nonce',
-                __('This duplication link has expired or is invalid. Reload the list of places and try again.', 'geofolio')
+                'mapped_places_duplicate_nonce',
+                __('This duplication link has expired or is invalid. Reload the list of places and try again.', 'mapped-places')
             );
         }
 
         $post = get_post($post_id);
         if (!self::can_duplicate($post)) {
             return new \WP_Error(
-                'geofolio_duplicate_forbidden',
-                __('You do not have the required permissions to duplicate this place.', 'geofolio')
+                'mapped_places_duplicate_forbidden',
+                __('You do not have the required permissions to duplicate this place.', 'mapped-places')
             );
         }
 
@@ -260,7 +268,7 @@ class Duplicate {
             'post_type'      => $post->post_type,
             'post_status'    => 'draft',
             /* translators: %s: titre de l'établissement d'origine */
-            'post_title'     => sprintf(__('%s (copy)', 'geofolio'), $post->post_title),
+            'post_title'     => sprintf(__('%s (copy)', 'mapped-places'), $post->post_title),
             'post_content'   => $post->post_content,
             'post_excerpt'   => $post->post_excerpt,
             'post_author'    => (int) $author_id,

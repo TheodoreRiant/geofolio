@@ -1,18 +1,18 @@
 <?php
 /**
  * Import depuis un ancien plugin de carte : étape générique du cœur,
- * paramétrée par le filtre geofolio_legacy_import (aucune donnée d'un site
+ * paramétrée par le filtre mapped_places_legacy_import (aucune donnée d'un site
  * particulier dans le cœur).
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\Schema;
-use Geofolio\Migration\Legacy\Config;
-use Geofolio\Migration\Legacy\ElementorRewriter;
-use Geofolio\Migration\Legacy\IconMatcher;
-use Geofolio\Migration\Legacy\ImportStep;
-use Geofolio\Migration\Legacy\ShortcodeRewriter;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Migration\Legacy\Config;
+use MappedPlaces\Migration\Legacy\ElementorRewriter;
+use MappedPlaces\Migration\Legacy\IconMatcher;
+use MappedPlaces\Migration\Legacy\ImportStep;
+use MappedPlaces\Migration\Legacy\ShortcodeRewriter;
 
 final class LegacyImportTest extends TestCase {
 
@@ -22,7 +22,7 @@ final class LegacyImportTest extends TestCase {
         'taxonomies'        => array('old_type' => Schema::TAX_TYPE, 'old_group' => Schema::TAX_ENTITY),
         'post_meta'         => array('_old_city' => 'city', '_old_boss' => 'manager'),
         'term_meta'         => array('_old_color' => Schema::ENTITY_COLOR_META),
-        'options'           => array('old_settings' => 'geofolio_settings'),
+        'options'           => array('old_settings' => 'mapped_places_settings'),
         'elementor_widgets' => array('old_map'),
         'shortcodes'        => array('old-map'),
         'type_icons'        => array('library' => 'book', 'community centre' => 'people'),
@@ -34,13 +34,13 @@ final class LegacyImportTest extends TestCase {
     );
 
     protected function setUp(): void {
-        gfo_test_reset();
-        gfo_test_reset_wpdb();
-        gfo_test_reset_posts();
+        mapl_test_reset();
+        mapl_test_reset_wpdb();
+        mapl_test_reset_posts();
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     /* ---------------------------------------------------------------- */
@@ -53,7 +53,7 @@ final class LegacyImportTest extends TestCase {
     }
 
     public function test_la_configuration_est_normalisee() {
-        add_filter('geofolio_legacy_import', static function () {
+        add_filter('mapped_places_legacy_import', static function () {
             return array('post_type' => 'Old Place!', 'unknown' => 'x', 'shortcodes' => array('old-map', 42), 'type_icons' => 'bad');
         });
         $config = Config::get();
@@ -65,8 +65,8 @@ final class LegacyImportTest extends TestCase {
     }
 
     public function test_une_cible_de_taxonomie_ou_de_champ_inconnue_est_ignoree() {
-        add_filter('geofolio_legacy_import', static function () {
-            return array('post_type' => 'old', 'taxonomies' => array('a' => 'not_a_geofolio_taxonomy'), 'post_meta' => array('_x' => 'no_such_field'));
+        add_filter('mapped_places_legacy_import', static function () {
+            return array('post_type' => 'old', 'taxonomies' => array('a' => 'not_a_mapped_places_taxonomy'), 'post_meta' => array('_x' => 'no_such_field'));
         });
         $config = Config::get();
 
@@ -103,11 +103,11 @@ final class LegacyImportTest extends TestCase {
                 ),
             )),
         ));
-        list($rewritten, $count) = ElementorRewriter::rewrite($data, array('old_map'), 'geofolio_map');
+        list($rewritten, $count) = ElementorRewriter::rewrite($data, array('old_map'), 'mapped_places_map');
 
         $this->assertSame(1, $count);
         $widgets = $rewritten[0]['elements'][0]['elements'];
-        $this->assertSame('geofolio_map', $widgets[0]['widgetType']);
+        $this->assertSame('mapped_places_map', $widgets[0]['widgetType']);
         $this->assertSame(array('map_height' => array('size' => 100, 'unit' => 'vh')), $widgets[0]['settings']);
         $this->assertSame('heading', $widgets[1]['widgetType']);
         $this->assertSame('old_map', $widgets[1]['settings']['title']); // texte non touché
@@ -115,9 +115,9 @@ final class LegacyImportTest extends TestCase {
     }
 
     public function test_un_shortcode_est_reecrit_avec_ses_attributs() {
-        $this->assertSame('<p>[geofolio height="600px"]</p>', ShortcodeRewriter::rewrite('<p>[old-map height="600px"]</p>', array('old-map'), 'geofolio'));
-        $this->assertSame('[geofolio]', ShortcodeRewriter::rewrite('[old-map]', array('old-map'), 'geofolio'));
-        $this->assertSame('[old-mapper]', ShortcodeRewriter::rewrite('[old-mapper]', array('old-map'), 'geofolio'));
+        $this->assertSame('<p>[mapped-places height="600px"]</p>', ShortcodeRewriter::rewrite('<p>[old-map height="600px"]</p>', array('old-map'), 'mapped-places'));
+        $this->assertSame('[mapped-places]', ShortcodeRewriter::rewrite('[old-map]', array('old-map'), 'mapped-places'));
+        $this->assertSame('[old-mapper]', ShortcodeRewriter::rewrite('[old-mapper]', array('old-map'), 'mapped-places'));
     }
 
     /* ---------------------------------------------------------------- */
@@ -125,18 +125,18 @@ final class LegacyImportTest extends TestCase {
     /* ---------------------------------------------------------------- */
 
     public function test_l_etape_n_est_proposee_que_si_l_ancien_plugin_a_laisse_des_donnees() {
-        add_filter('geofolio_legacy_import', static function () { return self::CONFIG; });
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
 
         $this->assertSame(array(), ImportStep::register(array()));
 
-        gfo_test_reset(array('old_settings' => array('api_key' => 'k')));
+        mapl_test_reset(array('old_settings' => array('api_key' => 'k')));
         $steps = ImportStep::register(array());
         $this->assertCount(1, $steps);
         $this->assertInstanceOf(ImportStep::class, $steps[0]);
     }
 
     public function test_le_renommage_cible_chaque_ligne_par_une_condition() {
-        add_filter('geofolio_legacy_import', static function () { return self::CONFIG; });
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
         $wpdb = $GLOBALS['wpdb'];
 
         (new ImportStep())->run();
@@ -151,16 +151,16 @@ final class LegacyImportTest extends TestCase {
     }
 
     public function test_les_reglages_sont_repris_sans_ecraser_ceux_deja_faits() {
-        add_filter('geofolio_legacy_import', static function () { return self::CONFIG; });
-        gfo_test_reset(array('geofolio_labels' => array('place_plural' => 'Déjà réglé')));
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
+        mapl_test_reset(array('mapped_places_labels' => array('place_plural' => 'Déjà réglé')));
 
         (new ImportStep())->run();
 
-        $labels = get_option('geofolio_labels');
+        $labels = get_option('mapped_places_labels');
         $this->assertSame('Déjà réglé', $labels['place_plural']);
         $this->assertSame('Venue', $labels['place_singular']);
         $this->assertSame('venue', $labels['place_slug']);
-        $this->assertSame('#123456', get_option('geofolio_appearance')['primary_color']);
+        $this->assertSame('#123456', get_option('mapped_places_appearance')['primary_color']);
     }
 
     public function test_un_ancien_responsable_devient_une_personne_avec_son_role() {
@@ -173,9 +173,9 @@ final class LegacyImportTest extends TestCase {
 
     /** Seuls les lieux venus de l'ancien plugin reçoivent le rôle de l'import. */
     public function test_seuls_les_lieux_de_l_ancien_plugin_sont_convertis_en_personnes() {
-        add_filter('geofolio_legacy_import', static function () { return self::CONFIG; });
-        $old   = gfo_test_add_post(array('post_type' => 'old_place'), array(FieldRegistry::meta_key('manager') => 'Ada'));
-        $other = gfo_test_add_post(array('post_type' => Schema::POST_TYPE), array(FieldRegistry::meta_key('manager') => 'Grace'));
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
+        $old   = mapl_test_add_post(array('post_type' => 'old_place'), array(FieldRegistry::meta_key('manager') => 'Ada'));
+        $other = mapl_test_add_post(array('post_type' => Schema::POST_TYPE), array(FieldRegistry::meta_key('manager') => 'Grace'));
         $wpdb  = $GLOBALS['wpdb'];
         $wpdb->col_result = array($old->ID);   // identifiants relevés avant le renommage
 
@@ -193,7 +193,7 @@ final class LegacyImportTest extends TestCase {
     }
 
     public function test_le_role_choisi_a_l_ecran_remplace_celui_du_filtre() {
-        add_filter('geofolio_legacy_import', static function () { return self::CONFIG; });
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
         ImportStep::set_manager_role('Directrice');
 
         $this->assertSame('Directrice', ImportStep::manager_role(Config::get()));
@@ -205,7 +205,7 @@ final class LegacyImportTest extends TestCase {
 
     /** L'écran affiche ce qui va être fait, d'après les paramètres reçus. */
     public function test_le_resume_decrit_les_parametres_recus() {
-        $lines = \Geofolio\Migration\Legacy\ImportScreen::summary(Config::normalize(self::CONFIG));
+        $lines = \MappedPlaces\Migration\Legacy\ImportScreen::summary(Config::normalize(self::CONFIG));
         $text  = implode("\n", $lines);
 
         $this->assertStringContainsString('old_place', $text);
@@ -228,9 +228,9 @@ final class LegacyImportTest extends TestCase {
 
     public function test_les_anciennes_metas_sans_equivalent_sont_supprimees_des_lieux_importes() {
         $config = self::CONFIG + array('delete_post_meta' => array('_old_department', 42));
-        add_filter('geofolio_legacy_import', static function () use ($config) { return $config; });
-        $old   = gfo_test_add_post(array('post_type' => 'old_place'), array('_old_department' => '69'));
-        $other = gfo_test_add_post(array('post_type' => 'page'), array('_old_department' => 'garder'));
+        add_filter('mapped_places_legacy_import', static function () use ($config) { return $config; });
+        $old   = mapl_test_add_post(array('post_type' => 'old_place'), array('_old_department' => '69'));
+        $other = mapl_test_add_post(array('post_type' => 'page'), array('_old_department' => 'garder'));
         $GLOBALS['wpdb']->col_result = array($old->ID);
 
         $this->assertSame(array('_old_department'), Config::get()['delete_post_meta']);

@@ -12,12 +12,12 @@
  * et la fiche d'un lieu (sa visibilité dépend de l'utilisateur connecté).
  */
 
-namespace Geofolio\Rest;
+namespace MappedPlaces\Rest;
 
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\LabelsSettings;
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Domain\Schema;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -25,11 +25,11 @@ if (!defined('ABSPATH')) {
 
 class ResponseCache {
 
-    /** Préfixe des transients (supprimés par uninstall.php avec geofolio_*). */
-    const PREFIX = 'geofolio_rest_';
+    /** Préfixe des transients (supprimés par uninstall.php avec mapped_places_*). */
+    const PREFIX = 'mapped_places_rest_';
 
     /** Option portant la génération courante. */
-    const GENERATION_OPTION = 'geofolio_rest_cache_generation';
+    const GENERATION_OPTION = 'mapped_places_rest_cache_generation';
 
     /** Durée de vie d'une réponse, en secondes (12 h) : filet si une invalidation manque. */
     const TTL = 43200;

@@ -5,7 +5,7 @@
 !views/
 !data/
 !languages/
-!geofolio.php
+!mapped-places.php
 !readme.txt
 !docker/entrypoint.sh
 !docker/init.sh

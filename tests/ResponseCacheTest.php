@@ -4,20 +4,20 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\Schema;
-use Geofolio\Rest\ResponseCache;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Rest\ResponseCache;
 
 final class ResponseCacheTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
-        gfo_test_reset_posts();
-        $GLOBALS['gfo_test_transients'] = array();
-        $GLOBALS['gfo_test_locale']     = 'en_US';
+        mapl_test_reset();
+        mapl_test_reset_posts();
+        $GLOBALS['mapl_test_transients'] = array();
+        $GLOBALS['mapl_test_locale']     = 'en_US';
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     /* ---------------------------------------------------------------- */
@@ -25,8 +25,8 @@ final class ResponseCacheTest extends TestCase {
     /* ---------------------------------------------------------------- */
 
     public function test_la_cle_porte_le_prefixe_du_plugin() {
-        // uninstall.php supprime les transients geofolio_*.
-        $this->assertStringStartsWith('geofolio_rest_', ResponseCache::key('places', array()));
+        // uninstall.php supprime les transients mapped_places_*.
+        $this->assertStringStartsWith('mapped_places_rest_', ResponseCache::key('places', array()));
     }
 
     public function test_l_ordre_des_parametres_ne_change_pas_la_cle() {
@@ -43,7 +43,7 @@ final class ResponseCacheTest extends TestCase {
         $this->assertNotSame($base, ResponseCache::key('places', array('type' => 'b')));
 
         // Les libellés de types sont traduits : une réponse par langue.
-        $GLOBALS['gfo_test_locale'] = 'fr_FR';
+        $GLOBALS['mapl_test_locale'] = 'fr_FR';
         $this->assertNotSame($base, ResponseCache::key('places', array('type' => 'a')));
     }
 
@@ -109,17 +109,17 @@ final class ResponseCacheTest extends TestCase {
             'save_post_' . Schema::POST_TYPE, 'deleted_post', 'set_object_terms',
             'added_post_meta', 'updated_post_meta', 'deleted_post_meta',
             'created_term', 'edited_term', 'delete_term', 'updated_term_meta',
-            'update_option_geofolio_settings',
-            'update_option_geofolio_appearance', 'add_option_geofolio_appearance',
-            'update_option_geofolio_labels', 'add_option_geofolio_labels',
+            'update_option_mapped_places_settings',
+            'update_option_mapped_places_appearance', 'add_option_mapped_places_appearance',
+            'update_option_mapped_places_labels', 'add_option_mapped_places_labels',
         ) as $hook) {
             $this->assertTrue(has_filter($hook), $hook);
         }
     }
 
     public function test_une_meta_d_un_autre_type_de_contenu_n_invalide_pas() {
-        $page  = gfo_test_add_post(array('post_type' => 'page'));
-        $place = gfo_test_add_post(array('post_type' => Schema::POST_TYPE));
+        $page  = mapl_test_add_post(array('post_type' => 'page'));
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE));
         $key   = ResponseCache::key('places', array());
 
         ResponseCache::on_post_meta_change(1, $page->ID, 'color');
@@ -129,7 +129,7 @@ final class ResponseCacheTest extends TestCase {
         ResponseCache::on_post_meta_change(1, $place->ID, '_edit_lock');
         $this->assertSame($key, ResponseCache::key('places', array()));
 
-        ResponseCache::on_post_meta_change(1, $place->ID, '_geofolio_city');
+        ResponseCache::on_post_meta_change(1, $place->ID, '_mapped_places_city');
         $this->assertNotSame($key, ResponseCache::key('places', array()));
     }
 

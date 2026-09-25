@@ -15,7 +15,7 @@ The place screen is a form, not an article editor: the sections follow the order
 7. Side panel: **Entity** (gives the colour), **Place type**, regions, services, accessibility, and the **Place image** (cover).
 8. **Publish**. A draft does not appear on the map.
 
-Places created with an earlier version keep their manager names: they appear in the People section with the default role until edited. A site that needs the full content editor can add `editor` with the `geofolio_place_supports` filter.
+Places created with an earlier version keep their manager names: they appear in the People section with the default role until edited. A site that needs the full content editor can add `editor` with the `mapped_places_place_supports` filter.
 
 ## Duplicate a place
 
@@ -38,7 +38,7 @@ On the map, clicking an entity pill **shows only that entity**; further clicks a
 
 **Places → Map settings**:
 
-- **Provider API key**, for basemaps marked “key required”. It can also be set with `define('GEOFOLIO_TILE_API_KEY', '…')` in `wp-config.php`.
+- **Provider API key**, for basemaps marked “key required”. It can also be set with `define('MAPPED_PLACES_TILE_API_KEY', '…')` in `wp-config.php`.
 - **Basemap applied to the site**: forces the same basemap on every map, without reopening each Elementor page.
 
 Without a valid key, the map falls back to Positron served by OpenFreeMap (no key); it never shows an error instead of the tiles.
@@ -63,4 +63,4 @@ Without a valid key, the map falls back to Positron served by OpenFreeMap (no ke
 
 ## Add a map to a page
 
-In Elementor, the **Geofolio** widget (display and style settings in the panel), or the `[geofolio]` shortcode (attributes in the [README](../README.md#shortcode)).
+In Elementor, the **Mapped Places** widget (display and style settings in the panel), or the `[mapped-places]` shortcode (attributes in the [README](../README.md#shortcode)).

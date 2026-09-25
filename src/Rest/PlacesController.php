@@ -1,20 +1,20 @@
 <?php
 /**
- * API REST publique des lieux (espace de noms geofolio/v1) :
+ * API REST publique des lieux (espace de noms mapped-places/v1) :
  *
  *   GET places          liste, filtrable par taxonomie, recherche, proximité
  *   GET places/{id}     fiche complète
  *   GET filters         termes utilisables comme filtres, couleur par défaut
  */
 
-namespace Geofolio\Rest;
+namespace MappedPlaces\Rest;
 
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\Icons;
-use Geofolio\Domain\Schema;
-use Geofolio\Domain\Taxonomies;
-use Geofolio\Map\Defaults;
-use Geofolio\Support\Geo;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\Icons;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Domain\Taxonomies;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Support\Geo;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 class PlacesController {
 
     /** Espace de noms des routes. */
-    const REST_NAMESPACE = 'geofolio/v1';
+    const REST_NAMESPACE = 'mapped-places/v1';
 
     /** Paramètre de requête => taxonomie filtrée (slugs séparés par des virgules). */
     const TAXONOMY_PARAMS = array(
@@ -297,7 +297,7 @@ class PlacesController {
     public function get_place($request) {
         $post = get_post((int) $request->get_param('id'));
         if (!PlaceMapper::is_visible($post)) {
-            return new \WP_Error('not_found', __('Place not found', 'geofolio'), array('status' => 404));
+            return new \WP_Error('not_found', __('Place not found', 'mapped-places'), array('status' => 404));
         }
         return rest_ensure_response(PlaceMapper::detail($post));
     }

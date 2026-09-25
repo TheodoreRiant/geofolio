@@ -1,16 +1,16 @@
 <?php
 /**
  * Tests des valeurs par défaut de la carte, partagées par le shortcode et
- * le widget Elementor, et surchargeables par le filtre geofolio_defaults.
+ * le widget Elementor, et surchargeables par le filtre mapped_places_defaults.
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Map\Defaults;
+use MappedPlaces\Map\Defaults;
 
 final class DefaultsTest extends TestCase {
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_les_cles_attendues_sont_presentes() {
@@ -34,7 +34,7 @@ final class DefaultsTest extends TestCase {
     }
 
     public function test_un_filtre_remplace_le_sous_titre() {
-        add_filter('geofolio_defaults', static function ($defaults) {
+        add_filter('mapped_places_defaults', static function ($defaults) {
             return array_merge($defaults, array('sidebar_subtitle' => 'Sous-titre du préréglage'));
         });
 
@@ -42,7 +42,7 @@ final class DefaultsTest extends TestCase {
     }
 
     public function test_un_filtre_ne_peut_pas_retirer_une_cle() {
-        add_filter('geofolio_defaults', static function () {
+        add_filter('mapped_places_defaults', static function () {
             return array('zoom' => '9');
         });
 
@@ -54,14 +54,14 @@ final class DefaultsTest extends TestCase {
     public function test_la_couleur_par_defaut_est_une_constante_filtrable() {
         $this->assertSame(Defaults::COLOR, Defaults::color());
 
-        add_filter('geofolio_default_color', static function () {
+        add_filter('mapped_places_default_color', static function () {
             return '#123456';
         });
         $this->assertSame('#123456', Defaults::color());
     }
 
     public function test_une_couleur_invalide_du_filtre_est_ignoree() {
-        add_filter('geofolio_default_color', static function () {
+        add_filter('mapped_places_default_color', static function () {
             return 'red;background:url(x)';
         });
         $this->assertSame(Defaults::COLOR, Defaults::color());

@@ -1,46 +1,46 @@
 /* ============================================================
-   2. CONTAINER (.gfo-map-container)
+   2. CONTAINER (.mapl-map-container)
    Flex row, gap 0, rounded, shadow, white bg, overflow hidden.
    ============================================================ */
-.gfo-map-container {
-    /* Derived from --gfo-primary: declared here, not on :root, so that an
-       override of --gfo-primary on the container (preset, Elementor
+.mapl-map-container {
+    /* Derived from --mapl-primary: declared here, not on :root, so that an
+       override of --mapl-primary on the container (preset, Elementor
        control) reaches clusters and popups too. */
-    --gfo-cluster-bg: var(--gfo-surface);
-    --gfo-cluster-border: var(--gfo-primary);
-    --gfo-cluster-text: var(--gfo-primary);
-    --gfo-popup-accent: var(--gfo-primary);
+    --mapl-cluster-bg: var(--mapl-surface);
+    --mapl-cluster-border: var(--mapl-primary);
+    --mapl-cluster-text: var(--mapl-primary);
+    --mapl-popup-accent: var(--mapl-primary);
 
     display: flex;
     flex-direction: row;
     gap: 0;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     position: relative;
-    border-radius: var(--gfo-radius-lg);
+    border-radius: var(--mapl-radius-lg);
     overflow: hidden;
-    box-shadow: var(--gfo-shadow-lg);
-    background: var(--gfo-surface);
+    box-shadow: var(--mapl-shadow-lg);
+    background: var(--mapl-surface);
     height: 700px;
     width: 100%;
 }
 
 /* Hauteur fixée par le conteneur (height="container", widget Elementor
    responsive) : aucun style en ligne, le wrapper remplit le conteneur. */
-.gfo-map-container--sized .gfo-map-wrapper {
+.mapl-map-container--sized .mapl-map-wrapper {
     height: 100%;
 }
 
-.gfo-map-container *,
-.gfo-map-container *::before,
-.gfo-map-container *::after {
+.mapl-map-container *,
+.mapl-map-container *::before,
+.mapl-map-container *::after {
     box-sizing: border-box;
 }
 
 /* Fullscreen mode */
-.gfo-map-container.gfo-fullscreen {
+.mapl-map-container.mapl-fullscreen {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -53,7 +53,7 @@
     margin: 0;
 }
 
-body.gfo-body-fullscreen {
+body.mapl-body-fullscreen {
     overflow: hidden;
 }
 

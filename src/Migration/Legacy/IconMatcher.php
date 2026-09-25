@@ -3,10 +3,10 @@
  * Icône d'un type d'après son nom : correspondance exacte, puis partielle
  * (l'un contient l'autre), dans l'ordre du catalogue.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration\Legacy;
+namespace MappedPlaces\Migration\Legacy;
 
 if (!defined('ABSPATH')) {
     exit;

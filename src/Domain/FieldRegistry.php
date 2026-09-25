@@ -5,7 +5,7 @@
  * l'enregistrement des metas (éditeur de blocs).
  */
 
-namespace Geofolio\Domain;
+namespace MappedPlaces\Domain;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -14,22 +14,22 @@ if (!defined('ABSPATH')) {
 final class FieldRegistry {
 
     /** Préfixe des champs de formulaire des meta boxes. */
-    const FORM_PREFIX = 'geofolio_';
+    const FORM_PREFIX = 'mapped_places_';
 
     /** Champ => [clé de meta, nettoyage de la valeur]. */
     const FIELDS = array(
-        'address'       => array('_gfo_address', 'sanitize_text_field'),
-        'postal_code'   => array('_gfo_postal_code', 'sanitize_text_field'),
-        'city'          => array('_gfo_city', 'sanitize_text_field'),
-        'latitude'      => array('_gfo_latitude', array(__CLASS__, 'sanitize_coordinate')),
-        'longitude'     => array('_gfo_longitude', array(__CLASS__, 'sanitize_coordinate')),
-        'phone'         => array('_gfo_phone', 'sanitize_text_field'),
-        'email'         => array('_gfo_email', 'sanitize_email'),
-        'website'       => array('_gfo_website', 'esc_url_raw'),
-        'manager'       => array('_gfo_manager', 'sanitize_text_field'),
-        'people'        => array('_gfo_people', array(People::class, 'sanitize_json')),
-        'opening_hours' => array('_gfo_opening_hours', 'sanitize_textarea_field'),
-        'gallery'       => array('_gfo_gallery', array(__CLASS__, 'sanitize_gallery_json')),
+        'address'       => array('_mapl_address', 'sanitize_text_field'),
+        'postal_code'   => array('_mapl_postal_code', 'sanitize_text_field'),
+        'city'          => array('_mapl_city', 'sanitize_text_field'),
+        'latitude'      => array('_mapl_latitude', array(__CLASS__, 'sanitize_coordinate')),
+        'longitude'     => array('_mapl_longitude', array(__CLASS__, 'sanitize_coordinate')),
+        'phone'         => array('_mapl_phone', 'sanitize_text_field'),
+        'email'         => array('_mapl_email', 'sanitize_email'),
+        'website'       => array('_mapl_website', 'esc_url_raw'),
+        'manager'       => array('_mapl_manager', 'sanitize_text_field'),
+        'people'        => array('_mapl_people', array(People::class, 'sanitize_json')),
+        'opening_hours' => array('_mapl_opening_hours', 'sanitize_textarea_field'),
+        'gallery'       => array('_mapl_gallery', array(__CLASS__, 'sanitize_gallery_json')),
     );
 
     /**

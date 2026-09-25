@@ -7,7 +7,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Rest\PlacesController;
+use MappedPlaces\Rest\PlacesController;
 
 final class RestArgsTest extends TestCase {
 

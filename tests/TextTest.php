@@ -5,7 +5,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Support\Text;
+use MappedPlaces\Support\Text;
 
 final class TextTest extends TestCase {
 

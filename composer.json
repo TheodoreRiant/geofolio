@@ -1,5 +1,5 @@
 {
-    "name": "theodoreriant/geofolio",
+    "name": "theodoreriant/mapped-places",
     "description": "Interactive map of places for WordPress, with search, filters and an Elementor widget.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Geofolio\\": "src/"
+            "MappedPlaces\\": "src/"
         }
     },
     "scripts": {
         "test": "phpunit --no-configuration --bootstrap tests/bootstrap.php tests",
-        "lint": "phpcs --standard=WordPress --extensions=php --report=summary geofolio.php src views"
+        "lint": "phpcs --standard=WordPress --extensions=php --report=summary mapped-places.php src views"
     },
     "config": {
         "allow-plugins": {

@@ -5,12 +5,12 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\FieldRegistry;
+use MappedPlaces\Domain\FieldRegistry;
 
 final class FieldRegistryTest extends TestCase {
 
     protected function setUp(): void {
-        $GLOBALS['gfo_test_images'] = array(10, 11, 12);
+        $GLOBALS['mapl_test_images'] = array(10, 11, 12);
     }
 
     public function test_le_registre_couvre_les_douze_champs() {
@@ -58,8 +58,8 @@ final class FieldRegistryTest extends TestCase {
     }
 
     public function test_le_champ_de_formulaire_porte_le_prefixe_du_plugin() {
-        $this->assertSame('geofolio_website', FieldRegistry::form_field('website'));
-        $this->assertSame('geofolio_gallery', FieldRegistry::form_field('gallery'));
+        $this->assertSame('mapped_places_website', FieldRegistry::form_field('website'));
+        $this->assertSame('mapped_places_gallery', FieldRegistry::form_field('gallery'));
     }
 
     public function test_une_coordonnee_decimale_est_conservee() {

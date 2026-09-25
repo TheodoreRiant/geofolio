@@ -1,14 +1,14 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "geofolio/map",
+	"name": "mapped-places/map",
 	"version": "1.0.0",
-	"title": "Geofolio Map",
+	"title": "Mapped Places Map",
 	"category": "widgets",
 	"icon": "location-alt",
 	"description": "Interactive map of your places, with search, type filter and entity pills.",
 	"keywords": [ "map", "places", "locations", "leaflet" ],
-	"textdomain": "geofolio",
+	"textdomain": "mapped-places",
 	"supports": {
 		"html": false,
 		"align": [ "wide", "full" ]

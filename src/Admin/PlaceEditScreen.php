@@ -10,9 +10,9 @@
  * retirées de la colonne principale, leurs rendus sont réutilisés.
  */
 
-namespace Geofolio\Admin;
+namespace MappedPlaces\Admin;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -48,31 +48,31 @@ class PlaceEditScreen {
         return array(
             array(
                 'id'     => 'location',
-                'label'  => __('Location', 'geofolio'),
+                'label'  => __('Location', 'mapped-places'),
                 'icon'   => 'location',
                 'render' => array($boxes, 'render_localisation_box'),
             ),
             array(
                 'id'     => 'description',
-                'label'  => __('Description', 'geofolio'),
+                'label'  => __('Description', 'mapped-places'),
                 'icon'   => 'text',
                 'render' => array(__CLASS__, 'render_description'),
             ),
             array(
                 'id'     => 'contact',
-                'label'  => __('Contact', 'geofolio'),
+                'label'  => __('Contact', 'mapped-places'),
                 'icon'   => 'phone',
                 'render' => array($boxes, 'render_contact_box'),
             ),
             array(
                 'id'     => 'management',
-                'label'  => __('People', 'geofolio'),
+                'label'  => __('People', 'mapped-places'),
                 'icon'   => 'groups',
                 'render' => array($boxes, 'render_direction_box'),
             ),
             array(
                 'id'     => 'gallery',
-                'label'  => __('Photo gallery', 'geofolio'),
+                'label'  => __('Photo gallery', 'mapped-places'),
                 'icon'   => 'format-gallery',
                 'render' => array($boxes, 'render_gallery_box'),
             ),
@@ -99,7 +99,7 @@ class PlaceEditScreen {
     public function body_class($classes) {
         $screen = function_exists('get_current_screen') ? get_current_screen() : null;
         if ($screen && $screen->base === 'post' && $screen->post_type === Schema::POST_TYPE) {
-            $classes .= ' gfo-place-screen';
+            $classes .= ' mapl-place-screen';
         }
         return $classes;
     }
@@ -113,10 +113,10 @@ class PlaceEditScreen {
         if (!$post || $post->post_type !== Schema::POST_TYPE) {
             return;
         }
-        echo '<div class="gfo-place-form">';
+        echo '<div class="mapl-place-form">';
         foreach (self::sections() as $section) {
             printf(
-                '<section class="gfo-section gfo-section--%1$s" id="gfo-section-%1$s"><h2><span class="dashicons dashicons-%2$s" aria-hidden="true"></span>%3$s</h2>',
+                '<section class="mapl-section mapl-section--%1$s" id="mapl-section-%1$s"><h2><span class="dashicons dashicons-%2$s" aria-hidden="true"></span>%3$s</h2>',
                 esc_attr($section['id']),
                 esc_attr($section['icon']),
                 esc_html($section['label'])
@@ -163,12 +163,12 @@ class PlaceEditScreen {
      */
     public static function description_field($content) {
         $content = self::to_plain_text($content);
-        return '<div class="gfo-meta-box">'
-            . '<textarea name="content" id="geofolio_description" class="widefat" rows="' . (int) self::DESCRIPTION_ROWS . '" '
-            . 'placeholder="' . esc_attr__('A few lines shown in the popup: mission, audience, what makes this place special.', 'geofolio') . '">'
+        return '<div class="mapl-meta-box">'
+            . '<textarea name="content" id="mapped_places_description" class="widefat" rows="' . (int) self::DESCRIPTION_ROWS . '" '
+            . 'placeholder="' . esc_attr__('A few lines shown in the popup: mission, audience, what makes this place special.', 'mapped-places') . '">'
             . esc_textarea($content)
             . '</textarea>'
-            . '<p class="description">' . esc_html__('Plain text. Keep it short: it appears in the map popup and in the list.', 'geofolio') . '</p>'
+            . '<p class="description">' . esc_html__('Plain text. Keep it short: it appears in the map popup and in the list.', 'mapped-places') . '</p>'
             . '</div>';
     }
 }

@@ -4,14 +4,14 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Admin\MetaBoxes;
-use Geofolio\Domain\FieldRegistry;
+use MappedPlaces\Admin\MetaBoxes;
+use MappedPlaces\Domain\FieldRegistry;
 
 final class MetaBoxesTest extends TestCase {
 
     protected function setUp(): void {
         // Les IDs 10, 11 et 12 sont des images ; 99 ne l'est pas.
-        $GLOBALS['gfo_test_images'] = array(10, 11, 12);
+        $GLOBALS['mapl_test_images'] = array(10, 11, 12);
     }
 
     /* ---------------------------------------------------------------- */
@@ -88,7 +88,7 @@ final class MetaBoxesTest extends TestCase {
      * le renommer casserait l'enregistrement des galeries deja saisies.
      */
     public function test_le_nom_du_champ_reste_stable() {
-        $this->assertSame('geofolio_gallery', MetaBoxes::GALLERY_FIELD_ID);
+        $this->assertSame('mapped_places_gallery', MetaBoxes::GALLERY_FIELD_ID);
     }
 
     /**
@@ -96,7 +96,7 @@ final class MetaBoxesTest extends TestCase {
      * synchronises.
      */
     public function test_le_js_cible_le_champ_par_son_name() {
-        $js = file_get_contents(dirname(__DIR__) . '/assets/js/geofolio-gallery.js');
+        $js = file_get_contents(dirname(__DIR__) . '/assets/js/mapped-places-gallery.js');
 
         $this->assertStringContainsString(
             "input[name=\"" . MetaBoxes::GALLERY_FIELD_ID . "\"]",
@@ -116,7 +116,7 @@ final class MetaBoxesTest extends TestCase {
      * gestionnaire 'open', sinon la mediatheque ne s'ouvre jamais.
      */
     public function test_la_preselection_attend_l_ouverture_de_la_mediatheque() {
-        $js = file_get_contents(dirname(__DIR__) . '/assets/js/geofolio-gallery.js');
+        $js = file_get_contents(dirname(__DIR__) . '/assets/js/mapped-places-gallery.js');
 
         $position_handler = strpos($js, "frame.on('open'");
         $position_open    = strpos($js, 'frame.open();');

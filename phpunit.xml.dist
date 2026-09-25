@@ -6,7 +6,7 @@
          failOnWarning="true"
          failOnNotice="true">
     <testsuites>
-        <testsuite name="geofolio">
+        <testsuite name="mapped-places">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

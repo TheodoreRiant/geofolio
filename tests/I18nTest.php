@@ -42,20 +42,20 @@ final class I18nTest extends TestCase {
         }, $french)));
     }
 
-    public function test_chaque_appel_utilise_le_domaine_geofolio() {
+    public function test_chaque_appel_utilise_le_domaine_mapped_places() {
         foreach (self::calls() as $call) {
-            $this->assertStringContainsString("'geofolio'", $call[2], $call[0] . ': ' . $call[1]);
+            $this->assertStringContainsString("'mapped-places'", $call[2], $call[0] . ': ' . $call[1]);
         }
     }
 
     public function test_la_traduction_francaise_est_livree() {
-        $this->assertFileExists(self::ROOT . '/languages/geofolio.pot');
-        $this->assertFileExists(self::ROOT . '/languages/geofolio-fr_FR.po');
-        $this->assertFileExists(self::ROOT . '/languages/geofolio-fr_FR.mo');
+        $this->assertFileExists(self::ROOT . '/languages/mapped-places.pot');
+        $this->assertFileExists(self::ROOT . '/languages/mapped-places-fr_FR.po');
+        $this->assertFileExists(self::ROOT . '/languages/mapped-places-fr_FR.mo');
     }
 
     public function test_chaque_chaine_source_a_sa_traduction_francaise() {
-        $po = (string) file_get_contents(self::ROOT . '/languages/geofolio-fr_FR.po');
+        $po = (string) file_get_contents(self::ROOT . '/languages/mapped-places-fr_FR.po');
         preg_match_all('/^msgid "(.*)"\nmsgstr "(.*)"$/m', $po, $entries, PREG_SET_ORDER);
         $translated = array();
         foreach ($entries as $entry) {

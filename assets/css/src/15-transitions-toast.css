@@ -3,13 +3,13 @@
    Smooth transitions for dynamic state changes triggered by JS.
    ============================================================ */
 /* Transitions et will-change : déclarés avec la règle de base de chaque
-   composant (.gfo-map-sidebar, .gfo-place-card, .gfo-marker, .gfo-cluster). */
+   composant (.mapl-map-sidebar, .mapl-place-card, .mapl-marker, .mapl-cluster). */
 
 /* ================================================================ */
 /*  TOAST NOTIFICATION                                               */
 /* ================================================================ */
 
-.gfo-toast {
+.mapl-toast {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -26,7 +26,7 @@
     white-space: nowrap;
 }
 
-.gfo-toast-visible {
+.mapl-toast-visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }

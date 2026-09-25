@@ -7,9 +7,9 @@ function formatText(template, args) {
     });
 }
 
-/* Libelle traduit fourni par PHP (geofolioConfig.i18n), formate. */
+/* Libelle traduit fourni par PHP (mappedPlacesConfig.i18n), formate. */
 function t(key) {
-    var i18n = (typeof geofolioConfig !== 'undefined' && geofolioConfig.i18n) || {};
+    var i18n = (typeof mappedPlacesConfig !== 'undefined' && mappedPlacesConfig.i18n) || {};
     return formatText(i18n[key], Array.prototype.slice.call(arguments, 1));
 }
 

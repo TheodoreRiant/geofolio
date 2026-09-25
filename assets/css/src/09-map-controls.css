@@ -1,95 +1,95 @@
 /* ============================================================
-   19. FULLSCREEN BUTTON (.gfo-fullscreen-btn)
+   19. FULLSCREEN BUTTON (.mapl-fullscreen-btn)
    ============================================================ */
-.gfo-fullscreen-btn {
+.mapl-fullscreen-btn {
     position: absolute;
     bottom: 20px;
     right: 10px;
     z-index: 1000;
     width: 36px;
     height: 36px;
-    background: var(--gfo-surface);
-    border: 1px solid var(--gfo-border);
-    border-radius: var(--gfo-radius);
+    background: var(--mapl-surface);
+    border: 1px solid var(--mapl-border);
+    border-radius: var(--mapl-radius);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--gfo-text);
-    transition: background var(--gfo-transition), box-shadow var(--gfo-transition), transform var(--gfo-transition);
-    box-shadow: var(--gfo-shadow-sm);
+    color: var(--mapl-text);
+    transition: background var(--mapl-transition), box-shadow var(--mapl-transition), transform var(--mapl-transition);
+    box-shadow: var(--mapl-shadow-sm);
 }
 
-.gfo-fullscreen-btn:hover {
-    background: var(--gfo-bg);
-    box-shadow: var(--gfo-shadow);
+.mapl-fullscreen-btn:hover {
+    background: var(--mapl-bg);
+    box-shadow: var(--mapl-shadow);
     transform: scale(1.06);
 }
 
-.gfo-fullscreen-btn .icon-exit { display: none; }
-.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-enter { display: none; }
-.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-exit  { display: block; }
+.mapl-fullscreen-btn .icon-exit { display: none; }
+.mapl-map-container.mapl-fullscreen .mapl-fullscreen-btn .icon-enter { display: none; }
+.mapl-map-container.mapl-fullscreen .mapl-fullscreen-btn .icon-exit  { display: block; }
 
 /* ============================================================
    20. SIDEBAR TOGGLE BUTTON (mobile)
    ============================================================ */
-.gfo-sidebar-toggle {
+.mapl-sidebar-toggle {
     display: none;
     position: absolute;
     bottom: 100px;
     right: 10px;
     z-index: 1000;
     padding: 9px 16px;
-    background: var(--gfo-primary);
+    background: var(--mapl-primary);
     color: white;
     border: none;
-    border-radius: var(--gfo-radius-xl);
+    border-radius: var(--mapl-radius-xl);
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
-    box-shadow: var(--gfo-shadow-md);
+    box-shadow: var(--mapl-shadow-md);
     align-items: center;
-    gap: var(--gfo-space-sm);
-    transition: background var(--gfo-transition), transform var(--gfo-transition);
+    gap: var(--mapl-space-sm);
+    transition: background var(--mapl-transition), transform var(--mapl-transition);
     letter-spacing: 0.02em;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
 }
 
-.gfo-sidebar-toggle:hover {
-    background: var(--gfo-primary-dark);
+.mapl-sidebar-toggle:hover {
+    background: var(--mapl-primary-dark);
     transform: translateY(-1px);
 }
 
 /* ============================================================
    21. DRAWER HANDLE (mobile bottom sheet)
    ============================================================ */
-.gfo-drawer-handle {
+.mapl-drawer-handle {
     display: none;
     justify-content: center;
     padding: 12px;
     cursor: pointer;
     flex-shrink: 0;
-    background: var(--gfo-surface);
-    border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+    background: var(--mapl-surface);
+    border-radius: var(--mapl-radius-xl) var(--mapl-radius-xl) 0 0;
 }
 
-.gfo-drawer-handle::before {
+.mapl-drawer-handle::before {
     content: '';
     width: 40px;
     height: 4px;
-    background: var(--gfo-border);
+    background: var(--mapl-border);
     border-radius: 2px;
-    transition: background var(--gfo-transition);
+    transition: background var(--mapl-transition);
 }
 
-.gfo-drawer-handle:hover::before {
-    background: var(--gfo-text-muted);
+.mapl-drawer-handle:hover::before {
+    background: var(--mapl-text-muted);
 }
 
 /* ============================================================
-   22. LOADING OVERLAY (.gfo-map-loading)
+   22. LOADING OVERLAY (.mapl-map-loading)
    ============================================================ */
-.gfo-map-loading {
+.mapl-map-loading {
     position: absolute;
     top: 0;
     left: 0;
@@ -106,46 +106,46 @@
     -webkit-backdrop-filter: blur(4px);
 }
 
-.gfo-map-loading span {
+.mapl-map-loading span {
     font-size: 13px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     font-weight: 500;
 }
 
-.gfo-spinner {
+.mapl-spinner {
     width: 36px;
     height: 36px;
-    border: 3px solid var(--gfo-border-light);
-    border-top-color: var(--gfo-primary);
+    border: 3px solid var(--mapl-border-light);
+    border-top-color: var(--mapl-primary);
     border-radius: 50%;
-    animation: gfo-spin 0.75s linear infinite;
+    animation: mapl-spin 0.75s linear infinite;
 }
 
 /* ============================================================
-   23. USER LOCATION MARKER (.gfo-user-marker)
+   23. USER LOCATION MARKER (.mapl-user-marker)
    ============================================================ */
-.gfo-user-marker-icon {
+.mapl-user-marker-icon {
     background: none;
     border: none;
 }
 
-.gfo-user-marker {
+.mapl-user-marker {
     width: 16px;
     height: 16px;
-    background: var(--gfo-accent);
+    background: var(--mapl-accent);
     border: 3px solid white;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.5);
-    animation: gfo-pulse 2s ease-in-out infinite;
+    animation: mapl-pulse 2s ease-in-out infinite;
 }
 
 /* ============================================================
    25. ADMIN MARKER (used in admin backend)
    ============================================================ */
-.gfo-admin-marker {
+.mapl-admin-marker {
     width: 24px;
     height: 24px;
-    background: var(--gfo-primary);
+    background: var(--mapl-primary);
     border: 3px solid white;
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);

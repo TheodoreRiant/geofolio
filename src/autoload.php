@@ -1,6 +1,6 @@
 <?php
 /**
- * Chargement automatique PSR-4 des classes Geofolio\ depuis src/, sans
+ * Chargement automatique PSR-4 des classes MappedPlaces\ depuis src/, sans
  * Composer (aucune dépendance à installer sur l'hébergement).
  */
 
@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 spl_autoload_register(static function ($class) {
-    $prefix = 'Geofolio\\';
+    $prefix = 'MappedPlaces\\';
     if (strncmp($class, $prefix, strlen($prefix)) !== 0) {
         return;
     }

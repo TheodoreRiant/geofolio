@@ -1,7 +1,7 @@
-# Development / acceptance environment for Geofolio.
+# Development / acceptance environment for Mapped Places.
 #
 # PHP 8.0, WordPress 7.1.2, hello-elementor theme, Elementor 4.3.1. On first
-# start, WordPress is installed with Geofolio and its sample dataset (see
+# start, WordPress is installed with Mapped Places and its sample dataset (see
 # docker/init.sh); a companion can add its own setup in /docker-init.d/.
 #
 # PHP 8.0: only the frozen official image "wordpress:php8.0-apache" exists;
@@ -12,12 +12,12 @@ FROM wordpress:php${PHP_VERSION}-apache
 
 ARG WP_VERSION=7.1.2
 ARG ELEMENTOR_VERSION=4.3.1
-ARG GEOFOLIO_VERSION=dev
+ARG MAPPED_PLACES_VERSION=dev
 
-LABEL org.opencontainers.image.title="Geofolio — WordPress environment" \
-      org.opencontainers.image.description="WordPress ${WP_VERSION} + Geofolio ${GEOFOLIO_VERSION}, with a sample dataset" \
-      org.opencontainers.image.source="https://github.com/TheodoreRiant/geofolio" \
-      org.opencontainers.image.version="${GEOFOLIO_VERSION}" \
+LABEL org.opencontainers.image.title="Mapped Places — WordPress environment" \
+      org.opencontainers.image.description="WordPress ${WP_VERSION} + Mapped Places ${MAPPED_PLACES_VERSION}, with a sample dataset" \
+      org.opencontainers.image.source="https://github.com/TheodoreRiant/mapped-places" \
+      org.opencontainers.image.version="${MAPPED_PLACES_VERSION}" \
       org.opencontainers.image.licenses="GPL-2.0-or-later"
 
 # WordPress core + WP-CLI + hello-elementor theme + Elementor.
@@ -41,12 +41,12 @@ RUN set -eux; \
     chown -R www-data:www-data /usr/src/wordpress
 
 # The plugin as shipped (same scope as the release ZIP).
-COPY --chown=www-data:www-data assets/     /usr/src/wordpress/wp-content/plugins/geofolio/assets/
-COPY --chown=www-data:www-data src/        /usr/src/wordpress/wp-content/plugins/geofolio/src/
-COPY --chown=www-data:www-data views/      /usr/src/wordpress/wp-content/plugins/geofolio/views/
-COPY --chown=www-data:www-data data/       /usr/src/wordpress/wp-content/plugins/geofolio/data/
-COPY --chown=www-data:www-data languages/  /usr/src/wordpress/wp-content/plugins/geofolio/languages/
-COPY --chown=www-data:www-data geofolio.php readme.txt /usr/src/wordpress/wp-content/plugins/geofolio/
+COPY --chown=www-data:www-data assets/     /usr/src/wordpress/wp-content/plugins/mapped-places/assets/
+COPY --chown=www-data:www-data src/        /usr/src/wordpress/wp-content/plugins/mapped-places/src/
+COPY --chown=www-data:www-data views/      /usr/src/wordpress/wp-content/plugins/mapped-places/views/
+COPY --chown=www-data:www-data data/       /usr/src/wordpress/wp-content/plugins/mapped-places/data/
+COPY --chown=www-data:www-data languages/  /usr/src/wordpress/wp-content/plugins/mapped-places/languages/
+COPY --chown=www-data:www-data mapped-places.php readme.txt /usr/src/wordpress/wp-content/plugins/mapped-places/
 
 # Browser cookies are shared by every port of "localhost": those of other
 # local projects quickly exceed Apache's limit (8 KB per header) and the site
@@ -56,10 +56,10 @@ RUN printf 'LimitRequestFieldSize 65536\nLimitRequestLine 65536\n' \
 
 RUN mkdir -p /docker-init.d
 
-COPY docker/entrypoint.sh /usr/local/bin/geofolio-entrypoint.sh
-COPY docker/init.sh /usr/local/bin/geofolio-init.sh
-COPY docker/pages.php /usr/local/bin/geofolio-pages.php
-RUN chmod +x /usr/local/bin/geofolio-entrypoint.sh /usr/local/bin/geofolio-init.sh
+COPY docker/entrypoint.sh /usr/local/bin/mapped-places-entrypoint.sh
+COPY docker/init.sh /usr/local/bin/mapped-places-init.sh
+COPY docker/pages.php /usr/local/bin/mapped-places-pages.php
+RUN chmod +x /usr/local/bin/mapped-places-entrypoint.sh /usr/local/bin/mapped-places-init.sh
 
-ENTRYPOINT ["geofolio-entrypoint.sh"]
+ENTRYPOINT ["mapped-places-entrypoint.sh"]
 CMD ["apache2-foreground"]

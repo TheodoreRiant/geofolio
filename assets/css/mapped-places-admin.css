@@ -1,66 +1,66 @@
 /**
- * Geofolio - Styles Admin
+ * Mapped Places - Styles Admin
  */
 
-.gfo-meta-box {
+.mapl-meta-box {
     padding: 10px 0;
 }
 
-.gfo-meta-box label {
+.mapl-meta-box label {
     display: block;
     margin-bottom: 5px;
 }
 
-.gfo-meta-box input[type="text"],
-.gfo-meta-box input[type="email"],
-.gfo-meta-box input[type="url"],
-.gfo-meta-box input[type="tel"],
-.gfo-meta-box textarea {
+.mapl-meta-box input[type="text"],
+.mapl-meta-box input[type="email"],
+.mapl-meta-box input[type="url"],
+.mapl-meta-box input[type="tel"],
+.mapl-meta-box textarea {
     width: 100%;
 }
 
-.gfo-row {
+.mapl-row {
     display: flex;
     gap: 15px;
 }
 
-.gfo-col {
+.mapl-col {
     flex: 1;
 }
 
-.gfo-col label {
+.mapl-col label {
     display: block;
     margin-bottom: 5px;
 }
 
-.gfo-col input {
+.mapl-col input {
     width: 100%;
 }
 
-#geofolio_geocode_btn {
+#mapped_places_geocode_btn {
     margin-right: 10px;
 }
 
-#geofolio_geocode_status {
+#mapped_places_geocode_status {
     color: #666;
     font-style: italic;
 }
 
-#geofolio_geocode_status.success {
+#mapped_places_geocode_status.success {
     color: #46b450;
 }
 
-#geofolio_geocode_status.error {
+#mapped_places_geocode_status.error {
     color: #dc3232;
 }
 
-#geofolio_admin_map {
+#mapped_places_admin_map {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 /* Marker admin */
-.gfo-admin-marker {
+.mapl-admin-marker {
     background: #0073aa;
     width: 30px;
     height: 30px;
@@ -74,14 +74,14 @@
    Galerie photos (v2.6)
    ============================================================ */
 
-.gfo-gallery-preview {
+.mapl-gallery-preview {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 80px));
     gap: 10px;
     margin-top: 12px;
 }
 
-.gfo-gallery-item {
+.mapl-gallery-item {
     position: relative;
     width: 80px;
     height: 80px;
@@ -92,7 +92,7 @@
     overflow: hidden;
 }
 
-.gfo-gallery-item img {
+.mapl-gallery-item img {
     display: block;
     width: 100%;
     height: 100%;
@@ -100,7 +100,7 @@
     border-radius: 4px;
 }
 
-.gfo-gallery-remove {
+.mapl-gallery-remove {
     position: absolute;
     top: 4px;
     right: 4px;
@@ -118,25 +118,25 @@
     cursor: pointer;
 }
 
-.gfo-gallery-remove:hover,
-.gfo-gallery-remove:focus {
+.mapl-gallery-remove:hover,
+.mapl-gallery-remove:focus {
     background: #d63638;
     color: #fff;
 }
 
-.gfo-gallery-item.ui-sortable-helper {
+.mapl-gallery-item.ui-sortable-helper {
     opacity: 0.85;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* Message d'erreur de la galerie (médiathèque indisponible, données illisibles) */
-.gfo-gallery-error {
+.mapl-gallery-error {
     margin: 0 0 12px;
     padding: 8px 12px;
 }
 
 /* Repli quand Leaflet n'a pas pu être chargé depuis le CDN */
-.gfo-admin-map-unavailable {
+.mapl-admin-map-unavailable {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -149,13 +149,13 @@
 }
 
 /* Choix de l'icône d'un type de lieu */
-.gfo-icon-picker {
+.mapl-icon-picker {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     max-width: 640px;
 }
-.gfo-icon-choice {
+.mapl-icon-choice {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -165,10 +165,10 @@
     background: #fff;
     cursor: pointer;
 }
-.gfo-icon-choice input {
+.mapl-icon-choice input {
     margin: 0;
 }
-.gfo-icon-choice:has(input:checked) {
+.mapl-icon-choice:has(input:checked) {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
 }
@@ -177,13 +177,13 @@
    Écran d'édition d'un lieu : formulaire en sections
    ============================================================ */
 
-.gfo-place-form {
+.mapl-place-form {
     display: grid;
     gap: 16px;
     margin-top: 16px;
 }
 
-.gfo-section {
+.mapl-section {
     padding: 16px 20px 20px;
     border: 1px solid #c3c4c7;
     border-radius: 4px;
@@ -191,7 +191,7 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-.gfo-section > h2 {
+.mapl-section > h2 {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -203,31 +203,31 @@
     line-height: 1.4;
 }
 
-.gfo-section > h2 .dashicons {
+.mapl-section > h2 .dashicons {
     color: #2271b1;
 }
 
-.gfo-section .gfo-meta-box {
+.mapl-section .mapl-meta-box {
     padding: 0;
 }
 
-.gfo-section .gfo-meta-box > p {
+.mapl-section .mapl-meta-box > p {
     margin: 0 0 12px;
 }
 
-.gfo-section label strong {
+.mapl-section label strong {
     font-weight: 600;
 }
 
 /* Localisation : champs à gauche, carte à droite, sur toute la hauteur */
-.gfo-section--location .gfo-meta-box {
+.mapl-section--location .mapl-meta-box {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
     column-gap: 24px;
     align-items: start;
 }
 
-.gfo-section--location #geofolio_admin_map {
+.mapl-section--location #mapped_places_admin_map {
     grid-column: 2;
     grid-row: 1 / span 5;
     height: 100% !important;
@@ -235,21 +235,21 @@
     margin-top: 0 !important;
 }
 
-.gfo-section--location .gfo-meta-box > .description {
+.mapl-section--location .mapl-meta-box > .description {
     grid-column: 1 / -1;
     margin-bottom: 0;
 }
 
-.gfo-section--description textarea {
+.mapl-section--description textarea {
     font-size: 14px;
     line-height: 1.5;
 }
 
 @media (max-width: 1100px) {
-    .gfo-section--location .gfo-meta-box {
+    .mapl-section--location .mapl-meta-box {
         grid-template-columns: 1fr;
     }
-    .gfo-section--location #geofolio_admin_map {
+    .mapl-section--location #mapped_places_admin_map {
         grid-column: 1;
         grid-row: auto;
         min-height: 280px;
@@ -257,54 +257,54 @@
 }
 
 /* Le titre devient le nom du lieu */
-.gfo-place-screen #titlediv #title {
+.mapl-place-screen #titlediv #title {
     font-size: 1.6em;
 }
 
 /* Personnes du lieu : lignes rôle + nom */
-.gfo-people-header,
-.gfo-person-row {
+.mapl-people-header,
+.mapl-person-row {
     display: grid;
     grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.4fr) 32px;
     gap: 8px;
     align-items: center;
 }
 
-.gfo-people-header {
+.mapl-people-header {
     margin-bottom: 4px;
     font-size: 12px;
     font-weight: 600;
     color: #646970;
 }
 
-.gfo-person-row {
+.mapl-person-row {
     margin-bottom: 8px;
 }
 
-.gfo-person-row input {
+.mapl-person-row input {
     width: 100%;
 }
 
-.gfo-person-handle {
+.mapl-person-handle {
     color: #a7aaad;
     cursor: move;
 }
 
-.gfo-person-remove {
+.mapl-person-remove {
     color: #a7aaad;
     text-decoration: none;
 }
 
-.gfo-person-remove:hover,
-.gfo-person-remove:focus {
+.mapl-person-remove:hover,
+.mapl-person-remove:focus {
     color: #d63638;
 }
 
-.gfo-person-row.ui-sortable-helper {
+.mapl-person-row.ui-sortable-helper {
     background: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-#geofolio_people_add .dashicons {
+#mapped_places_people_add .dashicons {
     vertical-align: text-bottom;
 }

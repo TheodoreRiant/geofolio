@@ -8,7 +8,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Rest\PlaceMapper;
+use MappedPlaces\Rest\PlaceMapper;
 
 final class PlainTextTest extends TestCase {
 

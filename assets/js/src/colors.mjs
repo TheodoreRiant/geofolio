@@ -3,9 +3,9 @@
    fallback when the value is not a recognized hex / rgb format. */
 var COLOR_RE = /^(#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})|rgba?\([^)]*\))$/;
 
-/* Couleur de repli des marqueurs, fournie par PHP (Geofolio\\Map\\Defaults). */
-var DEFAULT_COLOR = (typeof geofolioConfig !== 'undefined' && COLOR_RE.test(geofolioConfig.defaultColor || ''))
-    ? geofolioConfig.defaultColor
+/* Couleur de repli des marqueurs, fournie par PHP (MappedPlaces\\Map\\Defaults). */
+var DEFAULT_COLOR = (typeof mappedPlacesConfig !== 'undefined' && COLOR_RE.test(mappedPlacesConfig.defaultColor || ''))
+    ? mappedPlacesConfig.defaultColor
     : 'currentColor';
 
 function sanitizeColor(value, fallback) {

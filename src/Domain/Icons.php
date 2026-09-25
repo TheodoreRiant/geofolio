@@ -4,13 +4,13 @@
  * l'icône et du libellé d'un type.
  *
  * Icône d'un type : meta de terme _type_icon si elle désigne une icône
- * connue, sinon le filtre geofolio_type_icon (un préréglage y fournit un
+ * connue, sinon le filtre mapped_places_type_icon (un préréglage y fournit un
  * mapping sans toucher aux termes), sinon l'épingle.
  *
  * Tracés : contenu d'un <svg viewBox="0 0 24 24"> à traits (stroke).
  */
 
-namespace Geofolio\Domain;
+namespace MappedPlaces\Domain;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -74,7 +74,7 @@ class Icons {
      * @return array<string, string>
      */
     public static function all() {
-        $icons = apply_filters('geofolio_icons', self::LIBRARY);
+        $icons = apply_filters('mapped_places_icons', self::LIBRARY);
         $valid = array();
         foreach ((array) $icons as $key => $path) {
             if (!is_string($key) || !preg_match(self::KEY_PATTERN, $key) || !is_string($path)) {
@@ -121,7 +121,7 @@ class Icons {
         if (self::is_valid($meta)) {
             return $meta;
         }
-        $filtered = apply_filters('geofolio_type_icon', self::FALLBACK, $term->slug, self::plain($term->name));
+        $filtered = apply_filters('mapped_places_type_icon', self::FALLBACK, $term->slug, self::plain($term->name));
         return self::is_valid($filtered) ? $filtered : self::FALLBACK;
     }
 
@@ -132,7 +132,7 @@ class Icons {
      * @return string
      */
     public static function term_label($term) {
-        $label = apply_filters('geofolio_type_label', self::plain($term->name), $term);
+        $label = apply_filters('mapped_places_type_label', self::plain($term->name), $term);
         return is_string($label) && $label !== '' ? $label : self::plain($term->name);
     }
 
@@ -165,7 +165,7 @@ class Icons {
             return array();
         }
         $catalog  = array_map(array(__CLASS__, 'describe_term'), $terms);
-        $filtered = apply_filters('geofolio_type_catalog', $catalog);
+        $filtered = apply_filters('mapped_places_type_catalog', $catalog);
         return is_array($filtered) ? array_values($filtered) : $catalog;
     }
 

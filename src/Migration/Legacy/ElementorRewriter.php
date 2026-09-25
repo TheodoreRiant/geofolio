@@ -3,10 +3,10 @@
  * Renommer les widgets Elementor d'un ancien plugin dans _elementor_data, en
  * passant par la structure décodée (jamais par remplacement de texte).
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration\Legacy;
+namespace MappedPlaces\Migration\Legacy;
 
 if (!defined('ABSPATH')) {
     exit;

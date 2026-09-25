@@ -4,9 +4,9 @@
  * le retrouver, fusionner des alias, semer une couleur.
  */
 
-namespace Geofolio\Migration;
+namespace MappedPlaces\Migration;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;

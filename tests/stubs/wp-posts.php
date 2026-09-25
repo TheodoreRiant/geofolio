@@ -3,7 +3,7 @@
  * Substituts WordPress en mémoire pour les tests de duplication :
  * articles, metas, termes, droits et nonces.
  *
- * Chaque test repart d'un état vide via gfo_test_reset_posts().
+ * Chaque test repart d'un état vide via mapl_test_reset_posts().
  */
 
 class WP_Post {
@@ -54,13 +54,13 @@ class WP_Error {
  *
  * @param string[] $caps Droits de l'utilisateur courant.
  */
-function gfo_test_reset_posts(array $caps = array('edit_post', 'edit_posts')) {
-    $GLOBALS['gfo_test_posts']   = array();
-    $GLOBALS['gfo_test_meta']    = array();
-    $GLOBALS['gfo_test_terms']   = array();
-    $GLOBALS['gfo_test_caps']    = $caps;
-    $GLOBALS['gfo_test_next_id'] = 100;
-    $GLOBALS['gfo_test_insert_error'] = null;
+function mapl_test_reset_posts(array $caps = array('edit_post', 'edit_posts')) {
+    $GLOBALS['mapl_test_posts']   = array();
+    $GLOBALS['mapl_test_meta']    = array();
+    $GLOBALS['mapl_test_terms']   = array();
+    $GLOBALS['mapl_test_caps']    = $caps;
+    $GLOBALS['mapl_test_next_id'] = 100;
+    $GLOBALS['mapl_test_insert_error'] = null;
 }
 
 /**
@@ -68,16 +68,16 @@ function gfo_test_reset_posts(array $caps = array('edit_post', 'edit_posts')) {
  *
  * @return WP_Post
  */
-function gfo_test_add_post(array $fields, array $meta = array(), array $terms = array()) {
-    $id   = $GLOBALS['gfo_test_next_id']++;
+function mapl_test_add_post(array $fields, array $meta = array(), array $terms = array()) {
+    $id   = $GLOBALS['mapl_test_next_id']++;
     $post = new WP_Post(array_merge(array('ID' => $id), $fields));
 
-    $GLOBALS['gfo_test_posts'][$id] = $post;
-    $GLOBALS['gfo_test_meta'][$id]  = array();
+    $GLOBALS['mapl_test_posts'][$id] = $post;
+    $GLOBALS['mapl_test_meta'][$id]  = array();
     foreach ($meta as $key => $value) {
-        $GLOBALS['gfo_test_meta'][$id][$key] = array($value);
+        $GLOBALS['mapl_test_meta'][$id][$key] = array($value);
     }
-    $GLOBALS['gfo_test_terms'][$id] = $terms;
+    $GLOBALS['mapl_test_terms'][$id] = $terms;
 
     return $post;
 }
@@ -88,19 +88,19 @@ function get_post_type($post = null) {
 }
 
 function get_post($post_id) {
-    return $GLOBALS['gfo_test_posts'][(int) $post_id] ?? null;
+    return $GLOBALS['mapl_test_posts'][(int) $post_id] ?? null;
 }
 
 function wp_insert_post($postarr, $wp_error = false) {
-    if ($GLOBALS['gfo_test_insert_error']) {
-        return $GLOBALS['gfo_test_insert_error'];
+    if ($GLOBALS['mapl_test_insert_error']) {
+        return $GLOBALS['mapl_test_insert_error'];
     }
     // Comme WordPress, wp_insert_post() retire une couche d'échappement.
-    return gfo_test_add_post(wp_unslash($postarr))->ID;
+    return mapl_test_add_post(wp_unslash($postarr))->ID;
 }
 
 function get_post_meta($post_id, $key = '', $single = false) {
-    $meta = $GLOBALS['gfo_test_meta'][(int) $post_id] ?? array();
+    $meta = $GLOBALS['mapl_test_meta'][(int) $post_id] ?? array();
     if ($key === '') {
         // WordPress renvoie les valeurs brutes (sérialisées) de la base.
         return array_map(static function ($values) {
@@ -117,25 +117,25 @@ function get_post_meta($post_id, $key = '', $single = false) {
 
 function add_post_meta($post_id, $key, $value, $unique = false) {
     // Comme WordPress, add_metadata() retire une couche d'échappement.
-    $GLOBALS['gfo_test_meta'][(int) $post_id][$key][] = wp_unslash($value);
+    $GLOBALS['mapl_test_meta'][(int) $post_id][$key][] = wp_unslash($value);
     return true;
 }
 
 function get_object_taxonomies($object) {
-    return array(\Geofolio\Domain\Schema::TAX_ENTITY, \Geofolio\Domain\Schema::TAX_TYPE, \Geofolio\Domain\Schema::TAX_REGION);
+    return array(\MappedPlaces\Domain\Schema::TAX_ENTITY, \MappedPlaces\Domain\Schema::TAX_TYPE, \MappedPlaces\Domain\Schema::TAX_REGION);
 }
 
 function wp_get_object_terms($post_id, $taxonomy, $args = array()) {
-    return $GLOBALS['gfo_test_terms'][(int) $post_id][$taxonomy] ?? array();
+    return $GLOBALS['mapl_test_terms'][(int) $post_id][$taxonomy] ?? array();
 }
 
 function wp_set_object_terms($post_id, $terms, $taxonomy) {
-    $GLOBALS['gfo_test_terms'][(int) $post_id][$taxonomy] = $terms;
+    $GLOBALS['mapl_test_terms'][(int) $post_id][$taxonomy] = $terms;
     return $terms;
 }
 
 function current_user_can($capability, ...$args) {
-    return in_array($capability, $GLOBALS['gfo_test_caps'], true);
+    return in_array($capability, $GLOBALS['mapl_test_caps'], true);
 }
 
 function get_current_user_id() {
@@ -191,4 +191,4 @@ function esc_attr($text) {
     return htmlspecialchars((string) $text, ENT_QUOTES);
 }
 
-gfo_test_reset_posts();
+mapl_test_reset_posts();

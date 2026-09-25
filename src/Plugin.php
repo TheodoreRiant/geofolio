@@ -3,28 +3,28 @@
  * Classe principale : charge les composants et les assets de la carte.
  */
 
-namespace Geofolio;
+namespace MappedPlaces;
 
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\Duplicate;
-use Geofolio\Admin\LabelsSettings;
-use Geofolio\Blocks\MapBlock;
-use Geofolio\Admin\MetaBoxes;
-use Geofolio\Admin\PlaceEditScreen;
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\Schema;
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Domain\PlacePostType;
-use Geofolio\Domain\Taxonomies;
-use Geofolio\Elementor\Integration;
-use Geofolio\Import\Importer;
-use Geofolio\Map\Defaults;
-use Geofolio\Map\Shortcode;
-use Geofolio\Migration\Legacy\ImportScreen;
-use Geofolio\Migration\Legacy\ImportStep;
-use Geofolio\Migration\Runner;
-use Geofolio\Rest\ResponseCache;
-use Geofolio\Rest\PlacesController;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\Duplicate;
+use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Blocks\MapBlock;
+use MappedPlaces\Admin\MetaBoxes;
+use MappedPlaces\Admin\PlaceEditScreen;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Domain\PlacePostType;
+use MappedPlaces\Domain\Taxonomies;
+use MappedPlaces\Elementor\Integration;
+use MappedPlaces\Import\Importer;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Map\Shortcode;
+use MappedPlaces\Migration\Legacy\ImportScreen;
+use MappedPlaces\Migration\Legacy\ImportStep;
+use MappedPlaces\Migration\Runner;
+use MappedPlaces\Rest\ResponseCache;
+use MappedPlaces\Rest\PlacesController;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -62,11 +62,12 @@ final class Plugin {
      */
     private function init_hooks() {
         // Activation/Désactivation
-        register_activation_hook(GEOFOLIO_PLUGIN_FILE, array($this, 'activate'));
-        register_deactivation_hook(GEOFOLIO_PLUGIN_FILE, array($this, 'deactivate'));
+        register_activation_hook(MAPPED_PLACES_PLUGIN_FILE, array($this, 'activate'));
+        register_deactivation_hook(MAPPED_PLACES_PLUGIN_FILE, array($this, 'deactivate'));
 
-        // Initialisation
-        add_action('init', array($this, 'load_textdomain'));
+        // Initialisation. Les traductions sont chargées par WordPress lui-même
+        // (paquets de langue de translate.wordpress.org, ou un .mo déposé dans
+        // wp-content/languages/plugins/) : le plugin ne charge rien lui-même.
         add_action('init', array(__CLASS__, 'maybe_flush_rewrite_rules'), 99);
         add_action('init', array($this, 'register_place_meta'), 12);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
@@ -82,11 +83,11 @@ final class Plugin {
         PlacesController::get_instance();
         ResponseCache::register();
         // Import depuis un ancien plugin de carte décrit par un compagnon.
-        add_filter('geofolio_migration_steps', array(ImportStep::class, 'register'), 1);
+        add_filter('mapped_places_migration_steps', array(ImportStep::class, 'register'), 1);
         if (is_admin()) {
             ImportScreen::register();
         }
-        add_action('geofolio_assets_enqueued', array(AppearanceSettings::class, 'add_inline_style'));
+        add_action('mapped_places_assets_enqueued', array(AppearanceSettings::class, 'add_inline_style'));
         add_action('update_option_' . LabelsSettings::OPTION_NAME, array(LabelsSettings::class, 'on_update'), 10, 2);
         add_action('add_option_' . LabelsSettings::OPTION_NAME, static function ($option, $value) {
             LabelsSettings::on_update(array(), $value);
@@ -165,18 +166,6 @@ final class Plugin {
     }
 
     /**
-     * Charger les traductions
-     */
-    public function load_textdomain() {
-        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- charge languages/ du plugin tant que le paquet de langue wordpress.org n'existe pas (installation depuis GitHub).
-        load_plugin_textdomain(
-            'geofolio',
-            false,
-            dirname(GEOFOLIO_PLUGIN_BASENAME) . '/languages'
-        );
-    }
-
-    /**
      * Feuilles de style embarquées (assets/vendor/, voir VERSIONS.md) :
      * handle => [chemin relatif au plugin, dépendances, version].
      */
@@ -201,32 +190,32 @@ final class Plugin {
     );
 
     /** Feuilles de style à charger sur une page avec carte. */
-    const MAP_STYLE_HANDLES = array('leaflet', 'leaflet-markercluster', 'leaflet-markercluster-default', 'maplibre-gl', 'geofolio');
+    const MAP_STYLE_HANDLES = array('leaflet', 'leaflet-markercluster', 'leaflet-markercluster-default', 'maplibre-gl', 'mapped-places');
 
     /** Option signalant des règles de réécriture à régénérer. */
-    const FLUSH_OPTION = 'geofolio_flush_rewrite_rules';
+    const FLUSH_OPTION = 'mapped_places_flush_rewrite_rules';
 
     /** Scripts à charger sur une page avec carte. */
-    const MAP_SCRIPT_HANDLES = array('geofolio');
+    const MAP_SCRIPT_HANDLES = array('mapped-places');
 
     /**
      * Shortcodes qui affichent la carte (un compagnon peut y ajouter un
-     * ancien nom, par le filtre geofolio_shortcode_tags).
+     * ancien nom, par le filtre mapped_places_shortcode_tags).
      *
      * @return string[]
      */
     public static function shortcode_tags() {
-        return array_values(array_filter((array) apply_filters('geofolio_shortcode_tags', array(Shortcode::TAG)), 'is_string'));
+        return array_values(array_filter((array) apply_filters('mapped_places_shortcode_tags', array(Shortcode::TAG)), 'is_string'));
     }
 
     /**
      * Noms des widgets Elementor qui affichent la carte (filtre
-     * geofolio_elementor_widget_names).
+     * mapped_places_elementor_widget_names).
      *
      * @return string[]
      */
     public static function elementor_widget_names() {
-        return array_values(array_filter((array) apply_filters('geofolio_elementor_widget_names', array(Integration::WIDGET_NAME)), 'is_string'));
+        return array_values(array_filter((array) apply_filters('mapped_places_elementor_widget_names', array(Integration::WIDGET_NAME)), 'is_string'));
     }
 
     /**
@@ -240,7 +229,7 @@ final class Plugin {
         foreach ($assets as $handle => $asset) {
             list($path, $deps, $version) = $asset;
             call_user_func_array($register, array_merge(
-                array($handle, GEOFOLIO_PLUGIN_URL . $path, $deps, $version),
+                array($handle, MAPPED_PLACES_PLUGIN_URL . $path, $deps, $version),
                 $extra
             ));
         }
@@ -266,24 +255,24 @@ final class Plugin {
      * (sans les charger). Aussi appelé pour l'aperçu du bloc dans l'éditeur.
      */
     public static function register_map_assets() {
-        if (wp_script_is('geofolio', 'registered')) {
+        if (wp_script_is('mapped-places', 'registered')) {
             return;
         }
         self::register_vendor_assets(self::VENDOR_STYLES, 'wp_register_style');
         self::register_vendor_assets(self::VENDOR_SCRIPTS, 'wp_register_script', array(true));
 
         wp_register_style(
-            'geofolio',
-            GEOFOLIO_PLUGIN_URL . 'assets/css/geofolio.css',
+            'mapped-places',
+            MAPPED_PLACES_PLUGIN_URL . 'assets/css/mapped-places.css',
             array('leaflet', 'leaflet-markercluster'),
-            GEOFOLIO_VERSION
+            MAPPED_PLACES_VERSION
         );
 
         wp_register_script(
-            'geofolio',
-            GEOFOLIO_PLUGIN_URL . 'assets/js/geofolio.js',
+            'mapped-places',
+            MAPPED_PLACES_PLUGIN_URL . 'assets/js/mapped-places.js',
             array('jquery', 'leaflet', 'leaflet-markercluster', 'maplibre-gl', 'maplibre-gl-leaflet'),
-            GEOFOLIO_VERSION,
+            MAPPED_PLACES_VERSION,
             true
         );
     }
@@ -344,7 +333,7 @@ final class Plugin {
      */
     public static function enqueue_map_assets() {
         static $done = false;
-        if ($done || !wp_script_is('geofolio', 'registered')) {
+        if ($done || !wp_script_is('mapped-places', 'registered')) {
             return;
         }
         $done = true;
@@ -353,45 +342,45 @@ final class Plugin {
         array_map('wp_enqueue_script', self::MAP_SCRIPT_HANDLES);
 
         // Point d'accroche des surcouches (charte d'un préréglage…).
-        do_action('geofolio_assets_enqueued');
+        do_action('mapped_places_assets_enqueued');
 
         // Variables JS
-        wp_localize_script('geofolio', 'geofolioConfig', array(
-            'restUrl' => rest_url('geofolio/v1/'),
-            'pluginUrl' => GEOFOLIO_PLUGIN_URL,
+        wp_localize_script('mapped-places', 'mappedPlacesConfig', array(
+            'restUrl' => rest_url('mapped-places/v1/'),
+            'pluginUrl' => MAPPED_PLACES_PLUGIN_URL,
             'tiles' => SettingsPage::js_tiles_config(),
             'defaultColor' => Defaults::color(),
             'elementorWidgets' => self::elementor_widget_names(),
             'i18n' => array(
-                'noResults'         => __('No place found', 'geofolio'),
-                'filterAll'         => __('All types', 'geofolio'),
-                'manager'           => __('Manager: ', 'geofolio'),
+                'noResults'         => __('No place found', 'mapped-places'),
+                'filterAll'         => __('All types', 'mapped-places'),
+                'manager'           => __('Manager: ', 'mapped-places'),
                 /* translators: between a person's role and their name in the popup */
-                'roleSeparator'     => _x(': ', 'role separator', 'geofolio'),
-                'managers'          => __('Managers: ', 'geofolio'),
-                'entityHint'        => __('Click an entity to show only that one.', 'geofolio'),
-                'entityReset'       => __('Show all', 'geofolio'),
-                'geolocError'       => __('Unable to find your location', 'geofolio'),
-                'geolocUnavailable' => __('Geolocation is not available', 'geofolio'),
-                'loadError'         => __('The places could not be loaded. Please reload the page.', 'geofolio'),
-                'enterFullscreen'   => __('Full screen', 'geofolio'),
-                'exitFullscreen'    => __('Exit full screen', 'geofolio'),
-                'filters'           => __('Filters', 'geofolio'),
-                'openFilters'       => __('Open filters', 'geofolio'),
-                'close'             => _x('Close', 'close the filters drawer', 'geofolio'),
-                'closeFilters'      => __('Close filters', 'geofolio'),
+                'roleSeparator'     => _x(': ', 'role separator', 'mapped-places'),
+                'managers'          => __('Managers: ', 'mapped-places'),
+                'entityHint'        => __('Click an entity to show only that one.', 'mapped-places'),
+                'entityReset'       => __('Show all', 'mapped-places'),
+                'geolocError'       => __('Unable to find your location', 'mapped-places'),
+                'geolocUnavailable' => __('Geolocation is not available', 'mapped-places'),
+                'loadError'         => __('The places could not be loaded. Please reload the page.', 'mapped-places'),
+                'enterFullscreen'   => __('Full screen', 'mapped-places'),
+                'exitFullscreen'    => __('Exit full screen', 'mapped-places'),
+                'filters'           => __('Filters', 'mapped-places'),
+                'openFilters'       => __('Open filters', 'mapped-places'),
+                'close'             => _x('Close', 'close the filters drawer', 'mapped-places'),
+                'closeFilters'      => __('Close filters', 'mapped-places'),
                 /* translators: %d: number of places in a map cluster */
-                'clusterLabel'      => __('%d places', 'geofolio'),
-                'photoPlaceholder'  => __('Photo coming soon', 'geofolio'),
-                'audience'          => __('Audience:', 'geofolio'),
+                'clusterLabel'      => __('%d places', 'mapped-places'),
+                'photoPlaceholder'  => __('Photo coming soon', 'mapped-places'),
+                'audience'          => __('Audience:', 'mapped-places'),
                 /* translators: 1: photo position, 2: number of photos */
-                'slideOf'           => __('%1$d of %2$d', 'geofolio'),
+                'slideOf'           => __('%1$d of %2$d', 'mapped-places'),
                 /* translators: %d: photo position */
-                'goToSlide'         => __('Go to photo %d', 'geofolio'),
-                'gallery'           => __('Photo gallery', 'geofolio'),
-                'carousel'          => _x('carousel', 'ARIA role description', 'geofolio'),
-                'previousPhoto'     => __('Previous photo', 'geofolio'),
-                'nextPhoto'         => __('Next photo', 'geofolio'),
+                'goToSlide'         => __('Go to photo %d', 'mapped-places'),
+                'gallery'           => __('Photo gallery', 'mapped-places'),
+                'carousel'          => _x('carousel', 'ARIA role description', 'mapped-places'),
+                'previousPhoto'     => __('Previous photo', 'mapped-places'),
+                'nextPhoto'         => __('Next photo', 'mapped-places'),
             ),
         ));
     }
@@ -409,8 +398,8 @@ final class Plugin {
         // Leaflet pour l'admin (sélection coordonnées), embarqué comme en front.
         list($css_path, $css_deps, $css_version) = self::VENDOR_STYLES['leaflet'];
         list($js_path, $js_deps, $js_version)    = self::VENDOR_SCRIPTS['leaflet'];
-        wp_enqueue_style('leaflet', GEOFOLIO_PLUGIN_URL . $css_path, $css_deps, $css_version);
-        wp_enqueue_script('leaflet', GEOFOLIO_PLUGIN_URL . $js_path, $js_deps, $js_version, true);
+        wp_enqueue_style('leaflet', MAPPED_PLACES_PLUGIN_URL . $css_path, $css_deps, $css_version);
+        wp_enqueue_script('leaflet', MAPPED_PLACES_PLUGIN_URL . $js_path, $js_deps, $js_version, true);
 
         // Médiathèque WordPress (meta box Galerie photos). wp_enqueue_media()
         // est idempotent : l'appeler ici en plus de la classe CPT est sans
@@ -418,41 +407,41 @@ final class Plugin {
         wp_enqueue_media();
 
         // Admin CSS/JS
-        wp_enqueue_style('geofolio-admin', GEOFOLIO_PLUGIN_URL . 'assets/css/geofolio-admin.css', array(), GEOFOLIO_VERSION);
-        wp_enqueue_script('geofolio-admin', GEOFOLIO_PLUGIN_URL . 'assets/js/geofolio-admin.js', array('jquery', 'jquery-ui-sortable', 'leaflet'), GEOFOLIO_VERSION, true);
+        wp_enqueue_style('mapped-places-admin', MAPPED_PLACES_PLUGIN_URL . 'assets/css/mapped-places-admin.css', array(), MAPPED_PLACES_VERSION);
+        wp_enqueue_script('mapped-places-admin', MAPPED_PLACES_PLUGIN_URL . 'assets/js/mapped-places-admin.js', array('jquery', 'jquery-ui-sortable', 'leaflet'), MAPPED_PLACES_VERSION, true);
 
         $defaults = Defaults::all();
-        wp_localize_script('geofolio-admin', 'geofolioAdmin', array(
+        wp_localize_script('mapped-places-admin', 'mappedPlacesAdmin', array(
             'apiGouv' => Importer::DEFAULT_GEOCODER_URL,
             'center'  => array((float) $defaults['center_lat'], (float) $defaults['center_lng']),
             'i18n'    => array(
-                'mapUnavailable'  => __('The location map could not be loaded. Coordinates can still be entered by hand.', 'geofolio'),
-                'enterAddress'    => __('Please enter an address', 'geofolio'),
-                'searching'       => __('Searching...', 'geofolio'),
+                'mapUnavailable'  => __('The location map could not be loaded. Coordinates can still be entered by hand.', 'mapped-places'),
+                'enterAddress'    => __('Please enter an address', 'mapped-places'),
+                'searching'       => __('Searching...', 'mapped-places'),
                 /* translators: %s: address found by the geocoder */
-                'addressFound'    => __('Address found: %s', 'geofolio'),
-                'addressNotFound' => __('Address not found', 'geofolio'),
-                'searchError'     => __('Error during the search', 'geofolio'),
+                'addressFound'    => __('Address found: %s', 'mapped-places'),
+                'addressNotFound' => __('Address not found', 'mapped-places'),
+                'searchError'     => __('Error during the search', 'mapped-places'),
             ),
         ));
 
         // Galerie photos : script SEPARE, sans dependance a Leaflet. Une
         // erreur de la carte ne doit pas desactiver l'ajout de photos.
         wp_enqueue_script(
-            'geofolio-gallery',
-            GEOFOLIO_PLUGIN_URL . 'assets/js/geofolio-gallery.js',
+            'mapped-places-gallery',
+            MAPPED_PLACES_PLUGIN_URL . 'assets/js/mapped-places-gallery.js',
             array('jquery', 'jquery-ui-sortable'),
-            GEOFOLIO_VERSION,
+            MAPPED_PLACES_VERSION,
             true
         );
 
-        wp_localize_script('geofolio-gallery', 'geofolioGallery', array(
+        wp_localize_script('mapped-places-gallery', 'mappedPlacesGallery', array(
             'i18n' => array(
-                'frameTitle'   => __('Photo gallery', 'geofolio'),
-                'frameButton'  => __('Use these photos', 'geofolio'),
-                'removeItem'   => __('Remove this photo', 'geofolio'),
-                'mediaMissing' => __('The WordPress media library could not be loaded on this page. Reload the page; if the problem persists, temporarily deactivate other plugins to find the conflict.', 'geofolio'),
-                'parseError'   => __('The saved photo list was unreadable and has been reset. Select your photos again before saving.', 'geofolio'),
+                'frameTitle'   => __('Photo gallery', 'mapped-places'),
+                'frameButton'  => __('Use these photos', 'mapped-places'),
+                'removeItem'   => __('Remove this photo', 'mapped-places'),
+                'mediaMissing' => __('The WordPress media library could not be loaded on this page. Reload the page; if the problem persists, temporarily deactivate other plugins to find the conflict.', 'mapped-places'),
+                'parseError'   => __('The saved photo list was unreadable and has been reset. Select your photos again before saving.', 'mapped-places'),
             ),
         ));
     }

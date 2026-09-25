@@ -1,10 +1,10 @@
 /* ============================================================
-   TITLES — --gfo-font-title, bold.
+   TITLES — --mapl-font-title, bold.
    ============================================================ */
-.gfo-sidebar-title,
-.gfo-place-name,
-.gfo-popup-title {
-    font-family: var(--gfo-font-title);
+.mapl-sidebar-title,
+.mapl-place-name,
+.mapl-popup-title {
+    font-family: var(--mapl-font-title);
     font-weight: 700;
 }
 

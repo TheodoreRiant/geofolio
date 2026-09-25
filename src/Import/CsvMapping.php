@@ -5,12 +5,12 @@
  * Les noms de colonnes sont comparés sous leur forme normalisée
  * (Text::normalize : sans accent ni majuscule). Le cœur reconnaît
  * des noms génériques en anglais et en français ; un préréglage ajoute ceux
- * de son propre fichier par le filtre geofolio_import_columns.
+ * de son propre fichier par le filtre mapped_places_import_columns.
  */
 
-namespace Geofolio\Import;
+namespace MappedPlaces\Import;
 
-use Geofolio\Support\Text;
+use MappedPlaces\Support\Text;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -102,7 +102,7 @@ class CsvMapping {
      * @return array<string, string>
      */
     public static function columns() {
-        $columns = apply_filters('geofolio_import_columns', self::COLUMNS);
+        $columns = apply_filters('mapped_places_import_columns', self::COLUMNS);
         $valid   = array();
         foreach ((array) $columns as $column => $field) {
             if (is_string($column) && in_array($field, self::FIELDS, true)) {

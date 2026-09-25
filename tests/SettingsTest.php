@@ -4,13 +4,13 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Map\TileProviders;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Map\TileProviders;
 
 final class SettingsTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
+        mapl_test_reset();
     }
 
     /**
@@ -19,7 +19,7 @@ final class SettingsTest extends TestCase {
      * @param array $settings Réglages partiels.
      */
     private function store(array $settings) {
-        gfo_test_reset(array(SettingsPage::OPTION_NAME => $settings));
+        mapl_test_reset(array(SettingsPage::OPTION_NAME => $settings));
     }
 
     /**
@@ -47,7 +47,7 @@ final class SettingsTest extends TestCase {
 
     public function test_une_option_corrompue_retombe_sur_les_defauts() {
         $this->store(array());
-        gfo_test_reset(array(SettingsPage::OPTION_NAME => 'chaine-inattendue'));
+        mapl_test_reset(array(SettingsPage::OPTION_NAME => 'chaine-inattendue'));
 
         $this->assertSame(SettingsPage::defaults(), SettingsPage::get_all());
     }
@@ -165,21 +165,21 @@ final class SettingsTest extends TestCase {
         $clean = $this->sanitize('nimporte quoi');
 
         $this->assertSame(SettingsPage::defaults(), $clean);
-        $this->assertContains('geofolio_bad_payload', gfo_test_error_codes());
+        $this->assertContains('mapped_places_bad_payload', mapl_test_error_codes());
     }
 
     public function test_un_fond_inconnu_est_rejete_avec_message() {
         $clean = $this->sanitize(array('tile_style' => 'fond-bidon'));
 
         $this->assertSame('', $clean['tile_style']);
-        $this->assertContains('geofolio_bad_style', gfo_test_error_codes());
+        $this->assertContains('mapped_places_bad_style', mapl_test_error_codes());
     }
 
     public function test_un_fond_connu_est_conserve() {
         $clean = $this->sanitize(array('tile_style' => 'ign-plan'));
 
         $this->assertSame('ign-plan', $clean['tile_style']);
-        $this->assertSame(array('geofolio_saved'), gfo_test_error_codes());
+        $this->assertSame(array('mapped_places_saved'), mapl_test_error_codes());
     }
 
     /**
@@ -190,15 +190,15 @@ final class SettingsTest extends TestCase {
     public function test_un_enregistrement_valide_confirme_a_l_utilisateur() {
         $this->sanitize(array('tile_style' => '', 'api_key' => 'abc'));
 
-        $this->assertContains('geofolio_saved', gfo_test_error_codes());
+        $this->assertContains('mapped_places_saved', mapl_test_error_codes());
     }
 
     public function test_une_erreur_bloquante_supprime_la_confirmation() {
         $this->sanitize(array('custom_tile_url' => 'http://pas-https.fr/{z}/{x}/{y}.png'));
 
-        $codes = gfo_test_error_codes();
-        $this->assertContains('geofolio_bad_custom_url', $codes);
-        $this->assertNotContains('geofolio_saved', $codes);
+        $codes = mapl_test_error_codes();
+        $this->assertContains('mapped_places_bad_custom_url', $codes);
+        $this->assertNotContains('mapped_places_saved', $codes);
     }
 
     /**
@@ -208,9 +208,9 @@ final class SettingsTest extends TestCase {
     public function test_un_avertissement_laisse_la_confirmation() {
         $this->sanitize(array('tile_style' => 'jawg-light', 'api_key' => ''));
 
-        $codes = gfo_test_error_codes();
-        $this->assertContains('geofolio_style_without_key', $codes);
-        $this->assertContains('geofolio_saved', $codes);
+        $codes = mapl_test_error_codes();
+        $this->assertContains('mapped_places_style_without_key', $codes);
+        $this->assertContains('mapped_places_saved', $codes);
     }
 
     public function test_la_cle_api_est_nettoyee() {
@@ -223,7 +223,7 @@ final class SettingsTest extends TestCase {
         $clean = $this->sanitize(array('custom_tile_url' => 'http://exemple.fr/{z}/{x}/{y}.png'));
 
         $this->assertSame('', $clean['custom_tile_url']);
-        $this->assertContains('geofolio_bad_custom_url', gfo_test_error_codes());
+        $this->assertContains('mapped_places_bad_custom_url', mapl_test_error_codes());
     }
 
     public function test_une_url_personnalisee_valide_est_enregistree() {
@@ -243,17 +243,17 @@ final class SettingsTest extends TestCase {
     }
 
     public function test_un_fond_a_cle_sans_cle_declenche_un_avertissement() {
-        $this->assertSame(array(), gfo_test_error_codes());
+        $this->assertSame(array(), mapl_test_error_codes());
 
         $this->sanitize(array('tile_style' => 'jawg-light', 'api_key' => ''));
 
-        $this->assertContains('geofolio_style_without_key', gfo_test_error_codes());
+        $this->assertContains('mapped_places_style_without_key', mapl_test_error_codes());
     }
 
     public function test_le_fond_personnalise_sans_url_declenche_un_avertissement() {
         $this->sanitize(array('tile_style' => TileProviders::CUSTOM_ID));
 
-        $this->assertContains('geofolio_custom_without_url', gfo_test_error_codes());
+        $this->assertContains('mapped_places_custom_without_url', mapl_test_error_codes());
     }
 
     public function test_une_cle_contenant_un_pourcentage_est_preservee() {
@@ -324,7 +324,7 @@ final class SettingsTest extends TestCase {
     /* ---------------------------------------------------------------- */
 
     public function test_la_page_recoit_des_valeurs_preparees() {
-        gfo_test_reset(array(SettingsPage::OPTION_NAME => array('api_key' => 'abcd1234efgh5678', 'tile_style' => 'osm')));
+        mapl_test_reset(array(SettingsPage::OPTION_NAME => array('api_key' => 'abcd1234efgh5678', 'tile_style' => 'osm')));
 
         $view = SettingsPage::view_data();
 

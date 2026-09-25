@@ -2,7 +2,7 @@
 /**
  * Exécuteur de migrations de données, générique.
  *
- * Les étapes sont fournies par le filtre geofolio_migration_steps (un
+ * Les étapes sont fournies par le filtre mapped_places_migration_steps (un
  * préréglage ou un plugin compagnon y enregistre les siennes) ; le cœur n'en
  * déclare aucune. Chaque exécution est précédée d'un snapshot de
  * restauration et journalisée. Une étape déjà exécutée ne repart pas en
@@ -10,9 +10,9 @@
  * donc être idempotentes).
  */
 
-namespace Geofolio\Migration;
+namespace MappedPlaces\Migration;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -21,19 +21,19 @@ if (!defined('ABSPATH')) {
 class Runner {
 
     /** Identifiants des étapes déjà exécutées. */
-    const DONE_OPTION = 'geofolio_migrations_done';
+    const DONE_OPTION = 'mapped_places_migrations_done';
 
     /** Rapport de la dernière exécution. */
-    const LOG_OPTION = 'geofolio_migration_log_last';
+    const LOG_OPTION = 'mapped_places_migration_log_last';
 
     /** Verrou contre deux exécutions concurrentes. */
-    const LOCK = 'geofolio_migration_lock';
+    const LOCK = 'mapped_places_migration_lock';
 
     /** Durée du verrou, en secondes. */
     const LOCK_TTL = 30;
 
     /** Action admin-post du bouton de relance. */
-    const ACTION = 'geofolio_run_migration';
+    const ACTION = 'mapped_places_run_migration';
 
     private static $instance = null;
 
@@ -58,7 +58,18 @@ class Runner {
     private function hook() {
         add_action('admin_init', array($this, 'maybe_run_auto'));
         add_action('admin_post_' . self::ACTION, array($this, 'admin_handle_run'));
-        add_action('admin_notices', array($this, 'admin_notice'));
+    }
+
+    /**
+     * Lien de relance de toutes les étapes (bouton de la page de réglages).
+     *
+     * @return string URL signée, ou '' quand aucune étape n'est enregistrée.
+     */
+    public function rerun_url() {
+        if (!$this->steps()) {
+            return '';
+        }
+        return wp_nonce_url(admin_url('admin-post.php?action=' . self::ACTION), self::ACTION);
     }
 
     /**
@@ -68,7 +79,7 @@ class Runner {
      */
     public function steps() {
         $steps = array();
-        foreach ((array) apply_filters('geofolio_migration_steps', array()) as $step) {
+        foreach ((array) apply_filters('mapped_places_migration_steps', array()) as $step) {
             if ($step instanceof Step && !isset($steps[$step->id()])) {
                 $steps[$step->id()] = $step;
             }
@@ -169,7 +180,7 @@ class Runner {
      */
     public function admin_handle_run() {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('Permission denied', 'geofolio'));
+            wp_die(esc_html__('Permission denied', 'mapped-places'));
         }
         check_admin_referer(self::ACTION);
 
@@ -177,7 +188,7 @@ class Runner {
 
         wp_safe_redirect(add_query_arg(
             array(
-                'page'      => 'geofolio-import',
+                'page'      => 'mapped-places-import',
                 'post_type' => Schema::POST_TYPE,
                 'migrated'  => '1',
             ),
@@ -186,33 +197,4 @@ class Runner {
         exit;
     }
 
-    /**
-     * Notice sur les écrans des établissements, avec le bouton de relance,
-     * quand des étapes sont enregistrées et toutes exécutées.
-     */
-    public function admin_notice() {
-        if (!current_user_can('manage_options') || !$this->steps() || $this->pending()) {
-            return;
-        }
-
-        $current_screen = get_current_screen();
-        if (!$current_screen || strpos($current_screen->id, Schema::POST_TYPE) === false) {
-            return;
-        }
-
-        $url = wp_nonce_url(admin_url('admin-post.php?action=' . self::ACTION), self::ACTION);
-        ?>
-        <div class="notice notice-info is-dismissible">
-            <p>
-                <strong>Geofolio</strong> :
-                <?php esc_html_e('Data up to date.', 'geofolio'); ?>
-                <a href="<?php echo esc_url($url); ?>"
-                   class="button button-secondary"
-                   style="margin-left:12px;">
-                    <?php esc_html_e('Run the migration again (taxonomies + colours)', 'geofolio'); ?>
-                </a>
-            </p>
-        </div>
-        <?php
-    }
 }

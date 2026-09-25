@@ -1,4 +1,4 @@
-# Geofolio brand assets
+# Mapped Places brand assets
 
 Source files and rendered images for the plugin's identity. This folder is excluded from the plugin archive (`export-ignore`).
 
@@ -14,7 +14,7 @@ A folded map (the *folio*) with a pin. Colours: blue `#1F4E79` (background), ora
 | `icon-16.png` … `icon-1024.png` | Rendered icon. `icon-180.png` is the Apple touch icon, `icon-192.png` and `icon-512.png` the PWA sizes. |
 | `icon-maskable.svg`, `icon-maskable-512.png` | Full-bleed variant with the content inside the central 80 % safe zone (Android adaptive icons, PWA `purpose: maskable`). |
 | `favicon.ico` | 16, 32 and 48 px. |
-| `icon-mono.svg` | Single-colour version (`currentColor`), used for the WordPress admin menu (`Geofolio\Domain\PlacePostType::MENU_ICON`, encoded with a black fill so WordPress can recolour it). |
+| `icon-mono.svg` | Single-colour version (`currentColor`), used for the WordPress admin menu (`MappedPlaces\Domain\PlacePostType::MENU_ICON`, encoded with a black fill so WordPress can recolour it). |
 | `og-image.png`, `og-image@2x.png` | Social preview, 1280×640 (2560×1280 for the retina variant). Source: `og.html`. |
 | `banner.html` | Source of the wordpress.org banners (`.wordpress-org/banner-1544x500.png`, downscaled to 772×250). |
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Shortcode [geofolio] : attributs complétés par les valeurs par défaut
+ * Shortcode [mapped-places] : attributs complétés par les valeurs par défaut
  * partagées, rendu délégué à Renderer.
  */
 
-namespace Geofolio\Map;
+namespace MappedPlaces\Map;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 class Shortcode {
 
     /** Nom du shortcode. */
-    const TAG = 'geofolio';
+    const TAG = 'mapped-places';
 
     private static $instance = null;
 
@@ -29,7 +29,7 @@ class Shortcode {
     }
 
     /**
-     * Rendu du shortcode [geofolio].
+     * Rendu du shortcode [mapped-places].
      *
      * @param array|string $atts Attributs du shortcode.
      * @return string HTML de la carte.

@@ -5,9 +5,9 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Import\CsvMapping;
-use Geofolio\Import\Importer;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Import\CsvMapping;
+use MappedPlaces\Import\Importer;
 
 final class ImportTest extends TestCase {
 
@@ -24,7 +24,7 @@ final class ImportTest extends TestCase {
     }
 
     private function csv(string $content): string {
-        $path = tempnam(sys_get_temp_dir(), 'gfo-import-');
+        $path = tempnam(sys_get_temp_dir(), 'mapl-import-');
         file_put_contents($path, $content);
         $this->files[] = $path;
         return $path;
@@ -56,7 +56,7 @@ final class ImportTest extends TestCase {
                 $this->assertArrayHasKey($field, $place, $place['name'] . ' : ' . $field);
             }
             $this->assertNotSame('', FieldRegistry::sanitize_coordinate($place['latitude'] ?? ''), $place['name']);
-            $this->assertTrue(\Geofolio\Domain\Icons::is_valid($place['type_icon']), $place['name']);
+            $this->assertTrue(\MappedPlaces\Domain\Icons::is_valid($place['type_icon']), $place['name']);
             $this->assertNotSame('', Importer::entity_color($place), $place['name']);
             // Numéros réservés par l'ARCEP aux œuvres de fiction.
             $this->assertMatchesRegularExpression('/^0(1 99 00|2 61 91|3 53 01|4 65 71|5 36 49) \d\d \d\d$/', $place['phone'], $place['name']);
@@ -69,7 +69,7 @@ final class ImportTest extends TestCase {
         $fields = array_map(array(CsvMapping::class, 'map_row'), Importer::parse_csv(dirname(__DIR__) . '/data/sample/places.csv')['rows']);
         foreach ($fields as $place) {
             $cited = count(Importer::split_list($place['image'] . ';' . $place['gallery']));
-            $this->assertCount($cited, \Geofolio\Import\MediaImporter::resolve_files($place['image'] . ';' . $place['gallery'], $dir), $place['name']);
+            $this->assertCount($cited, \MappedPlaces\Import\MediaImporter::resolve_files($place['image'] . ';' . $place['gallery'], $dir), $place['name']);
         }
     }
 
@@ -115,7 +115,7 @@ final class ImportTest extends TestCase {
     }
 
     public function test_un_fichier_introuvable_ne_retourne_aucune_ligne() {
-        $result = Importer::parse_csv(sys_get_temp_dir() . '/gfo-absent-' . uniqid() . '.csv');
+        $result = Importer::parse_csv(sys_get_temp_dir() . '/mapl-absent-' . uniqid() . '.csv');
 
         $this->assertSame(array('rows' => array(), 'skipped' => 0), $result);
     }
@@ -202,12 +202,12 @@ final class ImportTest extends TestCase {
     }
 
     public function test_un_filtre_fournit_l_entite() {
-        add_filter('geofolio_import_entity', static function ($entity, $fields) {
+        add_filter('mapped_places_import_entity', static function ($entity, $fields) {
             return $fields['type'] === 'Restaurant' ? array('slug' => 'restos', 'name' => 'Restos') : $entity;
         }, 10, 2);
 
         $this->assertSame(array('slug' => 'restos', 'name' => 'Restos'), Importer::resolve_entity(array('type' => 'Restaurant')));
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_sans_filtre_aucune_region_n_est_deduite() {
@@ -215,12 +215,12 @@ final class ImportTest extends TestCase {
     }
 
     public function test_un_filtre_deduit_la_region_du_departement() {
-        add_filter('geofolio_import_region', static function ($region, $department) {
+        add_filter('mapped_places_import_region', static function ($region, $department) {
             return $department === '69' ? 'Auvergne-Rhône-Alpes' : $region;
         }, 10, 2);
 
         $this->assertSame('Auvergne-Rhône-Alpes', Importer::resolve_region(array('department' => '69')));
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_la_table_des_regions_francaises_couvre_le_rhone() {
@@ -246,20 +246,20 @@ final class ImportTest extends TestCase {
     public function test_l_url_du_geocodeur_est_filtrable() {
         $this->assertStringStartsWith('https://api-adresse.data.gouv.fr/search/?q=', Importer::geocoder_url('1 rue X'));
 
-        add_filter('geofolio_geocoder_url', static function () {
+        add_filter('mapped_places_geocoder_url', static function () {
             return 'https://nominatim.example/search?format=geojson';
         });
         $this->assertSame('https://nominatim.example/search?format=geojson&q=1+rue+X&limit=1', Importer::geocoder_url('1 rue X'));
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_le_jeu_par_defaut_est_l_exemple_sauf_filtre() {
         $this->assertStringEndsWith('data/sample/places.csv', Importer::default_dataset());
 
-        add_filter('geofolio_default_dataset', static function () {
+        add_filter('mapped_places_default_dataset', static function () {
             return '/tmp/autre.csv';
         });
         $this->assertSame('/tmp/autre.csv', Importer::default_dataset());
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 }

@@ -3,7 +3,7 @@
  * Contrat d'une étape de migration.
  */
 
-namespace Geofolio\Migration;
+namespace MappedPlaces\Migration;
 
 if (!defined('ABSPATH')) {
     exit;

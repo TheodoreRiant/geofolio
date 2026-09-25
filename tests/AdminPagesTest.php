@@ -1,16 +1,16 @@
 <?php
 /**
- * Pages d'administration du cœur : rattachées au type de contenu Geofolio.
+ * Pages d'administration du cœur : rattachées au type de contenu Mapped Places.
  *
  * Jusqu'en 1.1.0, Réglages et Import visaient edit.php?post_type=etablissement
- * (type du plugin d'origine) : sur un site Geofolio seul, WordPress répondait
+ * (type du plugin d'origine) : sur un site Mapped Places seul, WordPress répondait
  * 403 et les pages n'apparaissaient dans aucun menu.
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Domain\Schema;
-use Geofolio\Import\Importer;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Import\Importer;
 
 final class AdminPagesTest extends TestCase {
 

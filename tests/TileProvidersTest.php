@@ -4,12 +4,12 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Map\TileProviders;
+use MappedPlaces\Map\TileProviders;
 
 final class TileProvidersTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
+        mapl_test_reset();
     }
 
     /* ---------------------------------------------------------------- */

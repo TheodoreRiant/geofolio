@@ -2,10 +2,10 @@
 /**
  * Renommer les shortcodes d'un ancien plugin dans le contenu des posts.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration\Legacy;
+namespace MappedPlaces\Migration\Legacy;
 
 if (!defined('ABSPATH')) {
     exit;
