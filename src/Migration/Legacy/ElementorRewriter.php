@@ -78,14 +78,18 @@ class ElementorRewriter {
      */
     private static function meta_ids(array $old) {
         global $wpdb;
-        $conditions = array();
-        $args       = array(self::META_KEY);
+        $ids = array();
         foreach ($old as $name) {
-            $conditions[] = 'meta_value LIKE %s';
-            $args[]       = '%' . $wpdb->esc_like('"widgetType":"' . $name . '"') . '%';
+            $found = $wpdb->get_col($wpdb->prepare(
+                "SELECT meta_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value LIKE %s ORDER BY meta_id",
+                self::META_KEY,
+                '%' . $wpdb->esc_like('"widgetType":"' . $name . '"') . '%'
+            ));
+            $ids = array_merge($ids, array_map('intval', (array) $found));
         }
-        $sql = "SELECT meta_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND (" . implode(' OR ', $conditions) . ') ORDER BY meta_id';
-        return array_map('intval', (array) $wpdb->get_col($wpdb->prepare($sql, $args))); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- conditions composées de %s uniquement.
+        $ids = array_values(array_unique($ids));
+        sort($ids);
+        return $ids;
     }
 
     /**

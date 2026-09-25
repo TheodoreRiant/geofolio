@@ -70,11 +70,11 @@ class PluginCheckTest extends TestCase {
         $this->assertStringContainsString("\n== External services ==\n", $readme);
         $section = substr($readme, strpos($readme, '== External services =='));
         $section = substr($section, 0, strpos($section, "\n== ", 5));
-        foreach (array('openfreemap.org', 'openstreetmap.org', 'data.geopf.fr', 'carto.com', 'jawg.io', 'maptiler.com', 'stadiamaps.com', 'thunderforest.com', 'adresse.data.gouv.fr') as $host) {
+        foreach (array('openfreemap.org', 'openstreetmap.org', 'openstreetmap.fr', 'data.geopf.fr', 'basemaps.cartocdn.com', 'tile.jawg.io', 'api.maptiler.com', 'tiles.stadiamaps.com', 'tile.thunderforest.com', 'carto.com', 'jawg.io', 'maptiler.com', 'stadiamaps.com', 'thunderforest.com', 'adresse.data.gouv.fr') as $host) {
             $this->assertStringContainsString($host, $section, "Service externe non documenté : $host");
         }
         // Chaque fournisseur : conditions d'utilisation et confidentialité.
-        $this->assertSame(8, preg_match_all('/^\* \*\*.+terms: https?:\/\/\S+, privacy: https?:\/\/\S+$/m', $section), 'Un lien CGU et un lien confidentialité par fournisseur de tuiles.');
+        $this->assertSame(9, preg_match_all('/^\* \*\*.+terms: https?:\/\/\S+, privacy: https?:\/\/\S+$/m', $section), 'Un lien CGU et un lien confidentialité par fournisseur de tuiles.');
         $this->assertMatchesRegularExpression('/^Terms: https?:\/\/\S+, privacy: https?:\/\/\S+$/m', $section, 'CGU et confidentialité du géocodeur.');
         $this->assertStringContainsString('= Privacy =', $readme);
         $this->assertStringContainsString('github.com/TheodoreRiant/mapped-places', $readme, 'Lien vers le code source (règle 4).');
