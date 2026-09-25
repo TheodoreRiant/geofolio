@@ -3,7 +3,7 @@
  * Plugin Name: Geofolio
  * Plugin URI: https://github.com/TheodoreRiant/geofolio
  * Description: Interactive map of places with search, filters and an Elementor widget.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: Théodore Riant
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('GEOFOLIO_VERSION', '1.3.0');
+define('GEOFOLIO_VERSION', '1.4.0');
 define('GEOFOLIO_PLUGIN_FILE', __FILE__);
 define('GEOFOLIO_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('GEOFOLIO_PLUGIN_URL', plugin_dir_url(__FILE__));

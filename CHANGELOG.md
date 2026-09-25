@@ -4,6 +4,8 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-09-25
+
 ### Added
 - **Brand assets** (`brand/`, excluded from the archive): new icon (folded map and pin) as SVG, PNG from 16 to 1024 px, maskable variant, favicon; social preview `og-image.png` (1280×640, retina variant) and its HTML source; wordpress.org icon and banners regenerated from the same identity.
 - Admin menu icon: Geofolio's own pictogram instead of the generic Dashicons pin (`PlacePostType::MENU_ICON`).
@@ -14,13 +16,11 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
   - Labels and defaults: singular and plural names of places and entities in the admin, URL slug of places (rewrite rules regenerated when it changes), default sidebar title and subtitle, centre, zoom and "fit the view" for maps that do not set them.
   - Priority: filter > setting > plugin default, so `geofolio_defaults`, `geofolio_default_color`, `geofolio_place_labels` and `geofolio_place_slug` keep working.
 - The REST cache is refreshed when these settings change (fallback colour, place URLs).
+- Import from a previous map plugin: `delete_post_meta` key, old meta keys with no Geofolio field, deleted from the imported places only and counted in the report (they were left orphaned).
 
 ### Fixed
 - REST `/places`: a request with `lat` or `lng` ended in a fatal error on PHP 8 (`floatval()` does not accept the three arguments WordPress passes to a `sanitize_callback`). The `number` type of the schema now validates and converts them. `tests/RestArgsTest.php` rejects any single-parameter internal PHP function used as a sanitize callback.
 - Import from a previous map plugin: type names now match the icon catalogue regardless of accents, case, extra spaces and typographic apostrophes ("Centre Éducatif Fermé" = "centre educatif ferme"); found on real data, where 6 of 27 icons were missed.
-
-### Added
-- Import from a previous map plugin: `delete_post_meta` key, old meta keys with no Geofolio field, deleted from the imported places only and counted in the report (they were left orphaned).
 
 ## [1.3.0] — 2026-09-24
 
