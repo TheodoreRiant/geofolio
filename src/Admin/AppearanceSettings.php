@@ -1,14 +1,14 @@
 <?php
 /**
  * Réglages « Apparence » : couleurs, police et arrondis de la carte, pour
- * tout le site. Ils deviennent des variables --gfo-* sur .gfo-map-container,
+ * tout le site. Ils deviennent des variables --mapl-* sur .mapl-map-container,
  * ajoutées après la feuille de la carte ; un réglage de widget Elementor
  * (sélecteur plus précis) garde le dessus sur sa page.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Admin;
+namespace MappedPlaces\Admin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,10 +17,10 @@ if (!defined('ABSPATH')) {
 class AppearanceSettings {
 
     /** Option enregistrée (séparée des réglages de carte : un onglet par option). */
-    const OPTION_NAME = 'geofolio_appearance';
+    const OPTION_NAME = 'mapped_places_appearance';
 
     /** Groupe de réglages du formulaire. */
-    const OPTION_GROUP = 'geofolio_appearance_group';
+    const OPTION_GROUP = 'mapped_places_appearance_group';
 
     /** Police embarquée (Poppins), valeur par défaut. */
     const FONT_BUNDLED = 'bundled';
@@ -91,28 +91,28 @@ class AppearanceSettings {
 
         if ($settings['primary_color'] !== '') {
             $c = $settings['primary_color'];
-            $vars['--gfo-primary']       = $c;
-            $vars['--gfo-primary-dark']  = 'color-mix(in srgb,' . $c . ' 80%,#000)';
-            $vars['--gfo-primary-light'] = 'color-mix(in srgb,' . $c . ' 85%,#fff)';
+            $vars['--mapl-primary']       = $c;
+            $vars['--mapl-primary-dark']  = 'color-mix(in srgb,' . $c . ' 80%,#000)';
+            $vars['--mapl-primary-light'] = 'color-mix(in srgb,' . $c . ' 85%,#fff)';
         }
         if ($settings['accent_color'] !== '') {
             $c = $settings['accent_color'];
-            $vars['--gfo-accent']      = $c;
-            $vars['--gfo-accent-dark'] = 'color-mix(in srgb,' . $c . ' 85%,#000)';
+            $vars['--mapl-accent']      = $c;
+            $vars['--mapl-accent-dark'] = 'color-mix(in srgb,' . $c . ' 85%,#000)';
         }
         if ($settings['font'] === self::FONT_THEME) {
             // « initial » rend la variable invalide : les font-family qui la
             // lisent retombent sur unset et héritent de la police de la page.
             // (« inherit » ferait hériter la variable du parent, donc Poppins.)
-            $vars['--gfo-font']       = 'initial';
-            $vars['--gfo-font-title'] = 'initial';
+            $vars['--mapl-font']       = 'initial';
+            $vars['--mapl-font-title'] = 'initial';
         }
         if ($settings['radius'] !== '') {
             $r = (int) $settings['radius'];
-            $vars['--gfo-radius-sm'] = round($r * 0.6) . 'px';
-            $vars['--gfo-radius']    = $r . 'px';
-            $vars['--gfo-radius-lg'] = round($r * 1.4) . 'px';
-            $vars['--gfo-radius-xl'] = ($r * 2) . 'px';
+            $vars['--mapl-radius-sm'] = round($r * 0.6) . 'px';
+            $vars['--mapl-radius']    = $r . 'px';
+            $vars['--mapl-radius-lg'] = round($r * 1.4) . 'px';
+            $vars['--mapl-radius-xl'] = ($r * 2) . 'px';
         }
 
         if (!$vars) {
@@ -122,7 +122,7 @@ class AppearanceSettings {
         foreach ($vars as $name => $value) {
             $declarations .= $name . ':' . $value . ';';
         }
-        return '.gfo-map-container{' . $declarations . '}';
+        return '.mapl-map-container{' . $declarations . '}';
     }
 
     /**
@@ -132,7 +132,7 @@ class AppearanceSettings {
     public static function add_inline_style() {
         $css = self::css_variables(self::get_all());
         if ($css !== '') {
-            wp_add_inline_style('geofolio', $css);
+            wp_add_inline_style('mapped-places', $css);
         }
     }
 }

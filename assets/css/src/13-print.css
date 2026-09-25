@@ -2,25 +2,25 @@
    32. PRINT STYLES
    ============================================================ */
 @media print {
-    .gfo-map-sidebar {
+    .mapl-map-sidebar {
         display: none;
     }
 
-    .gfo-mobile-toolbar {
+    .mapl-mobile-toolbar {
         display: none;
     }
 
-    .gfo-sidebar-toggle,
-    .gfo-fullscreen-btn {
+    .mapl-sidebar-toggle,
+    .mapl-fullscreen-btn {
         display: none;
     }
 
-    .gfo-map-container {
+    .mapl-map-container {
         box-shadow: none;
         border: 1px solid #ccc;
     }
 
-    .gfo-map-loading {
+    .mapl-map-loading {
         display: none;
     }
 }

@@ -1,13 +1,13 @@
 <?php
 /**
- * Contrôles du widget Elementor Geofolio. Onglet Style : mise en page, sidebar, barre de recherche, filtre par type.
+ * Contrôles du widget Elementor Mapped Places. Onglet Style : mise en page, sidebar, barre de recherche, filtre par type.
  *
  * Méthodes utilisées par MapWidget::register_controls().
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -22,7 +22,7 @@ trait LayoutStyleControls {
         $this->start_controls_section(
             'style_layout',
             [
-                'label' => __('Layout', 'geofolio'),
+                'label' => __('Layout', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -30,7 +30,7 @@ trait LayoutStyleControls {
         $this->add_control(
             'sidebar_width',
             [
-                'label'      => __('Sidebar width', 'geofolio'),
+                'label'      => __('Sidebar width', 'mapped-places'),
                 'type'       => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range'      => [
@@ -38,7 +38,7 @@ trait LayoutStyleControls {
                     '%'  => ['min' => 15, 'max' => 50, 'step' => 1],
                 ],
                 'selectors'  => [
-                    '{{WRAPPER}} .gfo-map-container' => '--gfo-sidebar-width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-map-container' => '--mapl-sidebar-width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -46,11 +46,11 @@ trait LayoutStyleControls {
         $this->add_responsive_control(
             'container_padding',
             [
-                'label'      => __('Container padding', 'geofolio'),
+                'label'      => __('Container padding', 'mapped-places'),
                 'type'       => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .gfo-map-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-map-container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -58,11 +58,11 @@ trait LayoutStyleControls {
         $this->add_responsive_control(
             'container_border_radius',
             [
-                'label'      => __('Container radius', 'geofolio'),
+                'label'      => __('Container radius', 'mapped-places'),
                 'type'       => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%'],
                 'selectors'  => [
-                    '{{WRAPPER}} .gfo-map-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden;',
+                    '{{WRAPPER}} .mapl-map-container' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden;',
                 ],
             ]
         );
@@ -71,8 +71,8 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Box_Shadow::get_type(),
             [
                 'name'     => 'container_shadow',
-                'label'    => __('Container shadow', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-map-container',
+                'label'    => __('Container shadow', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-map-container',
             ]
         );
 
@@ -86,7 +86,7 @@ trait LayoutStyleControls {
         $this->start_controls_section(
             'style_sidebar',
             [
-                'label' => __('Sidebar', 'geofolio'),
+                'label' => __('Sidebar', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -94,10 +94,10 @@ trait LayoutStyleControls {
         $this->add_control(
             'sidebar_bg',
             [
-                'label'     => __('Sidebar background', 'geofolio'),
+                'label'     => __('Sidebar background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-map-sidebar' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-map-sidebar' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -105,10 +105,10 @@ trait LayoutStyleControls {
         $this->add_control(
             'sidebar_border_color',
             [
-                'label'     => __('Sidebar border colour', 'geofolio'),
+                'label'     => __('Sidebar border colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-map-sidebar' => 'border-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-map-sidebar' => 'border-color: {{VALUE}};',
                 ],
             ]
         );
@@ -116,10 +116,10 @@ trait LayoutStyleControls {
         $this->add_control(
             'header_bg',
             [
-                'label'     => __('Sidebar header background', 'geofolio'),
+                'label'     => __('Sidebar header background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-sidebar-header' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-sidebar-header' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -134,7 +134,7 @@ trait LayoutStyleControls {
         $this->start_controls_section(
             'style_search_bar',
             [
-                'label' => __('Search bar', 'geofolio'),
+                'label' => __('Search bar', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -142,10 +142,10 @@ trait LayoutStyleControls {
         $this->add_control(
             'search_bg',
             [
-                'label'     => __('Search field background', 'geofolio'),
+                'label'     => __('Search field background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-search-input' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-input' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -154,21 +154,21 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name'     => 'search_border',
-                'label'    => __('Field border', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-search-input',
+                'label'    => __('Field border', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-search-input',
             ]
         );
 
         $this->add_control(
             'search_radius',
             [
-                'label'     => __('Radius', 'geofolio'),
+                'label'     => __('Radius', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::SLIDER,
                 'range'     => [
                     'px' => ['min' => 0, 'max' => 30, 'step' => 1],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-search-input, {{WRAPPER}} .gfo-search-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-search-input, {{WRAPPER}} .mapl-search-btn' => 'border-radius: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -177,15 +177,15 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'search_typography',
-                'label'    => __('Field typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-search-input',
+                'label'    => __('Field typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-search-input',
             ]
         );
 
         $this->add_control(
             'heading_search_btn',
             [
-                'label'     => __('Search button', 'geofolio'),
+                'label'     => __('Search button', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::HEADING,
                 'separator' => 'before',
             ]
@@ -196,16 +196,16 @@ trait LayoutStyleControls {
         /* --- Onglet Normal --- */
         $this->start_controls_tab(
             'search_btn_tab_normal',
-            ['label' => __('Normal', 'geofolio')]
+            ['label' => __('Normal', 'mapped-places')]
         );
 
         $this->add_control(
             'search_btn_bg',
             [
-                'label'     => __('Background', 'geofolio'),
+                'label'     => __('Background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-search-btn' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -213,13 +213,13 @@ trait LayoutStyleControls {
         $this->add_control(
             'search_btn_icon_color',
             [
-                'label'     => __('Pictogram colour', 'geofolio'),
+                'label'     => __('Pictogram colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
-                'description' => __('Colour of the search icon (magnifier).', 'geofolio'),
+                'description' => __('Colour of the search icon (magnifier).', 'mapped-places'),
                 'selectors' => [
                     // L'icône est tracée avec stroke="currentColor" → on pilote via color.
-                    '{{WRAPPER}} .gfo-search-btn'     => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .gfo-search-btn svg' => 'stroke: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn'     => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn svg' => 'stroke: {{VALUE}};',
                 ],
             ]
         );
@@ -228,8 +228,8 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name'     => 'search_btn_border',
-                'label'    => __('Border', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-search-btn',
+                'label'    => __('Border', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-search-btn',
             ]
         );
 
@@ -238,16 +238,16 @@ trait LayoutStyleControls {
         /* --- Onglet Survol --- */
         $this->start_controls_tab(
             'search_btn_tab_hover',
-            ['label' => __('Hover', 'geofolio')]
+            ['label' => __('Hover', 'mapped-places')]
         );
 
         $this->add_control(
             'search_btn_hover_bg',
             [
-                'label'     => __('Background', 'geofolio'),
+                'label'     => __('Background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-search-btn:hover' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn:hover' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -255,11 +255,11 @@ trait LayoutStyleControls {
         $this->add_control(
             'search_btn_icon_color_hover',
             [
-                'label'     => __('Pictogram colour', 'geofolio'),
+                'label'     => __('Pictogram colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-search-btn:hover'     => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .gfo-search-btn:hover svg' => 'stroke: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn:hover'     => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-search-btn:hover svg' => 'stroke: {{VALUE}};',
                 ],
             ]
         );
@@ -268,8 +268,8 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name'     => 'search_btn_border_hover',
-                'label'    => __('Border', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-search-btn:hover',
+                'label'    => __('Border', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-search-btn:hover',
             ]
         );
 
@@ -287,7 +287,7 @@ trait LayoutStyleControls {
         $this->start_controls_section(
             'style_filter_dropdown',
             [
-                'label' => __('Dropdown filter', 'geofolio'),
+                'label' => __('Dropdown filter', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -295,10 +295,10 @@ trait LayoutStyleControls {
         $this->add_control(
             'filter_bg',
             [
-                'label'     => __('Select background', 'geofolio'),
+                'label'     => __('Select background', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-filter-select' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-filter-select' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -307,21 +307,21 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name'     => 'filter_border',
-                'label'    => __('Select border', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-filter-select',
+                'label'    => __('Select border', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-filter-select',
             ]
         );
 
         $this->add_control(
             'filter_radius',
             [
-                'label'     => __('Select radius', 'geofolio'),
+                'label'     => __('Select radius', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::SLIDER,
                 'range'     => [
                     'px' => ['min' => 0, 'max' => 30, 'step' => 1],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-filter-select' => 'border-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-filter-select' => 'border-radius: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -330,8 +330,8 @@ trait LayoutStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'filter_typography',
-                'label'    => __('Select typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-filter-select',
+                'label'    => __('Select typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-filter-select',
             ]
         );
 

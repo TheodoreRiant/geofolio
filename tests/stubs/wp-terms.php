@@ -2,7 +2,7 @@
 /**
  * Substituts WordPress en mémoire pour les termes et leurs metas.
  *
- * Chaque test repart d'un état vide via gfo_test_reset_terms().
+ * Chaque test repart d'un état vide via mapl_test_reset_terms().
  */
 
 class WP_Term {
@@ -23,10 +23,10 @@ class WP_Term {
 /**
  * Vider les termes et metas simulés.
  */
-function gfo_test_reset_terms() {
-    $GLOBALS['gfo_test_term_store']     = array();
-    $GLOBALS['gfo_test_term_meta'] = array();
-    $GLOBALS['gfo_test_next_term'] = 100;
+function mapl_test_reset_terms() {
+    $GLOBALS['mapl_test_term_store']     = array();
+    $GLOBALS['mapl_test_term_meta'] = array();
+    $GLOBALS['mapl_test_next_term'] = 100;
 }
 
 /**
@@ -39,8 +39,8 @@ function gfo_test_reset_terms() {
  * @param int    $count Nombre d'objets rattachés.
  * @return WP_Term
  */
-function gfo_test_add_term($taxonomy, $name, $slug, array $meta = array(), $count = 1) {
-    $id   = $GLOBALS['gfo_test_next_term']++;
+function mapl_test_add_term($taxonomy, $name, $slug, array $meta = array(), $count = 1) {
+    $id   = $GLOBALS['mapl_test_next_term']++;
     $term = new WP_Term(array(
         'term_id'  => $id,
         'name'     => $name,
@@ -48,15 +48,15 @@ function gfo_test_add_term($taxonomy, $name, $slug, array $meta = array(), $coun
         'taxonomy' => $taxonomy,
         'count'    => $count,
     ));
-    $GLOBALS['gfo_test_term_store'][$id]     = $term;
-    $GLOBALS['gfo_test_term_meta'][$id] = $meta;
+    $GLOBALS['mapl_test_term_store'][$id]     = $term;
+    $GLOBALS['mapl_test_term_meta'][$id] = $meta;
     return $term;
 }
 
 function get_terms($args = array()) {
     $taxonomy   = isset($args['taxonomy']) ? (array) $args['taxonomy'] : array();
     $hide_empty = !isset($args['hide_empty']) || $args['hide_empty'];
-    $terms      = array_filter($GLOBALS['gfo_test_term_store'], static function ($term) use ($taxonomy, $hide_empty) {
+    $terms      = array_filter($GLOBALS['mapl_test_term_store'], static function ($term) use ($taxonomy, $hide_empty) {
         return in_array($term->taxonomy, $taxonomy, true) && (!$hide_empty || $term->count > 0);
     });
     usort($terms, static function ($a, $b) {
@@ -66,7 +66,7 @@ function get_terms($args = array()) {
 }
 
 function get_term_by($field, $value, $taxonomy = '') {
-    foreach ($GLOBALS['gfo_test_term_store'] as $term) {
+    foreach ($GLOBALS['mapl_test_term_store'] as $term) {
         if ($taxonomy !== '' && $term->taxonomy !== $taxonomy) {
             continue;
         }
@@ -90,19 +90,19 @@ function wp_insert_term($name, $taxonomy, $args = array()) {
     if (get_term_by('slug', $slug, $taxonomy) || get_term_by('name', $name, $taxonomy)) {
         return new WP_Error('term_exists', 'Terme existant');
     }
-    $term = gfo_test_add_term($taxonomy, $name, $slug, array(), 0);
+    $term = mapl_test_add_term($taxonomy, $name, $slug, array(), 0);
     return array('term_id' => $term->term_id, 'term_taxonomy_id' => $term->term_id);
 }
 
 function wp_update_term($term_id, $taxonomy, $args = array()) {
     foreach ($args as $key => $value) {
-        $GLOBALS['gfo_test_term_store'][$term_id]->$key = $value;
+        $GLOBALS['mapl_test_term_store'][$term_id]->$key = $value;
     }
     return array('term_id' => $term_id);
 }
 
 function wp_delete_term($term_id, $taxonomy) {
-    unset($GLOBALS['gfo_test_term_store'][$term_id], $GLOBALS['gfo_test_term_meta'][$term_id]);
+    unset($GLOBALS['mapl_test_term_store'][$term_id], $GLOBALS['mapl_test_term_meta'][$term_id]);
     return true;
 }
 
@@ -116,7 +116,7 @@ function wp_update_term_count_now($terms, $taxonomy) {
 function get_objects_in_term($term_ids, $taxonomies) {
     $term_ids = array_map('intval', (array) $term_ids);
     $objects  = array();
-    foreach ($GLOBALS['gfo_test_terms'] as $post_id => $by_taxonomy) {
+    foreach ($GLOBALS['mapl_test_terms'] as $post_id => $by_taxonomy) {
         foreach ((array) $taxonomies as $taxonomy) {
             $linked = array_map('intval', (array) ($by_taxonomy[$taxonomy] ?? array()));
             if (array_intersect($term_ids, $linked)) {
@@ -128,15 +128,15 @@ function get_objects_in_term($term_ids, $taxonomies) {
 }
 
 function wp_get_post_terms($post_id, $taxonomy, $args = array()) {
-    return array_values((array) ($GLOBALS['gfo_test_terms'][(int) $post_id][$taxonomy] ?? array()));
+    return array_values((array) ($GLOBALS['mapl_test_terms'][(int) $post_id][$taxonomy] ?? array()));
 }
 
 function get_term($term_id, $taxonomy = '') {
-    return isset($GLOBALS['gfo_test_term_store'][$term_id]) ? $GLOBALS['gfo_test_term_store'][$term_id] : null;
+    return isset($GLOBALS['mapl_test_term_store'][$term_id]) ? $GLOBALS['mapl_test_term_store'][$term_id] : null;
 }
 
 function get_term_meta($term_id, $key = '', $single = false) {
-    $meta = isset($GLOBALS['gfo_test_term_meta'][$term_id]) ? $GLOBALS['gfo_test_term_meta'][$term_id] : array();
+    $meta = isset($GLOBALS['mapl_test_term_meta'][$term_id]) ? $GLOBALS['mapl_test_term_meta'][$term_id] : array();
     if ($key === '') {
         return $meta;
     }
@@ -144,16 +144,16 @@ function get_term_meta($term_id, $key = '', $single = false) {
 }
 
 function update_term_meta($term_id, $key, $value) {
-    $GLOBALS['gfo_test_term_meta'][$term_id][$key] = $value;
+    $GLOBALS['mapl_test_term_meta'][$term_id][$key] = $value;
     return true;
 }
 
 function delete_term_meta($term_id, $key) {
-    unset($GLOBALS['gfo_test_term_meta'][$term_id][$key]);
+    unset($GLOBALS['mapl_test_term_meta'][$term_id][$key]);
     return true;
 }
 
-gfo_test_reset_terms();
+mapl_test_reset_terms();
 
 function sanitize_hex_color($color) {
     return preg_match('/^#([A-Fa-f0-9]{3}){1,2}$/', (string) $color) ? (string) $color : null;

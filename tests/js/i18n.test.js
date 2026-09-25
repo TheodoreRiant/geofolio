@@ -32,7 +32,7 @@ test('un modèle absent donne une chaîne vide', () => {
 test('aucun repli de texte affichable codé en dur', () => {
     // « || 'Texte' » : un repli français (ou anglais) court-circuiterait la traduction.
     const offenders = SOURCE.match(/\|\|\s*'[^']*[A-Za-zÀ-ÿ]{3,}[^']*'/g) || [];
-    const allowed   = ["|| 'positron'", "|| 'raster'", "|| 'gfo-ac'"]; // identifiants techniques
+    const allowed   = ["|| 'positron'", "|| 'raster'", "|| 'mapl-ac'"]; // identifiants techniques
     assert.deepStrictEqual(offenders.filter((o) => !allowed.includes(o)), []);
 });
 
@@ -41,7 +41,7 @@ test('aucun caractère accentué hors commentaires dans les modules de la carte'
     assert.deepStrictEqual(code.match(/[À-ÿ]/g) || [], []);
 });
 
-test('chaque clé t(\'…\') du JS est déclarée dans geofolioConfig.i18n', () => {
+test('chaque clé t(\'…\') du JS est déclarée dans mappedPlacesConfig.i18n', () => {
     const php  = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'Plugin.php'), 'utf8');
     const used = [...new Set([...SOURCE.matchAll(/\bt\('([A-Za-z]+)'/g)].map((m) => m[1]))];
     const missing = used.filter((key) => !php.includes("'" + key + "'"));

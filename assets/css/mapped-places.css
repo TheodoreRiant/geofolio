@@ -1,18 +1,18 @@
 /* Built by tools/build-css.js from assets/css/src/: edit the partials, then run npm run build:css. */
 /**
- * Geofolio - Styles principaux
+ * Mapped Places - Styles principaux
  * Sidebar with establishment cards, search bar, dropdown filter,
  * SVG markers, clusters, mobile toolbar, responsive popup.
  *
  * Neutral palette: a preset or theme restyles the map by overriding the
- * --gfo-* custom properties on .gfo-map-container.
+ * --mapl-* custom properties on .mapl-map-container.
  *
  * !important is kept for two cases only: the plugin's <button> elements
  * (pills, carousel arrows and dots, "Show all" link), which themes and
  * Elementor kits style aggressively, and the fullscreen mode, which must
  * win over its parents. A value meant to be adjustable goes through a
  * custom property read inside the !important declaration
- * (e.g. --gfo-pill-radius).
+ * (e.g. --mapl-pill-radius).
  */
 
 /* ============================================================
@@ -51,105 +51,105 @@
 
 :root {
     /* Core palette (neutral) */
-    --gfo-primary: #1F4E79;
-    --gfo-primary-dark: #163A5A;
-    --gfo-primary-light: #2A6396;
-    --gfo-accent: #E07A1F;
-    --gfo-accent-dark: #C4661A;
+    --mapl-primary: #1F4E79;
+    --mapl-primary-dark: #163A5A;
+    --mapl-primary-light: #2A6396;
+    --mapl-accent: #E07A1F;
+    --mapl-accent-dark: #C4661A;
 
     /* Surfaces */
-    --gfo-bg: #F8FAFC;
-    --gfo-surface: #FFFFFF;
+    --mapl-bg: #F8FAFC;
+    --mapl-surface: #FFFFFF;
 
     /* Text */
-    --gfo-text: #1E293B;
-    --gfo-text-secondary: #64748B;
-    --gfo-text-muted: #94A3B8;
+    --mapl-text: #1E293B;
+    --mapl-text-secondary: #64748B;
+    --mapl-text-muted: #94A3B8;
 
     /* Borders */
-    --gfo-border: #E2E8F0;
-    --gfo-border-light: #F1F5F9;
+    --mapl-border: #E2E8F0;
+    --mapl-border-light: #F1F5F9;
 
     /* Radius */
-    --gfo-radius-sm: 6px;
-    --gfo-radius: 10px;
-    --gfo-radius-lg: 14px;
+    --mapl-radius-sm: 6px;
+    --mapl-radius: 10px;
+    --mapl-radius-lg: 14px;
 
     /* Shadows */
-    --gfo-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --gfo-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --gfo-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
-    --gfo-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
+    --mapl-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --mapl-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --mapl-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.10);
+    --mapl-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
 
     /* Typography — Poppins, system fallback. Titles use the same family
-       unless a preset sets --gfo-font-title. */
-    --gfo-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --gfo-font-title: var(--gfo-font);
+       unless a preset sets --mapl-font-title. */
+    --mapl-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --mapl-font-title: var(--mapl-font);
 
     /* Layout */
-    --gfo-sidebar-width: 380px;
+    --mapl-sidebar-width: 380px;
 
     /* Transitions */
-    --gfo-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    --gfo-transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    --mapl-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mapl-transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
     /* Spacing (8px grid, used internally) */
-    --gfo-space-xs: 4px;
-    --gfo-space-sm: 8px;
-    --gfo-space-md: 16px;
-    --gfo-space-lg: 24px;
-    --gfo-space-xl: 32px;
+    --mapl-space-xs: 4px;
+    --mapl-space-sm: 8px;
+    --mapl-space-md: 16px;
+    --mapl-space-lg: 24px;
+    --mapl-space-xl: 32px;
 
     /* Extra radius for legacy compat */
-    --gfo-radius-xl: 20px;
+    --mapl-radius-xl: 20px;
 
     /* Slow transition for bottom sheet / drawer */
-    --gfo-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mapl-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ============================================================
-   2. CONTAINER (.gfo-map-container)
+   2. CONTAINER (.mapl-map-container)
    Flex row, gap 0, rounded, shadow, white bg, overflow hidden.
    ============================================================ */
-.gfo-map-container {
-    /* Derived from --gfo-primary: declared here, not on :root, so that an
-       override of --gfo-primary on the container (preset, Elementor
+.mapl-map-container {
+    /* Derived from --mapl-primary: declared here, not on :root, so that an
+       override of --mapl-primary on the container (preset, Elementor
        control) reaches clusters and popups too. */
-    --gfo-cluster-bg: var(--gfo-surface);
-    --gfo-cluster-border: var(--gfo-primary);
-    --gfo-cluster-text: var(--gfo-primary);
-    --gfo-popup-accent: var(--gfo-primary);
+    --mapl-cluster-bg: var(--mapl-surface);
+    --mapl-cluster-border: var(--mapl-primary);
+    --mapl-cluster-text: var(--mapl-primary);
+    --mapl-popup-accent: var(--mapl-primary);
 
     display: flex;
     flex-direction: row;
     gap: 0;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     position: relative;
-    border-radius: var(--gfo-radius-lg);
+    border-radius: var(--mapl-radius-lg);
     overflow: hidden;
-    box-shadow: var(--gfo-shadow-lg);
-    background: var(--gfo-surface);
+    box-shadow: var(--mapl-shadow-lg);
+    background: var(--mapl-surface);
     height: 700px;
     width: 100%;
 }
 
 /* Hauteur fixée par le conteneur (height="container", widget Elementor
    responsive) : aucun style en ligne, le wrapper remplit le conteneur. */
-.gfo-map-container--sized .gfo-map-wrapper {
+.mapl-map-container--sized .mapl-map-wrapper {
     height: 100%;
 }
 
-.gfo-map-container *,
-.gfo-map-container *::before,
-.gfo-map-container *::after {
+.mapl-map-container *,
+.mapl-map-container *::before,
+.mapl-map-container *::after {
     box-sizing: border-box;
 }
 
 /* Fullscreen mode */
-.gfo-map-container.gfo-fullscreen {
+.mapl-map-container.mapl-fullscreen {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -162,31 +162,31 @@
     margin: 0;
 }
 
-body.gfo-body-fullscreen {
+body.mapl-body-fullscreen {
     overflow: hidden;
 }
 
 /* ============================================================
-   3. SIDEBAR (.gfo-map-sidebar)
+   3. SIDEBAR (.mapl-map-sidebar)
    Fixed width, flex column, border-right, full height.
    ============================================================ */
-.gfo-map-sidebar {
-    width: var(--gfo-sidebar-width);
+.mapl-map-sidebar {
+    width: var(--mapl-sidebar-width);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    background: var(--gfo-surface);
+    background: var(--mapl-surface);
     height: 100%;
     max-height: 100%;
     overflow: hidden;
-    border-right: 1px solid var(--gfo-border);
-    transition: transform var(--gfo-transition-slow), height var(--gfo-transition-slow);
+    border-right: 1px solid var(--mapl-border);
+    transition: transform var(--mapl-transition-slow), height var(--mapl-transition-slow);
     position: relative;
     z-index: 10;
 }
 
 /* Inner wrapper: flex 1, column, overflow hidden */
-.gfo-sidebar-inner {
+.mapl-sidebar-inner {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -195,51 +195,51 @@ body.gfo-body-fullscreen {
 }
 
 /* ---- Sidebar Header ---- */
-.gfo-sidebar-header {
+.mapl-sidebar-header {
     padding: 20px 16px 14px;
-    background: var(--gfo-surface);
-    border-bottom: 1px solid var(--gfo-border-light);
+    background: var(--mapl-surface);
+    border-bottom: 1px solid var(--mapl-border-light);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--gfo-space-sm);
+    gap: var(--mapl-space-sm);
 }
 
 /* Title */
-.gfo-sidebar-title {
+.mapl-sidebar-title {
     margin: 0;
     font-size: 20px;
     font-weight: 800;
-    color: var(--gfo-primary);
+    color: var(--mapl-primary);
     letter-spacing: -0.02em;
     line-height: 1.25;
 }
 
 /* Subtitle */
-.gfo-sidebar-subtitle {
+.mapl-sidebar-subtitle {
     margin: 0;
     font-size: 13px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     font-weight: 400;
     line-height: 1.4;
 }
 
 /* Sidebar right position class */
-.gfo-map-container.gfo-sidebar-right .gfo-map-sidebar {
+.mapl-map-container.mapl-sidebar-right .mapl-map-sidebar {
     border-right: none;
-    border-left: 1px solid var(--gfo-border);
+    border-left: 1px solid var(--mapl-border);
     order: 2;
 }
 
-.gfo-map-container.gfo-sidebar-right .gfo-map-wrapper {
+.mapl-map-container.mapl-sidebar-right .mapl-map-wrapper {
     order: 1;
 }
 
 /* ============================================================
-   4. SEARCH (.gfo-search-row)
+   4. SEARCH (.mapl-search-row)
    Flex row, gap 6px, input + button.
    ============================================================ */
-.gfo-search-row {
+.mapl-search-row {
     position: relative; /* ancre de la liste d'autocomplétion */
     display: flex;
     flex-direction: row;
@@ -248,81 +248,81 @@ body.gfo-body-fullscreen {
 }
 
 /* Search input */
-.gfo-search-input {
+.mapl-search-input {
     flex: 1;
     padding: 10px 12px;
-    border: 1.5px solid var(--gfo-border);
-    border-radius: var(--gfo-radius);
+    border: 1.5px solid var(--mapl-border);
+    border-radius: var(--mapl-radius);
     font-size: 13px;
     outline: none;
-    transition: border-color var(--gfo-transition), box-shadow var(--gfo-transition), background var(--gfo-transition);
-    color: var(--gfo-text);
-    background: var(--gfo-bg);
+    transition: border-color var(--mapl-transition), box-shadow var(--mapl-transition), background var(--mapl-transition);
+    color: var(--mapl-text);
+    background: var(--mapl-bg);
     min-width: 0;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
 }
 
-.gfo-search-input::placeholder {
-    color: var(--gfo-text-muted);
+.mapl-search-input::placeholder {
+    color: var(--mapl-text-muted);
 }
 
-/* Préfixe .gfo-map-container : le reset du thème cible
+/* Préfixe .mapl-map-container : le reset du thème cible
    input[type="search"] (et :focus) et imposait sa bordure grise #666 / #333
    à la place de celle du plugin. */
-.gfo-map-container .gfo-search-input {
-    border: 1.5px solid var(--gfo-border);
+.mapl-map-container .mapl-search-input {
+    border: 1.5px solid var(--mapl-border);
 }
 
-.gfo-map-container .gfo-search-input:focus {
-    border-color: var(--gfo-primary);
+.mapl-map-container .mapl-search-input:focus {
+    border-color: var(--mapl-primary);
     box-shadow: 0 0 0 3px rgba(2, 66, 102, 0.15);
-    background: var(--gfo-surface);
+    background: var(--mapl-surface);
 }
 
 /* Search button */
-.gfo-search-btn {
+.mapl-search-btn {
     padding: 10px 12px;
-    background: var(--gfo-primary);
+    background: var(--mapl-primary);
     color: white;
     border: none;
-    border-radius: var(--gfo-radius);
+    border-radius: var(--mapl-radius);
     cursor: pointer;
-    transition: background var(--gfo-transition), color var(--gfo-transition), border-color var(--gfo-transition), transform var(--gfo-transition);
+    transition: background var(--mapl-transition), color var(--mapl-transition), border-color var(--mapl-transition), transform var(--mapl-transition);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.gfo-search-btn:hover {
-    background: var(--gfo-primary-dark);
+.mapl-search-btn:hover {
+    background: var(--mapl-primary-dark);
     transform: translateY(-1px);
 }
 
-.gfo-search-btn:active {
+.mapl-search-btn:active {
     transform: translateY(0);
 }
 
-.gfo-search-btn svg {
+.mapl-search-btn svg {
     display: block;
-    transition: stroke var(--gfo-transition);
+    transition: stroke var(--mapl-transition);
 }
 
 /* ============================================================
-   5. FILTER DROPDOWN (.gfo-filter-select)
+   5. FILTER DROPDOWN (.mapl-filter-select)
    Full width select with custom chevron.
    ============================================================ */
-.gfo-filter-select {
+.mapl-filter-select {
     display: block;
     width: 100%;
     padding: 9px 36px 9px 12px;
-    border: 1.5px solid var(--gfo-border);
-    border-radius: var(--gfo-radius);
+    border: 1.5px solid var(--mapl-border);
+    border-radius: var(--mapl-radius);
     font-size: 13px;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
     outline: none;
-    color: var(--gfo-text);
-    background-color: var(--gfo-bg);
+    color: var(--mapl-text);
+    background-color: var(--mapl-bg);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
@@ -332,145 +332,145 @@ body.gfo-body-fullscreen {
     -moz-appearance: none;
     appearance: none;
     margin-top: 10px;
-    transition: border-color var(--gfo-transition), box-shadow var(--gfo-transition);
+    transition: border-color var(--mapl-transition), box-shadow var(--mapl-transition);
 }
 
-.gfo-map-container .gfo-filter-select:focus {
-    border-color: var(--gfo-primary);
+.mapl-map-container .mapl-filter-select:focus {
+    border-color: var(--mapl-primary);
     box-shadow: 0 0 0 3px rgba(2, 66, 102, 0.15);
 }
 
-.gfo-filter-select:hover {
-    border-color: var(--gfo-text-muted);
+.mapl-filter-select:hover {
+    border-color: var(--mapl-text-muted);
 }
 
 /* ============================================================
    6. GEOLOCATION
    ============================================================ */
 
-.gfo-geoloc-btn {
+.mapl-geoloc-btn {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
     padding: 7px 10px;
-    background: var(--gfo-accent);
+    background: var(--mapl-accent);
     color: white;
     border: none;
-    border-radius: var(--gfo-radius);
+    border-radius: var(--mapl-radius);
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
-    transition: background var(--gfo-transition), transform var(--gfo-transition);
+    transition: background var(--mapl-transition), transform var(--mapl-transition);
     white-space: nowrap;
     min-width: 0;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
 }
 
-.gfo-geoloc-btn:hover {
-    background: var(--gfo-accent-dark);
+.mapl-geoloc-btn:hover {
+    background: var(--mapl-accent-dark);
     transform: translateY(-1px);
 }
 
-.gfo-geoloc-btn:active {
+.mapl-geoloc-btn:active {
     transform: translateY(0);
 }
 
-.gfo-geoloc-btn.loading {
+.mapl-geoloc-btn.loading {
     opacity: 0.7;
     pointer-events: none;
 }
 
-.gfo-geoloc-btn.loading svg {
-    animation: gfo-spin 1s linear infinite;
+.mapl-geoloc-btn.loading svg {
+    animation: mapl-spin 1s linear infinite;
 }
 
 /* ============================================================
-   10. RESULTS HEADER (.gfo-results-header)
+   10. RESULTS HEADER (.mapl-results-header)
    ============================================================ */
 
-.gfo-results-header {
+.mapl-results-header {
     padding: 8px 16px;
-    background: var(--gfo-surface);
+    background: var(--mapl-surface);
     font-size: 11px;
     font-weight: 600;
-    color: var(--gfo-text-secondary);
-    border-bottom: 1px solid var(--gfo-border-light);
+    color: var(--mapl-text-secondary);
+    border-bottom: 1px solid var(--mapl-border-light);
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: var(--gfo-space-sm);
+    gap: var(--mapl-space-sm);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
 /* Count pill */
-.gfo-results-count {
-    color: var(--gfo-primary);
+.mapl-results-count {
+    color: var(--mapl-primary);
     font-weight: 800;
     font-size: 14px;
     min-width: 22px;
     text-align: center;
     background: rgba(30, 58, 95, 0.07);
-    border-radius: var(--gfo-radius-xl);
+    border-radius: var(--mapl-radius-xl);
     padding: 0 8px;
     line-height: 1.7;
     display: inline-block;
 }
 
 /* Results list scrollable area */
-.gfo-place-list {
+.mapl-place-list {
     flex: 1 1 0%;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--gfo-border) transparent;
+    scrollbar-color: var(--mapl-border) transparent;
     scroll-behavior: smooth;
     min-height: 0;
     max-height: calc(100% - 1px); /* force scroll containment */
 }
 
-.gfo-place-list::-webkit-scrollbar { width: 4px; }
-.gfo-place-list::-webkit-scrollbar-track { background: transparent; }
-.gfo-place-list::-webkit-scrollbar-thumb {
-    background: var(--gfo-border);
+.mapl-place-list::-webkit-scrollbar { width: 4px; }
+.mapl-place-list::-webkit-scrollbar-track { background: transparent; }
+.mapl-place-list::-webkit-scrollbar-thumb {
+    background: var(--mapl-border);
     border-radius: 2px;
 }
 
 /* ============================================================
-   11. ESTABLISHMENT CARDS (.gfo-place-card)
+   11. ESTABLISHMENT CARDS (.mapl-place-card)
    New v4 card design with icon circle + meta row.
    ============================================================ */
-.gfo-place-card {
+.mapl-place-card {
     display: flex;
     flex-direction: row;
     gap: 12px;
     padding: 14px 16px;
-    border-bottom: 1px solid var(--gfo-border-light);
+    border-bottom: 1px solid var(--mapl-border-light);
     border-left: 3px solid transparent;
     cursor: pointer;
     transition:
-        background var(--gfo-transition),
-        border-left-color var(--gfo-transition),
-        box-shadow var(--gfo-transition);
+        background var(--mapl-transition),
+        border-left-color var(--mapl-transition),
+        box-shadow var(--mapl-transition);
     will-change: background, border-left-color;
-    animation: gfo-fade-in 0.25s ease both;
+    animation: mapl-fade-in 0.25s ease both;
     position: relative;
 }
 
-.gfo-place-card:hover {
+.mapl-place-card:hover {
     background: #edf2f6; /* fallback */
-    background: color-mix(in srgb, var(--gfo-primary) 7%, #fff);
-    border-left-color: var(--gfo-accent);
+    background: color-mix(in srgb, var(--mapl-primary) 7%, #fff);
+    border-left-color: var(--mapl-accent);
 }
 
-.gfo-place-card.active {
+.mapl-place-card.active {
     background: #e1e8ed; /* fallback */
-    background: color-mix(in srgb, var(--gfo-primary) 12%, #fff);
-    border-left-color: var(--gfo-primary);
+    background: color-mix(in srgb, var(--mapl-primary) 12%, #fff);
+    border-left-color: var(--mapl-primary);
 }
 
-.gfo-place-card:last-child {
+.mapl-place-card:last-child {
     border-bottom: none;
 }
 
@@ -478,32 +478,32 @@ body.gfo-body-fullscreen {
    sans cette regle, l'element selectionne s'entourait d'un cadre orange.
    Le fond suffit a signaler la selection ; le cadre reste reserve a la
    navigation clavier, ou il est le seul repere disponible. */
-.gfo-place-card:focus {
+.mapl-place-card:focus {
     outline: none;
 }
 
-.gfo-place-card:focus-visible {
-    outline: 2px solid var(--gfo-accent);
+.mapl-place-card:focus-visible {
+    outline: 2px solid var(--mapl-accent);
     outline-offset: -2px;
 }
 
 /* Stagger animation for etab cards */
-.gfo-place-card:nth-child(1)  { animation-delay: 0.02s; }
-.gfo-place-card:nth-child(2)  { animation-delay: 0.04s; }
-.gfo-place-card:nth-child(3)  { animation-delay: 0.06s; }
-.gfo-place-card:nth-child(4)  { animation-delay: 0.08s; }
-.gfo-place-card:nth-child(5)  { animation-delay: 0.10s; }
-.gfo-place-card:nth-child(6)  { animation-delay: 0.12s; }
-.gfo-place-card:nth-child(7)  { animation-delay: 0.14s; }
-.gfo-place-card:nth-child(8)  { animation-delay: 0.16s; }
-.gfo-place-card:nth-child(9)  { animation-delay: 0.18s; }
-.gfo-place-card:nth-child(10) { animation-delay: 0.20s; }
+.mapl-place-card:nth-child(1)  { animation-delay: 0.02s; }
+.mapl-place-card:nth-child(2)  { animation-delay: 0.04s; }
+.mapl-place-card:nth-child(3)  { animation-delay: 0.06s; }
+.mapl-place-card:nth-child(4)  { animation-delay: 0.08s; }
+.mapl-place-card:nth-child(5)  { animation-delay: 0.10s; }
+.mapl-place-card:nth-child(6)  { animation-delay: 0.12s; }
+.mapl-place-card:nth-child(7)  { animation-delay: 0.14s; }
+.mapl-place-card:nth-child(8)  { animation-delay: 0.16s; }
+.mapl-place-card:nth-child(9)  { animation-delay: 0.18s; }
+.mapl-place-card:nth-child(10) { animation-delay: 0.20s; }
 
 /* Icon circle */
-.gfo-place-icon {
+.mapl-place-icon {
     width: 40px;
     height: 40px;
-    border-radius: var(--gfo-radius-sm);
+    border-radius: var(--mapl-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -512,14 +512,14 @@ body.gfo-body-fullscreen {
     line-height: 1;
 }
 
-.gfo-place-icon svg {
+.mapl-place-icon svg {
     width: 20px;
     height: 20px;
     display: block;
 }
 
 /* Card info column */
-.gfo-place-info {
+.mapl-place-info {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -528,17 +528,17 @@ body.gfo-body-fullscreen {
 }
 
 /* Establishment name */
-.gfo-place-name {
+.mapl-place-name {
     margin: 0;
     font-size: 13.5px;
     font-weight: 650;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     line-height: 1.35;
     letter-spacing: -0.01em;
 }
 
 /* Meta row: type badge + city */
-.gfo-place-meta {
+.mapl-place-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -546,7 +546,7 @@ body.gfo-body-fullscreen {
 }
 
 /* Type badge pill */
-.gfo-place-type {
+.mapl-place-type {
     display: inline-block;
     font-size: 10px;
     font-weight: 700;
@@ -562,9 +562,9 @@ body.gfo-body-fullscreen {
 }
 
 /* City label */
-.gfo-place-city {
+.mapl-place-city {
     font-size: 12px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
@@ -572,24 +572,24 @@ body.gfo-body-fullscreen {
 }
 
 /* Phone link */
-.gfo-place-phone {
+.mapl-place-phone {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     font-size: 11.5px;
-    color: var(--gfo-accent);
+    color: var(--mapl-accent);
     text-decoration: none;
     font-weight: 500;
-    transition: color var(--gfo-transition);
+    transition: color var(--mapl-transition);
     line-height: 1.4;
 }
 
-.gfo-place-phone:hover {
+.mapl-place-phone:hover {
     text-decoration: underline;
-    color: var(--gfo-accent-dark);
+    color: var(--mapl-accent-dark);
 }
 
-.gfo-place-phone svg {
+.mapl-place-phone svg {
     flex-shrink: 0;
     width: 12px;
     height: 12px;
@@ -597,12 +597,12 @@ body.gfo-body-fullscreen {
 }
 
 /* ============================================================
-   13. NO RESULTS (.gfo-no-results)
+   13. NO RESULTS (.mapl-no-results)
    ============================================================ */
-.gfo-no-results {
-    padding: 40px var(--gfo-space-lg);
+.mapl-no-results {
+    padding: 40px var(--mapl-space-lg);
     text-align: center;
-    color: var(--gfo-text-muted);
+    color: var(--mapl-text-muted);
     font-size: 13px;
     display: flex;
     flex-direction: column;
@@ -610,39 +610,39 @@ body.gfo-body-fullscreen {
     gap: 12px;
 }
 
-.gfo-no-results svg {
+.mapl-no-results svg {
     opacity: 0.25;
 }
 
-.gfo-no-results p {
+.mapl-no-results p {
     margin: 0;
     line-height: 1.5;
 }
 
 /* ============================================================
-   14. MAP WRAPPER (.gfo-map-wrapper)
+   14. MAP WRAPPER (.mapl-map-wrapper)
    ============================================================ */
-.gfo-map-wrapper {
+.mapl-map-wrapper {
     flex: 1;
     min-width: 0;
     position: relative;
-    background: var(--gfo-bg); /* fond neutre charte pendant le chargement des tuiles */
+    background: var(--mapl-bg); /* fond neutre charte pendant le chargement des tuiles */
     display: flex;
     flex-direction: column;
 }
 
-.gfo-map-canvas {
+.mapl-map-canvas {
     width: 100%;
     flex: 1;
 }
 
 /* ============================================================
-   14b. ENTITY FILTER PILLS (.gfo-entity-pills)
+   14b. ENTITY FILTER PILLS (.mapl-entity-pills)
    Floating bar above the map canvas with colored toggle pills.
    Single line, full width, no wrapping.
    ============================================================ */
 /* Section englobante : le hint + les pastilles en colonne, flottants au-dessus de la carte */
-.gfo-entity-section {
+.mapl-entity-section {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -655,12 +655,12 @@ body.gfo-body-fullscreen {
     pointer-events: none;
 }
 
-.gfo-entity-section > * {
+.mapl-entity-section > * {
     pointer-events: auto;
 }
 
 /* Phrase d'aide guidant l'utilisateur à filtrer */
-.gfo-entity-hint {
+.mapl-entity-hint {
     margin: 0;
     display: inline-flex;
     align-items: center;
@@ -668,30 +668,30 @@ body.gfo-body-fullscreen {
     max-width: 100%;
     padding: 4px 10px;
     background: rgba(255, 255, 255, 0.92);
-    color: var(--gfo-text-secondary);
-    font-family: var(--gfo-font);
+    color: var(--mapl-text-secondary);
+    font-family: var(--mapl-font);
     font-size: 11.5px;
     font-weight: 500;
     line-height: 1.35;
     text-align: center;
     border-radius: 999px;
-    box-shadow: var(--gfo-shadow-sm);
+    box-shadow: var(--mapl-shadow-sm);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     user-select: none;
 }
 
-.gfo-entity-hint > span {
+.mapl-entity-hint > span {
     white-space: normal;
 }
 
-.gfo-entity-hint svg {
-    color: var(--gfo-accent);
+.mapl-entity-hint svg {
+    color: var(--mapl-accent);
     flex-shrink: 0;
 }
 
 
-.gfo-entity-pills {
+.mapl-entity-pills {
     display: flex;
     flex-wrap: nowrap;
     gap: 6px;
@@ -710,27 +710,27 @@ body.gfo-body-fullscreen {
     -ms-overflow-style: none;
 }
 
-.gfo-entity-pills::-webkit-scrollbar {
+.mapl-entity-pills::-webkit-scrollbar {
     display: none;
 }
 
-.gfo-entity-pills .gfo-entity-pill {
+.mapl-entity-pills .mapl-entity-pill {
     display: inline-flex;
     align-items: center;
     gap: 5px;
     padding: 6px 14px;
     border: 2px solid var(--pill-color) !important;
     /* !important contre les thèmes : la valeur réglable passe par la variable. */
-    border-radius: var(--gfo-pill-radius, 20px) !important;
+    border-radius: var(--mapl-pill-radius, 20px) !important;
     background: var(--pill-color) !important;
     color: #fff !important;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
     font-size: 12.5px;
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.01em;
     cursor: pointer;
-    transition: background var(--gfo-transition), color var(--gfo-transition), border-color var(--gfo-transition), box-shadow var(--gfo-transition), opacity var(--gfo-transition);
+    transition: background var(--mapl-transition), color var(--mapl-transition), border-color var(--mapl-transition), box-shadow var(--mapl-transition), opacity var(--mapl-transition);
     white-space: nowrap;
     user-select: none;
     -webkit-user-select: none;
@@ -742,29 +742,29 @@ body.gfo-body-fullscreen {
     text-transform: none;
 }
 
-.gfo-entity-pill-dot {
+.mapl-entity-pill-dot {
     display: none;
 }
 
 /* Active hover: subtle glow */
-.gfo-entity-pills .gfo-entity-pill:hover {
+.mapl-entity-pills .mapl-entity-pill:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18) !important;
     opacity: 0.92;
 }
 
-.gfo-entity-pills .gfo-entity-pill:active {
+.mapl-entity-pills .mapl-entity-pill:active {
     opacity: 0.85;
 }
 
 /* Inactive state: outline only */
-.gfo-entity-pills .gfo-entity-pill.inactive {
+.mapl-entity-pills .mapl-entity-pill.inactive {
     background: rgba(255, 255, 255, 0.9) !important;
     color: var(--pill-color) !important;
     border-color: var(--pill-color) !important;
     opacity: 0.55;
 }
 
-.gfo-entity-pills .gfo-entity-pill.inactive:hover {
+.mapl-entity-pills .mapl-entity-pill.inactive:hover {
     opacity: 0.85;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12) !important;
 }
@@ -772,7 +772,7 @@ body.gfo-body-fullscreen {
 /* « Tout afficher » : dans la phrase guide, donc toujours visible même
    quand la rangée de pastilles défile. Affiché seulement quand une entité
    est isolée. Blindé contre le style des `button` du thème. */
-.gfo-entity-hint .gfo-entity-reset {
+.mapl-entity-hint .mapl-entity-reset {
     display: inline;
     flex-shrink: 0;
     margin: 0 !important;
@@ -782,7 +782,7 @@ body.gfo-body-fullscreen {
     border: 0 !important;
     border-radius: 0 !important;
     background: none !important;
-    color: var(--gfo-accent) !important;
+    color: var(--mapl-accent) !important;
     font: inherit;
     font-weight: 700;
     white-space: nowrap;
@@ -793,60 +793,60 @@ body.gfo-body-fullscreen {
     cursor: pointer;
 }
 
-.gfo-entity-hint .gfo-entity-reset::before,
-.gfo-entity-hint .gfo-entity-reset::after {
+.mapl-entity-hint .mapl-entity-reset::before,
+.mapl-entity-hint .mapl-entity-reset::after {
     content: none !important;
 }
 
-.gfo-entity-hint .gfo-entity-reset:hover {
-    color: var(--gfo-accent-dark) !important;
+.mapl-entity-hint .mapl-entity-reset:hover {
+    color: var(--mapl-accent-dark) !important;
 }
 
-.gfo-entity-hint .gfo-entity-reset[hidden] {
+.mapl-entity-hint .mapl-entity-reset[hidden] {
     display: none !important;
 }
 
-.gfo-entity-pills .gfo-entity-pill:focus-visible,
-.gfo-entity-hint .gfo-entity-reset:focus-visible {
-    outline: 2px solid var(--gfo-accent) !important;
+.mapl-entity-pills .mapl-entity-pill:focus-visible,
+.mapl-entity-hint .mapl-entity-reset:focus-visible {
+    outline: 2px solid var(--mapl-accent) !important;
     outline-offset: 2px;
 }
 
 /* ============================================================
-   15. MOBILE TOOLBAR (.gfo-mobile-toolbar)
+   15. MOBILE TOOLBAR (.mapl-mobile-toolbar)
    Hidden on desktop. Flex column on mobile.
    ============================================================ */
-.gfo-mobile-toolbar {
+.mapl-mobile-toolbar {
     display: none;
     flex-direction: column;
     padding: 10px 12px;
     gap: 8px;
-    background: var(--gfo-surface);
-    border-bottom: 1px solid var(--gfo-border);
+    background: var(--mapl-surface);
+    border-bottom: 1px solid var(--mapl-border);
     flex-shrink: 0;
     z-index: 20;
 }
 
 /* Search row inside mobile toolbar */
-.gfo-mobile-toolbar .gfo-search-row {
+.mapl-mobile-toolbar .mapl-search-row {
     gap: 6px;
 }
 
 /* Filter dropdown inside mobile toolbar */
-.gfo-mobile-toolbar .gfo-filter-select {
+.mapl-mobile-toolbar .mapl-filter-select {
     margin-top: 0;
 }
 
 /* ============================================================
-   16. MARKERS (.gfo-marker-icon, .gfo-marker)
+   16. MARKERS (.mapl-marker-icon, .mapl-marker)
    SVG pin markers with icons.
    ============================================================ */
-.gfo-marker-icon {
+.mapl-marker-icon {
     background: none;
     border: none;
 }
 
-.gfo-marker {
+.mapl-marker {
     width: 40px;
     height: 52px;
     position: relative;
@@ -859,64 +859,64 @@ body.gfo-body-fullscreen {
 }
 
 /* Hover on marker */
-.gfo-marker:hover {
+.mapl-marker:hover {
     transform: translateY(-5px) scale(1.2);
     filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
 }
 
 /* Pulsing pin (hover from sidebar) */
 
-.gfo-marker svg.gfo-pin-svg {
+.mapl-marker svg.mapl-pin-svg {
     width: 100%;
     height: 100%;
 }
 
 /* ============================================================
-   17. CLUSTERS (.gfo-cluster)
+   17. CLUSTERS (.mapl-cluster)
    White bg, colored border, rounded, modern design.
    ============================================================ */
-.gfo-cluster-icon {
+.mapl-cluster-icon {
     background: none;
     border: none;
 }
 
-.gfo-cluster {
+.mapl-cluster {
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     font-weight: 800;
-    color: var(--gfo-cluster-text);
-    background: var(--gfo-cluster-bg);
+    color: var(--mapl-cluster-text);
+    background: var(--mapl-cluster-bg);
     position: relative;
     transition: transform 0.15s ease;
     will-change: transform;
     cursor: pointer;
 }
 
-.gfo-cluster:hover {
+.mapl-cluster:hover {
     transform: scale(1.1);
 }
 
 /* Pulse ring on ::before */
-.gfo-cluster::before {
+.mapl-cluster::before {
     content: '';
     position: absolute;
     inset: -4px;
     border-radius: 50%;
-    background: var(--gfo-cluster-bg);
+    background: var(--mapl-cluster-bg);
     opacity: 0.35;
     animation: cluster-pulse 2.8s ease-in-out infinite;
     pointer-events: none;
     z-index: -1;
 }
 
-.gfo-cluster::after {
+.mapl-cluster::after {
     content: '';
     position: absolute;
     inset: -10px;
     border-radius: 50%;
-    background: var(--gfo-cluster-bg);
+    background: var(--mapl-cluster-bg);
     opacity: 0.15;
     animation: cluster-pulse 2.8s ease-in-out infinite 0.4s;
     pointer-events: none;
@@ -924,38 +924,38 @@ body.gfo-body-fullscreen {
 }
 
 /* Small cluster: 40px */
-.gfo-cluster-small {
+.mapl-cluster-small {
     width: 40px;
     height: 40px;
     font-size: 13px;
-    background: var(--gfo-cluster-bg);
-    border: 3px solid var(--gfo-cluster-border);
-    box-shadow: var(--gfo-shadow-md);
+    background: var(--mapl-cluster-bg);
+    border: 3px solid var(--mapl-cluster-border);
+    box-shadow: var(--mapl-shadow-md);
 }
 
 /* Medium cluster: 48px */
-.gfo-cluster-medium {
+.mapl-cluster-medium {
     width: 48px;
     height: 48px;
     font-size: 15px;
-    background: var(--gfo-cluster-bg);
-    border: 3px solid var(--gfo-cluster-border);
-    box-shadow: var(--gfo-shadow-md);
+    background: var(--mapl-cluster-bg);
+    border: 3px solid var(--mapl-cluster-border);
+    box-shadow: var(--mapl-shadow-md);
 }
 
 /* Large cluster: 56px */
-.gfo-cluster-large {
+.mapl-cluster-large {
     width: 56px;
     height: 56px;
     font-size: 18px;
-    background: var(--gfo-cluster-bg);
-    border: 3px solid var(--gfo-cluster-border);
-    box-shadow: var(--gfo-shadow-lg);
+    background: var(--mapl-cluster-bg);
+    border: 3px solid var(--mapl-cluster-border);
+    box-shadow: var(--mapl-shadow-lg);
 }
 
 /* Constellation de pastilles colorées par entité (remplace le chiffre).
    Une pastille par établissement enfant (plafonnée), + indicateur "+N". */
-.gfo-cluster-dots {
+.mapl-cluster-dots {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -965,7 +965,7 @@ body.gfo-body-fullscreen {
     line-height: 1;
 }
 
-.gfo-cluster-dot {
+.mapl-cluster-dot {
     display: block;
     width: 7px;
     height: 7px;
@@ -974,57 +974,57 @@ body.gfo-body-fullscreen {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85);
 }
 
-.gfo-cluster-more {
+.mapl-cluster-more {
     font-size: 9px;
     font-weight: 800;
     line-height: 1;
-    color: var(--gfo-cluster-text);
+    color: var(--mapl-cluster-text);
     margin-left: 1px;
 }
 
 /* Taille des pastilles ajustée à la taille de la bulle. */
-.gfo-cluster-small  .gfo-cluster-dot { width: 6px; height: 6px; }
-.gfo-cluster-medium .gfo-cluster-dot { width: 7px; height: 7px; }
-.gfo-cluster-large  .gfo-cluster-dot { width: 8px; height: 8px; }
+.mapl-cluster-small  .mapl-cluster-dot { width: 6px; height: 6px; }
+.mapl-cluster-medium .mapl-cluster-dot { width: 7px; height: 7px; }
+.mapl-cluster-large  .mapl-cluster-dot { width: 8px; height: 8px; }
 
 /* ============================================================
-   18. POPUP (.gfo-popup)
+   18. POPUP (.mapl-popup)
    Leaflet popup override with type badge, title, address, link.
    ============================================================ */
-.gfo-popup .leaflet-popup-content-wrapper {
-    border-radius: var(--gfo-radius-lg);
+.mapl-popup .leaflet-popup-content-wrapper {
+    border-radius: var(--mapl-radius-lg);
     padding: 0;
     overflow: hidden;
-    box-shadow: var(--gfo-shadow-lg);
+    box-shadow: var(--mapl-shadow-lg);
     border: none;
 }
 
-.gfo-popup .leaflet-popup-content {
+.mapl-popup .leaflet-popup-content {
     margin: 0;
     min-width: 280px;
     max-width: 360px;
 }
 
-.gfo-popup .leaflet-popup-tip-container {
+.mapl-popup .leaflet-popup-tip-container {
     margin-top: -1px;
 }
 
-.gfo-popup .leaflet-popup-tip {
-    box-shadow: var(--gfo-shadow-sm);
+.mapl-popup .leaflet-popup-tip {
+    box-shadow: var(--mapl-shadow-sm);
 }
 
-.gfo-popup-content {
-    font-family: var(--gfo-font);
+.mapl-popup-content {
+    font-family: var(--mapl-font);
 }
 
 /* Popup image */
-.gfo-popup-image {
+.mapl-popup-image {
     width: 100%;
     height: 130px;
     overflow: hidden;
 }
 
-.gfo-popup-image img {
+.mapl-popup-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1032,29 +1032,29 @@ body.gfo-body-fullscreen {
 }
 
 /* Placeholder image (etablissement sans aucune photo) */
-.gfo-popup-image--placeholder {
-    background: var(--gfo-border-light, #F1F5F9);
+.mapl-popup-image--placeholder {
+    background: var(--mapl-border-light, #F1F5F9);
 }
 
-.gfo-popup-image--placeholder img {
+.mapl-popup-image--placeholder img {
     object-fit: cover;
     opacity: 0.9;
 }
 
 /* Popup body */
-.gfo-popup-body {
+.mapl-popup-body {
     padding: 14px 16px 0;
 }
 
 /* Popup badges row (entite + type) */
-.gfo-popup-badges {
+.mapl-popup-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     margin-bottom: 10px;
 }
 
-.gfo-popup-entity-badge {
+.mapl-popup-entity-badge {
     font-size: 10px;
     font-weight: 700;
     padding: 3px 9px;
@@ -1064,7 +1064,7 @@ body.gfo-body-fullscreen {
     white-space: nowrap;
 }
 
-.gfo-popup-type-badge {
+.mapl-popup-type-badge {
     font-size: 10px;
     font-weight: 600;
     padding: 3px 9px;
@@ -1073,190 +1073,190 @@ body.gfo-body-fullscreen {
 }
 
 /* Popup title */
-.gfo-popup-title {
+.mapl-popup-title {
     margin: 0 0 6px;
     font-size: 15px;
     font-weight: 700;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     line-height: 1.3;
 }
 
 /* Popup description (full, no truncation) */
-.gfo-popup-desc {
+.mapl-popup-desc {
     margin: 0 0 10px;
     font-size: 12px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     line-height: 1.5;
 }
 
 /* Popup nombre/public */
-.gfo-popup-nombre {
+.mapl-popup-nombre {
     margin: 0 0 10px;
     font-size: 12px;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     line-height: 1.4;
-    background: var(--gfo-bg);
+    background: var(--mapl-bg);
     padding: 6px 10px;
-    border-radius: var(--gfo-radius-sm);
+    border-radius: var(--mapl-radius-sm);
 }
 
 /* Popup info block */
-.gfo-popup-info {
+.mapl-popup-info {
     display: flex;
     flex-direction: column;
-    gap: var(--gfo-space-sm);
-    margin-bottom: var(--gfo-space-md);
+    gap: var(--mapl-space-sm);
+    margin-bottom: var(--mapl-space-md);
 }
 
-.gfo-popup-address,
-.gfo-popup-phone,
-.gfo-popup-email,
-.gfo-popup-services,
-.gfo-popup-hours,
-.gfo-popup-access,
-.gfo-popup-website,
-.gfo-popup-distance {
+.mapl-popup-address,
+.mapl-popup-phone,
+.mapl-popup-email,
+.mapl-popup-services,
+.mapl-popup-hours,
+.mapl-popup-access,
+.mapl-popup-website,
+.mapl-popup-distance {
     margin: 0;
     font-size: 12px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     display: flex;
     align-items: flex-start;
     gap: 7px;
     line-height: 1.4;
 }
 
-.gfo-popup-email a,
-.gfo-popup-website a,
-.gfo-popup-services span,
-.gfo-popup-hours span,
-.gfo-popup-access span {
-    color: var(--gfo-text-secondary);
+.mapl-popup-email a,
+.mapl-popup-website a,
+.mapl-popup-services span,
+.mapl-popup-hours span,
+.mapl-popup-access span {
+    color: var(--mapl-text-secondary);
     text-decoration: none;
 }
-.gfo-popup-email a:hover,
-.gfo-popup-website a:hover { text-decoration: underline; }
+.mapl-popup-email a:hover,
+.mapl-popup-website a:hover { text-decoration: underline; }
 
 /* Les horaires sont saisis en texte libre sur plusieurs lignes. */
-.gfo-popup-hours span { white-space: pre-line; }
+.mapl-popup-hours span { white-space: pre-line; }
 
-.gfo-popup-address svg,
-.gfo-popup-phone svg,
-.gfo-popup-hours svg,
-.gfo-popup-access svg,
-.gfo-popup-website svg,
-.gfo-popup-distance svg {
-    color: var(--gfo-text-muted);
+.mapl-popup-address svg,
+.mapl-popup-phone svg,
+.mapl-popup-hours svg,
+.mapl-popup-access svg,
+.mapl-popup-website svg,
+.mapl-popup-distance svg {
+    color: var(--mapl-text-muted);
     flex-shrink: 0;
     margin-top: 1px;
 }
 
-.gfo-popup-phone a {
-    color: var(--gfo-accent);
+.mapl-popup-phone a {
+    color: var(--mapl-accent);
     text-decoration: none;
     font-weight: 500;
 }
 
-.gfo-popup-phone a:hover {
+.mapl-popup-phone a:hover {
     text-decoration: underline;
 }
 
-.gfo-popup-distance {
-    color: var(--gfo-accent);
+.mapl-popup-distance {
+    color: var(--mapl-accent);
     font-weight: 600;
 }
 
 /* ============================================================
-   19. FULLSCREEN BUTTON (.gfo-fullscreen-btn)
+   19. FULLSCREEN BUTTON (.mapl-fullscreen-btn)
    ============================================================ */
-.gfo-fullscreen-btn {
+.mapl-fullscreen-btn {
     position: absolute;
     bottom: 20px;
     right: 10px;
     z-index: 1000;
     width: 36px;
     height: 36px;
-    background: var(--gfo-surface);
-    border: 1px solid var(--gfo-border);
-    border-radius: var(--gfo-radius);
+    background: var(--mapl-surface);
+    border: 1px solid var(--mapl-border);
+    border-radius: var(--mapl-radius);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--gfo-text);
-    transition: background var(--gfo-transition), box-shadow var(--gfo-transition), transform var(--gfo-transition);
-    box-shadow: var(--gfo-shadow-sm);
+    color: var(--mapl-text);
+    transition: background var(--mapl-transition), box-shadow var(--mapl-transition), transform var(--mapl-transition);
+    box-shadow: var(--mapl-shadow-sm);
 }
 
-.gfo-fullscreen-btn:hover {
-    background: var(--gfo-bg);
-    box-shadow: var(--gfo-shadow);
+.mapl-fullscreen-btn:hover {
+    background: var(--mapl-bg);
+    box-shadow: var(--mapl-shadow);
     transform: scale(1.06);
 }
 
-.gfo-fullscreen-btn .icon-exit { display: none; }
-.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-enter { display: none; }
-.gfo-map-container.gfo-fullscreen .gfo-fullscreen-btn .icon-exit  { display: block; }
+.mapl-fullscreen-btn .icon-exit { display: none; }
+.mapl-map-container.mapl-fullscreen .mapl-fullscreen-btn .icon-enter { display: none; }
+.mapl-map-container.mapl-fullscreen .mapl-fullscreen-btn .icon-exit  { display: block; }
 
 /* ============================================================
    20. SIDEBAR TOGGLE BUTTON (mobile)
    ============================================================ */
-.gfo-sidebar-toggle {
+.mapl-sidebar-toggle {
     display: none;
     position: absolute;
     bottom: 100px;
     right: 10px;
     z-index: 1000;
     padding: 9px 16px;
-    background: var(--gfo-primary);
+    background: var(--mapl-primary);
     color: white;
     border: none;
-    border-radius: var(--gfo-radius-xl);
+    border-radius: var(--mapl-radius-xl);
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
-    box-shadow: var(--gfo-shadow-md);
+    box-shadow: var(--mapl-shadow-md);
     align-items: center;
-    gap: var(--gfo-space-sm);
-    transition: background var(--gfo-transition), transform var(--gfo-transition);
+    gap: var(--mapl-space-sm);
+    transition: background var(--mapl-transition), transform var(--mapl-transition);
     letter-spacing: 0.02em;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
 }
 
-.gfo-sidebar-toggle:hover {
-    background: var(--gfo-primary-dark);
+.mapl-sidebar-toggle:hover {
+    background: var(--mapl-primary-dark);
     transform: translateY(-1px);
 }
 
 /* ============================================================
    21. DRAWER HANDLE (mobile bottom sheet)
    ============================================================ */
-.gfo-drawer-handle {
+.mapl-drawer-handle {
     display: none;
     justify-content: center;
     padding: 12px;
     cursor: pointer;
     flex-shrink: 0;
-    background: var(--gfo-surface);
-    border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+    background: var(--mapl-surface);
+    border-radius: var(--mapl-radius-xl) var(--mapl-radius-xl) 0 0;
 }
 
-.gfo-drawer-handle::before {
+.mapl-drawer-handle::before {
     content: '';
     width: 40px;
     height: 4px;
-    background: var(--gfo-border);
+    background: var(--mapl-border);
     border-radius: 2px;
-    transition: background var(--gfo-transition);
+    transition: background var(--mapl-transition);
 }
 
-.gfo-drawer-handle:hover::before {
-    background: var(--gfo-text-muted);
+.mapl-drawer-handle:hover::before {
+    background: var(--mapl-text-muted);
 }
 
 /* ============================================================
-   22. LOADING OVERLAY (.gfo-map-loading)
+   22. LOADING OVERLAY (.mapl-map-loading)
    ============================================================ */
-.gfo-map-loading {
+.mapl-map-loading {
     position: absolute;
     top: 0;
     left: 0;
@@ -1273,46 +1273,46 @@ body.gfo-body-fullscreen {
     -webkit-backdrop-filter: blur(4px);
 }
 
-.gfo-map-loading span {
+.mapl-map-loading span {
     font-size: 13px;
-    color: var(--gfo-text-secondary);
+    color: var(--mapl-text-secondary);
     font-weight: 500;
 }
 
-.gfo-spinner {
+.mapl-spinner {
     width: 36px;
     height: 36px;
-    border: 3px solid var(--gfo-border-light);
-    border-top-color: var(--gfo-primary);
+    border: 3px solid var(--mapl-border-light);
+    border-top-color: var(--mapl-primary);
     border-radius: 50%;
-    animation: gfo-spin 0.75s linear infinite;
+    animation: mapl-spin 0.75s linear infinite;
 }
 
 /* ============================================================
-   23. USER LOCATION MARKER (.gfo-user-marker)
+   23. USER LOCATION MARKER (.mapl-user-marker)
    ============================================================ */
-.gfo-user-marker-icon {
+.mapl-user-marker-icon {
     background: none;
     border: none;
 }
 
-.gfo-user-marker {
+.mapl-user-marker {
     width: 16px;
     height: 16px;
-    background: var(--gfo-accent);
+    background: var(--mapl-accent);
     border: 3px solid white;
     border-radius: 50%;
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.5);
-    animation: gfo-pulse 2s ease-in-out infinite;
+    animation: mapl-pulse 2s ease-in-out infinite;
 }
 
 /* ============================================================
    25. ADMIN MARKER (used in admin backend)
    ============================================================ */
-.gfo-admin-marker {
+.mapl-admin-marker {
     width: 24px;
     height: 24px;
-    background: var(--gfo-primary);
+    background: var(--mapl-primary);
     border: 3px solid white;
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -1322,78 +1322,78 @@ body.gfo-body-fullscreen {
    26. LEAFLET OVERRIDES
    Zoom controls, attribution bar.
    ============================================================ */
-.gfo-map-container .leaflet-control-zoom {
+.mapl-map-container .leaflet-control-zoom {
     border: none;
-    box-shadow: var(--gfo-shadow);
-    border-radius: var(--gfo-radius);
+    box-shadow: var(--mapl-shadow);
+    border-radius: var(--mapl-radius);
     overflow: hidden;
     margin-right: 10px;
 }
 
-.gfo-map-container .leaflet-control-zoom a {
-    border-bottom: 1px solid var(--gfo-border-light);
-    color: var(--gfo-text);
+.mapl-map-container .leaflet-control-zoom a {
+    border-bottom: 1px solid var(--mapl-border-light);
+    color: var(--mapl-text);
     font-size: 16px;
     line-height: 32px;
     width: 32px;
     height: 32px;
     display: block;
     text-align: center;
-    transition: background var(--gfo-transition);
-    background: var(--gfo-surface);
+    transition: background var(--mapl-transition);
+    background: var(--mapl-surface);
 }
 
-.gfo-map-container .leaflet-control-zoom a:hover {
-    background: var(--gfo-bg);
+.mapl-map-container .leaflet-control-zoom a:hover {
+    background: var(--mapl-bg);
 }
 
-.gfo-map-container .leaflet-control-zoom a:last-child {
+.mapl-map-container .leaflet-control-zoom a:last-child {
     border-bottom: none;
 }
 
 /* Attribution: small, blurred bg */
-.gfo-map-container .leaflet-control-attribution {
+.mapl-map-container .leaflet-control-attribution {
     font-size: 10px;
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    border-radius: var(--gfo-radius-sm) 0 0 0;
+    border-radius: var(--mapl-radius-sm) 0 0 0;
     padding: 2px 6px;
-    color: var(--gfo-text-muted);
+    color: var(--mapl-text-muted);
 }
 
-.gfo-map-container .leaflet-control-attribution a {
-    color: var(--gfo-text-secondary);
+.mapl-map-container .leaflet-control-attribution a {
+    color: var(--mapl-text-secondary);
 }
 
 /* Remove default leaflet borders on tile pane */
-.gfo-map-container .leaflet-tile-pane {
+.mapl-map-container .leaflet-tile-pane {
     filter: none;
 }
 
 /* Ensure popup close button is accessible */
-.gfo-popup .leaflet-popup-close-button {
+.mapl-popup .leaflet-popup-close-button {
     z-index: 10;
     font-size: 18px;
-    color: var(--gfo-text-muted);
+    color: var(--mapl-text-muted);
     padding: 6px 8px 0 0;
-    transition: color var(--gfo-transition);
+    transition: color var(--mapl-transition);
 }
 
-.gfo-popup .leaflet-popup-close-button:hover {
-    color: var(--gfo-text);
+.mapl-popup .leaflet-popup-close-button:hover {
+    color: var(--mapl-text);
 }
 
 /* ============================================================
    27. ACCESSIBILITY - Focus visible
    ============================================================ */
-.gfo-map-container :focus-visible {
-    outline: 2px solid var(--gfo-accent);
+.mapl-map-container :focus-visible {
+    outline: 2px solid var(--mapl-accent);
     outline-offset: 2px;
 }
 
-.gfo-map-container button:focus-visible {
-    outline: 2px solid var(--gfo-accent);
+.mapl-map-container button:focus-visible {
+    outline: 2px solid var(--mapl-accent);
     outline-offset: 2px;
 }
 
@@ -1402,9 +1402,9 @@ body.gfo-body-fullscreen {
    une bordure orange qui restait tant que le champ gardait le focus. Le
    focus y est signalé par la bordure bleue + anneau léger de :focus, visible
    aussi au clavier. */
-.gfo-map-container input:focus-visible,
-.gfo-map-container select:focus-visible,
-.gfo-map-container textarea:focus-visible {
+.mapl-map-container input:focus-visible,
+.mapl-map-container select:focus-visible,
+.mapl-map-container textarea:focus-visible {
     outline: none;
 }
 
@@ -1413,7 +1413,7 @@ body.gfo-body-fullscreen {
    ============================================================ */
 
 /* Fade in (results list, cards) */
-@keyframes gfo-fade-in {
+@keyframes mapl-fade-in {
     from {
         opacity: 0;
         transform: translateY(5px);
@@ -1425,14 +1425,14 @@ body.gfo-body-fullscreen {
 }
 
 /* Spinner rotation */
-@keyframes gfo-spin {
+@keyframes mapl-spin {
     to {
         transform: rotate(360deg);
     }
 }
 
 /* User marker pulse */
-@keyframes gfo-pulse {
+@keyframes mapl-pulse {
     0%, 100% {
         box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.5);
     }
@@ -1476,19 +1476,19 @@ body.gfo-body-fullscreen {
    29. RESPONSIVE - Tablet (769px - 1024px)
    ============================================================ */
 @media (max-width: 1024px) and (min-width: 769px) {
-    .gfo-map-container {
+    .mapl-map-container {
         height: 600px;
     }
 
-    .gfo-map-sidebar {
+    .mapl-map-sidebar {
         width: 320px;
     }
 
-    .gfo-sidebar-title {
+    .mapl-sidebar-title {
         font-size: 18px;
     }
 
-    .gfo-place-card {
+    .mapl-place-card {
         padding: 12px 14px;
     }
 
@@ -1500,20 +1500,20 @@ body.gfo-body-fullscreen {
    ============================================================ */
 @media (max-width: 768px) {
     /* Container becomes column */
-    .gfo-map-container {
+    .mapl-map-container {
         flex-direction: column;
         height: 85vh;
         position: relative;
-        border-radius: var(--gfo-radius);
+        border-radius: var(--mapl-radius);
     }
 
     /* Sidebar hidden by default on mobile */
-    .gfo-map-sidebar {
+    .mapl-map-sidebar {
         display: none;
     }
 
     /* But if sidebar is shown as bottom sheet, restore it */
-    .gfo-map-sidebar.gfo-drawer-open {
+    .mapl-map-sidebar.mapl-drawer-open {
         display: flex;
         position: absolute;
         bottom: 0;
@@ -1521,10 +1521,10 @@ body.gfo-body-fullscreen {
         right: 0;
         width: 100%;
         border-right: none;
-        border-top: 1px solid var(--gfo-border);
-        box-shadow: var(--gfo-shadow-lg);
+        border-top: 1px solid var(--mapl-border);
+        box-shadow: var(--mapl-shadow-lg);
         z-index: 500;
-        border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+        border-radius: var(--mapl-radius-xl) var(--mapl-radius-xl) 0 0;
         height: 55%;
         transform: translateY(0);
     }
@@ -1533,59 +1533,59 @@ body.gfo-body-fullscreen {
        et des pastilles : ses suggestions de recherche (position fixed)
        restent dans son contexte d'empilement et passaient sous la carte.
        Sous le tiroir (500). */
-    .gfo-mobile-toolbar {
+    .mapl-mobile-toolbar {
         display: flex;
         position: relative;
         z-index: 450;
     }
 
     /* Map takes full remaining height */
-    .gfo-map-wrapper {
+    .mapl-map-wrapper {
         height: 100%;
     }
 
     /* Drawer handle shown */
-    .gfo-drawer-handle {
+    .mapl-drawer-handle {
         display: flex;
-        border-radius: var(--gfo-radius-xl) var(--gfo-radius-xl) 0 0;
+        border-radius: var(--mapl-radius-xl) var(--mapl-radius-xl) 0 0;
     }
 
     /* Sidebar toggle button shown */
-    .gfo-sidebar-toggle {
+    .mapl-sidebar-toggle {
         display: flex;
     }
 
     /* Fullscreen button adjustment */
-    .gfo-fullscreen-btn {
+    .mapl-fullscreen-btn {
         bottom: 60px;
     }
 
-    .gfo-sidebar-title {
+    .mapl-sidebar-title {
         font-size: 17px;
     }
 
-    .gfo-sidebar-subtitle {
+    .mapl-sidebar-subtitle {
         font-size: 12px;
     }
 
     /* Popup responsive */
-    .gfo-popup .leaflet-popup-content {
+    .mapl-popup .leaflet-popup-content {
         min-width: 220px;
         max-width: 280px;
     }
 
     /* Etab cards smaller on mobile */
-    .gfo-place-card {
+    .mapl-place-card {
         padding: 12px;
         gap: 10px;
     }
 
-    .gfo-place-icon {
+    .mapl-place-icon {
         width: 36px;
         height: 36px;
     }
 
-    .gfo-place-name {
+    .mapl-place-name {
         font-size: 13px;
     }
 
@@ -1593,7 +1593,7 @@ body.gfo-body-fullscreen {
        section repasse dans le flux, juste sous elle, avec une hauteur nulle.
        Ses pastilles débordent sur la carte sans jamais recouvrir la barre,
        quelle que soit sa hauteur. */
-    .gfo-entity-section {
+    .mapl-entity-section {
         position: relative;
         top: 8px;       /* décalage visuel, sans pousser la carte */
         left: auto;
@@ -1608,16 +1608,16 @@ body.gfo-body-fullscreen {
 
     /* Hauteur nulle : sans cela, la rangée de pastilles (défilante) serait
        écrasée par la colonne flex. */
-    .gfo-entity-section > * {
+    .mapl-entity-section > * {
         flex-shrink: 0;
     }
 
-    .gfo-entity-pills {
+    .mapl-entity-pills {
         padding: 0;
         gap: 4px;
     }
 
-    .gfo-entity-pill {
+    .mapl-entity-pill {
         font-size: 11px;
         padding: 4px 10px;
     }
@@ -1627,49 +1627,49 @@ body.gfo-body-fullscreen {
    31. RESPONSIVE - Small mobile (max-width: 480px)
    ============================================================ */
 @media (max-width: 480px) {
-    .gfo-sidebar-header {
-        padding: var(--gfo-space-sm) var(--gfo-space-sm) var(--gfo-space-xs);
+    .mapl-sidebar-header {
+        padding: var(--mapl-space-sm) var(--mapl-space-sm) var(--mapl-space-xs);
     }
 
-    .gfo-place-card {
-        padding: 10px var(--gfo-space-sm);
+    .mapl-place-card {
+        padding: 10px var(--mapl-space-sm);
         gap: 8px;
     }
 
-    .gfo-place-icon {
+    .mapl-place-icon {
         width: 32px;
         height: 32px;
-        border-radius: var(--gfo-radius-sm);
+        border-radius: var(--mapl-radius-sm);
     }
 
-    .gfo-mobile-toolbar {
+    .mapl-mobile-toolbar {
         padding: 8px 10px;
         gap: 6px;
     }
 
-    .gfo-mobile-toolbar .gfo-search-input {
+    .mapl-mobile-toolbar .mapl-search-input {
         padding: 8px 10px;
         font-size: 12px;
     }
 
-    .gfo-mobile-toolbar .gfo-filter-select {
+    .mapl-mobile-toolbar .mapl-filter-select {
         padding: 8px 10px;
         font-size: 12px;
     }
 
-    .gfo-entity-section {
+    .mapl-entity-section {
         top: 6px;
         margin: 0 6px;
         gap: 2px;
     }
 
-    .gfo-entity-pills {
+    .mapl-entity-pills {
         padding: 0;
         gap: 3px;
         border-radius: 20px;
     }
 
-    .gfo-entity-pill {
+    .mapl-entity-pill {
         font-size: 10px;
         padding: 3px 8px;
     }
@@ -1679,25 +1679,25 @@ body.gfo-body-fullscreen {
    32. PRINT STYLES
    ============================================================ */
 @media print {
-    .gfo-map-sidebar {
+    .mapl-map-sidebar {
         display: none;
     }
 
-    .gfo-mobile-toolbar {
+    .mapl-mobile-toolbar {
         display: none;
     }
 
-    .gfo-sidebar-toggle,
-    .gfo-fullscreen-btn {
+    .mapl-sidebar-toggle,
+    .mapl-fullscreen-btn {
         display: none;
     }
 
-    .gfo-map-container {
+    .mapl-map-container {
         box-shadow: none;
         border: 1px solid #ccc;
     }
 
-    .gfo-map-loading {
+    .mapl-map-loading {
         display: none;
     }
 }
@@ -1710,29 +1710,29 @@ body.gfo-body-fullscreen {
    ============================================================ */
 
 /* Ensure Elementor section/column padding does not clip the map */
-.elementor-widget-geofolio_map .elementor-widget-container {
+.elementor-widget-mapped_places_map .elementor-widget-container {
     overflow: visible;
 }
 
 /* ============================================================
    35. SCROLLBAR STYLES (global for sidebar content)
    ============================================================ */
-.gfo-map-sidebar *::-webkit-scrollbar {
+.mapl-map-sidebar *::-webkit-scrollbar {
     width: 4px;
 }
 
-.gfo-map-sidebar *::-webkit-scrollbar-track {
+.mapl-map-sidebar *::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.gfo-map-sidebar *::-webkit-scrollbar-thumb {
-    background: var(--gfo-border);
+.mapl-map-sidebar *::-webkit-scrollbar-thumb {
+    background: var(--mapl-border);
     border-radius: 2px;
 }
 
-.gfo-map-sidebar * {
+.mapl-map-sidebar * {
     scrollbar-width: thin;
-    scrollbar-color: var(--gfo-border) transparent;
+    scrollbar-color: var(--mapl-border) transparent;
 }
 
 /* ============================================================
@@ -1740,13 +1740,13 @@ body.gfo-body-fullscreen {
    Smooth transitions for dynamic state changes triggered by JS.
    ============================================================ */
 /* Transitions et will-change : déclarés avec la règle de base de chaque
-   composant (.gfo-map-sidebar, .gfo-place-card, .gfo-marker, .gfo-cluster). */
+   composant (.mapl-map-sidebar, .mapl-place-card, .mapl-marker, .mapl-cluster). */
 
 /* ================================================================ */
 /*  TOAST NOTIFICATION                                               */
 /* ================================================================ */
 
-.gfo-toast {
+.mapl-toast {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -1763,7 +1763,7 @@ body.gfo-body-fullscreen {
     white-space: nowrap;
 }
 
-.gfo-toast-visible {
+.mapl-toast-visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
@@ -1772,13 +1772,13 @@ body.gfo-body-fullscreen {
    DIRECTEUR (v2.5)
    ============================================================ */
 
-.gfo-popup-manager {
+.mapl-popup-manager {
     margin: 8px 0;
     font-size: 13px;
     color: #475569;
 }
 
-.gfo-place-manager {
+.mapl-place-manager {
     font-size: 11px;
     color: #94a3b8;
     margin-top: 2px;
@@ -1789,7 +1789,7 @@ body.gfo-body-fullscreen {
    AUTOCOMPLETE (v2.5)
    ============================================================ */
 
-.gfo-autocomplete-results {
+.mapl-autocomplete-results {
     position: absolute;
     top: calc(100% + 4px);
     left: 0;
@@ -1803,35 +1803,35 @@ body.gfo-body-fullscreen {
     overflow-y: auto;
 }
 
-.gfo-autocomplete-item {
+.mapl-autocomplete-item {
     padding: 10px 14px;
     cursor: pointer;
     border-bottom: 1px solid #f1f5f9;
     transition: background 0.15s;
 }
 
-.gfo-autocomplete-item:last-child {
+.mapl-autocomplete-item:last-child {
     border-bottom: none;
 }
 
-.gfo-autocomplete-item:hover,
-.gfo-autocomplete-item.is-highlighted {
+.mapl-autocomplete-item:hover,
+.mapl-autocomplete-item.is-highlighted {
     background: #f8fafc;
 }
 
-.gfo-ac-title {
+.mapl-ac-title {
     font-size: 13px;
     font-weight: 600;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     margin-bottom: 2px;
 }
 
-.gfo-ac-meta {
+.mapl-ac-meta {
     font-size: 11px;
     color: #64748b;
 }
 
-.gfo-autocomplete-item mark {
+.mapl-autocomplete-item mark {
     background: rgba(193, 142, 216, 0.45);
     color: #1e293b;
     /* Pas de padding : sur un élément en ligne, il écarte les lettres du mot
@@ -1842,7 +1842,7 @@ body.gfo-body-fullscreen {
     font-weight: 600;
 }
 
-.gfo-autocomplete-empty {
+.mapl-autocomplete-empty {
     padding: 14px;
     text-align: center;
     color: #94a3b8;
@@ -1855,31 +1855,31 @@ body.gfo-body-fullscreen {
    CARROUSEL (v2.6)
    ============================================================ */
 
-.gfo-carousel {
+.mapl-carousel {
     position: relative;
     overflow: hidden;
     border-radius: 8px 8px 0 0;
     background: #f1f5f9;
 }
 
-.gfo-carousel:focus-visible {
-    outline: 2px solid var(--gfo-accent);
+.mapl-carousel:focus-visible {
+    outline: 2px solid var(--mapl-accent);
     outline-offset: 2px;
 }
 
-.gfo-carousel-track {
+.mapl-carousel-track {
     display: flex;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
 
-.gfo-carousel-slide {
+.mapl-carousel-slide {
     flex: 0 0 100%;
     min-width: 100%;
     height: 200px;
 }
 
-.gfo-carousel-slide img {
+.mapl-carousel-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1891,9 +1891,9 @@ body.gfo-body-fullscreen {
    les puces du carrousel heritaient d'un cadre rose et d'un rectangle qui
    les rendaient illisibles. Chaque propriete reprise ici est une propriete
    que le theme peut ecraser. */
-.gfo-carousel .gfo-carousel-prev,
-.gfo-carousel .gfo-carousel-next,
-.gfo-carousel .gfo-carousel-dot {
+.mapl-carousel .mapl-carousel-prev,
+.mapl-carousel .mapl-carousel-next,
+.mapl-carousel .mapl-carousel-dot {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
@@ -1914,17 +1914,17 @@ body.gfo-body-fullscreen {
     z-index: 10;
 }
 
-.gfo-carousel .gfo-carousel-prev::before,
-.gfo-carousel .gfo-carousel-prev::after,
-.gfo-carousel .gfo-carousel-next::before,
-.gfo-carousel .gfo-carousel-next::after,
-.gfo-carousel .gfo-carousel-dot::before,
-.gfo-carousel .gfo-carousel-dot::after {
+.mapl-carousel .mapl-carousel-prev::before,
+.mapl-carousel .mapl-carousel-prev::after,
+.mapl-carousel .mapl-carousel-next::before,
+.mapl-carousel .mapl-carousel-next::after,
+.mapl-carousel .mapl-carousel-dot::before,
+.mapl-carousel .mapl-carousel-dot::after {
     content: none !important;
 }
 
-.gfo-carousel .gfo-carousel-prev,
-.gfo-carousel .gfo-carousel-next {
+.mapl-carousel .mapl-carousel-prev,
+.mapl-carousel .mapl-carousel-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -1940,22 +1940,22 @@ body.gfo-body-fullscreen {
     transition: background 0.2s, opacity 0.2s;
 }
 
-.gfo-carousel .gfo-carousel-prev:hover,
-.gfo-carousel .gfo-carousel-next:hover {
+.mapl-carousel .mapl-carousel-prev:hover,
+.mapl-carousel .mapl-carousel-next:hover {
     background: rgba(15, 23, 42, 0.78) !important;
 }
 
-.gfo-carousel .gfo-carousel-prev:focus-visible,
-.gfo-carousel .gfo-carousel-next:focus-visible {
+.mapl-carousel .mapl-carousel-prev:focus-visible,
+.mapl-carousel .mapl-carousel-next:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 2px;
 }
 
-.gfo-carousel .gfo-carousel-prev { left: 10px; }
-.gfo-carousel .gfo-carousel-next { right: 10px; }
+.mapl-carousel .mapl-carousel-prev { left: 10px; }
+.mapl-carousel .mapl-carousel-next { right: 10px; }
 
-.gfo-carousel .gfo-carousel-prev svg,
-.gfo-carousel .gfo-carousel-next svg {
+.mapl-carousel .mapl-carousel-prev svg,
+.mapl-carousel .mapl-carousel-next svg {
     width: 20px;
     height: 20px;
     color: #fff;
@@ -1964,7 +1964,7 @@ body.gfo-body-fullscreen {
     pointer-events: none;
 }
 
-.gfo-carousel-counter {
+.mapl-carousel-counter {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -1977,7 +1977,7 @@ body.gfo-body-fullscreen {
     z-index: 10;
 }
 
-.gfo-carousel-dots {
+.mapl-carousel-dots {
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -1988,7 +1988,7 @@ body.gfo-body-fullscreen {
     z-index: 10;
 }
 
-.gfo-carousel .gfo-carousel-dot {
+.mapl-carousel .mapl-carousel-dot {
     width: 9px !important;
     height: 9px !important;
     border-radius: 999px !important;
@@ -2001,25 +2001,25 @@ body.gfo-body-fullscreen {
 
 /* La puce active s'allonge : la position dans la galerie reste lisible
    meme pour un oeil qui ne distingue pas bien les nuances de blanc. */
-.gfo-carousel .gfo-carousel-dot.is-active {
+.mapl-carousel .mapl-carousel-dot.is-active {
     width: 22px !important;
     background: #fff !important;
     box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.45), 0 1px 3px rgba(0, 0, 0, 0.4) !important;
 }
 
-.gfo-carousel .gfo-carousel-dot:focus-visible {
+.mapl-carousel .mapl-carousel-dot:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
 }
 
-.gfo-popup-image-placeholder {
+.mapl-popup-image-placeholder {
     height: 200px;
     background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
     background-size: 200% 100%;
-    animation: gfo-shimmer 1.5s infinite linear;
+    animation: mapl-shimmer 1.5s infinite linear;
 }
 
-@keyframes gfo-shimmer {
+@keyframes mapl-shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
@@ -2027,12 +2027,12 @@ body.gfo-body-fullscreen {
 /* Petits écrans (<= 640px) : un seul bloc, placé après les règles de base
    de chaque composant qu'il ajuste (pastilles, autocomplétion, carrousel). */
 @media (max-width: 640px) {
-    .gfo-entity-hint {
+    .mapl-entity-hint {
         font-size: 10.5px;
         padding: 3px 8px;
     }
 
-    .gfo-mobile-toolbar .gfo-autocomplete-results {
+    .mapl-mobile-toolbar .mapl-autocomplete-results {
         position: fixed;
         top: auto;
         bottom: 60px;
@@ -2041,34 +2041,34 @@ body.gfo-body-fullscreen {
         max-height: 50vh;
     }
 
-    .gfo-carousel-slide { height: 180px; }
+    .mapl-carousel-slide { height: 180px; }
 
     /* Meme specificite et meme !important que la regle de base, sinon la
        taille mobile serait ecrasee par celle du bureau. */
-    .gfo-carousel .gfo-carousel-prev,
-    .gfo-carousel .gfo-carousel-next {
+    .mapl-carousel .mapl-carousel-prev,
+    .mapl-carousel .mapl-carousel-next {
         width: 32px !important;
         height: 32px !important;
     }
 
-    .gfo-carousel .gfo-carousel-prev svg,
-    .gfo-carousel .gfo-carousel-next svg {
+    .mapl-carousel .mapl-carousel-prev svg,
+    .mapl-carousel .mapl-carousel-next svg {
         width: 18px;
         height: 18px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .gfo-carousel-track { transition: none; }
-    .gfo-popup-image-placeholder { animation: none; }
+    .mapl-carousel-track { transition: none; }
+    .mapl-popup-image-placeholder { animation: none; }
 }
 
 /* ============================================================
-   TITLES — --gfo-font-title, bold.
+   TITLES — --mapl-font-title, bold.
    ============================================================ */
-.gfo-sidebar-title,
-.gfo-place-name,
-.gfo-popup-title {
-    font-family: var(--gfo-font-title);
+.mapl-sidebar-title,
+.mapl-place-name,
+.mapl-popup-title {
+    font-family: var(--mapl-font-title);
     font-weight: 700;
 }

@@ -34,7 +34,7 @@ final class AssetsTest extends TestCase {
      * @return string[]
      */
     private static function source_files(): array {
-        $files = array(self::ROOT . '/geofolio.php');
+        $files = array(self::ROOT . '/mapped-places.php');
         foreach (array('src', 'assets/js') as $dir) {
             $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(self::ROOT . '/' . $dir));
             foreach ($iterator as $file) {

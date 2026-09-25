@@ -4,19 +4,19 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Map\Defaults;
-use Geofolio\Map\Renderer;
-use Geofolio\Map\TileProviders;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Map\Renderer;
+use MappedPlaces\Map\TileProviders;
 
 final class RendererTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
+        mapl_test_reset();
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     private static function render(array $atts = array()) {
@@ -31,7 +31,7 @@ final class RendererTest extends TestCase {
     }
 
     public function test_sans_fond_demande_le_reglage_du_site_s_applique() {
-        gfo_test_reset(array(
+        mapl_test_reset(array(
             SettingsPage::OPTION_NAME => array('tile_style' => 'osm'),
         ));
 
@@ -47,15 +47,15 @@ final class RendererTest extends TestCase {
     }
 
     public function test_show_list_faux_n_emet_pas_la_liste() {
-        $this->assertStringContainsString('gfo-place-list', self::render());
-        $this->assertStringNotContainsString('gfo-place-list', self::render(array('show_list' => 'false')));
+        $this->assertStringContainsString('mapl-place-list', self::render());
+        $this->assertStringNotContainsString('mapl-place-list', self::render(array('show_list' => 'false')));
     }
 
     public function test_sans_recherche_filtre_ni_liste_pas_de_sidebar() {
         $html = self::render(array('show_search' => 'false', 'show_filter' => 'false', 'show_list' => 'false'));
 
-        $this->assertStringNotContainsString('gfo-map-sidebar', $html);
-        $this->assertStringContainsString('gfo-map-canvas', $html);
+        $this->assertStringNotContainsString('mapl-map-sidebar', $html);
+        $this->assertStringContainsString('mapl-map-canvas', $html);
     }
 
     public function test_les_attributs_du_conteneur_ont_des_types_imposes() {
@@ -63,10 +63,10 @@ final class RendererTest extends TestCase {
             'center_lat'       => '45.5abc',
             'zoom'             => '-7',
             'sidebar_position' => 'right',
-        )), 'gfo-map-x');
+        )), 'mapl-map-x');
 
-        $this->assertSame('gfo-map-x', $attributes['id']);
-        $this->assertSame('gfo-map-container gfo-sidebar-right', $attributes['class']);
+        $this->assertSame('mapl-map-x', $attributes['id']);
+        $this->assertSame('mapl-map-container mapl-sidebar-right', $attributes['class']);
         $this->assertSame('45.5', $attributes['data-center-lat']);
         $this->assertSame('7', $attributes['data-zoom']);
         $this->assertArrayNotHasKey('data-types', $attributes);
@@ -82,7 +82,7 @@ final class RendererTest extends TestCase {
     public function test_l_ancien_attribut_show_filters_reste_compris() {
         $html = self::render(array('show_filter' => '', 'show_filters' => 'false', 'show_search' => 'true'));
 
-        $this->assertStringNotContainsString('gfo-filter-select', $html);
+        $this->assertStringNotContainsString('mapl-filter-select', $html);
     }
 
     public function test_les_attributs_absents_prennent_les_valeurs_par_defaut() {
@@ -94,19 +94,19 @@ final class RendererTest extends TestCase {
 
     /** Le nombre de résultats change à chaque filtre : il est annoncé aux lecteurs d'écran. */
     public function test_le_compteur_de_resultats_est_annonce() {
-        $this->assertMatchesRegularExpression('/<span class="gfo-results-count" aria-live="polite"[^>]*>/', self::render());
+        $this->assertMatchesRegularExpression('/<span class="mapl-results-count" aria-live="polite"[^>]*>/', self::render());
     }
 
     public function test_par_defaut_la_hauteur_est_posee_sur_le_wrapper() {
-        $this->assertStringContainsString('class="gfo-map-wrapper" style="height: 600px;"', self::render());
+        $this->assertStringContainsString('class="mapl-map-wrapper" style="height: 600px;"', self::render());
     }
 
     /** Hauteur gérée par le conteneur (widget Elementor responsive). */
     public function test_la_hauteur_container_laisse_le_conteneur_decider() {
         $html = self::render(array('height' => 'container'));
 
-        $this->assertStringContainsString('<div class="gfo-map-wrapper">', $html);
-        $this->assertMatchesRegularExpression('/class="gfo-map-container[^"]*gfo-map-container--sized/', $html);
+        $this->assertStringContainsString('<div class="mapl-map-wrapper">', $html);
+        $this->assertMatchesRegularExpression('/class="mapl-map-container[^"]*mapl-map-container--sized/', $html);
     }
 
     public function test_une_hauteur_vide_retombe_sur_la_valeur_par_defaut() {

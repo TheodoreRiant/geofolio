@@ -3,7 +3,7 @@
  * Outils de texte purs, sans dépendance à WordPress.
  */
 
-namespace Geofolio\Support;
+namespace MappedPlaces\Support;
 
 if (!defined('ABSPATH')) {
     exit;

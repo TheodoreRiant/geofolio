@@ -1,5 +1,5 @@
 /**
- * Méthodes de GeofolioMap : Marqueurs, clusters, popup et position de l'utilisateur.
+ * Méthodes de MappedPlacesMap : Marqueurs, clusters, popup et position de l'utilisateur.
  * Ajoutées au prototype par map.mjs.
  */
 import { resolveTypeConfig } from './types.mjs';
@@ -41,21 +41,21 @@ const markersMethods = {
                     var color = (children[i] && children[i].entityColor)
                         ? children[i].entityColor
                         : DEFAULT_COLOR;
-                    dots += '<span class="gfo-cluster-dot" style="background:' + color + '"></span>';
+                    dots += '<span class="mapl-cluster-dot" style="background:' + color + '"></span>';
                 }
                 var remaining = count - shown;
                 if (remaining > 0) {
-                    dots += '<span class="gfo-cluster-more">+' + remaining + '</span>';
+                    dots += '<span class="mapl-cluster-more">+' + remaining + '</span>';
                 }
 
                 // Accessibilité : le nombre total reste lisible via title/aria-label.
                 var label = escAttr(t('clusterLabel', count));
 
                 return L.divIcon({
-                    html:      '<div class="gfo-cluster gfo-cluster-' + size + '" title="' + label + '" aria-label="' + label + '">'
-                             + '<span class="gfo-cluster-dots">' + dots + '</span>'
+                    html:      '<div class="mapl-cluster mapl-cluster-' + size + '" title="' + label + '" aria-label="' + label + '">'
+                             + '<span class="mapl-cluster-dots">' + dots + '</span>'
                              + '</div>',
-                    className: 'gfo-cluster-icon',
+                    className: 'mapl-cluster-icon',
                     iconSize:  L.point(d, d),
                 });
             },
@@ -91,7 +91,7 @@ const markersMethods = {
         marker.bindPopup(self.createPopupContent(place), {
             maxWidth:  380,
             maxHeight: 400,
-            className: 'gfo-popup',
+            className: 'mapl-popup',
             autoPan:   true,
             // Padding haut/gauche large pour que le popup ne se glisse
             // jamais sous les pastilles d'entités flottantes en haut
@@ -111,12 +111,12 @@ const markersMethods = {
 
         // Marker click -> highlight the corresponding sidebar card
         marker.on('click', function() {
-            self.$container.find('.gfo-place-card').removeClass('active');
-            var $card = self.$container.find('.gfo-place-card[data-id="' + place.id + '"]');
+            self.$container.find('.mapl-place-card').removeClass('active');
+            var $card = self.$container.find('.mapl-place-card[data-id="' + place.id + '"]');
             $card.addClass('active');
 
             if ($card.length) {
-                var $list = self.$container.find('.gfo-place-list');
+                var $list = self.$container.find('.mapl-place-list');
                 if ($list.length) {
                     $list.animate({
                         scrollTop: $list.scrollTop() + $card.position().top - 60
@@ -177,13 +177,13 @@ const markersMethods = {
         var h = 52;
 
         return L.divIcon({
-            html: '<div class="gfo-marker" data-id="' + place.id + '">'
-                + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 52" class="gfo-pin-svg">'
+            html: '<div class="mapl-marker" data-id="' + place.id + '">'
+                + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 52" class="mapl-pin-svg">'
                 + '<path d="M20 0C11 0 4 7 4 16c0 12 16 27 16 27s16-15 16-27C36 7 29 0 20 0z" fill="' + entityColor + '" stroke="#fff" stroke-width="1.5"/>'
                 + '<circle cx="20" cy="16" r="5" fill="#fff" />'
                 + '</svg>'
                 + '</div>',
-            className:  'gfo-marker-icon',
+            className:  'mapl-marker-icon',
             iconSize:   [w, h],
             iconAnchor: [w / 2, h],
             popupAnchor:[0, -h - 2],
@@ -204,101 +204,101 @@ const markersMethods = {
         var entityColor = resolveEntityColor(place, config.color);
         var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(', ');
 
-        var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '">';
+        var html = '<div class="mapl-popup-content" data-place-id="' + place.id + '">';
 
         // Image / Galerie : placeholder shimmer si galerie attendue
         // (le carrousel est injecté en popupopen via fetch detail).
         if (place.gallery_count > 0) {
-            html += '<div class="gfo-popup-image-placeholder"></div>';
+            html += '<div class="mapl-popup-image-placeholder"></div>';
         } else if (place.thumbnail) {
-            html += '<div class="gfo-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(title) + '" loading="lazy" /></div>';
+            html += '<div class="mapl-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(title) + '" loading="lazy" /></div>';
         } else {
             // Aucune photo (ni galerie ni image à la une) : placeholder générique
             html += this.renderImagePlaceholder();
         }
 
-        html += '<div class="gfo-popup-body">';
+        html += '<div class="mapl-popup-body">';
 
         // Badges: entity (solid colored) + type (outline/light)
-        html += '<div class="gfo-popup-badges">';
+        html += '<div class="mapl-popup-badges">';
         if (place.entity && place.entity.name) {
-            html += '<span class="gfo-popup-entity-badge" style="background:' + entityColor + ';color:#fff">' + escHtml(place.entity.name) + '</span>';
+            html += '<span class="mapl-popup-entity-badge" style="background:' + entityColor + ';color:#fff">' + escHtml(place.entity.name) + '</span>';
         }
         if (type) {
-            html += '<span class="gfo-popup-type-badge" style="color:#555;background:#f0f0f0;border:1px solid #ddd">' + escHtml(config.label) + '</span>';
+            html += '<span class="mapl-popup-type-badge" style="color:#555;background:#f0f0f0;border:1px solid #ddd">' + escHtml(config.label) + '</span>';
         }
         html += '</div>';
 
         // Title
-        html += '<h3 class="gfo-popup-title">' + escHtml(title) + '</h3>';
+        html += '<h3 class="mapl-popup-title">' + escHtml(title) + '</h3>';
 
         // Mission / description complete
         var mission = place.description || place.excerpt || '';
         if (mission) {
-            html += '<p class="gfo-popup-desc">' + escHtml(mission) + '</p>';
+            html += '<p class="mapl-popup-desc">' + escHtml(mission) + '</p>';
         }
 
         // Personnes : rôle + nom, dans l'ordre saisi. Repli sur l'ancien
         // champ « manager » (noms seuls) pour les données non migrées.
         if (place.people && place.people.length) {
-            var separator = (geofolioConfig.i18n && geofolioConfig.i18n.roleSeparator) || ': ';
+            var separator = (mappedPlacesConfig.i18n && mappedPlacesConfig.i18n.roleSeparator) || ': ';
             place.people.forEach(function (person) {
-                html += '<p class="gfo-popup-manager">'
+                html += '<p class="mapl-popup-manager">'
                     + (person.role ? '<strong>' + escHtml(person.role) + escHtml(separator) + '</strong>' : '')
                     + escHtml(person.name) + '</p>';
             });
         } else if (place.manager) {
-            html += '<p class="gfo-popup-manager"><strong>'
-                + escHtml(managerLabel(place.manager, geofolioConfig.i18n))
+            html += '<p class="mapl-popup-manager"><strong>'
+                + escHtml(managerLabel(place.manager, mappedPlacesConfig.i18n))
                 + '</strong>' + escHtml(place.manager) + '</p>';
         }
 
         // Nombre de personnes soutenues (stored in excerpt)
         if (place.excerpt && place.description && place.excerpt !== place.description) {
-            html += '<p class="gfo-popup-nombre"><strong>' + escHtml(t('audience')) + '</strong> ' + escHtml(place.excerpt) + '</p>';
+            html += '<p class="mapl-popup-nombre"><strong>' + escHtml(t('audience')) + '</strong> ' + escHtml(place.excerpt) + '</p>';
         }
 
         // Info block
-        html += '<div class="gfo-popup-info">';
+        html += '<div class="mapl-popup-info">';
 
         if (fullAddr) {
-            html += '<p class="gfo-popup-address">' + SVG_LOCATION + '<span>' + escHtml(fullAddr) + '</span></p>';
+            html += '<p class="mapl-popup-address">' + SVG_LOCATION + '<span>' + escHtml(fullAddr) + '</span></p>';
         }
 
         if (place.phone) {
-            html += '<p class="gfo-popup-phone">' + SVG_PHONE_14 + '<a href="tel:' + escAttr(place.phone) + '">' + escHtml(place.phone) + '</a></p>';
+            html += '<p class="mapl-popup-phone">' + SVG_PHONE_14 + '<a href="tel:' + escAttr(place.phone) + '">' + escHtml(place.phone) + '</a></p>';
         }
 
         if (place.email) {
-            html += '<p class="gfo-popup-email"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + escAttr(place.email) + '">' + escHtml(place.email) + '</a></p>';
+            html += '<p class="mapl-popup-email"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + escAttr(place.email) + '">' + escHtml(place.email) + '</a></p>';
         }
 
         if (place.services && place.services.length) {
-            html += '<p class="gfo-popup-services"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>' + escHtml(place.services.join(', ')) + '</span></p>';
+            html += '<p class="mapl-popup-services"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>' + escHtml(place.services.join(', ')) + '</span></p>';
         }
 
         // Horaires, site web et accessibilite : renseignes dans l'admin
         // mais jamais affiches jusqu'a la 2.7.5. N'apparaissent que si le
         // champ est rempli, donc rien ne change pour une fiche vide.
         if (place.opening_hours) {
-            html += '<p class="gfo-popup-hours">' + SVG_CLOCK
+            html += '<p class="mapl-popup-hours">' + SVG_CLOCK
                  + '<span>' + escHtml(place.opening_hours) + '</span></p>';
         }
 
         if (place.accessibility && place.accessibility.length) {
-            html += '<p class="gfo-popup-access">' + SVG_ACCESS
+            html += '<p class="mapl-popup-access">' + SVG_ACCESS
                  + '<span>' + escHtml(place.accessibility.join(', ')) + '</span></p>';
         }
 
         var siteWeb = safeUrl(place.website);
         if (siteWeb) {
-            html += '<p class="gfo-popup-website">' + SVG_GLOBE
+            html += '<p class="mapl-popup-website">' + SVG_GLOBE
                  + '<a href="' + escAttr(siteWeb) + '" target="_blank" rel="noopener noreferrer">'
                  + escHtml(prettyUrl(siteWeb)) + '</a></p>';
         }
 
         if (place.distance) {
-            html += '<p class="gfo-popup-distance"><strong>' + place.distance + ' km</strong></p>';
+            html += '<p class="mapl-popup-distance"><strong>' + place.distance + ' km</strong></p>';
         }
 
         html += '</div>';
@@ -321,7 +321,7 @@ const markersMethods = {
         var el = marker.getElement();
         if (!el) return;
 
-        var pin = el.querySelector('.gfo-marker');
+        var pin = el.querySelector('.mapl-marker');
         if (!pin) return;
 
         if (active) {
@@ -339,7 +339,7 @@ const markersMethods = {
      */
     handleGeolocation() {
         var self = this;
-        var $btn = this.$container.find('.gfo-geoloc-btn');
+        var $btn = this.$container.find('.mapl-geoloc-btn');
 
         if (!navigator.geolocation) {
             var errorMsg = t('geolocUnavailable');
@@ -381,8 +381,8 @@ const markersMethods = {
             [this.userLocation.lat, this.userLocation.lng],
             {
                 icon: L.divIcon({
-                    html:      '<div class="gfo-user-marker"></div>',
-                    className: 'gfo-user-marker-icon',
+                    html:      '<div class="mapl-user-marker"></div>',
+                    className: 'mapl-user-marker-icon',
                     iconSize:  [20, 20],
                     iconAnchor:[10, 10],
                 }),

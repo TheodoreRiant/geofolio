@@ -2,14 +2,14 @@
 /**
  * Valeurs par défaut de la carte, source unique pour le shortcode, le widget
  * Elementor et l'API. Les valeurs du cœur sont neutres ; un préréglage ou un
- * plugin tiers les adapte par les filtres geofolio_defaults et
- * geofolio_default_color.
+ * plugin tiers les adapte par les filtres mapped_places_defaults et
+ * mapped_places_default_color.
  */
 
-namespace Geofolio\Map;
+namespace MappedPlaces\Map;
 
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\LabelsSettings;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\LabelsSettings;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -40,7 +40,7 @@ class Defaults {
     public static function all() {
         // Priorité : filtre > réglage « Libellés et défauts » > code.
         $defaults = array_merge(self::base(), LabelsSettings::map_defaults());
-        $filtered = apply_filters('geofolio_defaults', $defaults);
+        $filtered = apply_filters('mapped_places_defaults', $defaults);
 
         return is_array($filtered)
             ? array_map('strval', array_merge($defaults, array_intersect_key($filtered, $defaults)))
@@ -54,7 +54,7 @@ class Defaults {
      */
     public static function color() {
         $setting = AppearanceSettings::get_all()['primary_color'];
-        $color   = apply_filters('geofolio_default_color', $setting !== '' ? $setting : self::COLOR);
+        $color   = apply_filters('mapped_places_default_color', $setting !== '' ? $setting : self::COLOR);
         return is_string($color) && preg_match(self::COLOR_PATTERN, $color) ? $color : self::COLOR;
     }
 
@@ -75,7 +75,7 @@ class Defaults {
             'show_list'        => 'true',
             'show_fullscreen'  => 'false',
             'sidebar_position' => 'left',
-            'sidebar_title'    => __('Our locations', 'geofolio'),
+            'sidebar_title'    => __('Our locations', 'mapped-places'),
             'sidebar_subtitle' => '',
             'tile_style'       => '',
             'fit_bounds'       => 'true',

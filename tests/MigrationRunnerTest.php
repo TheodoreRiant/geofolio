@@ -1,12 +1,12 @@
 <?php
 /**
  * Tests de l'exécuteur de migrations générique : les étapes viennent du
- * filtre geofolio_migration_steps, le cœur n'en déclare aucune.
+ * filtre mapped_places_migration_steps, le cœur n'en déclare aucune.
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Migration\Runner;
-use Geofolio\Migration\Step;
+use MappedPlaces\Migration\Runner;
+use MappedPlaces\Migration\Step;
 
 final class FakeMigrationStep implements Step {
     public static $calls = array();
@@ -31,7 +31,7 @@ final class FakeMigrationStep implements Step {
     }
 }
 
-final class FakeConfirmedStep implements Step, \Geofolio\Migration\ConfirmedStep {
+final class FakeConfirmedStep implements Step, \MappedPlaces\Migration\ConfirmedStep {
     private $id;
 
     public function __construct($id) {
@@ -55,13 +55,13 @@ final class FakeConfirmedStep implements Step, \Geofolio\Migration\ConfirmedStep
 final class MigrationRunnerTest extends TestCase {
 
     protected function setUp(): void {
-        gfo_test_reset();
-        gfo_test_reset_posts(array('manage_options'));
+        mapl_test_reset();
+        mapl_test_reset_posts(array('manage_options'));
         FakeMigrationStep::$calls = array();
     }
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     private static function runner(): Runner {
@@ -71,7 +71,7 @@ final class MigrationRunnerTest extends TestCase {
     }
 
     private static function register(array $steps) {
-        add_filter('geofolio_migration_steps', static function ($existing) use ($steps) {
+        add_filter('mapped_places_migration_steps', static function ($existing) use ($steps) {
             return array_merge($existing, $steps);
         });
     }
@@ -137,7 +137,7 @@ final class MigrationRunnerTest extends TestCase {
     }
 
     public function test_sans_droit_d_administration_rien_ne_tourne() {
-        gfo_test_reset_posts(array('edit_posts'));
+        mapl_test_reset_posts(array('edit_posts'));
         self::register(array(new FakeMigrationStep('a')));
 
         $this->assertSame(array('error' => 'permission denied'), self::runner()->run());

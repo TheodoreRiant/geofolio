@@ -24,7 +24,7 @@ test('la classe ne définit destroy() qu\'une fois', () => {
 });
 
 test('destroy() détache aussi les écouteurs de l\'autocomplétion', () => {
-    assert.match(methodBody('destroy'), /\.off\('\.gfoAC_' \+ this\.mapId\)/);
+    assert.match(methodBody('destroy'), /\.off\('\.maplAC_' \+ this\.mapId\)/);
 });
 
 test('un échec du chargement affiche un message à l\'utilisateur', () => {

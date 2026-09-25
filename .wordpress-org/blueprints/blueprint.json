@@ -13,7 +13,7 @@
 			"step": "installPlugin",
 			"pluginData": {
 				"resource": "wordpress.org/plugins",
-				"slug": "geofolio"
+				"slug": "mapped-places"
 			},
 			"options": {
 				"activate": true
@@ -21,7 +21,7 @@
 		},
 		{
 			"step": "runPHP",
-			"code": "<?php require '/wordpress/wp-load.php'; $csv = WP_PLUGIN_DIR . '/geofolio/data/sample/places.csv'; \\Geofolio\\Import\\Importer::get_instance()->import_csv($csv, true, false, dirname($csv) . '/photos'); wp_insert_post(array('post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Map', 'post_name' => 'map', 'post_content' => '<!-- wp:geofolio/map {\"align\":\"full\",\"height\":\"80vh\"} /-->'));"
+			"code": "<?php require '/wordpress/wp-load.php'; $csv = WP_PLUGIN_DIR . '/mapped-places/data/sample/places.csv'; \\MappedPlaces\\Import\\Importer::get_instance()->import_csv($csv, true, false, dirname($csv) . '/photos'); wp_insert_post(array('post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Map', 'post_name' => 'map', 'post_content' => '<!-- wp:mapped-places/map {\"align\":\"full\",\"height\":\"80vh\"} /-->'));"
 		}
 	]
 }

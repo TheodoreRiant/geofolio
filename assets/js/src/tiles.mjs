@@ -3,11 +3,11 @@
 /* ================================================================ */
 
 /* Les gabarits d'URL sont definis cote PHP (includes/class-tile-providers.php)
-   et transmis via geofolioConfig.tiles, cles API deja injectees. Le JS ne
+   et transmis via mappedPlacesConfig.tiles, cles API deja injectees. Le JS ne
    code plus aucune URL de fournisseur en dur.
 
    Seule exception : ce repli de derniere chance, utilise si le JS est servi
-   depuis un cache plus recent que le PHP (geofolioConfig.tiles absent).
+   depuis un cache plus recent que le PHP (mappedPlacesConfig.tiles absent).
    Il est volontairement SANS CLE pour ne jamais afficher d'erreur
    d'authentification a la place de la carte. */
 const FALLBACK_TILE = {
@@ -51,7 +51,7 @@ function readTileProvider(config, id) {
  * @param {boolean} vectorReady  maplibre-gl-leaflet est-il disponible ?
  */
 function resolveTile(pageStyle, vectorReady) {
-    const config = (window.geofolioConfig && window.geofolioConfig.tiles) || null;
+    const config = (window.mappedPlacesConfig && window.mappedPlacesConfig.tiles) || null;
     if (!config) return FALLBACK_TILE;
 
     const wanted = config.forced || pageStyle;

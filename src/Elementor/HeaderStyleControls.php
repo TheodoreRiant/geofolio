@@ -3,10 +3,10 @@
  * Contrôles de style du widget : titre et sous-titre de la sidebar,
  * pastilles d'entités et phrase d'aide.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -21,7 +21,7 @@ trait HeaderStyleControls {
         $this->start_controls_section(
             'style_sidebar_heading',
             [
-                'label' => __('Sidebar title and subtitle', 'geofolio'),
+                'label' => __('Sidebar title and subtitle', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -30,18 +30,18 @@ trait HeaderStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'sidebar_title_typography',
-                'label'    => __('Title typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-sidebar-title',
+                'label'    => __('Title typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-sidebar-title',
             ]
         );
 
         $this->add_control(
             'sidebar_title_color',
             [
-                'label'     => __('Title colour', 'geofolio'),
+                'label'     => __('Title colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-sidebar-title' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-sidebar-title' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -50,18 +50,18 @@ trait HeaderStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'sidebar_subtitle_typography',
-                'label'    => __('Subtitle typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-sidebar-subtitle',
+                'label'    => __('Subtitle typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-sidebar-subtitle',
             ]
         );
 
         $this->add_control(
             'sidebar_subtitle_color',
             [
-                'label'     => __('Subtitle colour', 'geofolio'),
+                'label'     => __('Subtitle colour', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-sidebar-subtitle' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-sidebar-subtitle' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -77,7 +77,7 @@ trait HeaderStyleControls {
         $this->start_controls_section(
             'style_entity_pills',
             [
-                'label' => __('Entity pills', 'geofolio'),
+                'label' => __('Entity pills', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -86,22 +86,22 @@ trait HeaderStyleControls {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name'     => 'pill_typography',
-                'label'    => __('Pill typography', 'geofolio'),
-                'selector' => '{{WRAPPER}} .gfo-entity-pill',
+                'label'    => __('Pill typography', 'mapped-places'),
+                'selector' => '{{WRAPPER}} .mapl-entity-pill',
             ]
         );
 
         $this->add_control(
             'pill_radius',
             [
-                'label'      => __('Pill border radius', 'geofolio'),
+                'label'      => __('Pill border radius', 'mapped-places'),
                 'type'       => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => ['px'],
                 'range'      => ['px' => ['min' => 0, 'max' => 50]],
                 // Variable : la règle du plugin est en !important (protection
                 // contre les thèmes) et ignorerait une valeur directe.
                 'selectors'  => [
-                    '{{WRAPPER}} .gfo-map-container' => '--gfo-pill-radius: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-map-container' => '--mapl-pill-radius: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -111,15 +111,15 @@ trait HeaderStyleControls {
         $this->add_control(
             'entity_hint_display',
             [
-                'label'     => __('Help sentence', 'geofolio'),
+                'label'     => __('Help sentence', 'mapped-places'),
                 'type'      => \Elementor\Controls_Manager::SELECT,
                 'options'   => [
-                    ''            => __('Default', 'geofolio'),
-                    'inline-flex' => __('Show', 'geofolio'),
-                    'none'        => __('Hide', 'geofolio'),
+                    ''            => __('Default', 'mapped-places'),
+                    'inline-flex' => __('Show', 'mapped-places'),
+                    'none'        => __('Hide', 'mapped-places'),
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .gfo-entity-hint' => 'display: {{VALUE}};',
+                    '{{WRAPPER}} .mapl-entity-hint' => 'display: {{VALUE}};',
                 ],
             ]
         );

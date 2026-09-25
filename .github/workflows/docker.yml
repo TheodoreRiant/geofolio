@@ -28,9 +28,9 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          build-args: GEOFOLIO_VERSION=${{ steps.version.outputs.tag }}
+          build-args: MAPPED_PLACES_VERSION=${{ steps.version.outputs.tag }}
           tags: |
-            ghcr.io/theodoreriant/geofolio:${{ steps.version.outputs.tag }}
-            ghcr.io/theodoreriant/geofolio:latest
+            ghcr.io/theodoreriant/mapped-places:${{ steps.version.outputs.tag }}
+            ghcr.io/theodoreriant/mapped-places:latest
           annotations: |
-            index:org.opencontainers.image.source=https://github.com/TheodoreRiant/geofolio
+            index:org.opencontainers.image.source=https://github.com/TheodoreRiant/mapped-places

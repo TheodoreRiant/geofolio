@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 130" role="img" aria-label="Photo à venir" preserveAspectRatio="xMidYMid slice">
     <defs>
-        <linearGradient id="gfoPhBg" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="maplPhBg" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#F8FAFC"/>
             <stop offset="1" stop-color="#E2E8F0"/>
         </linearGradient>
     </defs>
-    <rect width="360" height="130" fill="url(#gfoPhBg)"/>
+    <rect width="360" height="130" fill="url(#maplPhBg)"/>
     <g fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <rect x="146" y="26" width="68" height="52" rx="6"/>
         <path d="M152 74 L170 54 L182 64 L196 50 L208 74"/>

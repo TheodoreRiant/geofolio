@@ -9,9 +9,9 @@
  * Permet une restauration manuelle en cas de migration foireuse.
  */
 
-namespace Geofolio\Migration;
+namespace MappedPlaces\Migration;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 
 class Snapshot {
 
-    const OPTION_PREFIX = 'geofolio_snapshot_';
+    const OPTION_PREFIX = 'mapped_places_snapshot_';
 
     /**
      * Crée un snapshot et retourne sa clé d'option.
@@ -28,7 +28,7 @@ class Snapshot {
      */
     public static function create() {
         $snapshot = array(
-            'version'   => defined('GEOFOLIO_VERSION') ? GEOFOLIO_VERSION : 'unknown',
+            'version'   => defined('MAPPED_PLACES_VERSION') ? MAPPED_PLACES_VERSION : 'unknown',
             'timestamp' => time(),
             'terms'     => array(),
             'posts'     => array(),

@@ -4,12 +4,12 @@
  * (le JS échappe tout ce qu'il affiche), entité colorée, galerie.
  */
 
-namespace Geofolio\Rest;
+namespace MappedPlaces\Rest;
 
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\People;
-use Geofolio\Domain\Schema;
-use Geofolio\Map\Defaults;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\People;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Map\Defaults;
 
 if (!defined('ABSPATH')) {
     exit;

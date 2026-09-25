@@ -1,5 +1,5 @@
 /**
- * Carte de localisation de la fiche (assets/js/geofolio-admin.js).
+ * Carte de localisation de la fiche (assets/js/mapped-places-admin.js).
  *
  * Dans l'éditeur de blocs, les meta boxes sont dans un panneau repliable :
  * la carte est créée dans un conteneur trop petit, puis agrandie. Sans
@@ -13,7 +13,7 @@ const assert = require('node:assert');
 const fs     = require('node:fs');
 const path   = require('node:path');
 
-const SOURCE = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 'geofolio-admin.js'), 'utf8');
+const SOURCE = fs.readFileSync(path.join(__dirname, '..', '..', 'assets', 'js', 'mapped-places-admin.js'), 'utf8');
 
 test('la carte de la fiche se recalcule quand son conteneur change de taille', () => {
     assert.match(SOURCE, /new ResizeObserver\(/);

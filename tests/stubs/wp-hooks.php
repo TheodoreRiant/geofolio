@@ -5,18 +5,18 @@
  */
 
 /** Rappels enregistrés : hook => priorité => liste de [rappel, nb d'arguments]. */
-$GLOBALS['gfo_test_filters'] = array();
+$GLOBALS['mapl_test_filters'] = array();
 
 function add_filter($hook, $callback = null, $priority = 10, $accepted_args = 1) {
-    $GLOBALS['gfo_test_filters'][$hook][$priority][] = array($callback, $accepted_args);
+    $GLOBALS['mapl_test_filters'][$hook][$priority][] = array($callback, $accepted_args);
     return true;
 }
 
 function apply_filters($hook, $value, ...$args) {
-    if (empty($GLOBALS['gfo_test_filters'][$hook])) {
+    if (empty($GLOBALS['mapl_test_filters'][$hook])) {
         return $value;
     }
-    $by_priority = $GLOBALS['gfo_test_filters'][$hook];
+    $by_priority = $GLOBALS['mapl_test_filters'][$hook];
     ksort($by_priority);
     foreach ($by_priority as $callbacks) {
         foreach ($callbacks as $entry) {
@@ -28,13 +28,13 @@ function apply_filters($hook, $value, ...$args) {
 }
 
 function has_filter($hook, $callback = false) {
-    if (empty($GLOBALS['gfo_test_filters'][$hook])) {
+    if (empty($GLOBALS['mapl_test_filters'][$hook])) {
         return false;
     }
     if ($callback === false) {
         return true;
     }
-    foreach ($GLOBALS['gfo_test_filters'][$hook] as $priority => $callbacks) {
+    foreach ($GLOBALS['mapl_test_filters'][$hook] as $priority => $callbacks) {
         foreach ($callbacks as $entry) {
             if ($entry[0] === $callback) {
                 return $priority;
@@ -57,12 +57,12 @@ function do_action($hook, ...$args) {
  *
  * @param string|null $hook
  */
-function gfo_test_reset_filters($hook = null) {
+function mapl_test_reset_filters($hook = null) {
     if ($hook === null) {
-        $GLOBALS['gfo_test_filters'] = array();
+        $GLOBALS['mapl_test_filters'] = array();
         return;
     }
-    unset($GLOBALS['gfo_test_filters'][$hook]);
+    unset($GLOBALS['mapl_test_filters'][$hook]);
 }
 
 function esc_attr_e($text, $domain = null) {
@@ -87,28 +87,28 @@ function shortcode_atts($pairs, $atts, $shortcode = '') {
 }
 
 function update_option($name, $value, $autoload = null) {
-    $GLOBALS['gfo_test_options'][$name] = $value;
+    $GLOBALS['mapl_test_options'][$name] = $value;
     return true;
 }
 
 function delete_option($name) {
-    unset($GLOBALS['gfo_test_options'][$name]);
+    unset($GLOBALS['mapl_test_options'][$name]);
     return true;
 }
 
-$GLOBALS['gfo_test_transients'] = array();
+$GLOBALS['mapl_test_transients'] = array();
 
 function get_transient($name) {
-    return $GLOBALS['gfo_test_transients'][$name] ?? false;
+    return $GLOBALS['mapl_test_transients'][$name] ?? false;
 }
 
 function set_transient($name, $value, $expiration = 0) {
-    $GLOBALS['gfo_test_transients'][$name] = $value;
+    $GLOBALS['mapl_test_transients'][$name] = $value;
     return true;
 }
 
 function delete_transient($name) {
-    unset($GLOBALS['gfo_test_transients'][$name]);
+    unset($GLOBALS['mapl_test_transients'][$name]);
     return true;
 }
 

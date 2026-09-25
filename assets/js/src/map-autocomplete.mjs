@@ -1,5 +1,5 @@
 /**
- * Méthodes de GeofolioMap : Autocomplétion de la recherche.
+ * Méthodes de MappedPlacesMap : Autocomplétion de la recherche.
  * Ajoutées au prototype par map.mjs.
  */
 import { escHtml } from './escape.mjs';
@@ -14,18 +14,18 @@ const autocompleteMethods = {
      * input. Falls back to the focused search row when no row is provided.
      *
      * @param {string} query - Current search input value
-     * @param {jQuery} $row  - Optional .gfo-search-row jQuery wrapper
+     * @param {jQuery} $row  - Optional .mapl-search-row jQuery wrapper
      */
     renderAutocompleteSuggestions(query, $row) {
         var self = this;
 
         if (!$row || !$row.length) {
-            $row = self.$container.find('.gfo-search-input:focus').closest('.gfo-search-row');
+            $row = self.$container.find('.mapl-search-input:focus').closest('.mapl-search-row');
             if (!$row.length) return;
         }
 
-        var $dropdown = $row.find('.gfo-autocomplete-results');
-        var $input    = $row.find('.gfo-search-input');
+        var $dropdown = $row.find('.mapl-autocomplete-results');
+        var $input    = $row.find('.mapl-search-input');
 
         if (!query || query.trim().length < 2) {
             self._closeDropdown($dropdown, $input);
@@ -39,21 +39,21 @@ const autocompleteMethods = {
         }).slice(0, 8);
 
         if (matches.length === 0) {
-            $dropdown.html('<div class="gfo-autocomplete-empty" role="status">' + escHtml(t('noResults')) + '</div>')
+            $dropdown.html('<div class="mapl-autocomplete-empty" role="status">' + escHtml(t('noResults')) + '</div>')
                 .attr('hidden', false);
             $input.attr('aria-expanded', 'true').removeAttr('aria-activedescendant');
             self._acIndex = -1;
             return;
         }
 
-        var listboxId = $dropdown.attr('id') || 'gfo-ac';
+        var listboxId = $dropdown.attr('id') || 'mapl-ac';
         var itemsHtml = matches.map(function(place) {
             var typeStr = (place.types && place.types[0]) ? place.types[0] : '';
-            return '<div class="gfo-autocomplete-item" role="option" ' +
+            return '<div class="mapl-autocomplete-item" role="option" ' +
                    'id="' + listboxId + '-item-' + place.id + '" data-place-id="' + place.id + '" ' +
                    'aria-selected="false">' +
-                       '<div class="gfo-ac-title">' + highlightMatch(place.title || '', query) + '</div>' +
-                       '<div class="gfo-ac-meta">' +
+                       '<div class="mapl-ac-title">' + highlightMatch(place.title || '', query) + '</div>' +
+                       '<div class="mapl-ac-meta">' +
                            highlightMatch(place.city || '', query) +
                            (typeStr ? ' · ' + escHtml(typeStr) : '') +
                        '</div>' +
@@ -69,23 +69,23 @@ const autocompleteMethods = {
      * Move highlight up (-1) or down (1) within the visible dropdown.
      *
      * @param {number} direction - -1 (up) or 1 (down)
-     * @param {jQuery} $row      - Optional .gfo-search-row jQuery wrapper
+     * @param {jQuery} $row      - Optional .mapl-search-row jQuery wrapper
      */
     navigateAutocomplete(direction, $row) {
         if (!$row || !$row.length) {
-            $row = this.$container.find('.gfo-search-input:focus').closest('.gfo-search-row');
+            $row = this.$container.find('.mapl-search-input:focus').closest('.mapl-search-row');
             if (!$row.length) return;
         }
 
-        var $dropdown = $row.find('.gfo-autocomplete-results:not([hidden])');
-        var $items    = $dropdown.find('.gfo-autocomplete-item');
+        var $dropdown = $row.find('.mapl-autocomplete-results:not([hidden])');
+        var $items    = $dropdown.find('.mapl-autocomplete-item');
         if ($items.length === 0) return;
 
         this._acIndex = (this._acIndex + direction + $items.length) % $items.length;
         $items.removeClass('is-highlighted').attr('aria-selected', 'false');
         var $current = $items.eq(this._acIndex).addClass('is-highlighted').attr('aria-selected', 'true');
 
-        $row.find('.gfo-search-input').attr('aria-activedescendant', $current.attr('id'));
+        $row.find('.mapl-search-input').attr('aria-activedescendant', $current.attr('id'));
 
         var el = $current[0];
         if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
@@ -96,7 +96,7 @@ const autocompleteMethods = {
         if (!id) return;
 
         this.closeAutocomplete();
-        this.$container.find('.gfo-search-input').val('');
+        this.$container.find('.mapl-search-input').val('');
         this.searchTerm = '';
         this.renderAll();
         this.focusPlace(id);
@@ -104,9 +104,9 @@ const autocompleteMethods = {
 
     closeAutocomplete() {
         var self = this;
-        this.$container.find('.gfo-autocomplete-results').each(function() {
+        this.$container.find('.mapl-autocomplete-results').each(function() {
             var $dropdown = $(this);
-            var $input = $dropdown.closest('.gfo-search-row').find('.gfo-search-input');
+            var $input = $dropdown.closest('.mapl-search-row').find('.mapl-search-input');
             self._closeDropdown($dropdown, $input);
         });
     },

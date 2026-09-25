@@ -27,7 +27,7 @@
 
   // assets/js/src/colors.mjs
   var COLOR_RE = /^(#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})|rgba?\([^)]*\))$/;
-  var DEFAULT_COLOR = typeof geofolioConfig !== "undefined" && COLOR_RE.test(geofolioConfig.defaultColor || "") ? geofolioConfig.defaultColor : "currentColor";
+  var DEFAULT_COLOR = typeof mappedPlacesConfig !== "undefined" && COLOR_RE.test(mappedPlacesConfig.defaultColor || "") ? mappedPlacesConfig.defaultColor : "currentColor";
   function sanitizeColor(value, fallback) {
     var fb = fallback || DEFAULT_COLOR;
     if (typeof value !== "string") return fb;
@@ -106,7 +106,7 @@
     });
   }
   function t(key) {
-    var i18n = typeof geofolioConfig !== "undefined" && geofolioConfig.i18n || {};
+    var i18n = typeof mappedPlacesConfig !== "undefined" && mappedPlacesConfig.i18n || {};
     return formatText(i18n[key], Array.prototype.slice.call(arguments, 1));
   }
 
@@ -189,7 +189,7 @@
     };
   }
   function resolveTile(pageStyle, vectorReady) {
-    const config = window.geofolioConfig && window.geofolioConfig.tiles || null;
+    const config = window.mappedPlacesConfig && window.mappedPlacesConfig.tiles || null;
     if (!config) return FALLBACK_TILE;
     const wanted = config.forced || pageStyle;
     let tile = readTileProvider(config, wanted);
@@ -222,16 +222,16 @@
      * input. Falls back to the focused search row when no row is provided.
      *
      * @param {string} query - Current search input value
-     * @param {jQuery} $row  - Optional .gfo-search-row jQuery wrapper
+     * @param {jQuery} $row  - Optional .mapl-search-row jQuery wrapper
      */
     renderAutocompleteSuggestions(query, $row) {
       var self = this;
       if (!$row || !$row.length) {
-        $row = self.$container.find(".gfo-search-input:focus").closest(".gfo-search-row");
+        $row = self.$container.find(".mapl-search-input:focus").closest(".mapl-search-row");
         if (!$row.length) return;
       }
-      var $dropdown = $row.find(".gfo-autocomplete-results");
-      var $input = $row.find(".gfo-search-input");
+      var $dropdown = $row.find(".mapl-autocomplete-results");
+      var $input = $row.find(".mapl-search-input");
       if (!query || query.trim().length < 2) {
         self._closeDropdown($dropdown, $input);
         return;
@@ -241,15 +241,15 @@
         return foldText(e.title).indexOf(q) !== -1 || foldText(e.city).indexOf(q) !== -1;
       }).slice(0, 8);
       if (matches.length === 0) {
-        $dropdown.html('<div class="gfo-autocomplete-empty" role="status">' + escHtml(t("noResults")) + "</div>").attr("hidden", false);
+        $dropdown.html('<div class="mapl-autocomplete-empty" role="status">' + escHtml(t("noResults")) + "</div>").attr("hidden", false);
         $input.attr("aria-expanded", "true").removeAttr("aria-activedescendant");
         self._acIndex = -1;
         return;
       }
-      var listboxId = $dropdown.attr("id") || "gfo-ac";
+      var listboxId = $dropdown.attr("id") || "mapl-ac";
       var itemsHtml = matches.map(function(place) {
         var typeStr = place.types && place.types[0] ? place.types[0] : "";
-        return '<div class="gfo-autocomplete-item" role="option" id="' + listboxId + "-item-" + place.id + '" data-place-id="' + place.id + '" aria-selected="false"><div class="gfo-ac-title">' + highlightMatch(place.title || "", query) + '</div><div class="gfo-ac-meta">' + highlightMatch(place.city || "", query) + (typeStr ? " · " + escHtml(typeStr) : "") + "</div></div>";
+        return '<div class="mapl-autocomplete-item" role="option" id="' + listboxId + "-item-" + place.id + '" data-place-id="' + place.id + '" aria-selected="false"><div class="mapl-ac-title">' + highlightMatch(place.title || "", query) + '</div><div class="mapl-ac-meta">' + highlightMatch(place.city || "", query) + (typeStr ? " · " + escHtml(typeStr) : "") + "</div></div>";
       }).join("");
       $dropdown.html(itemsHtml).attr("hidden", false);
       $input.attr("aria-expanded", "true").removeAttr("aria-activedescendant");
@@ -259,20 +259,20 @@
      * Move highlight up (-1) or down (1) within the visible dropdown.
      *
      * @param {number} direction - -1 (up) or 1 (down)
-     * @param {jQuery} $row      - Optional .gfo-search-row jQuery wrapper
+     * @param {jQuery} $row      - Optional .mapl-search-row jQuery wrapper
      */
     navigateAutocomplete(direction, $row) {
       if (!$row || !$row.length) {
-        $row = this.$container.find(".gfo-search-input:focus").closest(".gfo-search-row");
+        $row = this.$container.find(".mapl-search-input:focus").closest(".mapl-search-row");
         if (!$row.length) return;
       }
-      var $dropdown = $row.find(".gfo-autocomplete-results:not([hidden])");
-      var $items = $dropdown.find(".gfo-autocomplete-item");
+      var $dropdown = $row.find(".mapl-autocomplete-results:not([hidden])");
+      var $items = $dropdown.find(".mapl-autocomplete-item");
       if ($items.length === 0) return;
       this._acIndex = (this._acIndex + direction + $items.length) % $items.length;
       $items.removeClass("is-highlighted").attr("aria-selected", "false");
       var $current = $items.eq(this._acIndex).addClass("is-highlighted").attr("aria-selected", "true");
-      $row.find(".gfo-search-input").attr("aria-activedescendant", $current.attr("id"));
+      $row.find(".mapl-search-input").attr("aria-activedescendant", $current.attr("id"));
       var el = $current[0];
       if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
     },
@@ -280,16 +280,16 @@
       var id = parseInt(placeId, 10);
       if (!id) return;
       this.closeAutocomplete();
-      this.$container.find(".gfo-search-input").val("");
+      this.$container.find(".mapl-search-input").val("");
       this.searchTerm = "";
       this.renderAll();
       this.focusPlace(id);
     },
     closeAutocomplete() {
       var self = this;
-      this.$container.find(".gfo-autocomplete-results").each(function() {
+      this.$container.find(".mapl-autocomplete-results").each(function() {
         var $dropdown = $(this);
-        var $input = $dropdown.closest(".gfo-search-row").find(".gfo-search-input");
+        var $input = $dropdown.closest(".mapl-search-row").find(".mapl-search-input");
         self._closeDropdown($dropdown, $input);
       });
     },
@@ -307,18 +307,18 @@
     if (images.length === 1) {
       var img = images[0];
       var url = img.large && img.large.url || img.medium && img.medium.url || "";
-      return '<div class="gfo-popup-image"><img src="' + escAttr(url) + '" alt="' + escAttr(img.alt) + '" loading="lazy" /></div>';
+      return '<div class="mapl-popup-image"><img src="' + escAttr(url) + '" alt="' + escAttr(img.alt) + '" loading="lazy" /></div>';
     }
     var total = images.length;
     var slidesHtml = images.map(function(img2, i) {
       var url2 = img2.large && img2.large.url || img2.medium && img2.medium.url || "";
       var srcAttr = i === 0 ? 'src="' + escAttr(url2) + '"' : 'src="" data-src="' + escAttr(url2) + '"';
-      return '<div class="gfo-carousel-slide" role="group" aria-roledescription="slide" aria-label="' + escAttr(formatText(l.slideOf, [i + 1, total])) + '" aria-hidden="' + (i !== 0) + '"><img ' + srcAttr + ' alt="' + escAttr(img2.alt) + '" loading="lazy" /></div>';
+      return '<div class="mapl-carousel-slide" role="group" aria-roledescription="slide" aria-label="' + escAttr(formatText(l.slideOf, [i + 1, total])) + '" aria-hidden="' + (i !== 0) + '"><img ' + srcAttr + ' alt="' + escAttr(img2.alt) + '" loading="lazy" /></div>';
     }).join("");
     var dotsHtml = images.map(function(_, i) {
-      return '<button type="button" class="gfo-carousel-dot' + (i === 0 ? " is-active" : "") + '" role="tab" aria-selected="' + (i === 0) + '" data-slide="' + i + '" aria-label="' + escAttr(formatText(l.goToSlide, [i + 1])) + '"></button>';
+      return '<button type="button" class="mapl-carousel-dot' + (i === 0 ? " is-active" : "") + '" role="tab" aria-selected="' + (i === 0) + '" data-slide="' + i + '" aria-label="' + escAttr(formatText(l.goToSlide, [i + 1])) + '"></button>';
     }).join("");
-    return '<div class="gfo-carousel" role="region" aria-label="' + escAttr(l.gallery) + '" aria-roledescription="' + escAttr(l.carousel) + '" tabindex="0"><div class="gfo-carousel-track" data-current="0" style="transform: translateX(0%)">' + slidesHtml + '</div><button type="button" class="gfo-carousel-prev" aria-label="' + escAttr(l.previousPhoto) + '"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button><button type="button" class="gfo-carousel-next" aria-label="' + escAttr(l.nextPhoto) + '"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button><div class="gfo-carousel-counter" aria-live="polite">1 / ' + total + '</div><div class="gfo-carousel-dots" role="tablist">' + dotsHtml + "</div></div>";
+    return '<div class="mapl-carousel" role="region" aria-label="' + escAttr(l.gallery) + '" aria-roledescription="' + escAttr(l.carousel) + '" tabindex="0"><div class="mapl-carousel-track" data-current="0" style="transform: translateX(0%)">' + slidesHtml + '</div><button type="button" class="mapl-carousel-prev" aria-label="' + escAttr(l.previousPhoto) + '"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button><button type="button" class="mapl-carousel-next" aria-label="' + escAttr(l.nextPhoto) + '"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button><div class="mapl-carousel-counter" aria-live="polite">1 / ' + total + '</div><div class="mapl-carousel-dots" role="tablist">' + dotsHtml + "</div></div>";
   }
 
   // assets/js/src/map-carousel.mjs
@@ -327,15 +327,15 @@
     /**
      * Construire le slot image « placeholder » affiché lorsqu'un
      * établissement n'a AUCUNE photo (ni galerie ni image à la une).
-     * Réutilise la classe .gfo-popup-image avec un modificateur
+     * Réutilise la classe .mapl-popup-image avec un modificateur
      * pour styler le rendu générique.
      *
      * @returns {string}
      */
     renderImagePlaceholder() {
-      var base = window.geofolioConfig && geofolioConfig.pluginUrl ? geofolioConfig.pluginUrl : "";
+      var base = window.mappedPlacesConfig && mappedPlacesConfig.pluginUrl ? mappedPlacesConfig.pluginUrl : "";
       var src = base + "assets/images/placeholder.svg";
-      return '<div class="gfo-popup-image gfo-popup-image--placeholder"><img src="' + src + '" alt="' + escAttr(t("photoPlaceholder")) + '" loading="lazy" /></div>';
+      return '<div class="mapl-popup-image mapl-popup-image--placeholder"><img src="' + src + '" alt="' + escAttr(t("photoPlaceholder")) + '" loading="lazy" /></div>';
     },
     /**
      * Construire le HTML d'un carrousel (voir buildCarouselHtml).
@@ -361,12 +361,12 @@
      * @param {HTMLElement} rootNode Conteneur du popup
      */
     initCarousel(rootNode) {
-      var $carousel = $2(rootNode).find(".gfo-carousel");
+      var $carousel = $2(rootNode).find(".mapl-carousel");
       if (!$carousel.length) return;
-      var $track = $carousel.find(".gfo-carousel-track");
-      var $slides = $carousel.find(".gfo-carousel-slide");
-      var $dots = $carousel.find(".gfo-carousel-dot");
-      var $counter = $carousel.find(".gfo-carousel-counter");
+      var $track = $carousel.find(".mapl-carousel-track");
+      var $slides = $carousel.find(".mapl-carousel-slide");
+      var $dots = $carousel.find(".mapl-carousel-dot");
+      var $counter = $carousel.find(".mapl-carousel-counter");
       var total = $slides.length;
       if (total <= 1) return;
       var state = { index: 0 };
@@ -387,15 +387,15 @@
         ensureImageLoaded((i + 1) % total);
       }
       $carousel.off(".carousel");
-      $carousel.on("click.carousel", ".gfo-carousel-prev", function(e) {
+      $carousel.on("click.carousel", ".mapl-carousel-prev", function(e) {
         e.stopPropagation();
         goTo(state.index - 1);
       });
-      $carousel.on("click.carousel", ".gfo-carousel-next", function(e) {
+      $carousel.on("click.carousel", ".mapl-carousel-next", function(e) {
         e.stopPropagation();
         goTo(state.index + 1);
       });
-      $carousel.on("click.carousel", ".gfo-carousel-dot", function(e) {
+      $carousel.on("click.carousel", ".mapl-carousel-dot", function(e) {
         e.stopPropagation();
         goTo(parseInt($2(this).data("slide"), 10));
       });
@@ -438,19 +438,19 @@
      * @param {Array}  gallery  Array d'images (peut être vide)
      */
     injectGalleryIntoPopup($node, gallery) {
-      var $placeholder = $node.find(".gfo-popup-image-placeholder");
+      var $placeholder = $node.find(".mapl-popup-image-placeholder");
       if (!$placeholder.length) return;
       if (gallery && gallery.length > 0) {
         $placeholder.replaceWith(this.renderCarousel(gallery));
         this.initCarousel($node[0]);
         return;
       }
-      var placeId = parseInt($node.find(".gfo-popup-content").data("place-id"), 10);
+      var placeId = parseInt($node.find(".mapl-popup-content").data("place-id"), 10);
       var place = this.allPlaces.find(function(e) {
         return e.id === placeId;
       });
       if (place && place.thumbnail) {
-        $placeholder.replaceWith('<div class="gfo-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(place.title) + '" loading="lazy" /></div>');
+        $placeholder.replaceWith('<div class="mapl-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(place.title) + '" loading="lazy" /></div>');
       } else {
         $placeholder.replaceWith(this.renderImagePlaceholder());
       }
@@ -495,16 +495,16 @@
           var dots = "";
           for (var i = 0; i < shown; i++) {
             var color = children[i] && children[i].entityColor ? children[i].entityColor : DEFAULT_COLOR;
-            dots += '<span class="gfo-cluster-dot" style="background:' + color + '"></span>';
+            dots += '<span class="mapl-cluster-dot" style="background:' + color + '"></span>';
           }
           var remaining = count - shown;
           if (remaining > 0) {
-            dots += '<span class="gfo-cluster-more">+' + remaining + "</span>";
+            dots += '<span class="mapl-cluster-more">+' + remaining + "</span>";
           }
           var label = escAttr(t("clusterLabel", count));
           return L.divIcon({
-            html: '<div class="gfo-cluster gfo-cluster-' + size + '" title="' + label + '" aria-label="' + label + '"><span class="gfo-cluster-dots">' + dots + "</span></div>",
-            className: "gfo-cluster-icon",
+            html: '<div class="mapl-cluster mapl-cluster-' + size + '" title="' + label + '" aria-label="' + label + '"><span class="mapl-cluster-dots">' + dots + "</span></div>",
+            className: "mapl-cluster-icon",
             iconSize: L.point(d, d)
           });
         }
@@ -536,7 +536,7 @@
       marker.bindPopup(self.createPopupContent(place), {
         maxWidth: 380,
         maxHeight: 400,
-        className: "gfo-popup",
+        className: "mapl-popup",
         autoPan: true,
         // Padding haut/gauche large pour que le popup ne se glisse
         // jamais sous les pastilles d'entités flottantes en haut
@@ -549,11 +549,11 @@
       var placeType = place.types && place.types[0] ? place.types[0] : "";
       marker.entityColor = resolveEntityColor(place, self.getTypeConfig(placeType).color);
       marker.on("click", function() {
-        self.$container.find(".gfo-place-card").removeClass("active");
-        var $card = self.$container.find('.gfo-place-card[data-id="' + place.id + '"]');
+        self.$container.find(".mapl-place-card").removeClass("active");
+        var $card = self.$container.find('.mapl-place-card[data-id="' + place.id + '"]');
         $card.addClass("active");
         if ($card.length) {
-          var $list = self.$container.find(".gfo-place-list");
+          var $list = self.$container.find(".mapl-place-list");
           if ($list.length) {
             $list.animate({
               scrollTop: $list.scrollTop() + $card.position().top - 60
@@ -603,8 +603,8 @@
       var w = 40;
       var h = 52;
       return L.divIcon({
-        html: '<div class="gfo-marker" data-id="' + place.id + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 52" class="gfo-pin-svg"><path d="M20 0C11 0 4 7 4 16c0 12 16 27 16 27s16-15 16-27C36 7 29 0 20 0z" fill="' + entityColor + '" stroke="#fff" stroke-width="1.5"/><circle cx="20" cy="16" r="5" fill="#fff" /></svg></div>',
-        className: "gfo-marker-icon",
+        html: '<div class="mapl-marker" data-id="' + place.id + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 52" class="mapl-pin-svg"><path d="M20 0C11 0 4 7 4 16c0 12 16 27 16 27s16-15 16-27C36 7 29 0 20 0z" fill="' + entityColor + '" stroke="#fff" stroke-width="1.5"/><circle cx="20" cy="16" r="5" fill="#fff" /></svg></div>',
+        className: "mapl-marker-icon",
         iconSize: [w, h],
         iconAnchor: [w / 2, h],
         popupAnchor: [0, -h - 2]
@@ -623,64 +623,64 @@
       var config = this.getTypeConfig(type);
       var entityColor = resolveEntityColor(place, config.color);
       var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(", ");
-      var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '">';
+      var html = '<div class="mapl-popup-content" data-place-id="' + place.id + '">';
       if (place.gallery_count > 0) {
-        html += '<div class="gfo-popup-image-placeholder"></div>';
+        html += '<div class="mapl-popup-image-placeholder"></div>';
       } else if (place.thumbnail) {
-        html += '<div class="gfo-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(title) + '" loading="lazy" /></div>';
+        html += '<div class="mapl-popup-image"><img src="' + escAttr(place.thumbnail) + '" alt="' + escAttr(title) + '" loading="lazy" /></div>';
       } else {
         html += this.renderImagePlaceholder();
       }
-      html += '<div class="gfo-popup-body">';
-      html += '<div class="gfo-popup-badges">';
+      html += '<div class="mapl-popup-body">';
+      html += '<div class="mapl-popup-badges">';
       if (place.entity && place.entity.name) {
-        html += '<span class="gfo-popup-entity-badge" style="background:' + entityColor + ';color:#fff">' + escHtml(place.entity.name) + "</span>";
+        html += '<span class="mapl-popup-entity-badge" style="background:' + entityColor + ';color:#fff">' + escHtml(place.entity.name) + "</span>";
       }
       if (type) {
-        html += '<span class="gfo-popup-type-badge" style="color:#555;background:#f0f0f0;border:1px solid #ddd">' + escHtml(config.label) + "</span>";
+        html += '<span class="mapl-popup-type-badge" style="color:#555;background:#f0f0f0;border:1px solid #ddd">' + escHtml(config.label) + "</span>";
       }
       html += "</div>";
-      html += '<h3 class="gfo-popup-title">' + escHtml(title) + "</h3>";
+      html += '<h3 class="mapl-popup-title">' + escHtml(title) + "</h3>";
       var mission = place.description || place.excerpt || "";
       if (mission) {
-        html += '<p class="gfo-popup-desc">' + escHtml(mission) + "</p>";
+        html += '<p class="mapl-popup-desc">' + escHtml(mission) + "</p>";
       }
       if (place.people && place.people.length) {
-        var separator = geofolioConfig.i18n && geofolioConfig.i18n.roleSeparator || ": ";
+        var separator = mappedPlacesConfig.i18n && mappedPlacesConfig.i18n.roleSeparator || ": ";
         place.people.forEach(function(person) {
-          html += '<p class="gfo-popup-manager">' + (person.role ? "<strong>" + escHtml(person.role) + escHtml(separator) + "</strong>" : "") + escHtml(person.name) + "</p>";
+          html += '<p class="mapl-popup-manager">' + (person.role ? "<strong>" + escHtml(person.role) + escHtml(separator) + "</strong>" : "") + escHtml(person.name) + "</p>";
         });
       } else if (place.manager) {
-        html += '<p class="gfo-popup-manager"><strong>' + escHtml(managerLabel(place.manager, geofolioConfig.i18n)) + "</strong>" + escHtml(place.manager) + "</p>";
+        html += '<p class="mapl-popup-manager"><strong>' + escHtml(managerLabel(place.manager, mappedPlacesConfig.i18n)) + "</strong>" + escHtml(place.manager) + "</p>";
       }
       if (place.excerpt && place.description && place.excerpt !== place.description) {
-        html += '<p class="gfo-popup-nombre"><strong>' + escHtml(t("audience")) + "</strong> " + escHtml(place.excerpt) + "</p>";
+        html += '<p class="mapl-popup-nombre"><strong>' + escHtml(t("audience")) + "</strong> " + escHtml(place.excerpt) + "</p>";
       }
-      html += '<div class="gfo-popup-info">';
+      html += '<div class="mapl-popup-info">';
       if (fullAddr) {
-        html += '<p class="gfo-popup-address">' + SVG_LOCATION + "<span>" + escHtml(fullAddr) + "</span></p>";
+        html += '<p class="mapl-popup-address">' + SVG_LOCATION + "<span>" + escHtml(fullAddr) + "</span></p>";
       }
       if (place.phone) {
-        html += '<p class="gfo-popup-phone">' + SVG_PHONE_14 + '<a href="tel:' + escAttr(place.phone) + '">' + escHtml(place.phone) + "</a></p>";
+        html += '<p class="mapl-popup-phone">' + SVG_PHONE_14 + '<a href="tel:' + escAttr(place.phone) + '">' + escHtml(place.phone) + "</a></p>";
       }
       if (place.email) {
-        html += '<p class="gfo-popup-email"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + escAttr(place.email) + '">' + escHtml(place.email) + "</a></p>";
+        html += '<p class="mapl-popup-email"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + escAttr(place.email) + '">' + escHtml(place.email) + "</a></p>";
       }
       if (place.services && place.services.length) {
-        html += '<p class="gfo-popup-services"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>' + escHtml(place.services.join(", ")) + "</span></p>";
+        html += '<p class="mapl-popup-services"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>' + escHtml(place.services.join(", ")) + "</span></p>";
       }
       if (place.opening_hours) {
-        html += '<p class="gfo-popup-hours">' + SVG_CLOCK + "<span>" + escHtml(place.opening_hours) + "</span></p>";
+        html += '<p class="mapl-popup-hours">' + SVG_CLOCK + "<span>" + escHtml(place.opening_hours) + "</span></p>";
       }
       if (place.accessibility && place.accessibility.length) {
-        html += '<p class="gfo-popup-access">' + SVG_ACCESS + "<span>" + escHtml(place.accessibility.join(", ")) + "</span></p>";
+        html += '<p class="mapl-popup-access">' + SVG_ACCESS + "<span>" + escHtml(place.accessibility.join(", ")) + "</span></p>";
       }
       var siteWeb = safeUrl(place.website);
       if (siteWeb) {
-        html += '<p class="gfo-popup-website">' + SVG_GLOBE + '<a href="' + escAttr(siteWeb) + '" target="_blank" rel="noopener noreferrer">' + escHtml(prettyUrl(siteWeb)) + "</a></p>";
+        html += '<p class="mapl-popup-website">' + SVG_GLOBE + '<a href="' + escAttr(siteWeb) + '" target="_blank" rel="noopener noreferrer">' + escHtml(prettyUrl(siteWeb)) + "</a></p>";
       }
       if (place.distance) {
-        html += '<p class="gfo-popup-distance"><strong>' + place.distance + " km</strong></p>";
+        html += '<p class="mapl-popup-distance"><strong>' + place.distance + " km</strong></p>";
       }
       html += "</div>";
       html += "</div>";
@@ -699,7 +699,7 @@
       if (!marker) return;
       var el = marker.getElement();
       if (!el) return;
-      var pin = el.querySelector(".gfo-marker");
+      var pin = el.querySelector(".mapl-marker");
       if (!pin) return;
       if (active) {
         pin.style.transform = "translateY(-5px) scale(1.15)";
@@ -715,7 +715,7 @@
      */
     handleGeolocation() {
       var self = this;
-      var $btn = this.$container.find(".gfo-geoloc-btn");
+      var $btn = this.$container.find(".mapl-geoloc-btn");
       if (!navigator.geolocation) {
         var errorMsg = t("geolocUnavailable");
         this.showToast(errorMsg);
@@ -751,8 +751,8 @@
         [this.userLocation.lat, this.userLocation.lng],
         {
           icon: L.divIcon({
-            html: '<div class="gfo-user-marker"></div>',
-            className: "gfo-user-marker-icon",
+            html: '<div class="mapl-user-marker"></div>',
+            className: "mapl-user-marker-icon",
             iconSize: [20, 20],
             iconAnchor: [10, 10]
           })
@@ -788,7 +788,7 @@
 
   // assets/js/src/map.mjs
   var $3 = window.jQuery;
-  var GeofolioMap = class {
+  var MappedPlacesMap = class {
     constructor(container) {
       this.$container = $3(container);
       this.mapId = this.$container.attr("id");
@@ -834,7 +834,7 @@
     /*  MAP INIT                                                     */
     /* ============================================================ */
     initMap() {
-      var mapCanvas = this.$container.find(".gfo-map-canvas")[0];
+      var mapCanvas = this.$container.find(".mapl-map-canvas")[0];
       this.map = L.map(mapCanvas, {
         center: [this.config.centerLat, this.config.centerLng],
         zoom: this.config.zoom,
@@ -915,78 +915,78 @@
     /* ============================================================ */
     bindEvents() {
       var self = this;
-      this.$container.on("input", ".gfo-sidebar-header .gfo-search-input", function() {
+      this.$container.on("input", ".mapl-sidebar-header .mapl-search-input", function() {
         self.onSearch($3(this).val(), "desktop");
       });
-      this.$container.on("click", ".gfo-sidebar-header .gfo-search-btn", function() {
-        var val = self.$container.find(".gfo-sidebar-header .gfo-search-input").val();
+      this.$container.on("click", ".mapl-sidebar-header .mapl-search-btn", function() {
+        var val = self.$container.find(".mapl-sidebar-header .mapl-search-input").val();
         self.onSearch(val, "desktop");
       });
-      this.$container.on("keypress", ".gfo-sidebar-header .gfo-search-input", function(e) {
+      this.$container.on("keypress", ".mapl-sidebar-header .mapl-search-input", function(e) {
         if (e.which === 13) {
           self.onSearch($3(this).val(), "desktop");
         }
       });
-      this.$container.on("input", ".gfo-mobile-toolbar .gfo-search-input", function() {
+      this.$container.on("input", ".mapl-mobile-toolbar .mapl-search-input", function() {
         self.onSearch($3(this).val(), "mobile");
       });
-      this.$container.on("click", ".gfo-mobile-toolbar .gfo-search-btn", function() {
-        var val = self.$container.find(".gfo-mobile-toolbar .gfo-search-input").val();
+      this.$container.on("click", ".mapl-mobile-toolbar .mapl-search-btn", function() {
+        var val = self.$container.find(".mapl-mobile-toolbar .mapl-search-input").val();
         self.onSearch(val, "mobile");
       });
-      this.$container.on("keypress", ".gfo-mobile-toolbar .gfo-search-input", function(e) {
+      this.$container.on("keypress", ".mapl-mobile-toolbar .mapl-search-input", function(e) {
         if (e.which === 13) {
           self.onSearch($3(this).val(), "mobile");
         }
       });
-      this.$container.on("change", ".gfo-sidebar-header .gfo-filter-select", function() {
+      this.$container.on("change", ".mapl-sidebar-header .mapl-filter-select", function() {
         self.onFilter($3(this).val(), "desktop");
       });
-      this.$container.on("change", ".gfo-mobile-toolbar .gfo-filter-select", function() {
+      this.$container.on("change", ".mapl-mobile-toolbar .mapl-filter-select", function() {
         self.onFilter($3(this).val(), "mobile");
       });
-      this.$container.on("click", ".gfo-place-card", function(e) {
-        if ($3(e.target).closest(".gfo-place-phone").length) return;
+      this.$container.on("click", ".mapl-place-card", function(e) {
+        if ($3(e.target).closest(".mapl-place-phone").length) return;
         var id = parseInt($3(this).data("id"), 10);
         self.focusPlace(id);
       });
-      this.$container.on("mouseenter", ".gfo-place-card", function() {
+      this.$container.on("mouseenter", ".mapl-place-card", function() {
         var id = parseInt($3(this).data("id"), 10);
         self.highlightMarker(id, true);
       });
-      this.$container.on("mouseleave", ".gfo-place-card", function() {
+      this.$container.on("mouseleave", ".mapl-place-card", function() {
         var id = parseInt($3(this).data("id"), 10);
         self.highlightMarker(id, false);
       });
-      this.$container.on("click", ".gfo-entity-pill", function() {
+      this.$container.on("click", ".mapl-entity-pill", function() {
         var slug = String($3(this).attr("data-entity"));
         self.activeEntities = toggleEntitySelection(self.activeEntities, slug);
         self.syncEntityPills();
         self.renderAll();
       });
-      this.$container.on("click", ".gfo-entity-reset", function() {
+      this.$container.on("click", ".mapl-entity-reset", function() {
         self.activeEntities = {};
         self.syncEntityPills();
         self.renderAll();
       });
-      this.$container.on("click", ".gfo-geoloc-btn", function() {
+      this.$container.on("click", ".mapl-geoloc-btn", function() {
         self.handleGeolocation();
       });
-      this.$container.on("input", ".gfo-search-input", function() {
+      this.$container.on("input", ".mapl-search-input", function() {
         var $input = $3(this);
-        var $row = $input.closest(".gfo-search-row");
+        var $row = $input.closest(".mapl-search-row");
         var val = $input.val();
         clearTimeout(self._acTimer);
         self._acTimer = setTimeout(function() {
           self.renderAutocompleteSuggestions(val, $row);
         }, 200);
       });
-      this.$container.on("click", ".gfo-autocomplete-item", function() {
+      this.$container.on("click", ".mapl-autocomplete-item", function() {
         self.selectSuggestion($3(this).data("place-id"));
       });
-      this.$container.on("keydown", ".gfo-search-input", function(e) {
-        var $row = $3(this).closest(".gfo-search-row");
-        var $dropdown = $row.find(".gfo-autocomplete-results");
+      this.$container.on("keydown", ".mapl-search-input", function(e) {
+        var $row = $3(this).closest(".mapl-search-row");
+        var $dropdown = $row.find(".mapl-autocomplete-results");
         if (!$dropdown.length || $dropdown.is("[hidden]")) return;
         if (e.key === "ArrowDown") {
           e.preventDefault();
@@ -995,9 +995,9 @@
           e.preventDefault();
           self.navigateAutocomplete(-1, $row);
         } else if (e.key === "Enter") {
-          var $target = $dropdown.find(".gfo-autocomplete-item.is-highlighted").first();
+          var $target = $dropdown.find(".mapl-autocomplete-item.is-highlighted").first();
           if (!$target.length) {
-            $target = $dropdown.find(".gfo-autocomplete-item").first();
+            $target = $dropdown.find(".mapl-autocomplete-item").first();
           }
           if ($target.length) {
             e.preventDefault();
@@ -1007,14 +1007,14 @@
           self.closeAutocomplete();
         }
       });
-      $3(document).on("click.gfoAC_" + this.mapId, function(e) {
-        if (!$3(e.target).closest(".gfo-search-row").length) {
+      $3(document).on("click.maplAC_" + this.mapId, function(e) {
+        if (!$3(e.target).closest(".mapl-search-row").length) {
           self.closeAutocomplete();
         }
       });
       this.map.on("popupopen", function(e) {
         var $node = $3(e.popup._contentNode);
-        var $content = $node.find(".gfo-popup-content");
+        var $content = $node.find(".mapl-popup-content");
         var placeId = parseInt($content.data("place-id"), 10);
         if (!placeId) return;
         if (self._galleryCache[placeId]) {
@@ -1025,7 +1025,7 @@
           self._galleryXHR.abort();
         }
         self._galleryXHR = $3.ajax({
-          url: geofolioConfig.restUrl + "places/" + placeId,
+          url: mappedPlacesConfig.restUrl + "places/" + placeId,
           method: "GET",
           success: function(response) {
             self._galleryCache[placeId] = response.gallery || [];
@@ -1043,36 +1043,36 @@
     /* ============================================================ */
     initControls() {
       var self = this;
-      this.$container.on("click", ".gfo-fullscreen-btn", function() {
+      this.$container.on("click", ".mapl-fullscreen-btn", function() {
         self.toggleFullscreen();
       });
-      this.$container.on("click", ".gfo-sidebar-toggle", function() {
+      this.$container.on("click", ".mapl-sidebar-toggle", function() {
         self.toggleDrawer();
       });
-      this.$container.on("click", ".gfo-drawer-handle", function() {
+      this.$container.on("click", ".mapl-drawer-handle", function() {
         self.closeDrawer();
       });
       this._escHandler = function(e) {
-        if (e.key === "Escape" && self.$container.hasClass("gfo-fullscreen")) {
+        if (e.key === "Escape" && self.$container.hasClass("mapl-fullscreen")) {
           self.exitFullscreen();
         }
       };
-      $3(document).on("keydown.gfomap_" + this.mapId, this._escHandler);
+      $3(document).on("keydown.maplmap_" + this.mapId, this._escHandler);
     }
     /* ============================================================ */
     /*  FULLSCREEN                                                   */
     /* ============================================================ */
     toggleFullscreen() {
-      if (this.$container.hasClass("gfo-fullscreen")) {
+      if (this.$container.hasClass("mapl-fullscreen")) {
         this.exitFullscreen();
       } else {
         this.enterFullscreen();
       }
     }
     enterFullscreen() {
-      this.$container.addClass("gfo-fullscreen");
-      $3("body").addClass("gfo-body-fullscreen");
-      var $btn = this.$container.find(".gfo-fullscreen-btn");
+      this.$container.addClass("mapl-fullscreen");
+      $3("body").addClass("mapl-body-fullscreen");
+      var $btn = this.$container.find(".mapl-fullscreen-btn");
       $btn.attr("aria-label", t("exitFullscreen"));
       $btn.html(SVG_FULLSCREEN_EXIT);
       var map = this.map;
@@ -1081,9 +1081,9 @@
       }, 50);
     }
     exitFullscreen() {
-      this.$container.removeClass("gfo-fullscreen");
-      $3("body").removeClass("gfo-body-fullscreen");
-      var $btn = this.$container.find(".gfo-fullscreen-btn");
+      this.$container.removeClass("mapl-fullscreen");
+      $3("body").removeClass("mapl-body-fullscreen");
+      var $btn = this.$container.find(".mapl-fullscreen-btn");
       $btn.attr("aria-label", t("enterFullscreen"));
       $btn.html(SVG_FULLSCREEN_ENTER);
       var map = this.map;
@@ -1095,24 +1095,24 @@
     /*  MOBILE DRAWER                                                */
     /* ============================================================ */
     toggleDrawer() {
-      var $sidebar = this.$container.find(".gfo-map-sidebar");
-      var $toggle = this.$container.find(".gfo-sidebar-toggle span");
-      var isOpen = $sidebar.hasClass("gfo-drawer-open");
+      var $sidebar = this.$container.find(".mapl-map-sidebar");
+      var $toggle = this.$container.find(".mapl-sidebar-toggle span");
+      var isOpen = $sidebar.hasClass("mapl-drawer-open");
       if (isOpen) {
-        $sidebar.removeClass("gfo-drawer-open");
+        $sidebar.removeClass("mapl-drawer-open");
         $toggle.text(t("filters"));
-        this.$container.find(".gfo-sidebar-toggle").attr("aria-label", t("openFilters"));
+        this.$container.find(".mapl-sidebar-toggle").attr("aria-label", t("openFilters"));
       } else {
-        $sidebar.addClass("gfo-drawer-open");
+        $sidebar.addClass("mapl-drawer-open");
         $toggle.text(t("close"));
-        this.$container.find(".gfo-sidebar-toggle").attr("aria-label", t("closeFilters"));
+        this.$container.find(".mapl-sidebar-toggle").attr("aria-label", t("closeFilters"));
       }
     }
     closeDrawer() {
-      var $sidebar = this.$container.find(".gfo-map-sidebar");
-      if ($sidebar.hasClass("gfo-drawer-open")) {
-        $sidebar.removeClass("gfo-drawer-open");
-        this.$container.find(".gfo-sidebar-toggle span").text(t("filters"));
+      var $sidebar = this.$container.find(".mapl-map-sidebar");
+      if ($sidebar.hasClass("mapl-drawer-open")) {
+        $sidebar.removeClass("mapl-drawer-open");
+        this.$container.find(".mapl-sidebar-toggle span").text(t("filters"));
       }
     }
     /* ============================================================ */
@@ -1126,7 +1126,7 @@
       var self = this;
       this.showLoading(true);
       this._dataRequest = $3.ajax({
-        url: geofolioConfig.restUrl + "places",
+        url: mappedPlacesConfig.restUrl + "places",
         method: "GET",
         // Route publique : pas de nonce. Périmé (page en cache HTML
         // depuis plus de 24 h), il ferait répondre 403 à WordPress.
@@ -1163,9 +1163,9 @@
       this._searchTimer = setTimeout(function() {
         self.searchTerm = val.trim();
         if (source === "desktop") {
-          self.$container.find(".gfo-mobile-toolbar .gfo-search-input").val(val);
+          self.$container.find(".mapl-mobile-toolbar .mapl-search-input").val(val);
         } else {
-          self.$container.find(".gfo-sidebar-header .gfo-search-input").val(val);
+          self.$container.find(".mapl-sidebar-header .mapl-search-input").val(val);
         }
         self.renderAll();
       }, 200);
@@ -1186,9 +1186,9 @@
     onFilter(val, source) {
       this.activeFilter = val;
       if (source === "desktop") {
-        this.$container.find(".gfo-mobile-toolbar .gfo-filter-select").val(val);
+        this.$container.find(".mapl-mobile-toolbar .mapl-filter-select").val(val);
       } else {
-        this.$container.find(".gfo-sidebar-header .gfo-filter-select").val(val);
+        this.$container.find(".mapl-sidebar-header .mapl-filter-select").val(val);
       }
       this.renderAll();
     }
@@ -1233,7 +1233,7 @@
       visibleTypeKeys(counts, Object.keys(this.typeCatalog), selected).forEach(function(k) {
         options += '<option value="' + escAttr(k) + '">' + escHtml(self.getTypeConfig(k).label) + " (" + (counts[k] || 0) + ")</option>";
       });
-      this.$container.find(".gfo-filter-select").html(options).val(selected);
+      this.$container.find(".mapl-filter-select").html(options).val(selected);
     }
     /**
      * Builds the floating entity filter pills from the cached data.
@@ -1261,14 +1261,14 @@
       }, {});
       var hint = t("entityHint");
       var resetTxt = t("entityReset");
-      var html = '<div class="gfo-entity-section"><p class="gfo-entity-hint">' + SVG_HINT + "<span>" + escHtml(hint) + '</span><button type="button" class="gfo-entity-reset" hidden>' + escHtml(resetTxt) + '</button></p><div class="gfo-entity-pills">';
+      var html = '<div class="mapl-entity-section"><p class="mapl-entity-hint">' + SVG_HINT + "<span>" + escHtml(hint) + '</span><button type="button" class="mapl-entity-reset" hidden>' + escHtml(resetTxt) + '</button></p><div class="mapl-entity-pills">';
       slugs.forEach(function(slug) {
         var ent = entities[slug];
-        html += '<button type="button" class="gfo-entity-pill" aria-pressed="false" data-entity="' + escAttr(slug) + '" style="--pill-color:' + ent.color + '"><span class="gfo-entity-pill-dot"></span>' + escHtml(ent.name) + "</button>";
+        html += '<button type="button" class="mapl-entity-pill" aria-pressed="false" data-entity="' + escAttr(slug) + '" style="--pill-color:' + ent.color + '"><span class="mapl-entity-pill-dot"></span>' + escHtml(ent.name) + "</button>";
       });
       html += "</div></div>";
-      this.$container.find(".gfo-entity-section").remove();
-      this.$container.find(".gfo-map-canvas").before(html);
+      this.$container.find(".mapl-entity-section").remove();
+      this.$container.find(".mapl-map-canvas").before(html);
       this.syncEntityPills();
     }
     /**
@@ -1279,11 +1279,11 @@
     syncEntityPills() {
       var selection = this.activeEntities;
       var hasSelection = Object.keys(selection).length > 0;
-      this.$container.find(".gfo-entity-pill").each(function() {
+      this.$container.find(".mapl-entity-pill").each(function() {
         var selected = selection[String($3(this).attr("data-entity"))] === true;
         $3(this).toggleClass("is-selected", selected).toggleClass("inactive", hasSelection && !selected).attr("aria-pressed", selected ? "true" : "false");
       });
-      this.$container.find(".gfo-entity-reset").prop("hidden", !hasSelection);
+      this.$container.find(".mapl-entity-reset").prop("hidden", !hasSelection);
     }
     /* ============================================================ */
     /*  RENDER ALL                                                   */
@@ -1298,7 +1298,7 @@
       this.updateTypeCounts();
       this.renderMarkers();
       this.renderPlaceList();
-      this.$container.find(".gfo-results-count").text(this.filteredPlaces.length);
+      this.$container.find(".mapl-results-count").text(this.filteredPlaces.length);
     }
     /* ============================================================ */
     /*  TYPE CONFIG HELPER                                           */
@@ -1317,13 +1317,13 @@
      * Each card shows: type icon, name, type badge, city, phone.
      */
     renderPlaceList() {
-      var $list = this.$container.find(".gfo-place-list");
+      var $list = this.$container.find(".mapl-place-list");
       var self = this;
       $list.empty();
       if (this.filteredPlaces.length === 0) {
         var noResultsText = escHtml(t("noResults"));
         $list.html(
-          '<div class="gfo-no-results">' + SVG_NO_RESULTS + "<p>" + noResultsText + "</p></div>"
+          '<div class="mapl-no-results">' + SVG_NO_RESULTS + "<p>" + noResultsText + "</p></div>"
         );
         return;
       }
@@ -1334,10 +1334,10 @@
         var cityStr = place.city || "";
         var phoneHtml = "";
         if (place.phone) {
-          phoneHtml = '<a href="tel:' + escAttr(place.phone) + '" class="gfo-place-phone" onclick="event.stopPropagation()">' + SVG_PHONE + escHtml(place.phone) + "</a>";
+          phoneHtml = '<a href="tel:' + escAttr(place.phone) + '" class="mapl-place-phone" onclick="event.stopPropagation()">' + SVG_PHONE + escHtml(place.phone) + "</a>";
         }
-        var managerHtml = place.manager ? '<div class="gfo-place-manager">' + escHtml(place.manager) + "</div>" : "";
-        var cardHtml = '<div class="gfo-place-card" data-id="' + place.id + '" data-lat="' + (place.lat || "") + '" data-lng="' + (place.lng || "") + '" role="listitem" tabindex="0"><div class="gfo-place-icon" style="background:' + entityColor + "12;color:" + entityColor + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + config.svgPath + '</svg></div><div class="gfo-place-info"><div class="gfo-place-name">' + escHtml(place.title) + '</div><div class="gfo-place-meta"><span class="gfo-place-type" style="background:' + entityColor + "18;color:" + entityColor + '">' + escHtml(config.label) + '</span><span class="gfo-place-city">' + escHtml(cityStr) + "</span></div>" + managerHtml + phoneHtml + "</div></div>";
+        var managerHtml = place.manager ? '<div class="mapl-place-manager">' + escHtml(place.manager) + "</div>" : "";
+        var cardHtml = '<div class="mapl-place-card" data-id="' + place.id + '" data-lat="' + (place.lat || "") + '" data-lng="' + (place.lng || "") + '" role="listitem" tabindex="0"><div class="mapl-place-icon" style="background:' + entityColor + "12;color:" + entityColor + '"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + config.svgPath + '</svg></div><div class="mapl-place-info"><div class="mapl-place-name">' + escHtml(place.title) + '</div><div class="mapl-place-meta"><span class="mapl-place-type" style="background:' + entityColor + "18;color:" + entityColor + '">' + escHtml(config.label) + '</span><span class="mapl-place-city">' + escHtml(cityStr) + "</span></div>" + managerHtml + phoneHtml + "</div></div>";
         return cardHtml;
       });
       $list.html(cards.join(""));
@@ -1352,8 +1352,8 @@
      * @param {number} id - Etablissement ID
      */
     focusPlace(id) {
-      this.$container.find(".gfo-place-card").removeClass("active");
-      this.$container.find('.gfo-place-card[data-id="' + id + '"]').addClass("active");
+      this.$container.find(".mapl-place-card").removeClass("active");
+      this.$container.find('.mapl-place-card[data-id="' + id + '"]').addClass("active");
       this.closeDrawer();
       var marker = this.markerMap[id];
       if (!marker) return;
@@ -1373,7 +1373,7 @@
      * @param {boolean} show - Whether to show or hide the loader
      */
     showLoading(show) {
-      this.$container.find(".gfo-map-loading").toggle(show);
+      this.$container.find(".mapl-map-loading").toggle(show);
     }
     /**
      * Shows a temporary toast notification inside the map container.
@@ -1381,13 +1381,13 @@
      * @param {string} message - Message to display
      */
     showToast(message) {
-      var $toast = $3('<div class="gfo-toast" role="status">' + escHtml(message) + "</div>");
+      var $toast = $3('<div class="mapl-toast" role="status">' + escHtml(message) + "</div>");
       this.$container.append($toast);
       setTimeout(function() {
-        $toast.addClass("gfo-toast-visible");
+        $toast.addClass("mapl-toast-visible");
       }, 10);
       setTimeout(function() {
-        $toast.removeClass("gfo-toast-visible");
+        $toast.removeClass("mapl-toast-visible");
         setTimeout(function() {
           $toast.remove();
         }, 300);
@@ -1406,8 +1406,8 @@
         this._dataRequest.abort();
         this._dataRequest = null;
       }
-      $3(document).off("keydown.gfomap_" + this.mapId);
-      $3(document).off(".gfoAC_" + this.mapId);
+      $3(document).off("keydown.maplmap_" + this.mapId);
+      $3(document).off(".maplAC_" + this.mapId);
       this.$container.off();
       if (this.map) {
         this.map.remove();
@@ -1419,20 +1419,20 @@
       this._escHandler = null;
     }
   };
-  Object.assign(GeofolioMap.prototype, autocompleteMethods, carouselMethods, markersMethods);
+  Object.assign(MappedPlacesMap.prototype, autocompleteMethods, carouselMethods, markersMethods);
 
   // assets/js/src/index.mjs
   var $4 = window.jQuery;
   $4(document).ready(function() {
-    $4(".gfo-map-container").each(function() {
-      var instance = new GeofolioMap(this);
-      $4(this).data("geofolio", instance);
+    $4(".mapl-map-container").each(function() {
+      var instance = new MappedPlacesMap(this);
+      $4(this).data("mapped-places", instance);
     });
   });
   function onElementorWidgetReady($scope) {
-    var $container = $scope.find(".gfo-map-container");
+    var $container = $scope.find(".mapl-map-container");
     if (!$container.length) return;
-    var existing = $container.data("geofolio");
+    var existing = $container.data("mapped-places");
     var enEdition = typeof elementorFrontend.isEditMode === "function" && elementorFrontend.isEditMode();
     if (existing && !enEdition) {
       return;
@@ -1440,23 +1440,23 @@
     if (existing && typeof existing.destroy === "function") {
       existing.destroy();
     }
-    $container.data("geofolio", new GeofolioMap($container[0]));
+    $container.data("mapped-places", new MappedPlacesMap($container[0]));
   }
-  window.Geofolio = {
+  window.MappedPlaces = {
     init: function(container) {
       var $container = $4(container);
-      var existing = $container.data("geofolio");
+      var existing = $container.data("mapped-places");
       if (existing && typeof existing.destroy === "function") {
         existing.destroy();
       }
-      var instance = new GeofolioMap(container);
-      $container.data("geofolio", instance);
+      var instance = new MappedPlacesMap(container);
+      $container.data("mapped-places", instance);
       return instance;
     }
   };
   $4(window).on("elementor/frontend/init", function() {
     if (typeof elementorFrontend === "undefined") return;
-    var names = window.geofolioConfig && geofolioConfig.elementorWidgets || [];
+    var names = window.mappedPlacesConfig && mappedPlacesConfig.elementorWidgets || [];
     names.forEach(function(name) {
       elementorFrontend.hooks.addAction("frontend/element_ready/" + name + ".default", onElementorWidgetReady);
     });

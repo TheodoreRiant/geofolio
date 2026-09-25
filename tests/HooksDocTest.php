@@ -1,6 +1,6 @@
 <?php
 /**
- * Chaque filtre ou action `geofolio_*` du code est documenté dans
+ * Chaque filtre ou action `mapped_places_*` du code est documenté dans
  * docs/hooks.md, et la documentation ne cite aucun hook disparu.
  */
 
@@ -20,7 +20,7 @@ class HooksDocTest extends TestCase {
             if (!$file->isFile() || $file->getExtension() !== 'php') {
                 continue;
             }
-            preg_match_all("/(?:apply_filters|do_action)\\(\\s*'(geofolio_[a-z0-9_]+)'/", (string) file_get_contents($file->getPathname()), $matches);
+            preg_match_all("/(?:apply_filters|do_action)\\(\\s*'(mapped_places_[a-z0-9_]+)'/", (string) file_get_contents($file->getPathname()), $matches);
             $names = array_merge($names, $matches[1]);
         }
         $names = array_unique($names);
@@ -32,7 +32,7 @@ class HooksDocTest extends TestCase {
      * @return string[] Noms des hooks cités en première colonne des tableaux de docs/hooks.md.
      */
     private static function hooks_in_doc(): array {
-        preg_match_all('/^\| `(geofolio_[a-z0-9_]+)`/m', (string) file_get_contents(self::ROOT . '/docs/hooks.md'), $matches);
+        preg_match_all('/^\| `(mapped_places_[a-z0-9_]+)`/m', (string) file_get_contents(self::ROOT . '/docs/hooks.md'), $matches);
         $names = array_unique($matches[1]);
         sort($names);
         return $names;

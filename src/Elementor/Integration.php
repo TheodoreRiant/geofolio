@@ -1,9 +1,9 @@
 <?php
 /**
- * Widget Elementor pour Geofolio
+ * Widget Elementor pour Mapped Places
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -16,7 +16,7 @@ class Integration {
      * de MapWidget charge la classe, qui hérite de \Elementor\Widget_Base et
      * provoque une erreur fatale sur un site sans Elementor.
      */
-    const WIDGET_NAME = 'geofolio_map';
+    const WIDGET_NAME = 'mapped_places_map';
 
     private static $instance = null;
 
@@ -33,13 +33,13 @@ class Integration {
     }
 
     /**
-     * Ajouter la catégorie Geofolio
+     * Ajouter la catégorie Mapped Places
      */
     public function add_category($elements_manager) {
         $elements_manager->add_category(
-            'geofolio',
+            'mapped-places',
             array(
-                'title' => __('Geofolio', 'geofolio'),
+                'title' => __('Mapped Places', 'mapped-places'),
                 'icon'  => 'fa fa-map',
             )
         );

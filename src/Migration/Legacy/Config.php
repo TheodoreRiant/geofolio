@@ -1,19 +1,19 @@
 <?php
 /**
  * Configuration de l'import depuis un ancien plugin de carte, fournie par le
- * filtre geofolio_legacy_import. Le cœur ne connaît aucun ancien plugin :
+ * filtre mapped_places_legacy_import. Le cœur ne connaît aucun ancien plugin :
  * un plugin compagnon décrit le sien (noms de type de contenu, taxonomies,
  * metas, options, widget, shortcode, icônes, réglages).
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration\Legacy;
+namespace MappedPlaces\Migration\Legacy;
 
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\LabelsSettings;
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\Schema;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\Schema;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 class Config {
 
     /** Filtre qui décrit l'ancien plugin. */
-    const FILTER = 'geofolio_legacy_import';
+    const FILTER = 'mapped_places_legacy_import';
 
     /** Clé d'icône valide. */
     const ICON_KEY_PATTERN = '/^[a-z0-9-]+$/';
@@ -34,7 +34,7 @@ class Config {
      * @return array
      */
     public static function get() {
-        $raw = apply_filters('geofolio_legacy_import', array());
+        $raw = apply_filters('mapped_places_legacy_import', array());
         if (!is_array($raw) || $raw === array()) {
             return array();
         }
@@ -43,7 +43,7 @@ class Config {
 
     /**
      * Ne garder que des valeurs de type attendu, visant des identifiants
-     * Geofolio existants.
+     * Mapped Places existants.
      *
      * @param array $raw
      * @return array
@@ -64,7 +64,7 @@ class Config {
                 return in_array($new, $term_meta, true);
             }),
             'options'           => self::map($raw['options'] ?? array(), static function ($new) {
-                return strpos($new, 'geofolio_') === 0;
+                return strpos($new, 'mapped_places_') === 0;
             }),
             'elementor_widgets' => self::strings($raw['elementor_widgets'] ?? array()),
             'shortcodes'        => self::strings($raw['shortcodes'] ?? array()),

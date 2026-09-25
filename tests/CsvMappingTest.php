@@ -4,12 +4,12 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Import\CsvMapping;
+use MappedPlaces\Import\CsvMapping;
 
 final class CsvMappingTest extends TestCase {
 
     protected function tearDown(): void {
-        gfo_test_reset_filters();
+        mapl_test_reset_filters();
     }
 
     public function test_les_en_tetes_anglais_sont_reconnus() {
@@ -60,7 +60,7 @@ final class CsvMappingTest extends TestCase {
     }
 
     public function test_un_filtre_ajoute_une_colonne() {
-        add_filter('geofolio_import_columns', static function ($columns) {
+        add_filter('mapped_places_import_columns', static function ($columns) {
             return array_merge($columns, array('adresse postale' => 'address'));
         });
 
@@ -69,7 +69,7 @@ final class CsvMappingTest extends TestCase {
     }
 
     public function test_un_filtre_vers_un_champ_inconnu_est_ignore() {
-        add_filter('geofolio_import_columns', static function ($columns) {
+        add_filter('mapped_places_import_columns', static function ($columns) {
             return array_merge($columns, array('secret' => 'post_author'));
         });
 

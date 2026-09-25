@@ -1,7 +1,7 @@
 <?php
 /**
  * Étape de migration : reprendre les données d'un ancien plugin de carte
- * décrit par le filtre geofolio_legacy_import (voir Config).
+ * décrit par le filtre mapped_places_legacy_import (voir Config).
  *
  * Dans l'ordre, après le snapshot de l'exécuteur : renommage des
  * identifiants (type de contenu, taxonomies, metas, options), icônes des
@@ -10,21 +10,21 @@
  * sans écraser ceux déjà faits, puis régénération des URL et désactivation
  * de l'ancien plugin. Idempotente : une seconde exécution ne trouve plus rien.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration\Legacy;
+namespace MappedPlaces\Migration\Legacy;
 
-use Geofolio\Admin\AppearanceSettings;
-use Geofolio\Admin\LabelsSettings;
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\People;
-use Geofolio\Domain\Schema;
-use Geofolio\Elementor\Integration;
-use Geofolio\Map\Shortcode;
-use Geofolio\Migration\ConfirmedStep;
-use Geofolio\Migration\Step;
-use Geofolio\Plugin;
+use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\People;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Elementor\Integration;
+use MappedPlaces\Map\Shortcode;
+use MappedPlaces\Migration\ConfirmedStep;
+use MappedPlaces\Migration\Step;
+use MappedPlaces\Plugin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -33,14 +33,14 @@ if (!defined('ABSPATH')) {
 class ImportStep implements Step, ConfirmedStep {
 
     /** Identifiant de l'étape. */
-    const ID = 'geofolio_legacy_import';
+    const ID = 'mapped_places_legacy_import';
 
     /** Rôle choisi sur l'écran de migration (remplace celui du filtre). */
-    const ROLE_OPTION = 'geofolio_legacy_import_role';
+    const ROLE_OPTION = 'mapped_places_legacy_import_role';
 
     /**
      * Ajouter l'étape en tête des migrations quand un ancien plugin est
-     * décrit et a laissé des données (filtre geofolio_migration_steps).
+     * décrit et a laissé des données (filtre mapped_places_migration_steps).
      *
      * @param array $steps
      * @return array
@@ -221,7 +221,7 @@ class ImportStep implements Step, ConfirmedStep {
 
     /**
      * Supprimer, des seuls lieux importés, les anciennes metas sans
-     * équivalent dans Geofolio (sinon orphelines).
+     * équivalent dans Mapped Places (sinon orphelines).
      *
      * @param string[] $keys
      * @param int[]    $ids

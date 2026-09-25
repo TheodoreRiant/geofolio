@@ -1,10 +1,10 @@
-=== Geofolio ===
+=== Mapped Places by Théodore Riant ===
 Contributors: theodoreriant
 Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Interactive map of your places with search, filters, a synchronised list and pho
 
 == Description ==
 
-Geofolio turns a list of places into an interactive map your visitors can search and filter, with a list that follows the map and popups showing photos, contact details and opening hours. Add it with the **Geofolio Map block**, the **Elementor widget** or the `[geofolio]` shortcode.
+Mapped Places turns a list of places into an interactive map your visitors can search and filter, with a list that follows the map and popups showing photos, contact details and opening hours. Add it with the **Mapped Places Map block**, the **Elementor widget** or the `[mapped-places]` shortcode.
 
 Features:
 
@@ -24,7 +24,7 @@ Features:
 * a Gutenberg block with a live preview in the editor, an Elementor widget with style controls, and a shortcode;
 * basemaps from OpenFreeMap, OpenStreetMap, IGN, CARTO, Jawg, MapTiler, Stadia and Thunderforest, with a keyless fallback;
 * a CSV import that geocodes addresses, imports photos, entity colours and type icons, plus a sample dataset to try it;
-* a public read-only REST API (`geofolio/v1`).
+* a public read-only REST API (`mapped-places/v1`).
 
 = Who is it for? =
 
@@ -40,38 +40,61 @@ The map can be used with the keyboard: search suggestions with arrow keys and En
 
 = Developers =
 
-Every site-specific behaviour goes through filters (`geofolio_defaults`, `geofolio_type_catalog`, `geofolio_icons`, `geofolio_import_columns`, `geofolio_geocoder_url`, `geofolio_place_slug`, `geofolio_migration_steps` and more), documented in `docs/hooks.md` on GitHub. The map is restyled by overriding `--gfo-*` CSS custom properties. The REST API is documented in `docs/rest-api.md`.
+Every site-specific behaviour goes through filters (`mapped_places_defaults`, `mapped_places_type_catalog`, `mapped_places_icons`, `mapped_places_import_columns`, `mapped_places_geocoder_url`, `mapped_places_place_slug`, `mapped_places_migration_steps` and more), documented in `docs/hooks.md` on GitHub. The map is restyled by overriding `--mapl-*` CSS custom properties. The REST API is documented in `docs/rest-api.md`.
 
-Site-specific behaviour (default values, icons, CSV columns, URL slugs, labels, data migrations) goes through filters, so a companion plugin can adapt Geofolio without modifying it.
-
-= External services =
-
-Geofolio never sends anything to the plugin author. It only contacts the third-party services below, and only to do what the site owner set up:
-
-* **Map tiles.** The visitor's browser loads map tiles from the basemap chosen in **Map settings**. What is sent: the coordinates of the tiles being viewed (area and zoom level), the visitor's IP address as with any embedded resource, and the site's API key for keyed providers. Providers, with their terms and privacy policies: OpenFreeMap (default, no key) https://openfreemap.org/ ; OpenStreetMap https://www.openstreetmap.org/copyright and https://operations.osmfoundation.org/policies/tiles/ ; IGN Géoplateforme https://geoservices.ign.fr/ ; CARTO https://carto.com/ ; Jawg https://www.jawg.io/ ; MapTiler https://www.maptiler.com/ ; Stadia Maps https://stadiamaps.com/ ; Thunderforest https://www.thunderforest.com/ . Keyed providers are used only if the site owner enters a key.
-* **Geocoding.** When an editor imports a CSV file without coordinates, or clicks "Geocode address" when editing a place, the postal address is sent to the Base Adresse Nationale API (French public service, no key, https://adresse.data.gouv.fr/ ) to obtain coordinates. Nothing is sent for visitors. The `geofolio_geocoder_url` filter can point the import to another geocoder, such as Nominatim ( https://operations.osmfoundation.org/policies/nominatim/ ).
-* **Nothing else.** Leaflet, MarkerCluster, MapLibre and the Poppins font are bundled with the plugin: no CDN, no external script.
+Site-specific behaviour (default values, icons, CSV columns, URL slugs, labels, data migrations) goes through filters, so a companion plugin can adapt Mapped Places without modifying it.
 
 = Privacy =
 
-No analytics, no tracking, no data sent to the plugin author. Visitors only reach the map tile provider selected by the site owner. Place data stays in the WordPress database. The Poppins font is served from the plugin (SIL Open Font License).
+No analytics, no tracking, no data sent to the plugin author. Visitors only reach the map tile provider selected by the site owner (see External services). Place data stays in the WordPress database. The Poppins font is served from the plugin (SIL Open Font License).
 
 = Source code and development =
 
-Development happens on GitHub: https://github.com/TheodoreRiant/geofolio (source, issues, changelog, contribution guide). The plugin ships its readable sources; the only third-party code is in `assets/vendor/`, with each library's licence and version.
+Development happens on GitHub: https://github.com/TheodoreRiant/mapped-places (source, issues, changelog, contribution guide). The plugin ships its readable sources; the only third-party code is in `assets/vendor/`, with each library's licence and version.
+
+== External services ==
+
+Mapped Places never sends anything to the plugin author. It relies on the third-party services below, and only to do what the site owner set up. Leaflet, MarkerCluster, MapLibre and the Poppins font are bundled with the plugin: no CDN, no external script.
+
+= Map tiles (basemap) =
+
+The map is drawn from tiles that the **visitor's browser** downloads from the basemap provider chosen by the site owner in **Places → Map settings** (or per map, in the block, widget or shortcode). This happens on every page that displays a map, each time the visitor pans or zooms.
+
+What is sent to the provider: the coordinates of the tiles being viewed (map area and zoom level), the visitor's IP address and browser headers, as with any image embedded in a page, and, for keyed providers, the site's API key. No place data and no personal data from the WordPress site are sent.
+
+Providers, with their terms and privacy policies:
+
+* **OpenFreeMap** (default, used without a key, also the fallback when a keyed provider has no valid key; its conditions of use are stated on its home page): terms: https://openfreemap.org/, privacy: https://openfreemap.org/privacy/
+* **OpenStreetMap** (OpenStreetMap Foundation, attribution https://www.openstreetmap.org/copyright, tile usage policy https://operations.osmfoundation.org/policies/tiles/): terms: https://osmfoundation.org/wiki/Terms_of_Use, privacy: https://osmfoundation.org/wiki/Privacy_Policy
+* **IGN Géoplateforme** (French national mapping agency, data.geopf.fr): terms: https://cartes.gouv.fr/cgu/, privacy: https://www.ign.fr/institut/donnees-caractere-personnel
+* **CARTO** (API key required): terms: https://carto.com/legal/, privacy: https://carto.com/privacy/
+* **Jawg Maps** (API key required): terms: https://www.jawg.io/en/terms/, privacy: https://www.jawg.io/en/confidentiality/
+* **MapTiler** (API key required): terms: https://www.maptiler.com/terms/, privacy: https://www.maptiler.com/privacy-policy/
+* **Stadia Maps** (API key required): terms: https://stadiamaps.com/terms-of-service/, privacy: https://stadiamaps.com/privacy/privacy-policy/
+* **Thunderforest** (API key required): terms: https://www.thunderforest.com/terms/, privacy: https://www.thunderforest.com/privacy/
+
+A keyed provider is only ever contacted if the site owner has selected it and entered a key. The site owner can also enter a custom tile URL: the provider is then whichever service they chose.
+
+= Geocoding (addresses to coordinates) =
+
+Only in the administration, never for visitors. When an editor imports a CSV file whose rows have no coordinates, or clicks **Geocode address** while editing a place, the postal address of that place (street, postal code, city) is sent to the **Base Adresse Nationale** geocoding API (api-adresse.data.gouv.fr), a French public service used without a key, which returns the coordinates. When an editor drags the marker on the location map, the reverse geocoding endpoint of the same API receives the coordinates and returns the address.
+
+Terms: https://adresse.data.gouv.fr/cgu, privacy: https://adresse.data.gouv.fr/donnees-personnelles
+
+The `mapped_places_geocoder_url` filter lets a developer point the CSV import to another GeoJSON geocoder (for example Nominatim, https://operations.osmfoundation.org/policies/nominatim/): the terms of that service then apply.
 
 == Installation ==
 
 1. Upload the plugin and activate it.
 2. Add places in **Places**, or import a CSV file (**Places → Import CSV**), or import the sample dataset.
-3. Add the map to a page with the **Geofolio Map** block (WordPress 6.6 or later), the **Geofolio** Elementor widget, or the `[geofolio]` shortcode.
+3. Add the map to a page with the **Mapped Places Map** block (WordPress 6.6 or later), the **Mapped Places** Elementor widget, or the `[mapped-places]` shortcode.
 4. Optional: in **Places → Map settings**, choose the basemap and set the tile provider API key.
 
 == Frequently Asked Questions ==
 
 = Which basemaps are available? =
 
-Positron via OpenFreeMap, OpenStreetMap and IGN (France) maps work without a key. CARTO, Jawg, MapTiler, Stadia and Thunderforest maps need an API key, set in **Map settings** or with the `GEOFOLIO_TILE_API_KEY` constant. Without a valid key, the map falls back to Positron via OpenFreeMap, which looks the same and needs no key.
+Positron via OpenFreeMap, OpenStreetMap and IGN (France) maps work without a key. CARTO, Jawg, MapTiler, Stadia and Thunderforest maps need an API key, set in **Map settings** or with the `MAPPED_PLACES_TILE_API_KEY` constant. Without a valid key, the map falls back to Positron via OpenFreeMap, which looks the same and needs no key.
 
 = Which CSV columns are recognised? =
 
@@ -79,7 +102,7 @@ Name, Type, Type icon, Service, Accessibility, Entity, Entity colour, Descriptio
 
 = Can I use another geocoder? =
 
-Yes: the `geofolio_geocoder_url` filter points the import to any GeoJSON geocoder (for example Nominatim with `format=geojson`).
+Yes: the `mapped_places_geocoder_url` filter points the import to any GeoJSON geocoder (for example Nominatim with `format=geojson`).
 
 = Which shortcode attributes are available? =
 
@@ -107,11 +130,11 @@ The map loads all published places once and filters them in the browser, which k
 
 = Is it GDPR friendly? =
 
-Geofolio sets no cookie, has no analytics and sends nothing to its author. The only third party reached by visitors is the tile provider you choose (see External services). Address geocoding happens only in the admin.
+Mapped Places sets no cookie, has no analytics and sends nothing to its author. The only third party reached by visitors is the tile provider you choose (see External services). Address geocoding happens only in the admin.
 
 = Can I translate it? =
 
-Yes. The source strings are in English with a French translation included; other languages can be added with any .po editor, and through translate.wordpress.org once the plugin is in the directory.
+Yes. The source strings are in English and every string is translatable. Translations are managed on translate.wordpress.org and delivered by WordPress as language packs; the French translation is maintained by the author.
 
 == Screenshots ==
 
@@ -121,10 +144,17 @@ Yes. The source strings are in English with a French translation included; other
 4. On a phone: search and type filter above the map, entity pills below them.
 5. Editing a place: a form with the location (geocoding and a draggable marker), description, contact details, people and photos.
 6. Map settings: basemap forced for the whole site and provider API key.
-7. The Geofolio Map block in the editor, with its live preview and settings.
+7. The Mapped Places Map block in the editor, with its live preview and settings.
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 2.0.0 =
+* Renamed Mapped Places (formerly Geofolio). New slug, text domain, post type, taxonomies, meta keys, hooks, options, REST namespace and block name: a breaking change for code written against 1.x.
+* Admin notices appear only on the plugin's own screens; the migration re-run button moved to the Map settings.
+* Translations are delivered by WordPress language packs; the plugin no longer ships translation files.
+* External services (basemap providers and geocoder) documented with their terms and privacy policies.
+* Fix: the duplication link sanitises its parameters before checking the nonce.
 
 = 1.4.0 =
 * New: Appearance settings (colours, font, corner radius) and Labels settings (names, URL slug, default map texts).
@@ -134,7 +164,7 @@ Yes. The source strings are in English with a French translation included; other
 * Fix: icon matching during the import ignores accents and case.
 
 = 1.3.0 =
-* New: Geofolio Map block for the block editor, with the real map as preview and all display settings.
+* New: Mapped Places Map block for the block editor, with the real map as preview and all display settings.
 * New: the place edit screen is a form (location, description, contact, people, photos) instead of the article editor.
 * New: several people per place, each with a role and a name.
 * Fix: the location map in the admin could draw only a corner of its tiles.
@@ -162,11 +192,14 @@ Yes. The source strings are in English with a French translation included; other
 
 == Upgrade Notice ==
 
+= 2.0.0 =
+The plugin is renamed Mapped Places. Every internal name changes (post type, taxonomies, meta keys, hooks, options): code written for 1.x must be updated, and 1.x data is not migrated automatically.
+
 = 1.4.0 =
 Adds Appearance and Labels settings, an import from a previous map plugin, and fixes a fatal error on PHP 8 with location queries.
 
 = 1.3.0 =
-Adds the Geofolio Map block (WordPress 6.6+) and a simpler place edit form with people and roles. Existing managers are kept.
+Adds the Mapped Places Map block (WordPress 6.6+) and a simpler place edit form with people and roles. Existing managers are kept.
 
 = 1.2.1 =
 Critical fix for sites without Elementor: single posts and pages no longer crash. Update now.

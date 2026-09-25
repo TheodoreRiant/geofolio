@@ -1,5 +1,5 @@
-# Local environment for Geofolio: WordPress 7.1.2 / PHP 8.0 + MariaDB,
-# installed on first start with Geofolio and its sample dataset.
+# Local environment for Mapped Places: WordPress 7.1.2 / PHP 8.0 + MariaDB,
+# installed on first start with Mapped Places and its sample dataset.
 #
 #   docker compose up -d        → http://localhost:8080  (admin: admin / admin)
 #   docker compose logs -f wordpress
@@ -8,7 +8,7 @@
 # compose.override.yaml (loaded automatically) mounts the repository code:
 # a change is visible on reload, without rebuilding.
 
-name: geofolio
+name: mapped-places
 
 services:
   db:
@@ -28,30 +28,30 @@ services:
       retries: 20
 
   wordpress:
-    image: ghcr.io/theodoreriant/geofolio:${GEOFOLIO_TAG:-latest}
+    image: ghcr.io/theodoreriant/mapped-places:${MAPPED_PLACES_TAG:-latest}
     build:
       context: .
       dockerfile: docker/Dockerfile
       args:
-        GEOFOLIO_VERSION: ${GEOFOLIO_TAG:-dev}
+        MAPPED_PLACES_VERSION: ${MAPPED_PLACES_TAG:-dev}
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "${GEOFOLIO_PORT:-8080}:80"
+      - "${MAPPED_PLACES_PORT:-8080}:80"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DEBUG: "1"
-      GEOFOLIO_SITE_URL: http://localhost:${GEOFOLIO_PORT:-8080}
+      MAPPED_PLACES_SITE_URL: http://localhost:${MAPPED_PLACES_PORT:-8080}
       # Tile provider key (CARTO…), defined in .env, never committed: without
       # it, "key required" basemaps fall back to the IGN map.
-      GEOFOLIO_TILE_API_KEY: ${GEOFOLIO_TILE_API_KEY:-}
+      MAPPED_PLACES_TILE_API_KEY: ${MAPPED_PLACES_TILE_API_KEY:-}
       WORDPRESS_CONFIG_EXTRA: |
-        define('GEOFOLIO_TILE_API_KEY', getenv_docker('GEOFOLIO_TILE_API_KEY', ''));
+        define('MAPPED_PLACES_TILE_API_KEY', getenv_docker('MAPPED_PLACES_TILE_API_KEY', ''));
     volumes:
       - wp_data:/var/www/html
 

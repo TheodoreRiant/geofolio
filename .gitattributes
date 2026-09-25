@@ -7,6 +7,11 @@
 /assets/vendor/** -text
 
 # Excluded from the plugin ZIP (`git archive`): development files.
+# Translations (.po/.mo/.json) stay in the repository as the source of the
+# French translation, but the directory delivers language packs itself.
+/languages/*.po     export-ignore
+/languages/*.mo     export-ignore
+/languages/*.json   export-ignore
 /.github            export-ignore
 /.wordpress-org     export-ignore
 /brand              export-ignore

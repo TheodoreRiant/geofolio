@@ -4,8 +4,8 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Domain\Schema;
-use Geofolio\Admin\Duplicate;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Admin\Duplicate;
 
 final class DuplicateTest extends TestCase {
 
@@ -13,9 +13,9 @@ final class DuplicateTest extends TestCase {
     private $source;
 
     protected function setUp(): void {
-        gfo_test_reset_posts();
+        mapl_test_reset_posts();
 
-        $this->source = gfo_test_add_post(
+        $this->source = mapl_test_add_post(
             array(
                 'post_type'    => Schema::POST_TYPE,
                 'post_status'  => 'publish',
@@ -25,16 +25,16 @@ final class DuplicateTest extends TestCase {
                 'post_author'  => 1,
             ),
             array(
-                '_gfo_adresse'   => '12 rue de la Paix',
-                '_gfo_latitude'  => '45.76',
-                '_gfo_directeur' => 'Jeanne Martin, Paul Durand',
-                '_gfo_horaires'  => 'Lun-Ven 9h-17h',
-                '_gfo_gallery'   => '[10,11]',
+                '_mapl_adresse'   => '12 rue de la Paix',
+                '_mapl_latitude'  => '45.76',
+                '_mapl_directeur' => 'Jeanne Martin, Paul Durand',
+                '_mapl_horaires'  => 'Lun-Ven 9h-17h',
+                '_mapl_gallery'   => '[10,11]',
                 '_thumbnail_id'    => '5',
                 '_edit_lock'       => '1700000000:1',
                 '_edit_last'       => '1',
                 '_wp_old_slug'     => 'ancien-slug',
-                '_gfo_liste'     => array('a' => 1),
+                '_mapl_liste'     => array('a' => 1),
             ),
             array(
                 Schema::TAX_ENTITY => array(3),
@@ -71,23 +71,23 @@ final class DuplicateTest extends TestCase {
     public function test_les_metas_du_lieu_sont_copiees() {
         $id = Duplicate::duplicate($this->source);
 
-        $this->assertSame('12 rue de la Paix', get_post_meta($id, '_gfo_adresse', true));
-        $this->assertSame('45.76', get_post_meta($id, '_gfo_latitude', true));
-        $this->assertSame('Jeanne Martin, Paul Durand', get_post_meta($id, '_gfo_directeur', true));
-        $this->assertSame('Lun-Ven 9h-17h', get_post_meta($id, '_gfo_horaires', true));
+        $this->assertSame('12 rue de la Paix', get_post_meta($id, '_mapl_adresse', true));
+        $this->assertSame('45.76', get_post_meta($id, '_mapl_latitude', true));
+        $this->assertSame('Jeanne Martin, Paul Durand', get_post_meta($id, '_mapl_directeur', true));
+        $this->assertSame('Lun-Ven 9h-17h', get_post_meta($id, '_mapl_horaires', true));
     }
 
     public function test_couverture_et_galerie_reprennent_les_memes_pieces_jointes() {
         $id = Duplicate::duplicate($this->source);
 
         $this->assertSame('5', get_post_meta($id, '_thumbnail_id', true));
-        $this->assertSame('[10,11]', get_post_meta($id, '_gfo_gallery', true));
+        $this->assertSame('[10,11]', get_post_meta($id, '_mapl_gallery', true));
     }
 
     public function test_une_meta_serialisee_est_recopiee_sans_double_serialisation() {
         $id = Duplicate::duplicate($this->source);
 
-        $this->assertSame(array('a' => 1), get_post_meta($id, '_gfo_liste', true));
+        $this->assertSame(array('a' => 1), get_post_meta($id, '_mapl_liste', true));
     }
 
     public function test_les_metas_techniques_ne_sont_pas_copiees() {
@@ -115,22 +115,22 @@ final class DuplicateTest extends TestCase {
     }
 
     public function test_un_echec_de_creation_est_remonte_sans_copie_partielle() {
-        $GLOBALS['gfo_test_insert_error'] = new \WP_Error('db_insert_error', 'Erreur base');
+        $GLOBALS['mapl_test_insert_error'] = new \WP_Error('db_insert_error', 'Erreur base');
 
         $result = Duplicate::duplicate($this->source);
 
         $this->assertInstanceOf(\WP_Error::class, $result);
-        $this->assertCount(1, $GLOBALS['gfo_test_posts']);
+        $this->assertCount(1, $GLOBALS['mapl_test_posts']);
     }
 
     public function test_copyable_meta_filtre_seulement_la_liste_d_exclusion() {
         $kept = Duplicate::copyable_meta(array(
-            '_gfo_city' => array('Lyon'),
+            '_mapl_city' => array('Lyon'),
             '_edit_lock'   => array('x'),
             '_thumbnail_id' => array('5'),
         ));
 
-        $this->assertSame(array('_gfo_city', '_thumbnail_id'), array_keys($kept));
+        $this->assertSame(array('_mapl_city', '_thumbnail_id'), array_keys($kept));
     }
 
     /* ---------------------------------------------------------------- */
@@ -158,8 +158,8 @@ final class DuplicateTest extends TestCase {
         $result = Duplicate::process_request($query);
 
         $this->assertInstanceOf(\WP_Error::class, $result);
-        $this->assertSame('geofolio_duplicate_nonce', $result->get_error_code());
-        $this->assertCount(1, $GLOBALS['gfo_test_posts']);
+        $this->assertSame('mapped_places_duplicate_nonce', $result->get_error_code());
+        $this->assertCount(1, $GLOBALS['mapl_test_posts']);
     }
 
     public function test_un_nonce_emis_pour_un_autre_etablissement_est_refuse() {
@@ -170,16 +170,16 @@ final class DuplicateTest extends TestCase {
     }
 
     public function test_un_utilisateur_sans_droit_d_edition_est_refuse() {
-        $GLOBALS['gfo_test_caps'] = array();
+        $GLOBALS['mapl_test_caps'] = array();
 
         $result = Duplicate::process_request($this->valid_query());
 
         $this->assertInstanceOf(\WP_Error::class, $result);
-        $this->assertSame('geofolio_duplicate_forbidden', $result->get_error_code());
+        $this->assertSame('mapped_places_duplicate_forbidden', $result->get_error_code());
     }
 
     public function test_un_autre_type_de_contenu_est_refuse() {
-        $page  = gfo_test_add_post(array('post_type' => 'page', 'post_title' => 'Accueil'));
+        $page  = mapl_test_add_post(array('post_type' => 'page', 'post_title' => 'Accueil'));
         $query = array(
             'post'     => (string) $page->ID,
             '_wpnonce' => 'valid-' . Duplicate::nonce_action($page->ID),
@@ -195,9 +195,9 @@ final class DuplicateTest extends TestCase {
     public function test_le_lien_dupliquer_est_ajoute_pour_un_editeur() {
         $actions = Duplicate::get_instance()->add_row_action(array('edit' => 'Modifier'), $this->source);
 
-        $this->assertArrayHasKey('geofolio_duplicate', $actions);
-        $this->assertStringContainsString('action=geofolio_duplicate', $actions['geofolio_duplicate']);
-        $this->assertStringContainsString('_wpnonce=valid-', $actions['geofolio_duplicate']);
+        $this->assertArrayHasKey('mapped_places_duplicate', $actions);
+        $this->assertStringContainsString('action=mapped_places_duplicate', $actions['mapped_places_duplicate']);
+        $this->assertStringContainsString('_wpnonce=valid-', $actions['mapped_places_duplicate']);
         $this->assertSame('Modifier', $actions['edit']);
     }
 
@@ -206,22 +206,22 @@ final class DuplicateTest extends TestCase {
 
         $this->assertStringNotContainsString('&amp;', $url, 'Utilisée telle quelle en JS : pas d\'entités HTML.');
         $this->assertStringContainsString('post=' . $this->source->ID, $url);
-        $this->assertStringContainsString('_wpnonce=valid-geofolio_duplicate_' . $this->source->ID, $url);
+        $this->assertStringContainsString('_wpnonce=valid-mapped_places_duplicate_' . $this->source->ID, $url);
     }
 
     public function test_le_lien_dupliquer_est_absent_sans_droit_d_edition() {
-        $GLOBALS['gfo_test_caps'] = array();
+        $GLOBALS['mapl_test_caps'] = array();
 
         $actions = Duplicate::get_instance()->add_row_action(array('edit' => 'Modifier'), $this->source);
 
-        $this->assertArrayNotHasKey('geofolio_duplicate', $actions);
+        $this->assertArrayNotHasKey('mapped_places_duplicate', $actions);
     }
 
     public function test_le_lien_dupliquer_est_absent_sur_les_autres_types() {
-        $page = gfo_test_add_post(array('post_type' => 'page'));
+        $page = mapl_test_add_post(array('post_type' => 'page'));
 
         $actions = Duplicate::get_instance()->add_row_action(array(), $page);
 
-        $this->assertArrayNotHasKey('geofolio_duplicate', $actions);
+        $this->assertArrayNotHasKey('mapped_places_duplicate', $actions);
     }
 }

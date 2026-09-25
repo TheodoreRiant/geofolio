@@ -3,10 +3,10 @@
  * Étape qui ne doit pas tourner d'elle-même : un administrateur la lance
  * après avoir vu ce qu'elle va faire (import d'un ancien plugin).
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Migration;
+namespace MappedPlaces\Migration;
 
 if (!defined('ABSPATH')) {
     exit;

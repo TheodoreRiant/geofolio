@@ -8,9 +8,9 @@
  * colonnes image et galerie sont ignorées.
  */
 
-namespace Geofolio\Import;
+namespace MappedPlaces\Import;
 
-use Geofolio\Domain\FieldRegistry;
+use MappedPlaces\Domain\FieldRegistry;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -22,7 +22,7 @@ final class MediaImporter {
     const EXTENSIONS = array('jpg', 'jpeg', 'png', 'webp');
 
     /** Meta d'une pièce jointe : empreinte du fichier importé (réutilisation). */
-    const SOURCE_META = '_geofolio_import_source';
+    const SOURCE_META = '_mapped_places_import_source';
 
     /** @var array<string, int> Empreinte => ID de pièce jointe, pour l'import en cours. */
     private $attachments = array();

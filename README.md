@@ -1,4 +1,4 @@
-# Geofolio
+# Mapped Places
 
 Interactive map of places for WordPress: a searchable, filterable map with a synchronised list, rich popups, available as a **Gutenberg block**, an **Elementor widget** and a shortcode. Data lives in WordPress (a *Place* post type with taxonomies), so editors manage it like any other content.
 
@@ -22,22 +22,24 @@ WordPress 6.5+ (block: 6.6+) · PHP 7.4+ · Licence GPLv2 or later · No build n
 - Taxonomies: entity (with a colour), type (with an icon), region, service, accessibility.
 - **Map settings**: API key for tile providers, basemap forced on every map.
 - **CSV import** with English or French column names, and a sample dataset.
-- **Gutenberg block** *Geofolio Map* with a live map preview in the editor.
+- **Gutenberg block** *Mapped Places Map* with a live map preview in the editor.
 - **Elementor widget** with display and style controls.
 
 ## Installation
 
-1. Download `geofolio.zip` from the [latest release](../../releases/latest).
+1. Download `mapped-places.zip` from the [latest release](../../releases/latest).
 2. **Plugins → Add New → Upload Plugin**, then activate.
 3. Add places (menu **Places**) or import a CSV (**Places → Import CSV**, or the sample dataset).
-4. Add the map to a page: the **Geofolio Map** block, the **Geofolio** Elementor widget, or the `[geofolio]` shortcode.
+4. Add the map to a page: the **Mapped Places Map** block, the **Mapped Places** Elementor widget, or the `[mapped-places]` shortcode.
+
+Translations come from WordPress language packs (translate.wordpress.org). For a French interface on a site installed from this ZIP before the language pack exists, copy `languages/mapped-places-fr_FR.mo` from the repository to `wp-content/languages/plugins/`.
 
 Try it without installing anything: the WordPress Playground blueprint in [`.wordpress-org/blueprints/blueprint.json`](.wordpress-org/blueprints/blueprint.json) installs the plugin with the sample dataset.
 
 ## Shortcode
 
 ```text
-[geofolio height="600px" zoom="6" show_list="true" sidebar_position="left"]
+[mapped-places height="600px" zoom="6" show_list="true" sidebar_position="left"]
 ```
 
 | Attribute | Default | Role |
@@ -53,21 +55,21 @@ Try it without installing anything: the WordPress Playground blueprint in [`.wor
 | `sidebar_title` / `sidebar_subtitle` | “Our locations” / empty | Sidebar header |
 | `tile_style` | site setting, then Positron | Basemap (see `src/Map/TileProviders.php`) |
 
-Defaults come from `Geofolio\Map\Defaults::all()`, shared by the block, the shortcode and the widget, and can be changed with the `geofolio_defaults` filter.
+Defaults come from `MappedPlaces\Map\Defaults::all()`, shared by the block, the shortcode and the widget, and can be changed with the `mapped_places_defaults` filter.
 
 ## Basemaps
 
-Basemaps are declared in `src/Map/TileProviders.php`. A basemap whose key is missing, or whose URL is invalid, falls back to Positron served by OpenFreeMap (no key, worldwide), never to tiles stamped “API KEY REQUIRED”. Set the key in **Map settings** or with `define('GEOFOLIO_TILE_API_KEY', '…')` in `wp-config.php`.
+Basemaps are declared in `src/Map/TileProviders.php`. A basemap whose key is missing, or whose URL is invalid, falls back to Positron served by OpenFreeMap (no key, worldwide), never to tiles stamped “API KEY REQUIRED”. Set the key in **Map settings** or with `define('MAPPED_PLACES_TILE_API_KEY', '…')` in `wp-config.php`.
 
 ## Extending
 
-Everything site-specific goes through filters: default values, colours, type icons and labels, CSV columns, import rules, URL slugs, admin labels, data migrations. See [docs/hooks.md](docs/hooks.md). A companion plugin can adapt Geofolio to a site without touching its code.
+Everything site-specific goes through filters: default values, colours, type icons and labels, CSV columns, import rules, URL slugs, admin labels, data migrations. See [docs/hooks.md](docs/hooks.md). A companion plugin can adapt Mapped Places to a site without touching its code.
 
 ## Development
 
 ```text
-geofolio.php          Entry point: constants and autoloader
-src/                  PSR-4 classes, namespace Geofolio\
+mapped-places.php          Entry point: constants and autoloader
+src/                  PSR-4 classes, namespace MappedPlaces\
   Map/                Defaults, renderer, shortcode, tile providers
   Domain/             Post type, taxonomies, field registry, icons, schema
   Rest/               REST controller and place mapper
@@ -78,7 +80,7 @@ src/                  PSR-4 classes, namespace Geofolio\
   Elementor/          Elementor integration and widget
 views/map.php         Map template
 assets/               CSS, JS, fonts, bundled Leaflet / MapLibre (assets/vendor/VERSIONS.md)
-languages/            geofolio.pot and the French translation
+languages/            mapped-places.pot and the French translation
 tests/                PHPUnit (in-memory WordPress stubs) and Node tests
 ```
 
@@ -92,7 +94,7 @@ Local WordPress: `docker compose up -d`, then http://localhost:8080 (admin / adm
 
 ## En français
 
-Geofolio est une extension WordPress de carte interactive des lieux : recherche, filtres par type et par entité, liste synchronisée, fiches détaillées, bloc Gutenberg et widget Elementor. L'interface est traduite en français (`languages/geofolio-fr_FR.po`). Le shortcode est `[geofolio]` ; tout ce qui est propre à un site passe par des filtres (voir [docs/hooks.md](docs/hooks.md)).
+Mapped Places est une extension WordPress de carte interactive des lieux : recherche, filtres par type et par entité, liste synchronisée, fiches détaillées, bloc Gutenberg et widget Elementor. L'interface est traduite en français (`languages/mapped-places-fr_FR.po`). Le shortcode est `[mapped-places]` ; tout ce qui est propre à un site passe par des filtres (voir [docs/hooks.md](docs/hooks.md)).
 
 ## Licence
 

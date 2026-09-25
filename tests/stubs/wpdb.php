@@ -3,7 +3,7 @@
  * $wpdb factice : enregistre les requêtes au lieu de les exécuter.
  */
 
-class Gfo_Test_Wpdb {
+class Mapl_Test_Wpdb {
     public $posts         = 'wp_posts';
     public $postmeta      = 'wp_postmeta';
     public $term_taxonomy = 'wp_term_taxonomy';
@@ -46,23 +46,23 @@ class Gfo_Test_Wpdb {
     }
 }
 
-function gfo_test_reset_wpdb() {
-    $GLOBALS['wpdb'] = new Gfo_Test_Wpdb();
+function mapl_test_reset_wpdb() {
+    $GLOBALS['wpdb'] = new Mapl_Test_Wpdb();
     return $GLOBALS['wpdb'];
 }
 
 function update_metadata($type, $id, $key, $value) {
-    $GLOBALS['gfo_test_meta'][(int) $id][$key] = array(wp_unslash($value));
+    $GLOBALS['mapl_test_meta'][(int) $id][$key] = array(wp_unslash($value));
     return true;
 }
 
 function delete_metadata($type, $id, $key) {
-    unset($GLOBALS['gfo_test_meta'][(int) $id][$key]);
+    unset($GLOBALS['mapl_test_meta'][(int) $id][$key]);
     return true;
 }
 
 function metadata_exists($type, $id, $key) {
-    return isset($GLOBALS['gfo_test_meta'][(int) $id][$key]);
+    return isset($GLOBALS['mapl_test_meta'][(int) $id][$key]);
 }
 
 /** Comme remove_accents() de WordPress : lettres accentuées ramenées à leur base. */
@@ -80,7 +80,7 @@ function wp_cache_flush() {
 }
 
 function flush_rewrite_rules($hard = true) {
-    $GLOBALS['gfo_test_flushed'] = true;
+    $GLOBALS['mapl_test_flushed'] = true;
 }
 
-gfo_test_reset_wpdb();
+mapl_test_reset_wpdb();

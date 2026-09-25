@@ -6,28 +6,28 @@
    ============================================================ */
 
 /* Ensure Elementor section/column padding does not clip the map */
-.elementor-widget-geofolio_map .elementor-widget-container {
+.elementor-widget-mapped_places_map .elementor-widget-container {
     overflow: visible;
 }
 
 /* ============================================================
    35. SCROLLBAR STYLES (global for sidebar content)
    ============================================================ */
-.gfo-map-sidebar *::-webkit-scrollbar {
+.mapl-map-sidebar *::-webkit-scrollbar {
     width: 4px;
 }
 
-.gfo-map-sidebar *::-webkit-scrollbar-track {
+.mapl-map-sidebar *::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.gfo-map-sidebar *::-webkit-scrollbar-thumb {
-    background: var(--gfo-border);
+.mapl-map-sidebar *::-webkit-scrollbar-thumb {
+    background: var(--mapl-border);
     border-radius: 2px;
 }
 
-.gfo-map-sidebar * {
+.mapl-map-sidebar * {
     scrollbar-width: thin;
-    scrollbar-color: var(--gfo-border) transparent;
+    scrollbar-color: var(--mapl-border) transparent;
 }
 

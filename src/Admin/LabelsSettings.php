@@ -4,12 +4,12 @@
  * taxonomie « entité », slug d'URL des lieux, valeurs par défaut des
  * nouvelles cartes. Priorité : filtre > réglage > valeur du code.
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Admin;
+namespace MappedPlaces\Admin;
 
-use Geofolio\Plugin;
+use MappedPlaces\Plugin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -18,10 +18,10 @@ if (!defined('ABSPATH')) {
 class LabelsSettings {
 
     /** Option enregistrée. */
-    const OPTION_NAME = 'geofolio_labels';
+    const OPTION_NAME = 'mapped_places_labels';
 
     /** Groupe de réglages du formulaire. */
-    const OPTION_GROUP = 'geofolio_labels_group';
+    const OPTION_GROUP = 'mapped_places_labels_group';
 
     /** Zoom maximal accepté. */
     const MAX_ZOOM = 18;

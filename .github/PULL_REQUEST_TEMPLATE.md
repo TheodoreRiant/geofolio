@@ -10,5 +10,5 @@
 
 - [ ] `php phpunit.phar` and `node --test tests/js/*.test.js` pass
 - [ ] Tested in a browser: map, list, popup, desktop and mobile
-- [ ] Displayed data escaped; new strings translatable (domain `geofolio`)
+- [ ] Displayed data escaped; new strings translatable (domain `mapped-places`)
 - [ ] `CHANGELOG.md` and `readme.txt` updated if the version changes

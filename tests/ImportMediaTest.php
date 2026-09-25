@@ -5,9 +5,9 @@
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Import\CsvMapping;
-use Geofolio\Import\Importer;
-use Geofolio\Import\MediaImporter;
+use MappedPlaces\Import\CsvMapping;
+use MappedPlaces\Import\Importer;
+use MappedPlaces\Import\MediaImporter;
 
 final class ImportMediaTest extends TestCase {
 
@@ -15,7 +15,7 @@ final class ImportMediaTest extends TestCase {
     private $dir;
 
     protected function setUp(): void {
-        $this->dir = sys_get_temp_dir() . '/gfo-media-' . uniqid();
+        $this->dir = sys_get_temp_dir() . '/mapl-media-' . uniqid();
         mkdir($this->dir);
         file_put_contents($this->dir . '/hall.jpg', 'jpeg');
         file_put_contents($this->dir . '/room.png', 'png');

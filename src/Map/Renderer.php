@@ -7,10 +7,10 @@
  * déjà prêtes.
  */
 
-namespace Geofolio\Map;
+namespace MappedPlaces\Map;
 
-use Geofolio\Admin\SettingsPage;
-use Geofolio\Plugin;
+use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Plugin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -20,7 +20,7 @@ class Renderer {
 
     /**
      * Valeur de height qui laisse le conteneur fixer la hauteur : pas de
-     * style en ligne, le wrapper remplit .gfo-map-container.
+     * style en ligne, le wrapper remplit .mapl-map-container.
      */
     const HEIGHT_FROM_CONTAINER = 'container';
 
@@ -60,7 +60,7 @@ class Renderer {
         $show_search = self::flag($atts['show_search']);
         $show_filter = self::flag(self::filter_flag($atts));
         $show_list   = self::flag($atts['show_list']);
-        $map_id      = 'gfo-map-' . uniqid();
+        $map_id      = 'mapl-map-' . uniqid();
 
         return array(
             'map_id'           => $map_id,
@@ -84,12 +84,12 @@ class Renderer {
      * @return array<string, string>
      */
     public static function container_attributes(array $atts, $map_id) {
-        $classes = 'gfo-map-container';
+        $classes = 'mapl-map-container';
         if ($atts['sidebar_position'] === 'right') {
-            $classes .= ' gfo-sidebar-right';
+            $classes .= ' mapl-sidebar-right';
         }
         if (self::is_sized_by_container($atts['height'])) {
-            $classes .= ' gfo-map-container--sized';
+            $classes .= ' mapl-map-container--sized';
         }
 
         // Valeurs injectées dans des attributs : types imposés.

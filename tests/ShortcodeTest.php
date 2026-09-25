@@ -1,15 +1,15 @@
 <?php
 /**
- * Tests de la validation des attributs du shortcode [geofolio].
+ * Tests de la validation des attributs du shortcode [mapped-places].
  *
  * La hauteur est injectée dans un attribut style : seule une longueur CSS
  * simple doit passer, jamais une règle supplémentaire.
  */
 
 use PHPUnit\Framework\TestCase;
-use Geofolio\Map\Defaults;
-use Geofolio\Map\Renderer;
-use Geofolio\Map\Shortcode;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Map\Renderer;
+use MappedPlaces\Map\Shortcode;
 
 final class ShortcodeTest extends TestCase {
 

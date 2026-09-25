@@ -1,7 +1,7 @@
 /**
- * Édition du bloc « Geofolio Map » : réglages dans l'inspecteur, aperçu réel
+ * Édition du bloc « Mapped Places Map » : réglages dans l'inspecteur, aperçu réel
  * rendu par le serveur puis initialisé avec le script de la carte, chargé
- * dans l'iframe de l'éditeur (voir Geofolio\Blocks\MapBlock).
+ * dans l'iframe de l'éditeur (voir MappedPlaces\Blocks\MapBlock).
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
@@ -15,7 +15,7 @@ import {
 import ServerSideRender from '@wordpress/server-side-render';
 import { useEffect, useRef } from '@wordpress/element';
 
-/** Hauteur par défaut, alignée sur Geofolio\Map\Defaults::HEIGHT. */
+/** Hauteur par défaut, alignée sur MappedPlaces\Map\Defaults::HEIGHT. */
 const DEFAULT_HEIGHT = '600px';
 
 /**
@@ -24,9 +24,9 @@ const DEFAULT_HEIGHT = '600px';
  * @return {Array<{label: string, value: string}>} Options du sélecteur.
  */
 function tileOptions() {
-	const tiles = ( window.geofolioBlock && window.geofolioBlock.tiles ) || {};
+	const tiles = ( window.mappedPlacesBlock && window.mappedPlacesBlock.tiles ) || {};
 	return [
-		{ label: __( 'Site setting', 'geofolio' ), value: '' },
+		{ label: __( 'Site setting', 'mapped-places' ), value: '' },
 		...Object.keys( tiles ).map( ( id ) => ( { label: tiles[ id ], value: id } ) ),
 	];
 }
@@ -45,10 +45,10 @@ function useMapPreview( ref ) {
 		}
 		const start = () => {
 			const view = root.ownerDocument.defaultView;
-			const container = root.querySelector( '.gfo-map-container' );
-			if ( container && ! container.dataset.gfoPreview && view.Geofolio ) {
-				container.dataset.gfoPreview = '1';
-				view.Geofolio.init( container );
+			const container = root.querySelector( '.mapl-map-container' );
+			if ( container && ! container.dataset.maplPreview && view.MappedPlaces ) {
+				container.dataset.maplPreview = '1';
+				view.MappedPlaces.init( container );
 			}
 		};
 		const observer = new root.ownerDocument.defaultView.MutationObserver( start );
@@ -75,12 +75,12 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Map parameters', 'geofolio' ) }>
+				<PanelBody title={ __( 'Map parameters', 'mapped-places' ) }>
 					<TextControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Map height', 'geofolio' ) }
-						help={ __( 'A CSS length: 600px, 80vh, 40rem…', 'geofolio' ) }
+						label={ __( 'Map height', 'mapped-places' ) }
+						help={ __( 'A CSS length: 600px, 80vh, 40rem…', 'mapped-places' ) }
 						value={ attributes.height || '' }
 						placeholder={ DEFAULT_HEIGHT }
 						onChange={ ( value ) => setAttributes( { height: value || undefined } ) }
@@ -88,12 +88,12 @@ export default function Edit( { attributes, setAttributes } ) {
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Tile style', 'geofolio' ) }
+						label={ __( 'Tile style', 'mapped-places' ) }
 						value={ attributes.tile_style }
 						options={ tileOptions() }
 						onChange={ ( value ) => setAttributes( { tile_style: value } ) }
 					/>
-					{ toggle( 'fit_bounds', __( 'Fit the view to the places', 'geofolio' ) ) }
+					{ toggle( 'fit_bounds', __( 'Fit the view to the places', 'mapped-places' ) ) }
 					{ ! attributes.fit_bounds && (
 						<>
 							<TextControl
@@ -101,7 +101,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								__next40pxDefaultSize
 								type="number"
 								step="0.0001"
-								label={ __( 'Centre latitude', 'geofolio' ) }
+								label={ __( 'Centre latitude', 'mapped-places' ) }
 								value={ attributes.center_lat ?? '' }
 								onChange={ ( value ) => setAttributes( { center_lat: value === '' ? undefined : parseFloat( value ) } ) }
 							/>
@@ -110,14 +110,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								__next40pxDefaultSize
 								type="number"
 								step="0.0001"
-								label={ __( 'Centre longitude', 'geofolio' ) }
+								label={ __( 'Centre longitude', 'mapped-places' ) }
 								value={ attributes.center_lng ?? '' }
 								onChange={ ( value ) => setAttributes( { center_lng: value === '' ? undefined : parseFloat( value ) } ) }
 							/>
 							<RangeControl
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
-								label={ __( 'Initial zoom', 'geofolio' ) }
+								label={ __( 'Initial zoom', 'mapped-places' ) }
 								value={ attributes.zoom }
 								min={ 1 }
 								max={ 18 }
@@ -127,33 +127,33 @@ export default function Edit( { attributes, setAttributes } ) {
 						</>
 					) }
 				</PanelBody>
-				<PanelBody title={ __( 'Display options', 'geofolio' ) } initialOpen={ false }>
-					{ toggle( 'show_search', __( 'Show the search', 'geofolio' ) ) }
-					{ toggle( 'show_filter', __( 'Show the type filter', 'geofolio' ) ) }
-					{ toggle( 'show_list', __( 'Show the results list', 'geofolio' ) ) }
-					{ toggle( 'show_fullscreen', __( 'Full screen button', 'geofolio' ) ) }
+				<PanelBody title={ __( 'Display options', 'mapped-places' ) } initialOpen={ false }>
+					{ toggle( 'show_search', __( 'Show the search', 'mapped-places' ) ) }
+					{ toggle( 'show_filter', __( 'Show the type filter', 'mapped-places' ) ) }
+					{ toggle( 'show_list', __( 'Show the results list', 'mapped-places' ) ) }
+					{ toggle( 'show_fullscreen', __( 'Full screen button', 'mapped-places' ) ) }
 					<SelectControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Sidebar position', 'geofolio' ) }
+						label={ __( 'Sidebar position', 'mapped-places' ) }
 						value={ attributes.sidebar_position }
 						options={ [
-							{ label: __( 'Left', 'geofolio' ), value: 'left' },
-							{ label: __( 'Right', 'geofolio' ), value: 'right' },
+							{ label: __( 'Left', 'mapped-places' ), value: 'left' },
+							{ label: __( 'Right', 'mapped-places' ), value: 'right' },
 						] }
 						onChange={ ( value ) => setAttributes( { sidebar_position: value } ) }
 					/>
 					<TextControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Sidebar title', 'geofolio' ) }
+						label={ __( 'Sidebar title', 'mapped-places' ) }
 						value={ attributes.sidebar_title ?? '' }
 						onChange={ ( value ) => setAttributes( { sidebar_title: value } ) }
 					/>
 					<TextControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
-						label={ __( 'Sidebar subtitle', 'geofolio' ) }
+						label={ __( 'Sidebar subtitle', 'mapped-places' ) }
 						value={ attributes.sidebar_subtitle ?? '' }
 						onChange={ ( value ) => setAttributes( { sidebar_subtitle: value } ) }
 					/>
@@ -161,7 +161,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 			<div { ...blockProps }>
 				<div ref={ ref }>
-					<ServerSideRender block="geofolio/map" attributes={ attributes } />
+					<ServerSideRender block="mapped-places/map" attributes={ attributes } />
 				</div>
 			</div>
 		</>

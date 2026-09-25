@@ -1,13 +1,13 @@
 #!/bin/bash
 # First start: install WordPress, activate Elementor, hello-elementor and
-# Geofolio, import the sample dataset and create a map page, then run the
+# Mapped Places, import the sample dataset and create a map page, then run the
 # scripts found in /docker-init.d/ (a companion can add its own setup there).
 # Idempotent: does nothing if WordPress is already installed.
 set -u
 
 WP="wp --allow-root --path=/var/www/html"
-URL="${GEOFOLIO_SITE_URL:-http://localhost:8080}"
-log() { echo "[geofolio-init] $*"; }
+URL="${MAPPED_PLACES_SITE_URL:-http://localhost:8080}"
+log() { echo "[mapped-places-init] $*"; }
 
 # Wait for wp-config.php (created by the official entrypoint) and the database.
 # No MySQL client in the image: connection test in PHP.
@@ -35,28 +35,28 @@ if $WP core is-installed 2>/dev/null; then
 fi
 
 log "Installing WordPress on $URL"
-$WP core install --url="$URL" --title="${GEOFOLIO_SITE_TITLE:-Geofolio (local)}" \
-    --admin_user="${GEOFOLIO_ADMIN_USER:-admin}" --admin_password="${GEOFOLIO_ADMIN_PASSWORD:-admin}" \
+$WP core install --url="$URL" --title="${MAPPED_PLACES_SITE_TITLE:-Mapped Places (local)}" \
+    --admin_user="${MAPPED_PLACES_ADMIN_USER:-admin}" --admin_password="${MAPPED_PLACES_ADMIN_PASSWORD:-admin}" \
     --admin_email="dev@example.test" --skip-email
-LOCALE="${GEOFOLIO_LOCALE:-en_US}"
+LOCALE="${MAPPED_PLACES_LOCALE:-en_US}"
 if [ "$LOCALE" != "en_US" ]; then
     $WP language core install "$LOCALE" --activate >/dev/null 2>&1 || log "Translation $LOCALE unavailable (offline?): admin in English."
 fi
 $WP rewrite structure '/%postname%/' >/dev/null   # .htaccess provided by the image
 $WP theme activate hello-elementor >/dev/null
-$WP plugin activate elementor geofolio ${GEOFOLIO_EXTRA_PLUGINS:-}
+$WP plugin activate elementor mapped-places ${MAPPED_PLACES_EXTRA_PLUGINS:-}
 
-if [ "${GEOFOLIO_SAMPLE_DATA:-1}" != "0" ]; then
+if [ "${MAPPED_PLACES_SAMPLE_DATA:-1}" != "0" ]; then
     log "Importing the sample dataset"
     $WP eval '
         wp_set_current_user(1);
-        $importer = \Geofolio\Import\Importer::get_instance();
-        $dataset  = \Geofolio\Import\Importer::default_dataset();
+        $importer = \MappedPlaces\Import\Importer::get_instance();
+        $dataset  = \MappedPlaces\Import\Importer::default_dataset();
         $result   = $importer->import_csv($dataset, true, true, dirname($dataset) . "/photos");
         echo "  " . $result["imported"] . " places imported\n";
     '
     log "Map page (Elementor)"
-    $WP eval-file /usr/local/bin/geofolio-pages.php
+    $WP eval-file /usr/local/bin/mapped-places-pages.php
 fi
 
 for script in /docker-init.d/*.sh; do
@@ -68,4 +68,4 @@ done
 # WP-CLI runs as root: give the created files (translations, uploads) to Apache.
 chown -R www-data:www-data /var/www/html/wp-content
 
-log "Ready: $URL (map) · $URL/wp-admin (${GEOFOLIO_ADMIN_USER:-admin} / ${GEOFOLIO_ADMIN_PASSWORD:-admin})"
+log "Ready: $URL (map) · $URL/wp-admin (${MAPPED_PLACES_ADMIN_USER:-admin} / ${MAPPED_PLACES_ADMIN_PASSWORD:-admin})"

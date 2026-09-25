@@ -3,14 +3,14 @@
  * Import des établissements depuis CSV
  */
 
-namespace Geofolio\Import;
+namespace MappedPlaces\Import;
 
-use Geofolio\Domain\Schema;
+use MappedPlaces\Domain\Schema;
 
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\Icons;
-use Geofolio\Domain\Taxonomies;
-use Geofolio\Migration\TermTools;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\Icons;
+use MappedPlaces\Domain\Taxonomies;
+use MappedPlaces\Migration\TermTools;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -28,13 +28,13 @@ class Importer {
     const CSV_ESCAPE = '';
 
     /** Transient (suffixé par l'utilisateur) portant le résultat du dernier import. */
-    const RESULT_TRANSIENT = 'geofolio_import_result_';
+    const RESULT_TRANSIENT = 'mapped_places_import_result_';
 
     /** Durée de vie du résultat d'import, en secondes. */
     const RESULT_TTL = 60;
 
     /** Page d'import, cible des redirections. */
-    const IMPORT_PAGE = Schema::ADMIN_PARENT . '&page=geofolio-import';
+    const IMPORT_PAGE = Schema::ADMIN_PARENT . '&page=mapped-places-import';
 
     /** Géocodeur par défaut : Base Adresse Nationale (France). */
     const DEFAULT_GEOCODER_URL = 'https://api-adresse.data.gouv.fr/search/';
@@ -81,10 +81,10 @@ class Importer {
     public function add_import_page() {
         add_submenu_page(
             Schema::ADMIN_PARENT,
-            __('Import places', 'geofolio'),
-            __('Import CSV', 'geofolio'),
+            __('Import places', 'mapped-places'),
+            __('Import CSV', 'mapped-places'),
             'manage_options',
-            'geofolio-import',
+            'mapped-places-import',
             array($this, 'render_import_page')
         );
     }
@@ -95,14 +95,14 @@ class Importer {
     public function render_import_page() {
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e('Import places', 'geofolio'); ?></h1>
+            <h1><?php esc_html_e('Import places', 'mapped-places'); ?></h1>
 
             <?php $result = self::pull_result(); ?>
             <?php if (isset($result['imported'])) : ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><?php printf(/* translators: %d: number of imported places */ esc_html__('%d place(s) imported successfully!', 'geofolio'), (int) $result['imported']); ?></p>
+                    <p><?php printf(/* translators: %d: number of imported places */ esc_html__('%d place(s) imported successfully!', 'mapped-places'), (int) $result['imported']); ?></p>
                     <?php if (!empty($result['skipped'])) : ?>
-                        <p><?php printf(/* translators: %d: number of skipped lines */ esc_html__('%d malformed line(s) skipped: column count differs from the header.', 'geofolio'), (int) $result['skipped']); ?></p>
+                        <p><?php printf(/* translators: %d: number of skipped lines */ esc_html__('%d malformed line(s) skipped: column count differs from the header.', 'mapped-places'), (int) $result['skipped']); ?></p>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
@@ -114,52 +114,52 @@ class Importer {
             <?php endif; ?>
 
             <div class="card" style="max-width: 600px; padding: 20px;">
-                <h2><?php esc_html_e('Import from a CSV file', 'geofolio'); ?></h2>
-                <p><?php esc_html_e('The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):', 'geofolio'); ?></p>
+                <h2><?php esc_html_e('Import from a CSV file', 'mapped-places'); ?></h2>
+                <p><?php esc_html_e('The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):', 'mapped-places'); ?></p>
                 <ul style="list-style: disc; margin-left: 20px;">
-                    <li><strong>Nom</strong> / <strong>Name</strong> - <?php esc_html_e('name of the place (required)', 'geofolio'); ?></li>
+                    <li><strong>Nom</strong> / <strong>Name</strong> - <?php esc_html_e('name of the place (required)', 'mapped-places'); ?></li>
                     <li><strong>Type</strong>, <strong>Service</strong>, <strong>Entité</strong> / <strong>Entity</strong></li>
                     <li><strong>Description</strong>, <strong>Capacité</strong> / <strong>Capacity</strong></li>
                     <li><strong>Adresse</strong> / <strong>Address</strong>, <strong>Code postal</strong>, <strong>Ville</strong> / <strong>City</strong>, <strong>Dép</strong> / <strong>Department</strong></li>
-                    <li><strong>Latitude</strong>, <strong>Longitude</strong> - <?php esc_html_e('without them, the address is geocoded', 'geofolio'); ?></li>
+                    <li><strong>Latitude</strong>, <strong>Longitude</strong> - <?php esc_html_e('without them, the address is geocoded', 'mapped-places'); ?></li>
                     <li><strong>Téléphone</strong> / <strong>Phone</strong>, <strong>Email</strong>, <strong>Site web</strong> / <strong>Website</strong>, <strong>Horaires</strong></li>
                 </ul>
 
                 <form method="post" enctype="multipart/form-data" style="margin-top: 20px;">
-                    <?php wp_nonce_field('geofolio_import_csv', 'geofolio_import_nonce'); ?>
+                    <?php wp_nonce_field('mapped_places_import_csv', 'mapped_places_import_nonce'); ?>
 
                     <p>
-                        <label for="csv_file"><strong><?php esc_html_e('CSV file:', 'geofolio'); ?></strong></label><br>
+                        <label for="csv_file"><strong><?php esc_html_e('CSV file:', 'mapped-places'); ?></strong></label><br>
                         <input type="file" name="csv_file" id="csv_file" accept=".csv" required />
                     </p>
 
                     <p>
                         <label>
                             <input type="checkbox" name="skip_existing" value="1" checked />
-                            <?php esc_html_e('Skip places that already exist (same name)', 'geofolio'); ?>
+                            <?php esc_html_e('Skip places that already exist (same name)', 'mapped-places'); ?>
                         </label>
                     </p>
 
                     <p>
                         <label>
                             <input type="checkbox" name="geocode" value="1" checked />
-                            <?php esc_html_e('Geocode addresses automatically', 'geofolio'); ?>
+                            <?php esc_html_e('Geocode addresses automatically', 'mapped-places'); ?>
                         </label>
                     </p>
 
                     <p>
-                        <input type="submit" name="geofolio_import" class="button button-primary" value="<?php esc_attr_e('Import', 'geofolio'); ?>" />
+                        <input type="submit" name="mapped_places_import" class="button button-primary" value="<?php esc_attr_e('Import', 'mapped-places'); ?>" />
                     </p>
                 </form>
             </div>
 
             <div class="card" style="max-width: 600px; padding: 20px; margin-top: 20px;">
-                <h2><?php esc_html_e('Default dataset', 'geofolio'); ?></h2>
-                <p><?php esc_html_e('Import the preset places (a sample dataset, or the one provided by a preset).', 'geofolio'); ?></p>
+                <h2><?php esc_html_e('Default dataset', 'mapped-places'); ?></h2>
+                <p><?php esc_html_e('Import the preset places (a sample dataset, or the one provided by a preset).', 'mapped-places'); ?></p>
 
                 <form method="post">
-                    <?php wp_nonce_field('geofolio_import_default', 'geofolio_import_default_nonce'); ?>
-                    <input type="submit" name="geofolio_import_default" class="button button-secondary" value="<?php esc_attr_e('Import the preset places', 'geofolio'); ?>" />
+                    <?php wp_nonce_field('mapped_places_import_default', 'mapped_places_import_default_nonce'); ?>
+                    <input type="submit" name="mapped_places_import_default" class="button button-secondary" value="<?php esc_attr_e('Import the preset places', 'mapped-places'); ?>" />
                 </form>
             </div>
         </div>
@@ -176,14 +176,14 @@ class Importer {
             return;
         }
 
-        if (isset($_POST['geofolio_import'], $_POST['geofolio_import_nonce'])
-            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['geofolio_import_nonce'])), 'geofolio_import_csv')) {
+        if (isset($_POST['mapped_places_import'], $_POST['mapped_places_import_nonce'])
+            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mapped_places_import_nonce'])), 'mapped_places_import_csv')) {
             $this->handle_csv_upload(self::uploaded_file(), isset($_POST['skip_existing']), isset($_POST['geocode']));
             return;
         }
 
-        if (isset($_POST['geofolio_import_default'], $_POST['geofolio_import_default_nonce'])
-            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['geofolio_import_default_nonce'])), 'geofolio_import_default')) {
+        if (isset($_POST['mapped_places_import_default'], $_POST['mapped_places_import_default_nonce'])
+            && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mapped_places_import_default_nonce'])), 'mapped_places_import_default')) {
             $this->handle_default_import();
         }
     }
@@ -215,7 +215,7 @@ class Importer {
     private function handle_csv_upload(array $file, $skip_existing, $geocode) {
         $error = self::upload_error($file);
         if ($error === '' && !is_uploaded_file($file['tmp_name'])) {
-            $error = __('Error while uploading the file.', 'geofolio');
+            $error = __('Error while uploading the file.', 'mapped-places');
         }
         if ($error !== '') {
             $this->redirect(array('error' => $error));
@@ -232,7 +232,7 @@ class Importer {
         if (is_readable($csv_file)) {
             $this->redirect($this->import_csv($csv_file, true, true, dirname($csv_file) . '/' . self::PHOTOS_DIR));
         }
-        $this->redirect(array('error' => __('Default dataset not found.', 'geofolio')));
+        $this->redirect(array('error' => __('Default dataset not found.', 'mapped-places')));
     }
 
     /**
@@ -241,7 +241,7 @@ class Importer {
      * @return string
      */
     public static function default_dataset() {
-        return (string) apply_filters('geofolio_default_dataset', GEOFOLIO_PLUGIN_DIR . self::EXAMPLE_DATASET);
+        return (string) apply_filters('mapped_places_default_dataset', MAPPED_PLACES_PLUGIN_DIR . self::EXAMPLE_DATASET);
     }
 
     /**
@@ -278,17 +278,17 @@ class Importer {
      */
     public static function upload_error($file) {
         if (!is_array($file) || !isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
-            return __('Error while uploading the file.', 'geofolio');
+            return __('Error while uploading the file.', 'mapped-places');
         }
         if (!isset($file['size']) || (int) $file['size'] > self::MAX_FILE_SIZE) {
             return sprintf(
-                /* translators: %d: maximum file size in megabytes */ __('File too large: %d MB maximum.', 'geofolio'),
+                /* translators: %d: maximum file size in megabytes */ __('File too large: %d MB maximum.', 'mapped-places'),
                 self::MAX_FILE_SIZE / 1048576
             );
         }
         $extension = strtolower(pathinfo((string) ($file['name'] ?? ''), PATHINFO_EXTENSION));
         if ($extension !== self::ALLOWED_EXTENSION) {
-            return __('Only .csv files are accepted.', 'geofolio');
+            return __('Only .csv files are accepted.', 'mapped-places');
         }
         return '';
     }
@@ -424,14 +424,14 @@ class Importer {
 
     /**
      * Libellés placés devant la description et la capacité dans le contenu
-     * de la fiche (filtre geofolio_import_content_labels ; '' : pas de
+     * de la fiche (filtre mapped_places_import_content_labels ; '' : pas de
      * libellé).
      *
      * @return array{description: string, capacity: string}
      */
     public static function content_labels() {
-        $labels   = array('description' => '', 'capacity' => __('Capacity:', 'geofolio'));
-        $filtered = apply_filters('geofolio_import_content_labels', $labels);
+        $labels   = array('description' => '', 'capacity' => __('Capacity:', 'mapped-places'));
+        $filtered = apply_filters('mapped_places_import_content_labels', $labels);
         return is_array($filtered) ? array_map('strval', array_merge($labels, array_intersect_key($filtered, $labels))) : $labels;
     }
 
@@ -607,7 +607,7 @@ class Importer {
 
     /**
      * Entité d'une ligne : colonne « entité » si présente, sinon ce que
-     * fournit le filtre geofolio_import_entity (un préréglage y déduit
+     * fournit le filtre mapped_places_import_entity (un préréglage y déduit
      * l'entité du type ou du nom). Sans rien : aucune entité.
      *
      * @param array<string, string> $fields
@@ -615,7 +615,7 @@ class Importer {
      */
     public static function resolve_entity(array $fields) {
         $default = isset($fields['entity']) ? array('slug' => '', 'name' => $fields['entity']) : null;
-        $entity  = apply_filters('geofolio_import_entity', $default, $fields);
+        $entity  = apply_filters('mapped_places_import_entity', $default, $fields);
 
         if (is_string($entity) && trim($entity) !== '') {
             return array('slug' => '', 'name' => trim($entity));
@@ -630,14 +630,14 @@ class Importer {
     }
 
     /**
-     * Région d'une ligne, déduite par le filtre geofolio_import_region
+     * Région d'une ligne, déduite par le filtre mapped_places_import_region
      * (aucune par défaut).
      *
      * @param array<string, string> $fields
      * @return string
      */
     public static function resolve_region(array $fields) {
-        $region = apply_filters('geofolio_import_region', $fields['region'] ?? '', $fields['department'] ?? '', $fields);
+        $region = apply_filters('mapped_places_import_region', $fields['region'] ?? '', $fields['department'] ?? '', $fields);
         return is_string($region) ? trim($region) : '';
     }
 
@@ -682,14 +682,14 @@ class Importer {
 
     /**
      * URL de géocodage d'une adresse. Le géocodeur par défaut couvre la
-     * France ; le filtre geofolio_geocoder_url en désigne un autre
+     * France ; le filtre mapped_places_geocoder_url en désigne un autre
      * répondant en GeoJSON (ex. Nominatim avec ?format=geojson).
      *
      * @param string $address
      * @return string
      */
     public static function geocoder_url($address) {
-        $base = (string) apply_filters('geofolio_geocoder_url', self::DEFAULT_GEOCODER_URL);
+        $base = (string) apply_filters('mapped_places_geocoder_url', self::DEFAULT_GEOCODER_URL);
         return $base . (strpos($base, '?') === false ? '?' : '&') . http_build_query(array(
             'q'     => $address,
             'limit' => 1,

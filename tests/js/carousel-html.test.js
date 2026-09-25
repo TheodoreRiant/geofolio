@@ -51,12 +51,12 @@ test('une URL contenant un guillemet reste dans son attribut, data-src compris',
 test('une image unique produit une balise img sans carrousel', () => {
     const html = loadBuilder()([image('Façade')]);
     assert.ok(html.includes('<img '));
-    assert.ok(!html.includes('gfo-carousel'));
+    assert.ok(!html.includes('mapl-carousel'));
 });
 
 test('plusieurs images produisent autant de slides que d\'images', () => {
     const html   = loadBuilder()([image('a'), image('b'), image('c')]);
-    const slides = html.match(/class="gfo-carousel-slide"/g) || [];
+    const slides = html.match(/class="mapl-carousel-slide"/g) || [];
     assert.strictEqual(slides.length, 3);
 });
 

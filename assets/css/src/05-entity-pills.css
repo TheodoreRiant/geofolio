@@ -1,10 +1,10 @@
 /* ============================================================
-   14b. ENTITY FILTER PILLS (.gfo-entity-pills)
+   14b. ENTITY FILTER PILLS (.mapl-entity-pills)
    Floating bar above the map canvas with colored toggle pills.
    Single line, full width, no wrapping.
    ============================================================ */
 /* Section englobante : le hint + les pastilles en colonne, flottants au-dessus de la carte */
-.gfo-entity-section {
+.mapl-entity-section {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -17,12 +17,12 @@
     pointer-events: none;
 }
 
-.gfo-entity-section > * {
+.mapl-entity-section > * {
     pointer-events: auto;
 }
 
 /* Phrase d'aide guidant l'utilisateur à filtrer */
-.gfo-entity-hint {
+.mapl-entity-hint {
     margin: 0;
     display: inline-flex;
     align-items: center;
@@ -30,30 +30,30 @@
     max-width: 100%;
     padding: 4px 10px;
     background: rgba(255, 255, 255, 0.92);
-    color: var(--gfo-text-secondary);
-    font-family: var(--gfo-font);
+    color: var(--mapl-text-secondary);
+    font-family: var(--mapl-font);
     font-size: 11.5px;
     font-weight: 500;
     line-height: 1.35;
     text-align: center;
     border-radius: 999px;
-    box-shadow: var(--gfo-shadow-sm);
+    box-shadow: var(--mapl-shadow-sm);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     user-select: none;
 }
 
-.gfo-entity-hint > span {
+.mapl-entity-hint > span {
     white-space: normal;
 }
 
-.gfo-entity-hint svg {
-    color: var(--gfo-accent);
+.mapl-entity-hint svg {
+    color: var(--mapl-accent);
     flex-shrink: 0;
 }
 
 
-.gfo-entity-pills {
+.mapl-entity-pills {
     display: flex;
     flex-wrap: nowrap;
     gap: 6px;
@@ -72,27 +72,27 @@
     -ms-overflow-style: none;
 }
 
-.gfo-entity-pills::-webkit-scrollbar {
+.mapl-entity-pills::-webkit-scrollbar {
     display: none;
 }
 
-.gfo-entity-pills .gfo-entity-pill {
+.mapl-entity-pills .mapl-entity-pill {
     display: inline-flex;
     align-items: center;
     gap: 5px;
     padding: 6px 14px;
     border: 2px solid var(--pill-color) !important;
     /* !important contre les thèmes : la valeur réglable passe par la variable. */
-    border-radius: var(--gfo-pill-radius, 20px) !important;
+    border-radius: var(--mapl-pill-radius, 20px) !important;
     background: var(--pill-color) !important;
     color: #fff !important;
-    font-family: var(--gfo-font);
+    font-family: var(--mapl-font);
     font-size: 12.5px;
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.01em;
     cursor: pointer;
-    transition: background var(--gfo-transition), color var(--gfo-transition), border-color var(--gfo-transition), box-shadow var(--gfo-transition), opacity var(--gfo-transition);
+    transition: background var(--mapl-transition), color var(--mapl-transition), border-color var(--mapl-transition), box-shadow var(--mapl-transition), opacity var(--mapl-transition);
     white-space: nowrap;
     user-select: none;
     -webkit-user-select: none;
@@ -104,29 +104,29 @@
     text-transform: none;
 }
 
-.gfo-entity-pill-dot {
+.mapl-entity-pill-dot {
     display: none;
 }
 
 /* Active hover: subtle glow */
-.gfo-entity-pills .gfo-entity-pill:hover {
+.mapl-entity-pills .mapl-entity-pill:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18) !important;
     opacity: 0.92;
 }
 
-.gfo-entity-pills .gfo-entity-pill:active {
+.mapl-entity-pills .mapl-entity-pill:active {
     opacity: 0.85;
 }
 
 /* Inactive state: outline only */
-.gfo-entity-pills .gfo-entity-pill.inactive {
+.mapl-entity-pills .mapl-entity-pill.inactive {
     background: rgba(255, 255, 255, 0.9) !important;
     color: var(--pill-color) !important;
     border-color: var(--pill-color) !important;
     opacity: 0.55;
 }
 
-.gfo-entity-pills .gfo-entity-pill.inactive:hover {
+.mapl-entity-pills .mapl-entity-pill.inactive:hover {
     opacity: 0.85;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12) !important;
 }
@@ -134,7 +134,7 @@
 /* « Tout afficher » : dans la phrase guide, donc toujours visible même
    quand la rangée de pastilles défile. Affiché seulement quand une entité
    est isolée. Blindé contre le style des `button` du thème. */
-.gfo-entity-hint .gfo-entity-reset {
+.mapl-entity-hint .mapl-entity-reset {
     display: inline;
     flex-shrink: 0;
     margin: 0 !important;
@@ -144,7 +144,7 @@
     border: 0 !important;
     border-radius: 0 !important;
     background: none !important;
-    color: var(--gfo-accent) !important;
+    color: var(--mapl-accent) !important;
     font: inherit;
     font-weight: 700;
     white-space: nowrap;
@@ -155,22 +155,22 @@
     cursor: pointer;
 }
 
-.gfo-entity-hint .gfo-entity-reset::before,
-.gfo-entity-hint .gfo-entity-reset::after {
+.mapl-entity-hint .mapl-entity-reset::before,
+.mapl-entity-hint .mapl-entity-reset::after {
     content: none !important;
 }
 
-.gfo-entity-hint .gfo-entity-reset:hover {
-    color: var(--gfo-accent-dark) !important;
+.mapl-entity-hint .mapl-entity-reset:hover {
+    color: var(--mapl-accent-dark) !important;
 }
 
-.gfo-entity-hint .gfo-entity-reset[hidden] {
+.mapl-entity-hint .mapl-entity-reset[hidden] {
     display: none !important;
 }
 
-.gfo-entity-pills .gfo-entity-pill:focus-visible,
-.gfo-entity-hint .gfo-entity-reset:focus-visible {
-    outline: 2px solid var(--gfo-accent) !important;
+.mapl-entity-pills .mapl-entity-pill:focus-visible,
+.mapl-entity-hint .mapl-entity-reset:focus-visible {
+    outline: 2px solid var(--mapl-accent) !important;
     outline-offset: 2px;
 }
 

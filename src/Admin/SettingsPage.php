@@ -8,26 +8,27 @@
  * donc pas les changements faits dans le code).
  *
  * La clé peut aussi être définie hors base, dans wp-config.php :
- *     define('GEOFOLIO_TILE_API_KEY', 'xxxxxxxx');
+ *     define('MAPPED_PLACES_TILE_API_KEY', 'xxxxxxxx');
  * Dans ce cas la constante l'emporte et le champ passe en lecture seule.
  */
 
-namespace Geofolio\Admin;
+namespace MappedPlaces\Admin;
 
-use Geofolio\Domain\Schema;
-use Geofolio\Map\TileProviders;
+use MappedPlaces\Domain\Schema;
+use MappedPlaces\Map\TileProviders;
+use MappedPlaces\Migration\Runner;
 
-use Geofolio\Map\Defaults;
+use MappedPlaces\Map\Defaults;
 if (!defined('ABSPATH')) {
     exit;
 }
 
 final class SettingsPage {
 
-    const OPTION_NAME  = 'geofolio_settings';
-    const OPTION_GROUP = 'geofolio_settings_group';
-    const PAGE_SLUG    = 'geofolio-settings';
-    const KEY_CONSTANT = 'GEOFOLIO_TILE_API_KEY';
+    const OPTION_NAME  = 'mapped_places_settings';
+    const OPTION_GROUP = 'mapped_places_settings_group';
+    const PAGE_SLUG    = 'mapped-places-settings';
+    const KEY_CONSTANT = 'MAPPED_PLACES_TILE_API_KEY';
 
     /** Gabarit de la page de réglages (onglet Carte). */
     const VIEW = __DIR__ . '/../../views/settings-page.php';
@@ -203,8 +204,8 @@ final class SettingsPage {
     public function register_menu() {
         add_submenu_page(
             Schema::ADMIN_PARENT,
-            __('Map configuration', 'geofolio'),
-            __('Map settings', 'geofolio'),
+            __('Map configuration', 'mapped-places'),
+            __('Map settings', 'mapped-places'),
             'manage_options',
             self::PAGE_SLUG,
             array($this, 'render_page')
@@ -278,7 +279,7 @@ final class SettingsPage {
             return;
         }
         $done[$option] = true;
-        add_settings_error($option, 'geofolio_saved', __('Settings saved.', 'geofolio'), 'success');
+        add_settings_error($option, 'mapped_places_saved', __('Settings saved.', 'mapped-places'), 'success');
     }
 
     /**
@@ -288,9 +289,9 @@ final class SettingsPage {
      */
     public static function tabs() {
         return array(
-            self::TAB_MAP        => __('Map', 'geofolio'),
-            self::TAB_APPEARANCE => __('Appearance', 'geofolio'),
-            self::TAB_LABELS     => __('Labels and defaults', 'geofolio'),
+            self::TAB_MAP        => __('Map', 'mapped-places'),
+            self::TAB_APPEARANCE => __('Appearance', 'mapped-places'),
+            self::TAB_LABELS     => __('Labels and defaults', 'mapped-places'),
         );
     }
 
@@ -337,8 +338,8 @@ final class SettingsPage {
         if (!is_array($input)) {
             $this->flag(
                 $blocking,
-                'geofolio_bad_payload',
-                __('Unrecognised settings: the default values have been restored.', 'geofolio')
+                'mapped_places_bad_payload',
+                __('Unrecognised settings: the default values have been restored.', 'mapped-places')
             );
             return $clean;
         }
@@ -348,8 +349,8 @@ final class SettingsPage {
         if ($style !== '' && !TileProviders::exists($style)) {
             $this->flag(
                 $blocking,
-                'geofolio_bad_style',
-                __('Unknown basemap: the “each page decides” setting was kept.', 'geofolio')
+                'mapped_places_bad_style',
+                __('Unknown basemap: the “each page decides” setting was kept.', 'mapped-places')
             );
             $style = '';
         }
@@ -370,8 +371,8 @@ final class SettingsPage {
         if ($url !== '' && !TileProviders::is_valid_url_template($url)) {
             $this->flag(
                 $blocking,
-                'geofolio_bad_custom_url',
-                __('Invalid tile URL: it must start with https:// and contain {z}, {x} and {y}. It was not saved.', 'geofolio')
+                'mapped_places_bad_custom_url',
+                __('Invalid tile URL: it must start with https:// and contain {z}, {x} and {y}. It was not saved.', 'mapped-places')
             );
             $url = '';
         }
@@ -390,8 +391,8 @@ final class SettingsPage {
         if ($clean['tile_style'] === TileProviders::CUSTOM_ID && $clean['custom_tile_url'] === '') {
             $this->flag(
                 $blocking,
-                'geofolio_custom_without_url',
-                __('The “Custom URL” basemap needs a tile URL: the map will use the keyless Positron basemap in the meantime.', 'geofolio'),
+                'mapped_places_custom_without_url',
+                __('The “Custom URL” basemap needs a tile URL: the map will use the keyless Positron basemap in the meantime.', 'mapped-places'),
                 'warning'
             );
         }
@@ -402,8 +403,8 @@ final class SettingsPage {
             && !self::is_key_locked_by_constant()) {
             $this->flag(
                 $blocking,
-                'geofolio_style_without_key',
-                __('This basemap requires an API key: the map will use the keyless Positron basemap until the key is set.', 'geofolio'),
+                'mapped_places_style_without_key',
+                __('This basemap requires an API key: the map will use the keyless Positron basemap until the key is set.', 'mapped-places'),
                 'warning'
             );
         }
@@ -416,8 +417,8 @@ final class SettingsPage {
         if (empty($blocking)) {
             add_settings_error(
                 self::OPTION_NAME,
-                'geofolio_saved',
-                __('Settings saved.', 'geofolio'),
+                'mapped_places_saved',
+                __('Settings saved.', 'mapped-places'),
                 'success'
             );
         }
@@ -446,10 +447,11 @@ final class SettingsPage {
     /* ================================================================ */
 
     /**
-     * Avertir dans l'admin quand le fond configuré n'est pas celui affiché.
+     * Avertir, sur les écrans du plugin seulement, quand le fond configuré
+     * n'est pas celui affiché.
      */
     public function render_config_notice() {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can('manage_options') || !Screen::is_plugin_screen()) {
             return;
         }
 
@@ -465,10 +467,10 @@ final class SettingsPage {
 
         printf(
             '<div class="notice notice-warning is-dismissible"><p><strong>%s</strong> %s <a href="%s">%s</a></p></div>',
-            esc_html__('Map:', 'geofolio'),
+            esc_html__('Map:', 'mapped-places'),
             esc_html(self::describe_fallback($resolved['fallbackReason'])),
             esc_url(admin_url(Schema::ADMIN_PARENT . '&page=' . self::PAGE_SLUG)),
-            esc_html__('Open the map settings', 'geofolio')
+            esc_html__('Open the map settings', 'mapped-places')
         );
     }
 
@@ -481,11 +483,11 @@ final class SettingsPage {
     public static function describe_fallback($reason) {
         switch ($reason) {
             case 'missing_key':
-                return __('the selected basemap requires an API key that is not set; the keyless Positron basemap is shown instead.', 'geofolio');
+                return __('the selected basemap requires an API key that is not set; the keyless Positron basemap is shown instead.', 'mapped-places');
             case 'invalid_custom_url':
-                return __('the custom tile URL is missing or invalid; the keyless Positron basemap is shown instead.', 'geofolio');
+                return __('the custom tile URL is missing or invalid; the keyless Positron basemap is shown instead.', 'mapped-places');
             case 'unknown':
-                return __('the requested basemap does not exist; the keyless Positron basemap is shown instead.', 'geofolio');
+                return __('the requested basemap does not exist; the keyless Positron basemap is shown instead.', 'mapped-places');
             default:
                 return '';
         }
@@ -496,7 +498,7 @@ final class SettingsPage {
      */
     public function render_page() {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('You do not have the required permissions.', 'geofolio'));
+            wp_die(esc_html__('You do not have the required permissions.', 'mapped-places'));
         }
 
         $tab  = self::current_tab();
@@ -510,12 +512,12 @@ final class SettingsPage {
             $view['defaults']   = array('primary_color' => Defaults::COLOR);
             wp_enqueue_style('wp-color-picker');
             wp_enqueue_script('wp-color-picker');
-            wp_add_inline_script('wp-color-picker', 'jQuery(function($){$(".gfo-color-field").wpColorPicker();});');
+            wp_add_inline_script('wp-color-picker', 'jQuery(function($){$(".mapl-color-field").wpColorPicker();});');
         } elseif ($tab === self::TAB_LABELS) {
             $view['labels']   = LabelsSettings::get_all();
             $view['defaults'] = array(
                 'place_slug'    => Schema::PLACE_SLUG,
-                'sidebar_title' => __('Our locations', 'geofolio'),
+                'sidebar_title' => __('Our locations', 'mapped-places'),
                 'center_lat'    => Defaults::CENTER_LAT,
                 'center_lng'    => Defaults::CENTER_LNG,
                 'zoom'          => Defaults::ZOOM,
@@ -545,6 +547,10 @@ final class SettingsPage {
             'forced'       => $forced !== '',
             'resolved_id'  => $resolved['id'],
             'fallback'     => $resolved['fallbackReason'] !== '' ? self::describe_fallback($resolved['fallbackReason']) : '',
+            // Migrations de données (étapes fournies par un compagnon) : bouton
+            // de relance ici plutôt qu'un avis permanent dans l'admin.
+            'migration_rerun_url' => Runner::get_instance()->rerun_url(),
+            'migration_pending'   => count(Runner::get_instance()->pending()),
         );
     }
 

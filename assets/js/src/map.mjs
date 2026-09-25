@@ -12,7 +12,7 @@ import { markersMethods } from './map-markers.mjs';
 
 const $ = window.jQuery;
 
-class GeofolioMap {
+class MappedPlacesMap {
     constructor(container) {
         this.$container = $(container);
         this.mapId      = this.$container.attr('id');
@@ -81,7 +81,7 @@ class GeofolioMap {
     /* ============================================================ */
 
     initMap() {
-        var mapCanvas = this.$container.find('.gfo-map-canvas')[0];
+        var mapCanvas = this.$container.find('.mapl-map-canvas')[0];
 
         this.map = L.map(mapCanvas, {
             center:          [this.config.centerLat, this.config.centerLng],
@@ -174,63 +174,63 @@ class GeofolioMap {
         var self = this;
 
         /* ---- Search: desktop sidebar ---- */
-        this.$container.on('input', '.gfo-sidebar-header .gfo-search-input', function() {
+        this.$container.on('input', '.mapl-sidebar-header .mapl-search-input', function() {
             self.onSearch($(this).val(), 'desktop');
         });
-        this.$container.on('click', '.gfo-sidebar-header .gfo-search-btn', function() {
-            var val = self.$container.find('.gfo-sidebar-header .gfo-search-input').val();
+        this.$container.on('click', '.mapl-sidebar-header .mapl-search-btn', function() {
+            var val = self.$container.find('.mapl-sidebar-header .mapl-search-input').val();
             self.onSearch(val, 'desktop');
         });
-        this.$container.on('keypress', '.gfo-sidebar-header .gfo-search-input', function(e) {
+        this.$container.on('keypress', '.mapl-sidebar-header .mapl-search-input', function(e) {
             if (e.which === 13) {
                 self.onSearch($(this).val(), 'desktop');
             }
         });
 
         /* ---- Search: mobile toolbar ---- */
-        this.$container.on('input', '.gfo-mobile-toolbar .gfo-search-input', function() {
+        this.$container.on('input', '.mapl-mobile-toolbar .mapl-search-input', function() {
             self.onSearch($(this).val(), 'mobile');
         });
-        this.$container.on('click', '.gfo-mobile-toolbar .gfo-search-btn', function() {
-            var val = self.$container.find('.gfo-mobile-toolbar .gfo-search-input').val();
+        this.$container.on('click', '.mapl-mobile-toolbar .mapl-search-btn', function() {
+            var val = self.$container.find('.mapl-mobile-toolbar .mapl-search-input').val();
             self.onSearch(val, 'mobile');
         });
-        this.$container.on('keypress', '.gfo-mobile-toolbar .gfo-search-input', function(e) {
+        this.$container.on('keypress', '.mapl-mobile-toolbar .mapl-search-input', function(e) {
             if (e.which === 13) {
                 self.onSearch($(this).val(), 'mobile');
             }
         });
 
         /* ---- Filter dropdown: desktop ---- */
-        this.$container.on('change', '.gfo-sidebar-header .gfo-filter-select', function() {
+        this.$container.on('change', '.mapl-sidebar-header .mapl-filter-select', function() {
             self.onFilter($(this).val(), 'desktop');
         });
 
         /* ---- Filter dropdown: mobile ---- */
-        this.$container.on('change', '.gfo-mobile-toolbar .gfo-filter-select', function() {
+        this.$container.on('change', '.mapl-mobile-toolbar .mapl-filter-select', function() {
             self.onFilter($(this).val(), 'mobile');
         });
 
         /* ---- Establishment card click ---- */
-        this.$container.on('click', '.gfo-place-card', function(e) {
+        this.$container.on('click', '.mapl-place-card', function(e) {
             // Do not fire card click when user clicks a phone link
-            if ($(e.target).closest('.gfo-place-phone').length) return;
+            if ($(e.target).closest('.mapl-place-phone').length) return;
             var id = parseInt($(this).data('id'), 10);
             self.focusPlace(id);
         });
 
         /* ---- Establishment card hover -> highlight marker ---- */
-        this.$container.on('mouseenter', '.gfo-place-card', function() {
+        this.$container.on('mouseenter', '.mapl-place-card', function() {
             var id = parseInt($(this).data('id'), 10);
             self.highlightMarker(id, true);
         });
-        this.$container.on('mouseleave', '.gfo-place-card', function() {
+        this.$container.on('mouseleave', '.mapl-place-card', function() {
             var id = parseInt($(this).data('id'), 10);
             self.highlightMarker(id, false);
         });
 
         /* ---- Entity pills: isoler / ajouter / retirer une entité ---- */
-        this.$container.on('click', '.gfo-entity-pill', function() {
+        this.$container.on('click', '.mapl-entity-pill', function() {
             var slug = String($(this).attr('data-entity'));
             self.activeEntities = toggleEntitySelection(self.activeEntities, slug);
             self.syncEntityPills();
@@ -238,21 +238,21 @@ class GeofolioMap {
         });
 
         /* ---- Entity pills: « Tout afficher » ---- */
-        this.$container.on('click', '.gfo-entity-reset', function() {
+        this.$container.on('click', '.mapl-entity-reset', function() {
             self.activeEntities = {};
             self.syncEntityPills();
             self.renderAll();
         });
 
         /* ---- Geolocation ---- */
-        this.$container.on('click', '.gfo-geoloc-btn', function() {
+        this.$container.on('click', '.mapl-geoloc-btn', function() {
             self.handleGeolocation();
         });
 
         /* ---- Autocomplete: live suggestions (scoped to active search row) ---- */
-        this.$container.on('input', '.gfo-search-input', function() {
+        this.$container.on('input', '.mapl-search-input', function() {
             var $input = $(this);
-            var $row   = $input.closest('.gfo-search-row');
+            var $row   = $input.closest('.mapl-search-row');
             var val    = $input.val();
             clearTimeout(self._acTimer);
             self._acTimer = setTimeout(function() {
@@ -261,23 +261,23 @@ class GeofolioMap {
         });
 
         /* ---- Autocomplete: click a suggestion ---- */
-        this.$container.on('click', '.gfo-autocomplete-item', function() {
+        this.$container.on('click', '.mapl-autocomplete-item', function() {
             self.selectSuggestion($(this).data('place-id'));
         });
 
         /* ---- Autocomplete: keyboard navigation ---- */
-        this.$container.on('keydown', '.gfo-search-input', function(e) {
-            var $row      = $(this).closest('.gfo-search-row');
-            var $dropdown = $row.find('.gfo-autocomplete-results');
+        this.$container.on('keydown', '.mapl-search-input', function(e) {
+            var $row      = $(this).closest('.mapl-search-row');
+            var $dropdown = $row.find('.mapl-autocomplete-results');
             if (!$dropdown.length || $dropdown.is('[hidden]')) return;
 
             if (e.key === 'ArrowDown')      { e.preventDefault(); self.navigateAutocomplete(1, $row); }
             else if (e.key === 'ArrowUp')   { e.preventDefault(); self.navigateAutocomplete(-1, $row); }
             else if (e.key === 'Enter') {
                 // Pick the highlighted item, or fall back to the first suggestion
-                var $target = $dropdown.find('.gfo-autocomplete-item.is-highlighted').first();
+                var $target = $dropdown.find('.mapl-autocomplete-item.is-highlighted').first();
                 if (!$target.length) {
-                    $target = $dropdown.find('.gfo-autocomplete-item').first();
+                    $target = $dropdown.find('.mapl-autocomplete-item').first();
                 }
                 if ($target.length) {
                     e.preventDefault();
@@ -288,8 +288,8 @@ class GeofolioMap {
         });
 
         /* ---- Autocomplete: close on outside click ---- */
-        $(document).on('click.gfoAC_' + this.mapId, function(e) {
-            if (!$(e.target).closest('.gfo-search-row').length) {
+        $(document).on('click.maplAC_' + this.mapId, function(e) {
+            if (!$(e.target).closest('.mapl-search-row').length) {
                 self.closeAutocomplete();
             }
         });
@@ -297,7 +297,7 @@ class GeofolioMap {
         /* ---- Carrousel : lazy-fetch de la galerie à l'ouverture du popup ---- */
         this.map.on('popupopen', function(e) {
             var $node    = $(e.popup._contentNode);
-            var $content = $node.find('.gfo-popup-content');
+            var $content = $node.find('.mapl-popup-content');
             var placeId   = parseInt($content.data('place-id'), 10);
             if (!placeId) return;
 
@@ -313,7 +313,7 @@ class GeofolioMap {
             }
 
             self._galleryXHR = $.ajax({
-                url:    geofolioConfig.restUrl + 'places/' + placeId,
+                url:    mappedPlacesConfig.restUrl + 'places/' + placeId,
                 method: 'GET',
                 success: function(response) {
                     self._galleryCache[placeId] = response.gallery || [];
@@ -335,27 +335,27 @@ class GeofolioMap {
         var self = this;
 
         /* ---- Fullscreen toggle ---- */
-        this.$container.on('click', '.gfo-fullscreen-btn', function() {
+        this.$container.on('click', '.mapl-fullscreen-btn', function() {
             self.toggleFullscreen();
         });
 
         /* ---- Mobile sidebar toggle ---- */
-        this.$container.on('click', '.gfo-sidebar-toggle', function() {
+        this.$container.on('click', '.mapl-sidebar-toggle', function() {
             self.toggleDrawer();
         });
 
         /* ---- Drawer handle (tap to close) ---- */
-        this.$container.on('click', '.gfo-drawer-handle', function() {
+        this.$container.on('click', '.mapl-drawer-handle', function() {
             self.closeDrawer();
         });
 
         /* ---- ESC key: exit fullscreen ---- */
         this._escHandler = function(e) {
-            if (e.key === 'Escape' && self.$container.hasClass('gfo-fullscreen')) {
+            if (e.key === 'Escape' && self.$container.hasClass('mapl-fullscreen')) {
                 self.exitFullscreen();
             }
         };
-        $(document).on('keydown.gfomap_' + this.mapId, this._escHandler);
+        $(document).on('keydown.maplmap_' + this.mapId, this._escHandler);
     }
 
     /* ============================================================ */
@@ -363,7 +363,7 @@ class GeofolioMap {
     /* ============================================================ */
 
     toggleFullscreen() {
-        if (this.$container.hasClass('gfo-fullscreen')) {
+        if (this.$container.hasClass('mapl-fullscreen')) {
             this.exitFullscreen();
         } else {
             this.enterFullscreen();
@@ -371,10 +371,10 @@ class GeofolioMap {
     }
 
     enterFullscreen() {
-        this.$container.addClass('gfo-fullscreen');
-        $('body').addClass('gfo-body-fullscreen');
+        this.$container.addClass('mapl-fullscreen');
+        $('body').addClass('mapl-body-fullscreen');
 
-        var $btn = this.$container.find('.gfo-fullscreen-btn');
+        var $btn = this.$container.find('.mapl-fullscreen-btn');
         $btn.attr('aria-label', t('exitFullscreen'));
         $btn.html(SVG_FULLSCREEN_EXIT);
 
@@ -383,10 +383,10 @@ class GeofolioMap {
     }
 
     exitFullscreen() {
-        this.$container.removeClass('gfo-fullscreen');
-        $('body').removeClass('gfo-body-fullscreen');
+        this.$container.removeClass('mapl-fullscreen');
+        $('body').removeClass('mapl-body-fullscreen');
 
-        var $btn = this.$container.find('.gfo-fullscreen-btn');
+        var $btn = this.$container.find('.mapl-fullscreen-btn');
         $btn.attr('aria-label', t('enterFullscreen'));
         $btn.html(SVG_FULLSCREEN_ENTER);
 
@@ -399,28 +399,28 @@ class GeofolioMap {
     /* ============================================================ */
 
     toggleDrawer() {
-        var $sidebar = this.$container.find('.gfo-map-sidebar');
-        var $toggle  = this.$container.find('.gfo-sidebar-toggle span');
-        var isOpen   = $sidebar.hasClass('gfo-drawer-open');
+        var $sidebar = this.$container.find('.mapl-map-sidebar');
+        var $toggle  = this.$container.find('.mapl-sidebar-toggle span');
+        var isOpen   = $sidebar.hasClass('mapl-drawer-open');
 
         if (isOpen) {
-            $sidebar.removeClass('gfo-drawer-open');
+            $sidebar.removeClass('mapl-drawer-open');
             $toggle.text(t('filters'));
-            this.$container.find('.gfo-sidebar-toggle')
+            this.$container.find('.mapl-sidebar-toggle')
                 .attr('aria-label', t('openFilters'));
         } else {
-            $sidebar.addClass('gfo-drawer-open');
+            $sidebar.addClass('mapl-drawer-open');
             $toggle.text(t('close'));
-            this.$container.find('.gfo-sidebar-toggle')
+            this.$container.find('.mapl-sidebar-toggle')
                 .attr('aria-label', t('closeFilters'));
         }
     }
 
     closeDrawer() {
-        var $sidebar = this.$container.find('.gfo-map-sidebar');
-        if ($sidebar.hasClass('gfo-drawer-open')) {
-            $sidebar.removeClass('gfo-drawer-open');
-            this.$container.find('.gfo-sidebar-toggle span')
+        var $sidebar = this.$container.find('.mapl-map-sidebar');
+        if ($sidebar.hasClass('mapl-drawer-open')) {
+            $sidebar.removeClass('mapl-drawer-open');
+            this.$container.find('.mapl-sidebar-toggle span')
                 .text(t('filters'));
         }
     }
@@ -438,7 +438,7 @@ class GeofolioMap {
         this.showLoading(true);
 
         this._dataRequest = $.ajax({
-            url:     geofolioConfig.restUrl + 'places',
+            url:     mappedPlacesConfig.restUrl + 'places',
             method:  'GET',
             // Route publique : pas de nonce. Périmé (page en cache HTML
             // depuis plus de 24 h), il ferait répondre 403 à WordPress.
@@ -481,9 +481,9 @@ class GeofolioMap {
 
             // Sync the other search input
             if (source === 'desktop') {
-                self.$container.find('.gfo-mobile-toolbar .gfo-search-input').val(val);
+                self.$container.find('.mapl-mobile-toolbar .mapl-search-input').val(val);
             } else {
-                self.$container.find('.gfo-sidebar-header .gfo-search-input').val(val);
+                self.$container.find('.mapl-sidebar-header .mapl-search-input').val(val);
             }
 
             self.renderAll();
@@ -510,9 +510,9 @@ class GeofolioMap {
 
         // Sync the other dropdown
         if (source === 'desktop') {
-            this.$container.find('.gfo-mobile-toolbar .gfo-filter-select').val(val);
+            this.$container.find('.mapl-mobile-toolbar .mapl-filter-select').val(val);
         } else {
-            this.$container.find('.gfo-sidebar-header .gfo-filter-select').val(val);
+            this.$container.find('.mapl-sidebar-header .mapl-filter-select').val(val);
         }
 
         this.renderAll();
@@ -564,7 +564,7 @@ class GeofolioMap {
                 + escHtml(self.getTypeConfig(k).label) + ' (' + (counts[k] || 0) + ')</option>';
         });
 
-        this.$container.find('.gfo-filter-select').html(options).val(selected);
+        this.$container.find('.mapl-filter-select').html(options).val(selected);
     }
 
     /**
@@ -600,29 +600,29 @@ class GeofolioMap {
 
         // Build pills HTML, précédées d'une phrase guide pour rendre
         // le filtrage par entité plus intuitif.
-        var html = '<div class="gfo-entity-section">'
-            + '<p class="gfo-entity-hint">'
+        var html = '<div class="mapl-entity-section">'
+            + '<p class="mapl-entity-hint">'
             + SVG_HINT
             + '<span>' + escHtml(hint) + '</span>'
-            + '<button type="button" class="gfo-entity-reset" hidden>'
+            + '<button type="button" class="mapl-entity-reset" hidden>'
             + escHtml(resetTxt)
             + '</button>'
             + '</p>'
-            + '<div class="gfo-entity-pills">';
+            + '<div class="mapl-entity-pills">';
         slugs.forEach(function(slug) {
             var ent = entities[slug];
-            html += '<button type="button" class="gfo-entity-pill" aria-pressed="false" '
+            html += '<button type="button" class="mapl-entity-pill" aria-pressed="false" '
                 + 'data-entity="' + escAttr(slug) + '" '
                 + 'style="--pill-color:' + ent.color + '">'
-                + '<span class="gfo-entity-pill-dot"></span>'
+                + '<span class="mapl-entity-pill-dot"></span>'
                 + escHtml(ent.name)
                 + '</button>';
         });
         html += '</div></div>';
 
         // Idempotent : retirer une ancienne section avant d'injecter
-        this.$container.find('.gfo-entity-section').remove();
-        this.$container.find('.gfo-map-canvas').before(html);
+        this.$container.find('.mapl-entity-section').remove();
+        this.$container.find('.mapl-map-canvas').before(html);
         this.syncEntityPills();
     }
 
@@ -635,7 +635,7 @@ class GeofolioMap {
         var selection    = this.activeEntities;
         var hasSelection = Object.keys(selection).length > 0;
 
-        this.$container.find('.gfo-entity-pill').each(function() {
+        this.$container.find('.mapl-entity-pill').each(function() {
             var selected = selection[String($(this).attr('data-entity'))] === true;
             $(this)
                 .toggleClass('is-selected', selected)
@@ -643,7 +643,7 @@ class GeofolioMap {
                 .attr('aria-pressed', selected ? 'true' : 'false');
         });
 
-        this.$container.find('.gfo-entity-reset').prop('hidden', !hasSelection);
+        this.$container.find('.mapl-entity-reset').prop('hidden', !hasSelection);
     }
 
     /* ============================================================ */
@@ -663,7 +663,7 @@ class GeofolioMap {
         this.updateTypeCounts();
         this.renderMarkers();
         this.renderPlaceList();
-        this.$container.find('.gfo-results-count').text(this.filteredPlaces.length);
+        this.$container.find('.mapl-results-count').text(this.filteredPlaces.length);
     }
 
     /* ============================================================ */
@@ -687,7 +687,7 @@ class GeofolioMap {
      * Each card shows: type icon, name, type badge, city, phone.
      */
     renderPlaceList() {
-        var $list = this.$container.find('.gfo-place-list');
+        var $list = this.$container.find('.mapl-place-list');
         var self  = this;
 
         $list.empty();
@@ -696,7 +696,7 @@ class GeofolioMap {
             var noResultsText = escHtml(t('noResults'));
 
             $list.html(
-                '<div class="gfo-no-results">'
+                '<div class="mapl-no-results">'
                 + SVG_NO_RESULTS
                 + '<p>' + noResultsText + '</p>'
                 + '</div>'
@@ -714,30 +714,30 @@ class GeofolioMap {
             // Phone link (with stopPropagation to prevent card click)
             var phoneHtml = '';
             if (place.phone) {
-                phoneHtml = '<a href="tel:' + escAttr(place.phone) + '" class="gfo-place-phone" onclick="event.stopPropagation()">'
+                phoneHtml = '<a href="tel:' + escAttr(place.phone) + '" class="mapl-place-phone" onclick="event.stopPropagation()">'
                     + SVG_PHONE
                     + escHtml(place.phone)
                     + '</a>';
             }
 
             var managerHtml = place.manager
-                ? '<div class="gfo-place-manager">' + escHtml(place.manager) + '</div>'
+                ? '<div class="mapl-place-manager">' + escHtml(place.manager) + '</div>'
                 : '';
 
-            var cardHtml = '<div class="gfo-place-card" data-id="' + place.id + '"'
+            var cardHtml = '<div class="mapl-place-card" data-id="' + place.id + '"'
                 + ' data-lat="' + (place.lat || '') + '"'
                 + ' data-lng="' + (place.lng || '') + '"'
                 + ' role="listitem" tabindex="0">'
-                + '<div class="gfo-place-icon" style="background:' + entityColor + '12;color:' + entityColor + '">'
+                + '<div class="mapl-place-icon" style="background:' + entityColor + '12;color:' + entityColor + '">'
                 + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
                 + config.svgPath
                 + '</svg>'
                 + '</div>'
-                + '<div class="gfo-place-info">'
-                + '<div class="gfo-place-name">' + escHtml(place.title) + '</div>'
-                + '<div class="gfo-place-meta">'
-                + '<span class="gfo-place-type" style="background:' + entityColor + '18;color:' + entityColor + '">' + escHtml(config.label) + '</span>'
-                + '<span class="gfo-place-city">' + escHtml(cityStr) + '</span>'
+                + '<div class="mapl-place-info">'
+                + '<div class="mapl-place-name">' + escHtml(place.title) + '</div>'
+                + '<div class="mapl-place-meta">'
+                + '<span class="mapl-place-type" style="background:' + entityColor + '18;color:' + entityColor + '">' + escHtml(config.label) + '</span>'
+                + '<span class="mapl-place-city">' + escHtml(cityStr) + '</span>'
                 + '</div>'
                 + managerHtml
                 + phoneHtml
@@ -760,8 +760,8 @@ class GeofolioMap {
      * @param {number} id - Etablissement ID
      */
     focusPlace(id) {
-        this.$container.find('.gfo-place-card').removeClass('active');
-        this.$container.find('.gfo-place-card[data-id="' + id + '"]').addClass('active');
+        this.$container.find('.mapl-place-card').removeClass('active');
+        this.$container.find('.mapl-place-card[data-id="' + id + '"]').addClass('active');
 
         this.closeDrawer();
 
@@ -789,7 +789,7 @@ class GeofolioMap {
      * @param {boolean} show - Whether to show or hide the loader
      */
     showLoading(show) {
-        this.$container.find('.gfo-map-loading').toggle(show);
+        this.$container.find('.mapl-map-loading').toggle(show);
     }
 
     /**
@@ -798,11 +798,11 @@ class GeofolioMap {
      * @param {string} message - Message to display
      */
     showToast(message) {
-        var $toast = $('<div class="gfo-toast" role="status">' + escHtml(message) + '</div>');
+        var $toast = $('<div class="mapl-toast" role="status">' + escHtml(message) + '</div>');
         this.$container.append($toast);
-        setTimeout(function() { $toast.addClass('gfo-toast-visible'); }, 10);
+        setTimeout(function() { $toast.addClass('mapl-toast-visible'); }, 10);
         setTimeout(function() {
-            $toast.removeClass('gfo-toast-visible');
+            $toast.removeClass('mapl-toast-visible');
             setTimeout(function() { $toast.remove(); }, 300);
         }, 4000);
     }
@@ -825,8 +825,8 @@ class GeofolioMap {
             this._dataRequest = null;
         }
 
-        $(document).off('keydown.gfomap_' + this.mapId);
-        $(document).off('.gfoAC_' + this.mapId);
+        $(document).off('keydown.maplmap_' + this.mapId);
+        $(document).off('.maplAC_' + this.mapId);
         this.$container.off();
 
         if (this.map) {
@@ -842,6 +842,6 @@ class GeofolioMap {
 }
 
 // Méthodes réparties par thème (fichiers map-*.mjs).
-Object.assign(GeofolioMap.prototype, autocompleteMethods, carouselMethods, markersMethods);
+Object.assign(MappedPlacesMap.prototype, autocompleteMethods, carouselMethods, markersMethods);
 
-export { GeofolioMap };
+export { MappedPlacesMap };

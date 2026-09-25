@@ -1,7 +1,7 @@
 /**
- * Geofolio — Galerie photos des établissements.
+ * Mapped Places — Galerie photos des établissements.
  *
- * Script VOLONTAIREMENT INDEPENDANT de gfo-map-admin.js : ce dernier
+ * Script VOLONTAIREMENT INDEPENDANT de mapl-map-admin.js : ce dernier
  * initialise une carte Leaflet chargée depuis un CDN. Si ce CDN est bloqué
  * ou lent, l'exception ne doit pas empêcher d'ajouter des photos.
  *
@@ -13,18 +13,18 @@
 (function ($) {
     'use strict';
 
-    const INPUT_NAME  = 'geofolio_gallery';
+    const INPUT_NAME  = 'mapped_places_gallery';
     const SELECTORS = {
         // Cible par NAME et non par id : WordPress donne au conteneur de meta
         // box l'id passe a add_meta_box(). Un champ portant le meme id serait
         // masque par ce conteneur (getElementById renvoie le premier du DOM).
-        input:   'input[name="geofolio_gallery"]',
-        preview: '#geofolio_gallery_preview',
-        select:  '#geofolio_gallery_select',
-        clear:   '#geofolio_gallery_clear',
-        remove:  '.gfo-gallery-remove',
-        item:    '.gfo-gallery-item',
-        error:   '.gfo-gallery-error',
+        input:   'input[name="mapped_places_gallery"]',
+        preview: '#mapped_places_gallery_preview',
+        select:  '#mapped_places_gallery_select',
+        clear:   '#mapped_places_gallery_clear',
+        remove:  '.mapl-gallery-remove',
+        item:    '.mapl-gallery-item',
+        error:   '.mapl-gallery-error',
     };
 
     /** Délai maximal d'attente de la meta box (éditeur de blocs). */
@@ -37,7 +37,7 @@
      * Libellés traduits, fournis par PHP (wp_localize_script).
      */
     function t(key) {
-        const i18n = (window.geofolioGallery && geofolioGallery.i18n) || {};
+        const i18n = (window.mappedPlacesGallery && mappedPlacesGallery.i18n) || {};
         return i18n[key] || '';
     }
 
@@ -69,7 +69,7 @@
         try {
             parsed = JSON.parse(raw);
         } catch (error) {
-            window.console && console.error('[geofolio] Galerie illisible :', error);
+            window.console && console.error('[mapped-places] Galerie illisible :', error);
             showError(t('parseError'));
             return [];
         }
@@ -119,7 +119,7 @@
 
         let $error = $preview.siblings(SELECTORS.error);
         if (!$error.length) {
-            $error = $('<p>', { 'class': 'gfo-gallery-error notice notice-error' });
+            $error = $('<p>', { 'class': 'mapl-gallery-error notice notice-error' });
             $preview.before($error);
         }
         $error.text(message);
@@ -139,7 +139,7 @@
      */
     function openFrame() {
         if (typeof wp === 'undefined' || !wp.media) {
-            window.console && console.error('[geofolio] wp.media est indisponible : wp_enqueue_media() n\'a pas été exécuté sur cet écran.');
+            window.console && console.error('[mapped-places] wp.media est indisponible : wp_enqueue_media() n\'a pas été exécuté sur cet écran.');
             showError(t('mediaMissing'));
             return;
         }
@@ -232,13 +232,13 @@
      */
     function buildItem(id) {
         const $item = $('<div>', {
-            'class':  'gfo-gallery-item',
+            'class':  'mapl-gallery-item',
             'data-id': id,
         });
 
         $item.append($('<button>', {
             type:    'button',
-            'class': 'gfo-gallery-remove',
+            'class': 'mapl-gallery-remove',
             title:   t('removeItem'),
             text:    '×',
         }));

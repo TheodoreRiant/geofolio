@@ -4,8 +4,8 @@
  * champ « manager ».
  */
 
-use Geofolio\Domain\FieldRegistry;
-use Geofolio\Domain\People;
+use MappedPlaces\Domain\FieldRegistry;
+use MappedPlaces\Domain\People;
 use PHPUnit\Framework\TestCase;
 
 class PeopleTest extends TestCase {

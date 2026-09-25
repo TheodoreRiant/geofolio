@@ -2,7 +2,7 @@
  * Tests du libellé « Directeur/trice » du popup (VAD-8).
  *
  * Le libellé passe au pluriel dès que le champ contient une virgule
- * (plusieurs noms), et vient de geofolioConfig.i18n pour rester traduisible.
+ * (plusieurs noms), et vient de mappedPlacesConfig.i18n pour rester traduisible.
  *
  * Lancer :  node --test tests/js/*.test.js
  */

@@ -2,7 +2,7 @@
    AUTOCOMPLETE (v2.5)
    ============================================================ */
 
-.gfo-autocomplete-results {
+.mapl-autocomplete-results {
     position: absolute;
     top: calc(100% + 4px);
     left: 0;
@@ -16,35 +16,35 @@
     overflow-y: auto;
 }
 
-.gfo-autocomplete-item {
+.mapl-autocomplete-item {
     padding: 10px 14px;
     cursor: pointer;
     border-bottom: 1px solid #f1f5f9;
     transition: background 0.15s;
 }
 
-.gfo-autocomplete-item:last-child {
+.mapl-autocomplete-item:last-child {
     border-bottom: none;
 }
 
-.gfo-autocomplete-item:hover,
-.gfo-autocomplete-item.is-highlighted {
+.mapl-autocomplete-item:hover,
+.mapl-autocomplete-item.is-highlighted {
     background: #f8fafc;
 }
 
-.gfo-ac-title {
+.mapl-ac-title {
     font-size: 13px;
     font-weight: 600;
-    color: var(--gfo-text);
+    color: var(--mapl-text);
     margin-bottom: 2px;
 }
 
-.gfo-ac-meta {
+.mapl-ac-meta {
     font-size: 11px;
     color: #64748b;
 }
 
-.gfo-autocomplete-item mark {
+.mapl-autocomplete-item mark {
     background: rgba(193, 142, 216, 0.45);
     color: #1e293b;
     /* Pas de padding : sur un élément en ligne, il écarte les lettres du mot
@@ -55,7 +55,7 @@
     font-weight: 600;
 }
 
-.gfo-autocomplete-empty {
+.mapl-autocomplete-empty {
     padding: 14px;
     text-align: center;
     color: #94a3b8;

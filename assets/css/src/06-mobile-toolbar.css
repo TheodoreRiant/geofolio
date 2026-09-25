@@ -1,25 +1,25 @@
 /* ============================================================
-   15. MOBILE TOOLBAR (.gfo-mobile-toolbar)
+   15. MOBILE TOOLBAR (.mapl-mobile-toolbar)
    Hidden on desktop. Flex column on mobile.
    ============================================================ */
-.gfo-mobile-toolbar {
+.mapl-mobile-toolbar {
     display: none;
     flex-direction: column;
     padding: 10px 12px;
     gap: 8px;
-    background: var(--gfo-surface);
-    border-bottom: 1px solid var(--gfo-border);
+    background: var(--mapl-surface);
+    border-bottom: 1px solid var(--mapl-border);
     flex-shrink: 0;
     z-index: 20;
 }
 
 /* Search row inside mobile toolbar */
-.gfo-mobile-toolbar .gfo-search-row {
+.mapl-mobile-toolbar .mapl-search-row {
     gap: 6px;
 }
 
 /* Filter dropdown inside mobile toolbar */
-.gfo-mobile-toolbar .gfo-filter-select {
+.mapl-mobile-toolbar .mapl-filter-select {
     margin-top: 0;
 }
 

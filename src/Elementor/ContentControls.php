@@ -1,16 +1,16 @@
 <?php
 /**
- * Contrôles du widget Elementor Geofolio. Onglet Contenu : paramètres de la carte, options d'affichage, textes de la sidebar.
+ * Contrôles du widget Elementor Mapped Places. Onglet Contenu : paramètres de la carte, options d'affichage, textes de la sidebar.
  *
  * Méthodes utilisées par MapWidget::register_controls().
  *
- * @package Geofolio
+ * @package Mapped Places
  */
 
-namespace Geofolio\Elementor;
+namespace MappedPlaces\Elementor;
 
-use Geofolio\Map\Defaults;
-use Geofolio\Map\TileProviders;
+use MappedPlaces\Map\Defaults;
+use MappedPlaces\Map\TileProviders;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,7 +26,7 @@ trait ContentControls {
         $this->start_controls_section(
             'section_map_parameters',
             [
-                'label' => __('Map parameters', 'geofolio'),
+                'label' => __('Map parameters', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -37,7 +37,7 @@ trait ContentControls {
         $this->add_responsive_control(
             'map_height',
             [
-                'label'          => __('Map height', 'geofolio'),
+                'label'          => __('Map height', 'mapped-places'),
                 'type'           => \Elementor\Controls_Manager::SLIDER,
                 'size_units'     => ['px', 'vh', '%'],
                 'range'          => [
@@ -49,7 +49,7 @@ trait ContentControls {
                 'tablet_default' => self::TABLET_HEIGHT,
                 'mobile_default' => self::MOBILE_HEIGHT,
                 'selectors'      => [
-                    '{{WRAPPER}} .gfo-map-container' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .mapl-map-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -57,46 +57,46 @@ trait ContentControls {
         $this->add_responsive_control(
             'map_full_bleed',
             [
-                'label'        => __('Full width (break out of the container)', 'geofolio'),
+                'label'        => __('Full width (break out of the container)', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'yes',
                 'default'      => '',
                 'selectors'    => [
                     '{{WRAPPER}}' => 'width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);',
-                    '{{WRAPPER}} .gfo-map-container' => 'width: 100vw; max-width: 100vw; border-radius: 0;',
+                    '{{WRAPPER}} .mapl-map-container' => 'width: 100vw; max-width: 100vw; border-radius: 0;',
                 ],
-                'description'  => __('Makes the widget span the full window width, even when the parent section is constrained (e.g. max-width 1200px).', 'geofolio'),
+                'description'  => __('Makes the widget span the full window width, even when the parent section is constrained (e.g. max-width 1200px).', 'mapped-places'),
             ]
         );
 
         $this->add_control(
             'center_lat',
             [
-                'label'       => __('Centre latitude', 'geofolio'),
+                'label'       => __('Centre latitude', 'mapped-places'),
                 'type'        => \Elementor\Controls_Manager::NUMBER,
                 'default'     => (float) $defaults['center_lat'],
                 'step'        => 0.0001,
-                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'geofolio'),
+                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'mapped-places'),
             ]
         );
 
         $this->add_control(
             'center_lng',
             [
-                'label'       => __('Centre longitude', 'geofolio'),
+                'label'       => __('Centre longitude', 'mapped-places'),
                 'type'        => \Elementor\Controls_Manager::NUMBER,
                 'default'     => (float) $defaults['center_lng'],
                 'step'        => 0.0001,
-                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'geofolio'),
+                'description' => __('Used when "Fit the view to the places" is off, or when the map contains no place.', 'mapped-places'),
             ]
         );
 
         $this->add_control(
             'zoom',
             [
-                'label'   => __('Initial zoom', 'geofolio'),
+                'label'   => __('Initial zoom', 'mapped-places'),
                 'type'    => \Elementor\Controls_Manager::SLIDER,
                 'range'   => [
                     'px' => ['min' => 1, 'max' => 18, 'step' => 1],
@@ -108,13 +108,13 @@ trait ContentControls {
         $this->add_control(
             'fit_bounds',
             [
-                'label'        => __('Fit the view to the places', 'geofolio'),
+                'label'        => __('Fit the view to the places', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'true',
                 'default'      => self::switcher_default($defaults['fit_bounds']),
-                'description'  => __('On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above.', 'geofolio'),
+                'description'  => __('On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above.', 'mapped-places'),
             ]
         );
 
@@ -129,7 +129,7 @@ trait ContentControls {
         $this->start_controls_section(
             'section_display_options',
             [
-                'label' => __('Display options', 'geofolio'),
+                'label' => __('Display options', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -137,10 +137,10 @@ trait ContentControls {
         $this->add_control(
             'show_search',
             [
-                'label'        => __('Show the search', 'geofolio'),
+                'label'        => __('Show the search', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'true',
                 'default'      => self::switcher_default($defaults['show_search']),
             ]
@@ -149,10 +149,10 @@ trait ContentControls {
         $this->add_control(
             'show_filter',
             [
-                'label'        => __('Show the type filter', 'geofolio'),
+                'label'        => __('Show the type filter', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'true',
                 'default'      => self::switcher_default($defaults['show_filter']),
             ]
@@ -161,10 +161,10 @@ trait ContentControls {
         $this->add_control(
             'show_list',
             [
-                'label'        => __('Show the results list', 'geofolio'),
+                'label'        => __('Show the results list', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'true',
                 'default'      => self::switcher_default($defaults['show_list']),
             ]
@@ -173,10 +173,10 @@ trait ContentControls {
         $this->add_control(
             'show_fullscreen',
             [
-                'label'        => __('Full screen button', 'geofolio'),
+                'label'        => __('Full screen button', 'mapped-places'),
                 'type'         => \Elementor\Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'geofolio'),
-                'label_off'    => __('No', 'geofolio'),
+                'label_on'     => __('Yes', 'mapped-places'),
+                'label_off'    => __('No', 'mapped-places'),
                 'return_value' => 'true',
                 'default'      => self::switcher_default($defaults['show_fullscreen']),
             ]
@@ -193,7 +193,7 @@ trait ContentControls {
         $this->start_controls_section(
             'section_sidebar_content',
             [
-                'label' => __('Sidebar content', 'geofolio'),
+                'label' => __('Sidebar content', 'mapped-places'),
                 'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -201,11 +201,11 @@ trait ContentControls {
         $this->add_control(
             'sidebar_position',
             [
-                'label'   => __('Sidebar position', 'geofolio'),
+                'label'   => __('Sidebar position', 'mapped-places'),
                 'type'    => \Elementor\Controls_Manager::SELECT,
                 'options' => [
-                    'left'  => __('Left', 'geofolio'),
-                    'right' => __('Right', 'geofolio'),
+                    'left'  => __('Left', 'mapped-places'),
+                    'right' => __('Right', 'mapped-places'),
                 ],
                 'default' => $defaults['sidebar_position'],
             ]
@@ -214,7 +214,7 @@ trait ContentControls {
         $this->add_control(
             'sidebar_title',
             [
-                'label'   => __('Sidebar title', 'geofolio'),
+                'label'   => __('Sidebar title', 'mapped-places'),
                 'type'    => \Elementor\Controls_Manager::TEXT,
                 'default' => $defaults['sidebar_title'],
                 'label_block' => true,
@@ -224,7 +224,7 @@ trait ContentControls {
         $this->add_control(
             'sidebar_subtitle',
             [
-                'label'   => __('Sidebar subtitle', 'geofolio'),
+                'label'   => __('Sidebar subtitle', 'mapped-places'),
                 'type'    => \Elementor\Controls_Manager::TEXTAREA,
                 'default' => $defaults['sidebar_subtitle'],
                 'rows'    => 3,
@@ -237,14 +237,14 @@ trait ContentControls {
         $this->add_control(
             'tile_style',
             [
-                'label'       => __('Tile style', 'geofolio'),
+                'label'       => __('Tile style', 'mapped-places'),
                 'type'        => \Elementor\Controls_Manager::SELECT,
                 'options'     => array_merge(
-                    ['' => __('— Use the site setting —', 'geofolio')],
+                    ['' => __('— Use the site setting —', 'mapped-places')],
                     TileProviders::labels()
                 ),
                 'default'     => '',
-                'description' => __('The API key for “key required” basemaps is set in Places → Map settings.', 'geofolio'),
+                'description' => __('The API key for “key required” basemaps is set in Places → Map settings.', 'mapped-places'),
             ]
         );
 
