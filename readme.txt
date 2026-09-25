@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,9 @@ Yes. The source strings are in English with a French translation included; other
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 1.4.1 =
+* Fix: the place popup no longer repeats the postal code and the city when the address already contains them.
 
 = 1.4.0 =
 * New: Appearance settings (colours, font, corner radius) and Labels settings (names, URL slug, default map texts).

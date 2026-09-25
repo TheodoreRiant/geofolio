@@ -96,6 +96,29 @@
     var plural = String(value || "").indexOf(",") !== -1;
     return (plural ? labels.managers : labels.manager) || "";
   }
+  function containsWord(text, word) {
+    var t2 = foldText(text);
+    var w = foldText(word).trim();
+    if (!w) return false;
+    var from = 0;
+    var idx;
+    while ((idx = t2.indexOf(w, from)) !== -1) {
+      var before = idx === 0 ? "" : t2.charAt(idx - 1);
+      var after = t2.charAt(idx + w.length);
+      if (!/[a-z0-9]/.test(before) && !/[a-z0-9]/.test(after)) return true;
+      from = idx + 1;
+    }
+    return false;
+  }
+  function formatAddress(place) {
+    var address = String(place && place.address || "").trim();
+    var parts = address ? [address] : [];
+    [place && place.postal_code, place && place.city].forEach(function(value) {
+      var v = String(value || "").trim();
+      if (v && !containsWord(address, v)) parts.push(v);
+    });
+    return parts.join(", ");
+  }
 
   // assets/js/src/i18n.mjs
   function formatText(template, args) {
@@ -622,7 +645,7 @@
       var type = place.types && place.types[0] ? place.types[0] : "";
       var config = this.getTypeConfig(type);
       var entityColor = resolveEntityColor(place, config.color);
-      var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(", ");
+      var fullAddr = formatAddress(place);
       var html = '<div class="gfo-popup-content" data-place-id="' + place.id + '">';
       if (place.gallery_count > 0) {
         html += '<div class="gfo-popup-image-placeholder"></div>';

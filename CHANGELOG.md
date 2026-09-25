@@ -4,6 +4,13 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 
 ## [Unreleased]
 
+## [1.4.1] — 2026-09-25
+
+Maintenance release of the 1.x line (Geofolio), for sites not yet upgraded to Mapped Places.
+
+### Fixed
+- Place popup: the postal code and the city are added to the address only when the address does not already contain them (compared without accents or case, whole words only). `formatAddress()` in `text.mjs`, `tests/js/popup-address.test.js`.
+
 ## [1.4.0] — 2026-09-25
 
 ### Added
