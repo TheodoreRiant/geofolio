@@ -154,7 +154,7 @@ final class Plugin {
      * langue de translate.wordpress.org tout seul, et cette méthode ne fait
      * rien. L'archive GitHub, elle, embarque languages/ : tant qu'aucun
      * paquet de langue n'est installé, on charge la traduction embarquée
-     * (load_plugin_textdomain() essaie d'abord wp-content/languages/plugins/,
+     * (la fonction WordPress essaie d'abord wp-content/languages/plugins/,
      * donc un paquet de langue garde la priorité).
      */
     public static function load_bundled_translations() {
