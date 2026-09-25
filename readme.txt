@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,11 @@ Yes. The source strings are in English and every string is translatable. Transla
 
 == Changelog ==
 
+= 2.1.0 =
+* New: upgrade from Geofolio 1.x, the plugin's former name. Sites that still hold Geofolio data are offered the import on the Places screens: post type, taxonomies, meta, settings, Elementor widgets, shortcode and block are renamed in place, then the old plugin is deactivated.
+* New: legacy import can rename blocks (`blocks` key).
+* Fix: renaming Elementor widgets during an import no longer loads every Elementor layout of the site at once (memory exhaustion on large sites).
+
 = 2.0.0 =
 * Renamed Mapped Places (formerly Geofolio). New slug, text domain, post type, taxonomies, meta keys, hooks, options, REST namespace and block name: a breaking change for code written against 1.x.
 * Admin notices appear only on the plugin's own screens; the migration re-run button moved to the Map settings.
@@ -191,6 +196,9 @@ Yes. The source strings are in English and every string is translatable. Transla
 * First public release, derived from a map plugin built for a single client: generic post type and taxonomies, English source strings with a French translation, data-driven type icons, generic CSV import, extension filters, PSR-4 code base.
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Coming from Geofolio 1.x? Install Mapped Places alongside it, then open Places and confirm the import: your data is renamed in place and Geofolio is deactivated.
 
 = 2.0.0 =
 The plugin is renamed Mapped Places. Every internal name changes (post type, taxonomies, meta keys, hooks, options): code written for 1.x must be updated, and 1.x data is not migrated automatically.

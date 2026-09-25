@@ -20,6 +20,7 @@ use MappedPlaces\Elementor\Integration;
 use MappedPlaces\Import\Importer;
 use MappedPlaces\Map\Defaults;
 use MappedPlaces\Map\Shortcode;
+use MappedPlaces\Migration\Legacy\Geofolio;
 use MappedPlaces\Migration\Legacy\ImportScreen;
 use MappedPlaces\Migration\Legacy\ImportStep;
 use MappedPlaces\Migration\Runner;
@@ -82,7 +83,9 @@ final class Plugin {
         Duplicate::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
-        // Import depuis un ancien plugin de carte décrit par un compagnon.
+        // Import depuis un ancien plugin de carte : Geofolio 1.x (ancien nom
+        // du plugin, décrit par le cœur) ou un autre, décrit par un compagnon.
+        Geofolio::register();
         add_filter('mapped_places_migration_steps', array(ImportStep::class, 'register'), 1);
         if (is_admin()) {
             ImportScreen::register();

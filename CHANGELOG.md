@@ -4,6 +4,15 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.0] — 2026-09-25
+
+### Added
+- **Upgrade from Geofolio 1.x** (the plugin's former name): the core describes its own predecessor (`Migration\Legacy\Geofolio`, priority 5 on `mapped_places_legacy_import`, unless a companion describes another plugin). When a site still holds a `geofolio_settings`, `geofolio_appearance` or `geofolio_labels` option or a `gfo_place` post, the import offered on the Places screens renames `gfo_place`, the `gfo_*` taxonomies, the `_gfo_*` post and term meta, moves those three options, renames the `geofolio_map` Elementor widgets, the `[geofolio]` shortcode and the `geofolio/map` block, then deactivates `geofolio/geofolio.php`. Caches and logs of the old name are left behind. `GEOFOLIO_TILE_API_KEY` in wp-config.php is still honoured.
+- Legacy import: `blocks` key (old block names renamed to `mapped-places/map` in the post content, attributes kept; `Legacy\BlockRewriter`), listed on the confirmation screen.
+
+### Fixed
+- Legacy import: renaming Elementor widgets loaded every `_elementor_data` meta of the site at once and exhausted PHP memory on a large Elementor site (12 MB of meta, 512 MB limit, observed on 25/09/2026 during a production migration, map empty for four minutes). `ElementorRewriter::apply()` now selects only the meta ids that mention an old widget name, then reads and rewrites them one row at a time, by `meta_id` (a revision keeps its own meta).
+
 ## [2.0.0] — 2026-09-25
 
 The plugin is renamed **Mapped Places** (formerly Geofolio, a name already used by an unrelated geospatial project). Everything that carried the old name changes with it: this is a new plugin slug for WordPress.org, and a breaking change for code written against 1.x. Nothing is migrated automatically: a site running 1.x keeps its data under the old keys until it imports them (the built-in import from a previous map plugin covers this, described by a companion through `mapped_places_legacy_import`).

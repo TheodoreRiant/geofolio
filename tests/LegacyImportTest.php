@@ -8,8 +8,10 @@
 use PHPUnit\Framework\TestCase;
 use MappedPlaces\Domain\FieldRegistry;
 use MappedPlaces\Domain\Schema;
+use MappedPlaces\Migration\Legacy\BlockRewriter;
 use MappedPlaces\Migration\Legacy\Config;
 use MappedPlaces\Migration\Legacy\ElementorRewriter;
+use MappedPlaces\Migration\Legacy\Geofolio;
 use MappedPlaces\Migration\Legacy\IconMatcher;
 use MappedPlaces\Migration\Legacy\ImportStep;
 use MappedPlaces\Migration\Legacy\ShortcodeRewriter;
@@ -37,10 +39,13 @@ final class LegacyImportTest extends TestCase {
         mapl_test_reset();
         mapl_test_reset_wpdb();
         mapl_test_reset_posts();
+        $GLOBALS['mapl_test_cache_deleted'] = array();
+        Geofolio::forget();
     }
 
     protected function tearDown(): void {
         mapl_test_reset_filters();
+        Geofolio::forget();
     }
 
     /* ---------------------------------------------------------------- */
@@ -114,10 +119,126 @@ final class LegacyImportTest extends TestCase {
         $this->assertSame(array('gap' => 'no'), $rewritten[0]['settings']);
     }
 
+    public function test_les_widgets_sont_reecrits_ligne_par_ligne_par_identifiant_de_meta() {
+        $wpdb = $GLOBALS['wpdb'];
+        $wpdb->col_result = array('7', '9');
+        $wpdb->rows = array(
+            (object) array('post_id' => 12, 'meta_value' => wp_json_encode(array(array('elType' => 'widget', 'widgetType' => 'old_map', 'settings' => array('zoom' => 6))))),
+            (object) array('post_id' => 13, 'meta_value' => wp_json_encode(array(array('elType' => 'widget', 'widgetType' => 'heading')))),
+        );
+
+        $this->assertSame(1, ElementorRewriter::apply(array('old_map'), 'mapped_places_map'));
+
+        // Sélection des identifiants seulement, filtrée sur le nom du widget :
+        // jamais toutes les structures Elementor du site en mémoire.
+        $this->assertStringContainsString('SELECT meta_id FROM', $wpdb->queries[0]);
+        $this->assertStringContainsString('"widgetType":"old\\_map"', $wpdb->queries[0]); // esc_like() protège le tiret bas
+        $this->assertStringNotContainsString('meta_value FROM', $wpdb->queries[0]);
+        $this->assertStringContainsString('WHERE meta_id = 7', $wpdb->queries[1]);
+        $this->assertStringContainsString('WHERE meta_id = 9', $wpdb->queries[2]);
+        // Écriture par meta_id : une révision garde sa propre meta.
+        $this->assertCount(1, $wpdb->updates);
+        $this->assertSame($wpdb->postmeta, $wpdb->updates[0][0]);
+        $this->assertSame(array('meta_id' => 7), $wpdb->updates[0][2]);
+        $this->assertStringContainsString('"widgetType":"mapped_places_map"', $wpdb->updates[0][1]['meta_value']);
+        $this->assertStringContainsString('"zoom":6', $wpdb->updates[0][1]['meta_value']);
+        $this->assertContains(array(12, 'post_meta'), $GLOBALS['mapl_test_cache_deleted']);
+    }
+
+    public function test_un_bloc_est_renomme_en_gardant_ses_attributs() {
+        $old = array('old/map');
+        $this->assertSame('<!-- wp:mapped-places/map {"align":"full","height":"80vh"} /-->', BlockRewriter::rewrite('<!-- wp:old/map {"align":"full","height":"80vh"} /-->', $old, 'mapped-places/map'));
+        $this->assertSame('<!-- wp:mapped-places/map --><div></div><!-- /wp:mapped-places/map -->', BlockRewriter::rewrite('<!-- wp:old/map --><div></div><!-- /wp:old/map -->', $old, 'mapped-places/map'));
+        $this->assertSame('<!-- wp:old/mapx /-->', BlockRewriter::rewrite('<!-- wp:old/mapx /-->', $old, 'mapped-places/map'));
+        $this->assertSame('<p>wp:old/map</p>', BlockRewriter::rewrite('<p>wp:old/map</p>', $old, 'mapped-places/map'));
+    }
+
     public function test_un_shortcode_est_reecrit_avec_ses_attributs() {
         $this->assertSame('<p>[mapped-places height="600px"]</p>', ShortcodeRewriter::rewrite('<p>[old-map height="600px"]</p>', array('old-map'), 'mapped-places'));
         $this->assertSame('[mapped-places]', ShortcodeRewriter::rewrite('[old-map]', array('old-map'), 'mapped-places'));
         $this->assertSame('[old-mapper]', ShortcodeRewriter::rewrite('[old-mapper]', array('old-map'), 'mapped-places'));
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Geofolio 1.x, l'ancien nom du plugin                             */
+    /* ---------------------------------------------------------------- */
+
+    public function test_sans_trace_de_geofolio_le_coeur_ne_decrit_rien() {
+        Geofolio::register();
+
+        $this->assertSame(array(), Config::get());
+        $this->assertSame(array(), ImportStep::register(array()));
+    }
+
+    public function test_le_coeur_decrit_geofolio_des_qu_une_de_ses_options_existe() {
+        Geofolio::register();
+        mapl_test_reset(array('geofolio_settings' => array('api_key' => 'k', 'tile_style' => 'carto-positron')));
+
+        $config = Config::get();
+
+        $this->assertSame('gfo_place', $config['post_type']);
+        $this->assertSame(Schema::TAX_TYPE, $config['taxonomies']['gfo_type']);
+        $this->assertSame(Schema::TAX_ENTITY, $config['taxonomies']['gfo_entity']);
+        $this->assertCount(5, $config['taxonomies']);
+        // Chaque champ de lieu : ancienne meta _gfo_<champ> vers le champ.
+        $this->assertSame(FieldRegistry::fields(), array_values($config['post_meta']));
+        $this->assertSame('latitude', $config['post_meta']['_gfo_latitude']);
+        $this->assertSame(Schema::ENTITY_COLOR_META, $config['term_meta']['_gfo_color']);
+        $this->assertSame(Schema::TYPE_ICON_META, $config['term_meta']['_gfo_icon']);
+        $this->assertSame('mapped_places_settings', $config['options']['geofolio_settings']);
+        $this->assertSame('mapped_places_appearance', $config['options']['geofolio_appearance']);
+        $this->assertSame('mapped_places_labels', $config['options']['geofolio_labels']);
+        $this->assertSame(array('geofolio_map'), $config['elementor_widgets']);
+        $this->assertSame(array('geofolio'), $config['shortcodes']);
+        $this->assertSame(array('geofolio/map'), $config['blocks']);
+        $this->assertSame('geofolio/geofolio.php', $config['plugin']);
+        // Rien à deviner : icônes, personnes et réglages sont déjà en place.
+        $this->assertSame(array(), $config['type_icons']);
+        $this->assertSame('', $config['manager_role']);
+
+        $steps = ImportStep::register(array());
+        $this->assertCount(1, $steps);
+        $this->assertInstanceOf(ImportStep::class, $steps[0]);
+    }
+
+    public function test_le_coeur_decrit_geofolio_des_qu_un_lieu_de_son_type_existe() {
+        Geofolio::register();
+        $GLOBALS['wpdb']->col_result = array('41');
+
+        $this->assertSame('gfo_place', Config::get()['post_type']);
+        $this->assertStringContainsString("post_type = 'gfo_place'", $GLOBALS['wpdb']->queries[0]);
+    }
+
+    public function test_un_compagnon_qui_decrit_un_autre_plugin_garde_la_main() {
+        Geofolio::register();
+        mapl_test_reset(array('geofolio_settings' => array('api_key' => 'k')));
+        add_filter('mapped_places_legacy_import', static function () { return self::CONFIG; });
+
+        $this->assertSame('old_place', Config::get()['post_type']);
+    }
+
+    public function test_l_import_de_geofolio_renomme_les_lignes_et_deplace_les_options() {
+        Geofolio::register();
+        mapl_test_reset(array(
+            'geofolio_settings'          => array('api_key' => 'k', 'tile_style' => ''),
+            'geofolio_appearance'        => array('primary_color' => '#024266'),
+            'geofolio_rest_cache_generation' => 5,
+        ));
+        $wpdb = $GLOBALS['wpdb'];
+
+        $report = (new ImportStep())->run();
+
+        $this->assertContains(array($wpdb->posts, array('post_type' => Schema::POST_TYPE), array('post_type' => 'gfo_place')), $wpdb->updates);
+        $this->assertContains(array($wpdb->term_taxonomy, array('taxonomy' => Schema::TAX_TYPE), array('taxonomy' => 'gfo_type')), $wpdb->updates);
+        $this->assertContains(array($wpdb->postmeta, array('meta_key' => FieldRegistry::meta_key('gallery')), array('meta_key' => '_gfo_gallery')), $wpdb->updates);
+        $this->assertContains(array($wpdb->termmeta, array('meta_key' => Schema::TYPE_ICON_META), array('meta_key' => '_gfo_icon')), $wpdb->updates);
+        $this->assertSame('moved', $report['renamed']['options']['geofolio_settings']);
+        $this->assertSame(array('api_key' => 'k', 'tile_style' => ''), get_option('mapped_places_settings'));
+        $this->assertSame('#024266', get_option('mapped_places_appearance')['primary_color']);
+        $this->assertFalse(get_option('geofolio_settings'));
+        // Les caches et journaux de l'ancien nom ne sont pas repris.
+        $this->assertSame(5, get_option('geofolio_rest_cache_generation'));
+        $this->assertSame('absent', $report['renamed']['options']['geofolio_labels']);
     }
 
     /* ---------------------------------------------------------------- */

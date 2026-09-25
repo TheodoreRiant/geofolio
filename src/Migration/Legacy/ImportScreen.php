@@ -58,6 +58,10 @@ class ImportScreen {
             /* translators: %s: old shortcode names */
             $lines[] = sprintf(__('Shortcodes %s are replaced by [mapped-places].', 'mapped-places'), implode(', ', $config['shortcodes']));
         }
+        if ($config['blocks'] !== array()) {
+            /* translators: %s: old block names */
+            $lines[] = sprintf(__('Blocks %s become the Mapped Places Map block, with their settings.', 'mapped-places'), implode(', ', $config['blocks']));
+        }
         if ($config['place_slug'] !== '') {
             /* translators: %s: URL slug */
             $lines[] = sprintf(__('Place URLs keep the slug %s.', 'mapped-places'), $config['place_slug']);

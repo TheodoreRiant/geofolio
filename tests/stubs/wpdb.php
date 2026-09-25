@@ -37,7 +37,19 @@ class Mapl_Test_Wpdb {
         return $this->col_result;
     }
 
+    /** @var object[] Lignes renvoyées par get_row(), une par appel. */
+    public $rows = array();
+
+    public function get_row($query) {
+        $this->queries[] = $query;
+        return $this->rows === array() ? null : array_shift($this->rows);
+    }
+
     public function prepare($query, ...$args) {
+        // Comme wpdb : un seul tableau d'arguments est accepté.
+        if (count($args) === 1 && is_array($args[0])) {
+            $args = $args[0];
+        }
         return vsprintf(str_replace('%s', "'%s'", $query), $args);
     }
 
@@ -69,6 +81,11 @@ function metadata_exists($type, $id, $key) {
 function remove_accents($text) {
     $decomposed = \Normalizer::normalize((string) $text, \Normalizer::FORM_D);
     return preg_replace('/\p{Mn}+/u', '', $decomposed === false ? (string) $text : $decomposed);
+}
+
+function wp_cache_delete($key, $group = '') {
+    $GLOBALS['mapl_test_cache_deleted'][] = array($key, $group);
+    return true;
 }
 
 function clean_post_cache($id) {

@@ -1493,3 +1493,8 @@ msgstr ""
 #: views/settings-page.php
 msgid "Steps waiting to run."
 msgstr ""
+
+#. translators: %s: old block names
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Blocks %s become the Mapped Places Map block, with their settings."
+msgstr ""
