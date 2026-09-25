@@ -32,7 +32,7 @@ WordPress 6.5+ (block: 6.6+) · PHP 7.4+ · Licence GPLv2 or later · No build n
 3. Add places (menu **Places**) or import a CSV (**Places → Import CSV**, or the sample dataset).
 4. Add the map to a page: the **Mapped Places Map** block, the **Mapped Places** Elementor widget, or the `[mapped-places]` shortcode.
 
-Translations come from WordPress language packs (translate.wordpress.org). For a French interface on a site installed from this ZIP before the language pack exists, copy `languages/mapped-places-fr_FR.mo` from the repository to `wp-content/languages/plugins/`.
+The ZIP from a GitHub release includes the French translation and loads it as long as no language pack is installed; the WordPress.org version relies on language packs (translate.wordpress.org).
 
 Try it without installing anything: the WordPress Playground blueprint in [`.wordpress-org/blueprints/blueprint.json`](.wordpress-org/blueprints/blueprint.json) installs the plugin with the sample dataset.
 

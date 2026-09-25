@@ -66,9 +66,8 @@ final class Plugin {
         register_activation_hook(MAPPED_PLACES_PLUGIN_FILE, array($this, 'activate'));
         register_deactivation_hook(MAPPED_PLACES_PLUGIN_FILE, array($this, 'deactivate'));
 
-        // Initialisation. Les traductions sont chargées par WordPress lui-même
-        // (paquets de langue de translate.wordpress.org, ou un .mo déposé dans
-        // wp-content/languages/plugins/) : le plugin ne charge rien lui-même.
+        // Initialisation (traductions : voir load_bundled_translations()).
+        add_action('init', array(__CLASS__, 'load_bundled_translations'));
         add_action('init', array(__CLASS__, 'maybe_flush_rewrite_rules'), 99);
         add_action('init', array($this, 'register_place_meta'), 12);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
@@ -147,6 +146,24 @@ final class Plugin {
             delete_option(self::FLUSH_OPTION);
             flush_rewrite_rules();
         }
+    }
+
+    /**
+     * Traductions. Le build du répertoire wordpress.org ne contient aucun
+     * fichier de traduction (.distignore) : WordPress charge les paquets de
+     * langue de translate.wordpress.org tout seul, et cette méthode ne fait
+     * rien. L'archive GitHub, elle, embarque languages/ : tant qu'aucun
+     * paquet de langue n'est installé, on charge la traduction embarquée
+     * (la fonction WordPress essaie d'abord wp-content/languages/plugins/,
+     * donc un paquet de langue garde la priorité).
+     */
+    public static function load_bundled_translations() {
+        $bundled = MAPPED_PLACES_PLUGIN_DIR . 'languages/mapped-places-' . determine_locale() . '.mo';
+        if (!is_readable($bundled)) {
+            return;
+        }
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- repli pour les installations hors répertoire ; sans effet dans le build wordpress.org, qui ne livre pas ce fichier.
+        load_plugin_textdomain('mapped-places', false, dirname(MAPPED_PLACES_PLUGIN_BASENAME) . '/languages');
     }
 
     /**
