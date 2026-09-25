@@ -4,6 +4,12 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.2] — 2026-09-25
+
+### Changed
+- readme, External services: every basemap provider names the host the visitor's browser reaches (tiles.openfreemap.org, tile.openstreetmap.org, tile.openstreetmap.fr, data.geopf.fr, basemaps.cartocdn.com, tile.jawg.io, api.maptiler.com, tiles.stadiamaps.com, tile.thunderforest.com); OpenStreetMap France, offered as a keyless basemap, is listed with its own terms and legal notice.
+- Legacy import: the Elementor meta ids are selected with one literal prepared query per old widget name (Plugin Check no longer flags an assembled SQL string).
+
 ## [2.1.1] — 2026-09-25
 
 ### Fixed

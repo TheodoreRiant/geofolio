@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,14 +64,15 @@ What is sent to the provider: the coordinates of the tiles being viewed (map are
 
 Providers, with their terms and privacy policies:
 
-* **OpenFreeMap** (default, used without a key, also the fallback when a keyed provider has no valid key; its conditions of use are stated on its home page): terms: https://openfreemap.org/, privacy: https://openfreemap.org/privacy/
-* **OpenStreetMap** (OpenStreetMap Foundation, attribution https://www.openstreetmap.org/copyright, tile usage policy https://operations.osmfoundation.org/policies/tiles/): terms: https://osmfoundation.org/wiki/Terms_of_Use, privacy: https://osmfoundation.org/wiki/Privacy_Policy
-* **IGN Géoplateforme** (French national mapping agency, data.geopf.fr): terms: https://cartes.gouv.fr/cgu/, privacy: https://www.ign.fr/institut/donnees-caractere-personnel
-* **CARTO** (API key required): terms: https://carto.com/legal/, privacy: https://carto.com/privacy/
-* **Jawg Maps** (API key required): terms: https://www.jawg.io/en/terms/, privacy: https://www.jawg.io/en/confidentiality/
-* **MapTiler** (API key required): terms: https://www.maptiler.com/terms/, privacy: https://www.maptiler.com/privacy-policy/
-* **Stadia Maps** (API key required): terms: https://stadiamaps.com/terms-of-service/, privacy: https://stadiamaps.com/privacy/privacy-policy/
-* **Thunderforest** (API key required): terms: https://www.thunderforest.com/terms/, privacy: https://www.thunderforest.com/privacy/
+* **OpenFreeMap** (tiles.openfreemap.org; default, used without a key, also the fallback when a keyed provider has no valid key; its conditions of use are stated on its home page): terms: https://openfreemap.org/, privacy: https://openfreemap.org/privacy/
+* **OpenStreetMap** (tile.openstreetmap.org, OpenStreetMap Foundation, attribution https://www.openstreetmap.org/copyright, tile usage policy https://operations.osmfoundation.org/policies/tiles/): terms: https://osmfoundation.org/wiki/Terms_of_Use, privacy: https://osmfoundation.org/wiki/Privacy_Policy
+* **OpenStreetMap France** (tile.openstreetmap.fr, run by the OpenStreetMap France association, used without a key): terms: https://wiki.openstreetmap.org/wiki/FR:Serveurs/tile.openstreetmap.fr, privacy: https://www.openstreetmap.fr/mentions-legales/
+* **IGN Géoplateforme** (data.geopf.fr, French national mapping agency, raster and vector tiles): terms: https://cartes.gouv.fr/cgu/, privacy: https://www.ign.fr/institut/donnees-caractere-personnel
+* **CARTO** (basemaps.cartocdn.com, API key required): terms: https://carto.com/legal/, privacy: https://carto.com/privacy/
+* **Jawg Maps** (tile.jawg.io, API key required): terms: https://www.jawg.io/en/terms/, privacy: https://www.jawg.io/en/confidentiality/
+* **MapTiler** (api.maptiler.com, API key required): terms: https://www.maptiler.com/terms/, privacy: https://www.maptiler.com/privacy-policy/
+* **Stadia Maps** (tiles.stadiamaps.com, API key required): terms: https://stadiamaps.com/terms-of-service/, privacy: https://stadiamaps.com/privacy/privacy-policy/
+* **Thunderforest** (tile.thunderforest.com, API key required): terms: https://www.thunderforest.com/terms/, privacy: https://www.thunderforest.com/privacy/
 
 A keyed provider is only ever contacted if the site owner has selected it and entered a key. The site owner can also enter a custom tile URL: the provider is then whichever service they chose.
 
@@ -148,6 +149,10 @@ Yes. The source strings are in English and every string is translatable. Transla
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 2.1.2 =
+* readme: each basemap provider names the host reached by the visitor's browser; OpenStreetMap France listed with its terms and legal notice.
+* Legacy import: Elementor layouts selected with one prepared query per old widget name.
 
 = 2.1.1 =
 * Fix: the place popup no longer repeats the postal code and the city when the address already contains them.
