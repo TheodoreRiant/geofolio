@@ -68,6 +68,7 @@ class Config {
             }),
             'elementor_widgets' => self::strings($raw['elementor_widgets'] ?? array()),
             'shortcodes'        => self::strings($raw['shortcodes'] ?? array()),
+            'blocks'            => self::strings($raw['blocks'] ?? array()),
             'delete_post_meta'  => self::strings($raw['delete_post_meta'] ?? array()),
             'type_icons'        => self::type_icons($raw['type_icons'] ?? array()),
             'manager_role'      => sanitize_text_field((string) ($raw['manager_role'] ?? '')),

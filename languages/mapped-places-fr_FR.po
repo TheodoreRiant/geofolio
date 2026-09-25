@@ -1550,3 +1550,8 @@ msgstr "Migrations de données"
 #: views/settings-page.php
 msgid "Steps waiting to run."
 msgstr "Étapes en attente d’exécution."
+
+#. translators: %s: old block names
+#: src/Migration/Legacy/ImportScreen.php
+msgid "Blocks %s become the Mapped Places Map block, with their settings."
+msgstr "Les blocs %s deviennent le bloc Carte Mapped Places, avec leurs réglages."

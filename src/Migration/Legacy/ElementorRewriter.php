@@ -47,6 +47,10 @@ class ElementorRewriter {
     /**
      * Appliquer à tous les posts, révisions comprises.
      *
+     * Seules les lignes qui nomment un ancien widget sont sélectionnées, par
+     * identifiant, puis lues et réécrites une à une : un site Elementor
+     * volumineux (des dizaines de Mo de _elementor_data) tient en mémoire.
+     *
      * @param string[] $old
      * @param string   $new
      * @return int Nombre de posts réécrits.
@@ -56,28 +60,62 @@ class ElementorRewriter {
         if ($old === array()) {
             return 0;
         }
-        $rows = $wpdb->get_results($wpdb->prepare(
-            "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value LIKE %s",
-            self::META_KEY,
-            '%' . $wpdb->esc_like('"widgetType"') . '%'
-        ));
         $updated = 0;
-        foreach ((array) $rows as $row) {
-            $data = json_decode((string) $row->meta_value, true);
-            if (!is_array($data)) {
-                continue;
-            }
-            list($data, $count) = self::rewrite($data, $old, $new);
-            if ($count > 0) {
-                // update_metadata() et non update_post_meta(), qui écrirait
-                // la meta d'une révision sur sa page parente.
-                update_metadata('post', (int) $row->post_id, self::META_KEY, wp_slash(wp_json_encode($data)));
-                $updated++;
-            }
+        foreach (self::meta_ids($old) as $meta_id) {
+            $updated += self::apply_to_meta((int) $meta_id, $old, $new);
         }
         if ($updated > 0 && class_exists('\Elementor\Plugin') && isset(\Elementor\Plugin::$instance->files_manager)) {
             \Elementor\Plugin::$instance->files_manager->clear_cache();
         }
         return $updated;
+    }
+
+    /**
+     * Identifiants des metas _elementor_data qui nomment un ancien widget.
+     *
+     * @param string[] $old
+     * @return int[]
+     */
+    private static function meta_ids(array $old) {
+        global $wpdb;
+        $conditions = array();
+        $args       = array(self::META_KEY);
+        foreach ($old as $name) {
+            $conditions[] = 'meta_value LIKE %s';
+            $args[]       = '%' . $wpdb->esc_like('"widgetType":"' . $name . '"') . '%';
+        }
+        $sql = "SELECT meta_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND (" . implode(' OR ', $conditions) . ') ORDER BY meta_id';
+        return array_map('intval', (array) $wpdb->get_col($wpdb->prepare($sql, $args))); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- conditions composées de %s uniquement.
+    }
+
+    /**
+     * Réécrire une meta, désignée par son identifiant : la meta d'une
+     * révision reste sur la révision, jamais sur sa page parente.
+     *
+     * @param int      $meta_id
+     * @param string[] $old
+     * @param string   $new
+     * @return int 1 si la ligne a été réécrite.
+     */
+    private static function apply_to_meta($meta_id, array $old, $new) {
+        global $wpdb;
+        $row = $wpdb->get_row($wpdb->prepare(
+            "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_id = %d",
+            $meta_id
+        ));
+        if (!$row) {
+            return 0;
+        }
+        $data = json_decode((string) $row->meta_value, true);
+        if (!is_array($data)) {
+            return 0;
+        }
+        list($data, $count) = self::rewrite($data, $old, $new);
+        if ($count === 0) {
+            return 0;
+        }
+        $wpdb->update($wpdb->postmeta, array('meta_value' => wp_json_encode($data)), array('meta_id' => $meta_id), array('%s'), array('%d'));
+        wp_cache_delete((int) $row->post_id, 'post_meta');
+        return 1;
     }
 }

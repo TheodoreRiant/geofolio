@@ -30,6 +30,9 @@ final class SettingsPage {
     const PAGE_SLUG    = 'mapped-places-settings';
     const KEY_CONSTANT = 'MAPPED_PLACES_TILE_API_KEY';
 
+    /** Constante de l'ancien nom du plugin (Geofolio 1.x), encore lue. */
+    const LEGACY_KEY_CONSTANT = 'GEOFOLIO_TILE_API_KEY';
+
     /** Gabarit de la page de réglages (onglet Carte). */
     const VIEW = __DIR__ . '/../../views/settings-page.php';
 
@@ -97,14 +100,27 @@ final class SettingsPage {
      * @return string
      */
     public static function get_api_key() {
-        if (defined(self::KEY_CONSTANT)) {
-            $constant = constant(self::KEY_CONSTANT);
-            if (is_string($constant) && trim($constant) !== '') {
-                return trim($constant);
-            }
+        $constant = self::key_from_constant();
+        if ($constant !== '') {
+            return $constant;
         }
         $settings = self::get_all();
         return trim((string) $settings['api_key']);
+    }
+
+    /**
+     * Clé définie dans wp-config.php : la constante actuelle, sinon celle
+     * de l'ancien nom du plugin (Geofolio 1.x), toujours honorée.
+     *
+     * @return string '' si aucune constante non vide.
+     */
+    private static function key_from_constant() {
+        foreach (array(self::KEY_CONSTANT, self::LEGACY_KEY_CONSTANT) as $name) {
+            if (defined($name) && is_string(constant($name)) && trim(constant($name)) !== '') {
+                return trim(constant($name));
+            }
+        }
+        return '';
     }
 
     /**
@@ -113,9 +129,7 @@ final class SettingsPage {
      * @return bool
      */
     public static function is_key_locked_by_constant() {
-        return defined(self::KEY_CONSTANT)
-            && is_string(constant(self::KEY_CONSTANT))
-            && trim(constant(self::KEY_CONSTANT)) !== '';
+        return self::key_from_constant() !== '';
     }
 
     /**

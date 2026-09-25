@@ -17,6 +17,7 @@ namespace MappedPlaces\Migration\Legacy;
 
 use MappedPlaces\Admin\AppearanceSettings;
 use MappedPlaces\Admin\LabelsSettings;
+use MappedPlaces\Blocks\MapBlock;
 use MappedPlaces\Domain\FieldRegistry;
 use MappedPlaces\Domain\People;
 use MappedPlaces\Domain\Schema;
@@ -106,7 +107,9 @@ class ImportStep implements Step, ConfirmedStep {
         delete_option(self::ROLE_OPTION);
         $report['elementor']  = ElementorRewriter::apply($config['elementor_widgets'], Integration::WIDGET_NAME);
         $report['shortcodes'] = ShortcodeRewriter::apply($config['shortcodes'], Shortcode::TAG);
+        $report['blocks']     = BlockRewriter::apply($config['blocks'], MapBlock::NAME);
         $report['settings']   = $this->import_settings($config);
+        Geofolio::forget();
 
         wp_cache_flush();
         // Pas maintenant : l'ancien plugin, peut-être encore chargé pendant
