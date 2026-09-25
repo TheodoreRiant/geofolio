@@ -16,6 +16,7 @@ Notable changes to Geofolio. Format based on [Keep a Changelog](https://keepacha
 - The REST cache is refreshed when these settings change (fallback colour, place URLs).
 
 ### Fixed
+- REST `/places`: a request with `lat` or `lng` ended in a fatal error on PHP 8 (`floatval()` does not accept the three arguments WordPress passes to a `sanitize_callback`). The `number` type of the schema now validates and converts them. `tests/RestArgsTest.php` rejects any single-parameter internal PHP function used as a sanitize callback.
 - Import from a previous map plugin: type names now match the icon catalogue regardless of accents, case, extra spaces and typographic apostrophes ("Centre Éducatif Fermé" = "centre educatif ferme"); found on real data, where 6 of 27 icons were missed.
 
 ### Added

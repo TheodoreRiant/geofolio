@@ -97,9 +97,12 @@ class PlacesController {
                 'description'       => 'Comma-separated term slugs',
             );
         }
+        // Pas de sanitize_callback sur lat/lng : WordPress le rappelle avec trois
+        // arguments, que floatval() refuse sur PHP 8 ; le type « number » suffit,
+        // le schéma valide et convertit la valeur.
         return array_merge($args, array(
-            'lat'    => array('type' => 'number', 'sanitize_callback' => 'floatval', 'description' => 'Latitude for a proximity search'),
-            'lng'    => array('type' => 'number', 'sanitize_callback' => 'floatval', 'description' => 'Longitude for a proximity search'),
+            'lat'    => array('type' => 'number', 'description' => 'Latitude for a proximity search'),
+            'lng'    => array('type' => 'number', 'description' => 'Longitude for a proximity search'),
             'radius' => array('type' => 'integer', 'default' => self::DEFAULT_RADIUS, 'sanitize_callback' => 'absint', 'description' => 'Search radius in km'),
             'search' => array('type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'description' => 'Text search (city, postal code, address)'),
         ));
