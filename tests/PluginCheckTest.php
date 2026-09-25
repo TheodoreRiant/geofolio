@@ -100,15 +100,32 @@ class PluginCheckTest extends TestCase {
         $this->assertStringNotContainsString('process_request(wp_unslash($_GET))', $duplicate);
     }
 
-    public function test_les_traductions_viennent_des_paquets_de_langue(): void {
-        $plugin = (string) file_get_contents(self::ROOT . '/src/Plugin.php');
-        $this->assertStringNotContainsString('load_plugin_textdomain', $plugin);
+    public function test_le_build_wordpress_org_ne_livre_aucun_fichier_de_traduction(): void {
+        // Le répertoire fournit les paquets de langue : .po/.mo/.json restent
+        // hors du build wp.org (.distignore), mais dans l'archive GitHub.
+        $dist = (string) file_get_contents(self::ROOT . '/.distignore');
+        foreach (array('*.po', '*.mo', '*.json') as $ext) {
+            $this->assertStringContainsString("/languages/$ext", $dist, "Fichier de traduction hors build wp.org : $ext");
+        }
+        $attributes = (string) file_get_contents(self::ROOT . '/.gitattributes');
+        $this->assertStringNotContainsString('/languages/', $attributes, 'L\'archive GitHub garde les traductions embarquées.');
+        // Tout ce que git archive exclut est aussi exclu du build wp.org.
+        preg_match_all('/^(\S+)\s+export-ignore/m', $attributes, $matches);
+        foreach ($matches[1] as $path) {
+            $this->assertStringContainsString($path . "\n", $dist, "Chemin export-ignore absent de .distignore : $path");
+        }
         $main = (string) file_get_contents(self::ROOT . '/mapped-places.php');
         $this->assertStringNotContainsString('Domain Path', $main);
-        $attributes = (string) file_get_contents(self::ROOT . '/.gitattributes');
-        foreach (array('*.po', '*.mo', '*.json') as $ext) {
-            $this->assertStringContainsString("/languages/$ext", $attributes, "Fichier de traduction hors archive : $ext");
-        }
+    }
+
+    public function test_la_traduction_embarquee_n_est_chargee_que_si_elle_est_livree(): void {
+        // Sans effet dans le build wp.org (fichier absent) ; une installation
+        // depuis GitHub charge sa traduction tant qu'aucun paquet de langue
+        // n'est installé, sur init.
+        $plugin = (string) file_get_contents(self::ROOT . '/src/Plugin.php');
+        $this->assertMatchesRegularExpression('/function load_bundled_translations\(\)\s*\{.*?is_readable\(\$bundled\).*?load_plugin_textdomain\(/s', $plugin);
+        $this->assertStringContainsString("add_action('init', array(__CLASS__, 'load_bundled_translations'))", $plugin);
+        $this->assertSame(1, substr_count($plugin, 'load_plugin_textdomain('));
     }
 
     public function test_la_desinstallation_est_protegee(): void {

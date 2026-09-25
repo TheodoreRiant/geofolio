@@ -29,7 +29,7 @@ composer lint                    # PHPCS, WordPress standard (warnings only in C
 - Write the test first (it must fail), then the code.
 - Testable logic lives in pure functions: static methods in PHP, stateless functions in JS modules (`assets/js/src/*.mjs`), which Node tests import directly (`tests/js/modules.js`).
 - Every HTML output escapes its data (`escHtml` / `escAttr` in JS, `esc_html` / `esc_attr` / `esc_url` in PHP). The REST API returns plain text.
-- Every displayed string is translatable: English source strings, domain `mapped-places`; in JS, through `mappedPlacesConfig.i18n`. Regenerate `languages/mapped-places.pot` with `wp i18n make-pot`, complete `mapped-places-fr_FR.po`, then `msgfmt -o languages/mapped-places-fr_FR.mo languages/mapped-places-fr_FR.po`. These files stay in the repository (they seed translate.wordpress.org) but are excluded from the archive: WordPress loads language packs itself, so the plugin has no `load_plugin_textdomain()` call and no `Domain Path` header.
+- Every displayed string is translatable: English source strings, domain `mapped-places`; in JS, through `mappedPlacesConfig.i18n`. Regenerate `languages/mapped-places.pot` with `wp i18n make-pot`, complete `mapped-places-fr_FR.po`, then `msgfmt -o languages/mapped-places-fr_FR.mo languages/mapped-places-fr_FR.po`. These files stay in the repository (they seed translate.wordpress.org) and in the GitHub release archive, where `Plugin::load_bundled_translations()` loads them on `init` as long as no language pack is installed. The WordPress.org build (`.distignore`, used by the deploy workflow and by `tools/build-wporg-zip.sh`) ships none of them: the directory delivers language packs itself, and the fallback is then a no-op.
 
 ## Map script
 
@@ -47,7 +47,7 @@ composer lint                    # PHPCS, WordPress standard (warnings only in C
 
 1. Version in `mapped-places.php` (header and `MAPPED_PLACES_VERSION`) and `Stable tag` in `readme.txt`.
 2. `CHANGELOG.md` and the `== Changelog ==` section of `readme.txt`.
-3. Annotated tag `vX.Y.Z`, push, then a GitHub release with `git archive --prefix=mapped-places/ -o mapped-places.zip vX.Y.Z` (`.gitattributes` excludes development files).
+3. Annotated tag `vX.Y.Z`, push, then a GitHub release with `git archive --format=zip --prefix=mapped-places/ -o mapped-places.zip vX.Y.Z` (`.gitattributes` excludes development files; translations included). For a manual upload to WordPress.org, build the archive with `bash tools/build-wporg-zip.sh vX.Y.Z` instead (`.distignore`, no translation files).
 4. Pushing the tag also builds the Docker image and, once the plugin is in the WordPress.org directory, deploys it there (`.github/workflows/wporg-deploy.yml`). Readme and directory assets (`.wordpress-org/`: icon, banner, screenshots, Playground blueprint) are synced from `main` without a release (`wporg-assets.yml`).
 
 Both WordPress.org workflows stay inactive until the repository variable `WPORG_DEPLOY` is `true` and the secrets `SVN_USERNAME` and `SVN_PASSWORD` are set.

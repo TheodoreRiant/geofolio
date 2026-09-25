@@ -4,6 +4,11 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.3] — 2026-09-25
+
+### Fixed
+- A site installed from the GitHub archive was entirely in English: 2.0.0 had removed the translation files from every archive and the `load_plugin_textdomain()` call, relying on WordPress.org language packs that do not exist yet (seen in production on 25/09/2026). The GitHub release archive ships `languages/` again and `Plugin::load_bundled_translations()` loads the bundled `.mo` on `init` when no language pack is installed (a language pack keeps priority). The WordPress.org build still ships no translation file: `.distignore` (read by the deploy workflow) and `tools/build-wporg-zip.sh` for a manual upload.
+
 ## [2.1.2] — 2026-09-25
 
 ### Changed

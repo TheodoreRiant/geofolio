@@ -1,0 +1,40 @@
+# Files excluded from the WordPress.org build (10up/action-wordpress-plugin-deploy
+# reads this file instead of .gitattributes when it exists) and from the
+# submission ZIP built by tools/build-wporg-zip.sh.
+#
+# Same list as the export-ignore entries of .gitattributes, plus the
+# translation files: the directory delivers language packs itself. The
+# GitHub release archive keeps them so an install from GitHub is in French.
+
+/.github
+/.wordpress-org
+/brand
+/docs
+/tests
+/.gitattributes
+/.gitignore
+/.editorconfig
+/.mcp.json.example
+/phpunit.xml.dist
+/docker
+/compose.yaml
+/compose.override.yaml
+/.dockerignore
+/CHANGELOG.md
+/CONTRIBUTING.md
+/SECURITY.md
+/README.md
+/LICENSE
+/.env.example
+/composer.json
+/package.json
+/assets/css/src
+/assets/js/src
+/tools
+/package-lock.json
+/eslint.config.js
+/.stylelintrc.json
+/languages/*.po
+/languages/*.mo
+/languages/*.json
+/.distignore
