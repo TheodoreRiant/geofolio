@@ -4,6 +4,14 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.1] — 2026-09-25
+
+### Fixed
+- Place popup: the postal code and the city are added to the address only when the address does not already contain them (compared without accents or case, whole words only). Imported files often hold a complete address next to filled postal code and city columns, which showed "26b rue de l'Oiselet, 38300 Bourgoin-Jallieu, 38300, Bourgoin-Jallieu". `formatAddress()` in `text.mjs`, `tests/js/popup-address.test.js`.
+
+### Changed
+- Admin menu icon: back to the WordPress pin (`dashicons-location`). The brand pictogram (folded map and pin) could not be read at 20 px.
+
 ## [2.1.0] — 2026-09-25
 
 ### Added

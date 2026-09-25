@@ -6,7 +6,7 @@ import { resolveTypeConfig } from './types.mjs';
 import { DEFAULT_COLOR, resolveEntityColor } from './colors.mjs';
 import { syncMarkerCache } from './marker-cache.mjs';
 import { escHtml, escAttr, safeUrl, prettyUrl } from './escape.mjs';
-import { managerLabel } from './text.mjs';
+import { managerLabel, formatAddress } from './text.mjs';
 import { t } from './i18n.mjs';
 import { SVG_PHONE_14, SVG_LOCATION, SVG_CLOCK, SVG_GLOBE, SVG_ACCESS } from './icons.mjs';
 
@@ -202,7 +202,7 @@ const markersMethods = {
         var type   = (place.types && place.types[0]) ? place.types[0] : '';
         var config = this.getTypeConfig(type);
         var entityColor = resolveEntityColor(place, config.color);
-        var fullAddr = [place.address, place.postal_code, place.city].filter(Boolean).join(', ');
+        var fullAddr = formatAddress(place);
 
         var html = '<div class="mapl-popup-content" data-place-id="' + place.id + '">';
 

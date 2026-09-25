@@ -55,4 +55,34 @@ function managerLabel(value, i18n) {
     return (plural ? labels.managers : labels.manager) || '';
 }
 
-export { foldChar, foldText, highlightMatch, managerLabel };
+/* Le mot (ou groupe de mots) figure-t-il dans le texte, comparés repliés,
+   et entier : « Lyon » ne se trouve pas dans « Lyonnais ». */
+function containsWord(text, word) {
+    var t = foldText(text);
+    var w = foldText(word).trim();
+    if (!w) return false;
+    var from = 0;
+    var idx;
+    while ((idx = t.indexOf(w, from)) !== -1) {
+        var before = idx === 0 ? '' : t.charAt(idx - 1);
+        var after  = t.charAt(idx + w.length);
+        if (!/[a-z0-9]/.test(before) && !/[a-z0-9]/.test(after)) return true;
+        from = idx + 1;
+    }
+    return false;
+}
+
+/* Adresse affichée : le code postal et la ville ne sont ajoutés que s'ils ne
+   figurent pas déjà dans le champ adresse (fichiers importés avec une
+   adresse complète et des colonnes code postal / ville remplies). */
+function formatAddress(place) {
+    var address = String((place && place.address) || '').trim();
+    var parts   = address ? [address] : [];
+    [place && place.postal_code, place && place.city].forEach(function(value) {
+        var v = String(value || '').trim();
+        if (v && !containsWord(address, v)) parts.push(v);
+    });
+    return parts.join(', ');
+}
+
+export { foldChar, foldText, highlightMatch, managerLabel, formatAddress };

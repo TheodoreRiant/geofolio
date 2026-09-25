@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -148,6 +148,10 @@ Yes. The source strings are in English and every string is translatable. Transla
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 2.1.1 =
+* Fix: the place popup no longer repeats the postal code and the city when the address already contains them.
+* The admin menu uses the WordPress pin icon again, easier to read.
 
 = 2.1.0 =
 * New: upgrade from Geofolio 1.x, the plugin's former name. Sites that still hold Geofolio data are offered the import on the Places screens: post type, taxonomies, meta, settings, Elementor widgets, shortcode and block are renamed in place, then the old plugin is deactivated.
